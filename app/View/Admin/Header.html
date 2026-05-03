@@ -25,6 +25,9 @@
 
     #{js("/assets/common/js/ready.js")}
 
+    <!-- perf: 后台图片上传自动转 WebP (纯客户端, 零 PHP 修改, 失败自动回退原图) -->
+    <script src="/assets/admin/js/webp-converter.js?v=3.4.8"></script>
+
     #{admin_var()}
 #{hook(\App\Consts\Hook::ADMIN_VIEW_HEADER)}
     <style>
