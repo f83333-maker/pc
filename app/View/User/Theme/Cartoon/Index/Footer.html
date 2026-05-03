@@ -46,6 +46,14 @@
     </div>
 </footer>
 
+<!--
+    perf: 给底部 JS 加 defer 属性
+      - _.js (1.85MB) 是合并后的所有第三方依赖, _index.js 仅定义 trade/treasure 两个全局对象
+      - 已审计: ready.js 在 head 同步加载, inline 脚本不依赖外部脚本, 加 defer 安全
+      - defer 不阻塞 HTML 解析, 在 DOMContentLoaded 之前按 HTML 顺序执行, 大幅改善 TTI
+      - 第 4 个参数 = true 即开启 defer (函数向后兼容, 默认值 false)
+      - Cloudflare Rocket Loader 会自动跳过带 defer 的 script, 由浏览器原生处理
+-->
 #{js(
 [
 "/assets/common/js/_.js",
@@ -81,7 +89,10 @@
 "/assets/common/js/component/decimal.js",
 "/assets/user/js/trade.js",
 "/assets/user/js/treasure.js"
-])}
+],
+true,
+true
+)}
 <!--start::HOOK-->
 #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_BODY)}
 #{hook(\App\Consts\Hook::USER_VIEW_INDEX_BODY)}

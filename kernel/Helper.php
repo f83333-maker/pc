@@ -326,7 +326,13 @@ if (!function_exists("css_async")) {
 }
 
 if (!function_exists("js")) {
-    function js(array|string $resource, array|string|null $backup = null, bool $cdn = true): string
+    /**
+     * @param array|string      $resource 生产资源
+     * @param array|string|null $backup   DEBUG 模式回退资源
+     * @param bool              $cdn     是否输出 cdn-support class (默认 true)
+     * @param bool              $defer   是否给 <script> 添加 defer 属性 (默认 false, 向后兼容)
+     */
+    function js(array|string $resource, array|string|null $backup = null, bool $cdn = true, bool $defer = false): string
     {
         if (DEBUG && $backup !== null) {
             $resource = $backup;
@@ -334,12 +340,13 @@ if (!function_exists("js")) {
         $res = '';
         $debugRandom = DEBUG ? "&debug=" . Str::generateRandStr(8) : "";
         $cdnSupport = $cdn ? ' class="cdn-support"' : '';
+        $deferAttr = $defer ? ' defer' : '';
         if (is_array($resource)) {
             foreach ($resource as $item) {
-                $res .= sprintf('<script src="%s" ' . $cdnSupport . '></script>', $item . (str_contains($item, "?") ? "&" : "?") . 'v=' . APP_VERSION . $debugRandom);
+                $res .= sprintf('<script src="%s"' . $deferAttr . ' ' . $cdnSupport . '></script>', $item . (str_contains($item, "?") ? "&" : "?") . 'v=' . APP_VERSION . $debugRandom);
             }
         } else {
-            $res = sprintf('<script src="%s" ' . $cdnSupport . '></script>', $resource . (str_contains($resource, "?") ? "&" : "?") . 'v=' . APP_VERSION . $debugRandom);
+            $res = sprintf('<script src="%s"' . $deferAttr . ' ' . $cdnSupport . '></script>', $resource . (str_contains($resource, "?") ? "&" : "?") . 'v=' . APP_VERSION . $debugRandom);
         }
         return $res;
     }
