@@ -60,7 +60,7 @@
                                     <tbody>
                                     #{foreach $groups as $g}
                                         <tr>
-                                            <td><img src="#{$g.icon}" style="height: 32px;" loading="lazy" decoding="async"> <span class="layui-badge layui-bg-gray">#{$g.name}</span></td>
+                                            <td><img src="#{$g.icon}" alt="#{$g.name} 等级图标" style="height: 32px;" width="32" height="32" loading="lazy" decoding="async"> <span class="layui-badge layui-bg-gray">#{$g.name}</span></td>
                                             <td style="color: #f68b8b;font-weight: bolder;">#{$g.recharge}</td>
                                         </tr>
                                     #{/foreach}

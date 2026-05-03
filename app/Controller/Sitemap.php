@@ -117,25 +117,35 @@ class Sitemap
     }
 
     /**
-     * 获取规范化的站点根 URL（优先使用配置中的 site_url）
+     * 获取规范化的站点根 URL
+     *
+     * 优先级：
+     *   1. 后台配置 ConfigModel::get('site_url')
+     *   2. 框架内置的 $request->url()
+     *   3. 兜底：https://pcccc.cc
      *
      * @return string
      */
     private function getBaseUrl(): string
     {
-        // 优先取后台配置
         try {
             $url = (string) ConfigModel::get('site_url');
             if ($url !== '') {
                 return rtrim($url, '/');
             }
         } catch (\Throwable $e) {
-            // ignore
+            // ignore - fall through to framework helper
         }
 
-        $scheme = $this->request->header('X-Forwarded-Proto') ?: 'https';
-        $host   = $this->request->header('Host') ?: 'pcccc.cc';
+        try {
+            $url = (string) $this->request->url();
+            if ($url !== '') {
+                return rtrim($url, '/');
+            }
+        } catch (\Throwable $e) {
+            // ignore - fall through to default
+        }
 
-        return $scheme . '://' . $host;
+        return 'https://pcccc.cc';
     }
 }

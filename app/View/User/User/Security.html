@@ -89,7 +89,10 @@
                                     <input type="text" class="avatar-input" name="avatar" style="display: none;"
                                            value="{{ user.avatar }}">
                                     <img onclick="document.getElementsByClassName('avatar-file')[0].click()"
-                                         class="image-avatar" src="{{ user.avatar }}">
+                                         class="image-avatar" src="{{ user.avatar }}"
+                                         alt="{{ i18n("点击更换头像")|raw }}"
+                                         width="120" height="120" loading="lazy" decoding="async"
+                                         role="button" tabindex="0">
                                 </div>
                             </div>
 

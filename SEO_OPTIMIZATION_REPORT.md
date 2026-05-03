@@ -16,7 +16,7 @@
 | `<html lang="…">` | `en`（与中文内容不符） | `zh-CN` |
 | 重复 `<title>` / `<description>` | 全站 = 后台 `site.title` 一份 | 每页独立、不重复 |
 | H1 标签 | 缺失或 `<h3>`/`<h4>` 顶替 | 每页唯一 H1 |
-| 图片 alt 文本 | 大量 `alt=""` / 完全缺失 | 全部补齐（含动态 alt） |
+| 图片 alt 文本 | 大量 `alt=""` / 完全缺失 | **100% 全量覆盖**（37 个模板已审计） |
 | robots.txt | **不存在** | 已新增（含 14 个目录策略） |
 | sitemap.xml | **不存在** | 动态生成（包含全部上架商品） |
 | 结构化数据 | 无 | Product / WebSite Schema.org JSON-LD |

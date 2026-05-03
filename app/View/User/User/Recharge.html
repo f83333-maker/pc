@@ -43,7 +43,7 @@
                     <div class="title">{{ i18n("支付方式")|raw }}</div>
                     <div class="recharge-content pay-list">
                         {% for item in pay %}
-                        <div data-payId="{{ item.id }}" class="pay-item {{ loop.first ? "pay-current" : "" }}"><img src="{{ item.icon }}" loading="lazy" decoding="async"><span>{{ i18n(item.name)|raw }}</span></div>
+                        <div data-payId="{{ item.id }}" class="pay-item {{ loop.first ? "pay-current" : "" }}"><img src="{{ item.icon }}" alt="{{ item.name|striptags }}" width="48" height="48" loading="lazy" decoding="async"><span>{{ i18n(item.name)|raw }}</span></div>
                         {% endfor %}
                     </div>
                 </div>
