@@ -85,10 +85,12 @@ class Sitemap
 
         $xml = $this->buildXml($urls);
 
+        // 框架 Response 链式调用：raw() 必须先于 withHeader()
+        // 否则 Content-Type 会被默认的 text/html 覆盖
         return $this->response
+            ->raw($xml)
             ->withHeader('Content-Type', 'application/xml; charset=utf-8')
-            ->withHeader('Cache-Control', 'public, max-age=3600')
-            ->raw($xml);
+            ->withHeader('Cache-Control', 'public, max-age=3600');
     }
 
     /**
