@@ -15,7 +15,8 @@
     -->
     <link rel="preload" as="image" href="/favicon.png" fetchpriority="high">
     #{if !$smarty.const.DEBUG}
-    <link rel="preload" as="script" href="/assets/common/js/_index_lite.min.js?v=#{$smarty.const.APP_VERSION}">
+    <link rel="preload" as="script" href="/assets/common/js/_vendor_lite.min.js?v=#{$smarty.const.APP_VERSION}">
+    <link rel="preload" as="script" href="/assets/common/js/_layui_lite.min.js?v=#{$smarty.const.APP_VERSION}">
     <link rel="preload" as="style"  href="/assets/common/css/_.css?v=#{$smarty.const.APP_VERSION}">
     #{/if}
     <title>#{$title} - #{$config.shop_name}</title>
