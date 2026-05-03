@@ -6,8 +6,18 @@
     <meta name="keywords" content="#{$config.keywords}"/>
     <meta name="description" content="#{$config.description}"/>
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
-    <!-- perf: 资源提示, 加速首屏 LCP -->
+    <!--
+        perf: 资源提示, 加速首屏 LCP / TTI
+          - favicon 作为图片预加载 (作品 logo 也使用同一张图)
+          - 关键 bundle 提前下载: defer 脚本默认要等 HTML 解析到 </body> 才开始下载,
+            preload 在 <head> 解析时就并发发起请求, 国内高延迟链路下能省 0.5~2s
+          - 仅在生产模式 (非 DEBUG) 加 preload, 避免和 DEBUG 数组里的多文件冲突
+    -->
     <link rel="preload" as="image" href="/favicon.png" fetchpriority="high">
+    #{if !$smarty.const.DEBUG}
+    <link rel="preload" as="script" href="/assets/common/js/_index_lite.min.js?v=#{$smarty.const.APP_VERSION}">
+    <link rel="preload" as="style"  href="/assets/common/css/_.css?v=#{$smarty.const.APP_VERSION}">
+    #{/if}
     <title>#{$title} - #{$config.shop_name}</title>
     <!--
         perf: 生产环境只加载 3 个合并/必要的 CSS:

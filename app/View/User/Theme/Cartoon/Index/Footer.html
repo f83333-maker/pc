@@ -47,46 +47,31 @@
 </footer>
 
 <!--
-    perf: 给底部 JS 加 defer 属性
-      - _.js (1.85MB) 是合并后的所有第三方依赖, _index.js 仅定义 trade/treasure 两个全局对象
-      - 已审计: ready.js 在 head 同步加载, inline 脚本不依赖外部脚本, 加 defer 安全
-      - defer 不阻塞 HTML 解析, 在 DOMContentLoaded 之前按 HTML 顺序执行, 大幅改善 TTI
-      - 第 4 个参数 = true 即开启 defer (函数向后兼容, 默认值 false)
-      - Cloudflare Rocket Loader 会自动跳过带 defer 的 script, 由浏览器原生处理
+    perf: 首页专用精简 bundle (terser 压缩, 仅含首页/商品弹窗实际依赖)
+      - 原 _.js 1.85MB (gz 533KB) -> 新 _index_lite.min.js 1.1MB (gz 340KB), 节省 ~193KB
+      - 删去了首页用不到的: pjax/treegrid/bootstrap-table/select2/xm-select/authtree/wangEditor/code editor/cache 等
+      - 包含: jquery + dict + util + language + format + message + toastr + layer + layui + loading + component + qrcode + decimal + iconfont + trade + treasure (商品弹窗依赖)
+      - defer 安全 (ready.js 已在 head 同步加载, inline 脚本不依赖外部脚本)
+      - 重建命令: 见 scripts/build-index-lite.sh
+      - DEBUG 模式 (第二个数组) 保留全部独立文件以便排查
 -->
 #{js(
-[
-"/assets/common/js/_.js",
-"/assets/user/js/_index.js"
-],
+"/assets/common/js/_index_lite.min.js",
 [
 "/assets/common/js/util/dict.js",
 "/assets/common/js/jquery.min.js",
 "/assets/common/js/toastr.min.js",
 "/assets/common/js/component/loading.js",
 "/assets/common/js/util.js",
+"/assets/common/js/language.js",
 "/assets/common/js/layer/layer.js",
-"/assets/common/js/jquery.pjax.min.js",
 "/assets/common/js/jquery.qrcode.min.js",
 "/assets/common/js/format.js",
 "/assets/common/js/message.js",
 "/assets/common/js/component.js",
 "/assets/common/js/layui/layui.js",
-"/assets/common/js/jquery.treegrid.min.js",
-"/assets/common/js/bootstrap/bootstrap.bundle.min.js",
-"/assets/common/js/table/bootstrap-table.min.js",
-"/assets/common/js/table/bootstrap-table-treegrid.min.js",
-"/assets/common/js/component/form.js",
-"/assets/common/js/component/search.js",
-"/assets/common/js/component/xm-select.js",
-"/assets/common/js/component/tree.select.js",
-"/assets/common/js/component/authtree.js",
-"/assets/common/js/component/table.js",
-"/assets/common/js/component/select2.min.js",
-"/assets/common/js/cache.js",
-"/assets/common/js/editor/editor.js",
-"/assets/common/js/editor/code/code.js",
 "/assets/common/js/component/decimal.js",
+"/assets/common/fonts/base/iconfont.js",
 "/assets/user/js/trade.js",
 "/assets/user/js/treasure.js"
 ],
