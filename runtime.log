@@ -1,0 +1,4 @@
+[2026-05-01 15:26:57]:D:\phpstudy_pro\WWW\kernel\Context\Request.php:11<br>strtoupper(): Argument #1 ($string) must be of type string, null given
+[2026-05-01 15:33:21]:D:\phpstudy_pro\WWW\kernel\Context\Request.php:11<br>strtoupper(): Argument #1 ($string) must be of type string, null given
+[2026-05-01 16:08:30]:D:\phpstudy_pro\WWW\vendor\illuminate\database\Connection.php:671<br>could not find driver (SQL: select * from `acguser` where `acguser`.`id` = 1000 limit 1)
+[2026-05-01 16:08:34]:D:\phpstudy_pro\WWW\vendor\illuminate\database\Connection.php:671<br>could not find driver (SQL: select * from `acguser` where `acguser`.`id` = 1000 limit 1)

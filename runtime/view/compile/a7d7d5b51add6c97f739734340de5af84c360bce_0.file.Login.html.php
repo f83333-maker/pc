@@ -1,0 +1,91 @@
+<?php
+/* Smarty version 3.1.46, created on 2026-05-01 17:04:56
+  from '/www/wwwroot/pcccc.cc/app/View/Admin/Authentication/Login.html' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.46',
+  'unifunc' => 'content_69f46cb8b39524_72438406',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'a7d7d5b51add6c97f739734340de5af84c360bce' => 
+    array (
+      0 => '/www/wwwroot/pcccc.cc/app/View/Admin/Authentication/Login.html',
+      1 => 1777615651,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_69f46cb8b39524_72438406 (Smarty_Internal_Template $_smarty_tpl) {
+?><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>登录 - <?php echo $_smarty_tpl->tpl_vars['config']->value['title'];?>
+</title>
+    <?php echo css(array("/assets/common/css/_.css","/assets/admin/css/auth.css"),array("/assets/admin/css/style.bundle.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/css/toastr.min.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/admin/css/auth.css"));?>
+
+
+    <?php echo js("/assets/common/js/ready.js");?>
+
+</head>
+<body class="ay-bg">
+<div class="ay-gradient-bg"></div>
+<div class="ay-dim" aria-hidden="true"></div>
+
+<main class="ay-wrap">
+
+
+    <section class="ay-card" role="dialog" aria-labelledby="ay-title" aria-describedby="ay-sub">
+        <header class="ay-head">
+            <div class="ay-logo" aria-hidden="true"></div>
+            <h1 id="ay-title" class="ay-title">欢迎回来，指挥官</h1>
+            <p id="ay-sub" class="ay-sub">正在验证您的管理员身份</p>
+        </header>
+
+        <div class="ay-body">
+            <form id="ay-form" novalidate>
+                <div class="ay-field">
+                    <input id="ay-user" name="username" class="ay-input" type="text" placeholder=" "
+                           autocomplete="username" required>
+                    <span class="ay-label">邮箱</span>
+                </div>
+                <div class="ay-field">
+                    <input id="ay-pass" name="password" class="ay-input" type="password" placeholder=" "
+                           autocomplete="current-password" required>
+                    <span class="ay-label">密码</span>
+                    <button type="button" class="ay-eye" id="ay-eye" aria-label="显示密码" aria-controls="ay-pass">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#cfe1ff" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="ay-row">
+                    <label class="ay-check"><input type="checkbox" id="ay-remember" name="remember" value="1">保持登录(365天)</label>
+                    <a class="ay-link" href="javascript:void(0)" onclick="message.info('查看官方文档重置密码方法');">忘记密码？</a>
+                </div>
+
+                <button class="ay-btn" type="submit" id="ay-submit">确认登入</button>
+            </form>
+            <div class="ay-foot">© <?php echo $_smarty_tpl->tpl_vars['config']->value['shop_name'];?>
+</div>
+        </div>
+    </section>
+</main>
+
+<?php echo ready("/assets/admin/controller/auth/login.js");?>
+
+
+<?php echo js(array("/assets/common/js/_.js"),array("/assets/common/js/util/dict.js","/assets/common/js/jquery.min.js","/assets/common/js/toastr.min.js","/assets/common/js/component/loading.js","/assets/common/js/util.js","/assets/common/js/layer/layer.js","/assets/common/js/jquery.pjax.min.js","/assets/common/js/jquery.qrcode.min.js","/assets/common/js/format.js","/assets/common/js/message.js","/assets/common/js/component.js","/assets/common/js/layui/layui.js","/assets/common/js/jquery.treegrid.min.js","/assets/common/js/bootstrap/bootstrap.bundle.min.js","/assets/common/js/table/bootstrap-table.min.js","/assets/common/js/table/bootstrap-table-treegrid.min.js","/assets/common/js/component/form.js","/assets/common/js/component/search.js","/assets/common/js/component/xm-select.js","/assets/common/js/component/tree.select.js","/assets/common/js/component/authtree.js","/assets/common/js/component/table.js","/assets/common/js/component/select2.min.js","/assets/common/js/cache.js","/assets/common/js/editor/editor.js","/assets/common/js/editor/code/code.js","/assets/common/js/component/decimal.js"));?>
+
+</body>
+</html><?php }
+}

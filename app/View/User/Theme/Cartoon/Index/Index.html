@@ -1,0 +1,95 @@
+#{include file="./Header.html"}
+<div class="hero-apple">
+    <div class="container">
+        <!-- 全新版本徽章 -->
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text">NEW</span>
+            <span class="badge-divider">|</span>
+            <span class="badge-desc">全新 2.0 版本已上线</span>
+            <i class="fa-duotone fa-regular fa-chevron-right badge-arrow"></i>
+        </div>
+
+        <h1 class="hero-title">#{$config.shop_name}</h1>
+        <p class="hero-subtitle">一站式跨境资源采购平台 助力全球化业务拓展</p>
+        
+        <!-- 核心优势 -->
+        <div class="hero-features">
+            <div class="feature-item">
+                <i class="fa-duotone fa-regular fa-shield-check"></i>
+                <span>安全可靠</span>
+            </div>
+            <div class="feature-item">
+                <i class="fa-duotone fa-regular fa-bolt"></i>
+                <span>即时交付</span>
+            </div>
+            <div class="feature-item">
+                <i class="fa-duotone fa-regular fa-globe"></i>
+                <span>全球服务</span>
+            </div>
+        </div>
+
+        <div class="hero-search">
+            <div class="hero-search-wrapper">
+                <i class="fa-duotone fa-regular fa-magnifying-glass search-icon"></i>
+                <input type="text" class="hero-search-input item-search-input" placeholder="搜索您需要的商品...">
+                <button class="hero-search-btn">
+                    <i class="fa-duotone fa-regular fa-sparkles"></i> 搜索
+                </button>
+            </div>
+            <div class="hero-hot-tags">
+                <span class="hot-label">热门:</span>
+                <a href="javascript:void(0);" class="hot-tag">社交媒体</a>
+                <a href="javascript:void(0);" class="hot-tag">海外邮箱</a>
+                <a href="javascript:void(0);" class="hot-tag">营销工具</a>
+                <a href="javascript:void(0);" class="hot-tag">出海必备</a>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="container py-4">
+  <!-- 公告面板 -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="icon"><i class="fa-duotone fa-regular fa-bullhorn"></i></span>
+      <h6 class="panel-title">公告</h6>
+    </div>
+    <div class="panel-body">
+        #{$config.notice}
+    </div>
+  </div>
+
+  <div class="mb-4">
+<div class="chip-list top-category-list">
+    #{foreach $category as $cate}
+        <a data-id="#{$cate.id}" class="switch-category chip #{if ($cate@first && $categoryId == 0) || $cate.id == $categoryId} is-primary #{/if}" href="javascript:void(0);">
+            #{if $cate.id != 'recommend' && $cate.icon}
+                <img src="#{$cate.icon}" class="chip-icon" loading="lazy" decoding="async">
+            #{/if}
+            #{$cate.name}
+        </a>
+    #{/foreach}
+    <!-- 所有的二级分类容器都将动态渲染到这里，并由 JS 进行定位 -->
+    <div class="chip-list sub-category-container" style="display: none;">
+        <!-- 子分类由 JS 动态渲染到这里 -->
+    </div>
+</div>
+<!-- 移除原来的全局 sub-category-list，因为每个一级分类都会有自己的子分类容器 -->
+<!-- <div class="chip-list sub-category-list mt-2" style="display: none; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 10px;">
+    子分类由 JS 动态渲染
+</div> -->
+    <div class="chip-list sub-category-list mt-2" style="display: none; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 10px;">
+        <!-- 子分类由 JS 动态渲染 -->
+    </div>
+  </div>
+
+  <script>
+    const CATEGORY_TREE = #{json_encode($category)};
+  </script>
+
+  <div class="item-list">
+      <!-- 商品由 JS 动态渲染 -->
+  </div>
+</main>
+#{ready("/assets/user/controller/index/index.js")}
+#{include file="./Footer.html"}

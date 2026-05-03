@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Oak Sans';
+    src: url('/assets/common/fonts/custom_font/fonts/webfonts/OakSans-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Oak Sans';
+    src: url('/assets/common/fonts/custom_font/fonts/webfonts/OakSans-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 全局字体排除图标类 */
+html, body, div, span:not([class*="fa-"]):not([class*="layui-icon"]), applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i:not([class*="fa-"]):not([class*="layui-icon"]), center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, input, textarea, select, button {
+    font-family: 'Oak Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+i, [class^="fa-"], [class*=" fa-"], .fa-duotone, .fa-regular, .fa-solid, .fa-brands, .fa-light, .fa-thin {
+    font-family: "_mcy_font_d" !important; /* 修复图标乱码问题：使用 font.min.css 中定义的字体家族 */
+    font-style: normal !important;
+    font-weight: 400;
+}
+
+/* Duotone specific layers fix */
+.fa-duotone::before {
+    font-family: "_mcy_font_d" !important; /* 修复图标乱码问题：使用 font.min.css 中定义的字体家族 */
+}
+
+
+@font-face{font-family:layui-icon-fly;src:url('iconfont.eot?t=1512007250695');src:url('iconfont.eot?t=1512007250695#iefix') format('embedded-opentype'),url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAD1QAAsAAAAAWmAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZXTUl3Y21hcAAAAYAAAAG2AAAEzsJSQfdnbHlmAAADOAAANgkAAE14BabZyGhlYWQAADlEAAAAMQAAADYPxlJCaGhlYQAAOXgAAAAgAAAAJAf7A81obXR4AAA5mAAAADEAAADs7AD/52xvY2EAADnMAAAAeAAAAHgHJBUibWF4cAAAOkQAAAAfAAAAIAGRA9luYW1lAAA6ZAAAAUUAAAJtPlT+fXBvc3QAADusAAABpAAAAm7icHMleJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGBwYKp63Mjf8b2CIYW5guA8UZgTJAQDggwxaeJzF01dOW1EUheHfBdO76b2ZDoF0MwDeGUqEIibAmJhCXnjLGBbDIGuzUKSgPCfX+lzOtc/Z1t4LGABadmJtaHZo+F09tV7enfh15GW9zU9/7jLllTZ3OtelrnStGz3o8en++dl374Qu1H+z+vZqeJcu37jl++9Hra4zypj3X2aDLTpMMs0QS2yz6DNnWGOHJisMs+qaJhhn1vvsMu9/Mcc+e65rgQPXfMoxh3xik0sG+cIH+pzzkfecccFnjvjKO3o+tPOX+v7R1fh/R/95jdVT88frp77dvXKJItwd1Aj3CTWjfq1WuHeoHe4iGgj3E3XCnUWDQa0NhbuNhsN9RyNB3R8NzwIaC08FGg/PB5qImmZNhmcGTYWnB02H5wjNBPU/ZsOzhbpB1TIXnjc0H5UGLQR15mJQtSwFtd9yUPuthGcVrQa131pUCrUe1Jkb4ZlGm+HpRltRSdV2ULXshGcf7UYlWnvhPKBeOBloP5wRdBBOCzoM6syjcILQcVB9OwmnCp2G84XOouZH50G9XoTThy7DOUT9oH53FdR3r8MpRTdB1fIQTi56DGeYp/ug9wvDZaQZAAB4nK28CZwkRZk3nE9EZETeR+VVR1dVV1V3VR/TZ3VVzdkzzME5wwwMx3CfyiECXgiIOh6DtX

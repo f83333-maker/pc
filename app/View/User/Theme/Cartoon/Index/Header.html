@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="#{$config.keywords}"/>
+    <meta name="description" content="#{$config.description}"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
+    <title>#{$title} - #{$config.shop_name}</title>
+    #{css(["/assets/common/css/bootstrap.min.css","/assets/common/css/_.css","/assets/user/css/index.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/common/css/toastr.min.css"],["/assets/common/css/bootstrap.min.css","/assets/common/css/_.css","/assets/user/css/index.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/common/css/toastr.min.css"])}
+    #{js("/assets/common/js/ready.js")}
+    #{index_var()}
+    <!--start::HOOK-->
+    #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_HEADER)}
+    #{hook(\App\Consts\Hook::USER_VIEW_INDEX_HEADER)}
+    <!--end::HOOK-->
+</head>
+<body style="margin: 0; padding: 0;">
+<nav class="navbar navbar-expand-lg navbar-acg">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+            <img src="/favicon.png" alt="ACG Logo" class="brand-logo me-2" fetchpriority="high" decoding="async" width="32" height="32">
+            <span style="color: #000000;">#{$config.shop_name}</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link #{if $title == "首页"}active#{/if}" href="/">
+                        <i class="fa-duotone fa-regular fa-bag-shopping nav-icon"></i>购物
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link #{if $title == "订单查询"}active#{/if}" href="/user/index/query">
+                        <i class="fa-duotone fa-regular fa-rectangle-list nav-icon"></i>订单查询
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link #{if $title == "2FA验证"}active#{/if}" href="/user/index/twofa">
+                        <i class="fa-duotone fa-regular fa-shield-keyhole nav-icon"></i>2FA验证
+                    </a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center btn-acg-primary-wrapper ms-auto">
+                <a href="#{if $user}/user/dashboard/index#{else}/user/authentication/login#{/if}" class="btn btn-acg-primary">
+                    <i class="fa-duotone fa-regular fa-circle-user me-2"></i>会员中心
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="pjax-container">

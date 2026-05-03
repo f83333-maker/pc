@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>#{$msg}</title>
+  <style>
+    body {
+      background: radial-gradient(at 0% 0%, #2fa395 0%, transparent 70%), 
+                  radial-gradient(at 100% 0%, #1565c0 0%, transparent 70%), 
+                  radial-gradient(at 50% 50%, #c2185b 0%, transparent 80%),
+                  radial-gradient(at 0% 100%, #004d40 0%, transparent 70%), 
+                  radial-gradient(at 100% 100%, #283593 0%, transparent 70%), 
+                  #f5f7fa !important;
+      background-attachment: fixed !important;
+      background-size: cover !important;
+      filter: saturate(2.0) contrast(1.2) !important;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      position: absolute;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 3em;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      backdrop-filter: blur(25px) saturate(180%);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      position: relative;
+    }
+    form p {
+      font-weight: 900;
+      color: #ffffff;
+      font-size: 1.6rem;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <form>
+    <p>#{$msg}</p>
+  </form>
+</div>
+</body>
+</html>

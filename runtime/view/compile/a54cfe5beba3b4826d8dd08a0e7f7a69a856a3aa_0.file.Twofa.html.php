@@ -1,0 +1,331 @@
+<?php
+/* Smarty version 3.1.46, created on 2026-05-01 17:59:48
+  from '/www/wwwroot/pcccc.cc/app/View/User/Theme/Cartoon/Index/Twofa.html' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.46',
+  'unifunc' => 'content_69f4799423cbd7_25673186',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'a54cfe5beba3b4826d8dd08a0e7f7a69a856a3aa' => 
+    array (
+      0 => '/www/wwwroot/pcccc.cc/app/View/User/Theme/Cartoon/Index/Twofa.html',
+      1 => 1777569154,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:./Header.html' => 1,
+    'file:./Footer.html' => 1,
+  ),
+),false)) {
+function content_69f4799423cbd7_25673186 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_subTemplateRender("file:./Header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+<style>
+    .twofa-container {
+        max-width: 800px;
+        margin: 60px auto;
+        text-align: center;
+    }
+
+    .twofa-header {
+        margin-bottom: 40px;
+    }
+
+    .twofa-header i {
+        font-size: 4rem;
+        color: #34c759;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 0 10px rgba(52, 199, 89, 0.3));
+    }
+
+    .twofa-header h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--apple-text);
+        margin-bottom: 10px;
+    }
+
+    .twofa-header p {
+        font-size: 1.1rem;
+        color: var(--apple-text-muted);
+        opacity: 0.8;
+    }
+
+    .twofa-card {
+        background: var(--apple-glass-bg) !important;
+        backdrop-filter: var(--acg-glass);
+        -webkit-backdrop-filter: var(--acg-glass);
+        border: 1px solid var(--apple-glass-border) !important;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: var(--apple-card-shadow);
+        margin-bottom: 30px;
+    }
+
+    .twofa-input-group {
+        text-align: left;
+    }
+
+    .twofa-label {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--apple-text);
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .twofa-input-wrapper {
+        position: relative;
+    }
+
+    .twofa-input {
+        width: 100%;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 0 20px;
+        font-size: 1.1rem;
+        color: var(--apple-text);
+        transition: all 0.3s ease;
+    }
+
+    .twofa-input:focus {
+        background: rgba(0, 0, 0, 0.08);
+        border-color: var(--apple-blue);
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+    }
+
+    .twofa-input::placeholder {
+        color: rgba(0, 0, 0, 0.3);
+    }
+
+    .twofa-input-hint {
+        font-size: 0.85rem;
+        color: var(--apple-text-muted);
+        margin-top: 15px;
+        opacity: 0.7;
+    }
+
+    /* 验证码结果显示 */
+    .twofa-result {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: none;
+    }
+
+    .twofa-code-box {
+        background: rgba(52, 199, 89, 0.1);
+        border: 2px dashed #34c759;
+        border-radius: 16px;
+        padding: 20px;
+        display: inline-block;
+        min-width: 200px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .twofa-code-box:hover {
+        background: rgba(52, 199, 89, 0.15);
+        transform: scale(1.05);
+    }
+
+    .twofa-code {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #34c759;
+        letter-spacing: 5px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .twofa-timer {
+        margin-top: 15px;
+        font-size: 0.9rem;
+        color: var(--apple-text-muted);
+    }
+
+    .twofa-timer span {
+        font-weight: 700;
+        color: #34c759;
+    }
+
+    /* 使用说明 */
+    .twofa-guide {
+        background: rgba(255, 159, 10, 0.05);
+        border: 1px solid rgba(255, 159, 10, 0.2);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: left;
+    }
+
+    .guide-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #ff9f0a;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .guide-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .guide-list li {
+        font-size: 0.95rem;
+        color: var(--apple-text-muted);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .guide-list li::before {
+        content: attr(data-index);
+        background: rgba(255, 159, 10, 0.2);
+        color: #ff9f0a;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+</style>
+
+<main class="container">
+    <div class="twofa-container">
+        <div class="twofa-header">
+            <i class="fa-duotone fa-regular fa-shield-check"></i>
+            <h2>2FA 验证码生成器</h2>
+            <p>输入密钥生成动态验证码</p>
+        </div>
+
+        <div class="twofa-card">
+            <div class="twofa-input-group">
+                <label class="twofa-label">密钥 (Secret Key)</label>
+                <div class="twofa-input-wrapper">
+                    <input type="text" class="twofa-input" id="secretInput" placeholder="输入 Base32 格式的密钥">
+                </div>
+                <p class="twofa-input-hint">密钥通常在账号的安全设置中获取，格式如: JBSWY3DPEHPK3PXP</p>
+            </div>
+
+            <div class="twofa-result" id="resultArea">
+                <div class="twofa-code-box" id="copyBtn" title="点击复制验证码">
+                    <div class="twofa-code" id="twofaCode">------</div>
+                </div>
+                <div class="twofa-timer">
+                    验证码剩余有效时间：<span id="timer">--</span> s，请在有效期内使用
+                </div>
+            </div>
+        </div>
+
+        <div class="twofa-guide">
+            <div class="guide-title">
+                <i class="fa-duotone fa-regular fa-circle-info"></i>
+                使用说明
+            </div>
+            <ul class="guide-list">
+                <li data-index="1">从账号安全设置中获取 2FA 密钥</li>
+                <li data-index="2">将密钥粘贴到上方输入框</li>
+                <li data-index="3">系统会自动生成 6 位动态验证码</li>
+                <li data-index="4">验证码每 30 秒刷新一次</li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<?php echo '<script'; ?>
+ src="https://cdn.jsdelivr.net/npm/otpauth@9.1.2/dist/otpauth.umd.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+>
+    document.addEventListener('DOMContentLoaded', function() {
+        const secretInput = document.getElementById('secretInput');
+        const resultArea = document.getElementById('resultArea');
+        const codeDisplay = document.getElementById('twofaCode');
+        const timerDisplay = document.getElementById('timer');
+        const copyBtn = document.getElementById('copyBtn');
+
+        let interval = null;
+
+        function updateTOTP() {
+            const secret = secretInput.value.replace(/\s+/g, '').toUpperCase();
+            if (!secret) {
+                resultArea.style.display = 'none';
+                return;
+            }
+
+            try {
+                const totp = new OTPAuth.TOTP({
+                    secret: secret,
+                    digits: 6,
+                    period: 30
+                });
+
+                const code = totp.generate();
+                codeDisplay.innerText = code;
+                resultArea.style.display = 'block';
+
+                // 计算剩余时间
+                const seconds = Math.floor(Date.now() / 1000);
+                const remaining = 30 - (seconds % 30);
+                timerDisplay.innerText = remaining;
+
+            } catch (e) {
+                resultArea.style.display = 'none';
+                console.error('Invalid Secret');
+            }
+        }
+
+        secretInput.addEventListener('input', updateTOTP);
+
+        // 每秒更新一次计时器
+        setInterval(() => {
+            if (secretInput.value) {
+                const seconds = Math.floor(Date.now() / 1000);
+                const remaining = 30 - (seconds % 30);
+                timerDisplay.innerText = remaining;
+                
+                // 如果刚好到 30 秒，重新生成验证码
+                if (remaining === 30) {
+                    updateTOTP();
+                }
+            }
+        }, 1000);
+
+        // 复制功能
+        copyBtn.addEventListener('click', function() {
+            const code = codeDisplay.innerText;
+            if (code && code !== '------') {
+                const tempInput = document.createElement('input');
+                tempInput.value = code;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                layer.msg('验证码已复制');
+            }
+        });
+    });
+<?php echo '</script'; ?>
+>
+
+<?php $_smarty_tpl->_subTemplateRender("file:./Footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+}
+}
