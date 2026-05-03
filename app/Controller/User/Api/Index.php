@@ -156,6 +156,26 @@ class Index extends User
             $cates[] = (string)$cate['id'];
         }
 
+        //perf: 批量聚合本页商品的可用卡密库存, 一次 GROUP BY 替代每行 COUNT(*) 的 N+1 查询
+        $stockMap = [];
+        $stockNeedIds = [];
+        foreach ($data as $val) {
+            if ($val['delivery_way'] == 0 && !$val['shared_id']) {
+                $stockNeedIds[] = (int)$val['id'];
+            }
+        }
+        if (!empty($stockNeedIds)) {
+            $rows = Card::query()
+                ->whereIn("commodity_id", $stockNeedIds)
+                ->where("status", 0)
+                ->selectRaw("commodity_id, COUNT(*) AS cnt")
+                ->groupBy("commodity_id")
+                ->get();
+            foreach ($rows as $row) {
+                $stockMap[(int)$row->commodity_id] = (int)$row->cnt;
+            }
+        }
+
         //最终的商品数据遍历
         foreach ($data as $key => $val) {
             $parseGroupConfig = Commodity::parseGroupConfig($val['level_price'], $userGroup);
@@ -166,7 +186,7 @@ class Index extends User
             }
 
             if ($val['delivery_way'] == 0 && !$val['shared_id']) {
-                $data[$key]['stock'] = Card::query()->where("status", 0)->where("commodity_id", $val['id'])->count();
+                $data[$key]['stock'] = $stockMap[(int)$val['id']] ?? 0;
             }
 
             //如果登录后，则自动计算登录后的价格
