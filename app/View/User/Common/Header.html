@@ -37,8 +37,8 @@
         <div class="content-header">
             <!-- Logo -->
             <a class="fw-semibold text-dual" href="/" target="_blank">
-                <span class="smini-visible"><img src="{{ site.logo }}" class="shop-logo"></span>
-                <span class="shop-name smini-hidden"><img src="{{ site.logo }}" class="shop-logo"> <span
+                <span class="smini-visible"><img src="{{ site.logo }}" class="shop-logo" alt="{{ site.title|striptags }} Logo" width="32" height="32" loading="eager" decoding="async"></span>
+                <span class="shop-name smini-hidden"><img src="{{ site.logo }}" class="shop-logo" alt="{{ site.title|striptags }} Logo" width="32" height="32" loading="eager" decoding="async"> <span
                             class="shop-title">{{ site.title }}</span></span>
             </a>
             <!-- END Logo -->
@@ -101,7 +101,9 @@
                             id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                         <img class="rounded-circle" src="{{ user.avatar is not null ? user.avatar : '/favicon.ico' }}"
-                             alt="Header Avatar" style="width: 21px;">
+                             alt="{{ user.username }} 头像"
+                             width="21" height="21" loading="lazy" decoding="async"
+                             style="width: 21px;">
                         <span class="d-none d-sm-inline-block ms-2"><a class="bg-primary-light text-white px-1 me-1"
                                                                        href="/user/level"
                                                                        style="cursor: pointer;">{{ user.level.name }}</a> {{ user.username }}</span>
@@ -111,7 +113,9 @@
                          aria-labelledby="page-header-user-dropdown">
                         <div class="p-3 text-center bg-body-light border-bottom rounded-top">
                             <img class="img-avatar img-avatar48 img-avatar-thumb"
-                                 src="{{ user.avatar is not null ? user.avatar : '/favicon.ico' }}" alt="">
+                                 src="{{ user.avatar is not null ? user.avatar : '/favicon.ico' }}"
+                                 alt="{{ user.username }} 头像"
+                                 width="48" height="48" loading="lazy" decoding="async">
                             <p class="mt-2 mb-0 fw-medium text-success">{{ user.username }}</p>
 
                             {% if user.group.name is not null %}

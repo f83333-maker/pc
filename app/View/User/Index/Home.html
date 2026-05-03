@@ -1,13 +1,95 @@
+{# ============================================================
+   首页 / 分类列表 / 关键词搜索结果 (复用同一模板)
+   - 无关键词、无 cid -> 站点首页 (可索引)
+   - 有 cid           -> 分类列表页 (可索引, 标题=分类名)
+   - 有 keywords      -> 站内搜索结果 (noindex 防止薄内容)
+   ============================================================ #}
+{% set items = items() %}
+
+{% set _cid = request.get('cid')|default('') %}
+{% set _is_search    = keywords is not empty %}
+{% set _is_category  = (not _is_search) and _cid %}
+
+{% set _page_title = '' %}
+{% set _page_desc  = '' %}
+{% set _canon_path = '/' %}
+
+{% if _is_search %}
+    {% set _page_title  = '搜索 “' ~ keywords|striptags ~ '”' %}
+    {% set _page_desc   = '在 ' ~ site.title ~ ' 搜索 “' ~ keywords|striptags ~ '” 的全部商品结果，找不到？欢迎联系客服。' %}
+    {% set _canon_path  = '/?keywords=' ~ keywords|url_encode %}
+{% elseif _is_category %}
+    {% set _page_title  = '商品分类' %}
+    {% set _page_desc   = site.title ~ ' 商品分类页 - 浏览本分类下的全部商品，自动发货，安全可靠。' %}
+    {% set _canon_path  = '/?cid=' ~ _cid %}
+{% endif %}
+
+{# 商品列表 ItemList 结构化数据 #}
+{% set _item_list = [] %}
+{% if items is not empty %}
+    {% for m in items|slice(0, 20) %}
+        {% set _item_list = _item_list|merge([{
+            "@type": "ListItem",
+            "position": loop.index,
+            "url": request.url ~ "/item?id=" ~ m.id,
+            "name": m.name|striptags,
+            "image": m.thumb_url
+        }]) %}
+    {% endfor %}
+{% endif %}
+{% set _schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": request.url ~ "/#website",
+            "url": request.url ~ "/",
+            "name": site.title|striptags,
+            "description": site.description|striptags,
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": request.url ~ "/?keywords={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        },
+        {
+            "@type": "ItemList",
+            "itemListElement": _item_list
+        }
+    ]
+}|json_encode %}
+
+{% set seo = {
+    title: _page_title,
+    description: _page_desc,
+    canonical_path: _canon_path,
+    type: 'website',
+    noindex: _is_search,
+    schema: _schema
+} %}
+
 {{ include ("Index/Header.html") }}
 
-{% set items = items() %}
 <!-- Page Content -->
 <div class="content">
-    {% if keywords is empty %}
-        <!-- Hero -->
-        <div class="block block-rounded block-notice">
+    {% if _is_search %}
+        <header class="block block-rounded mb-3">
+            <div class="block-content py-3">
+                <h1 class="h4 fw-semibold m-0">{{ i18n('搜索结果')|raw }}<span class="text-muted ms-2">{{ keywords|striptags }}</span></h1>
+            </div>
+        </header>
+    {% elseif _is_category %}
+        <header class="block block-rounded mb-3">
+            <div class="block-content py-3">
+                <h1 class="h4 fw-semibold m-0">{{ i18n('商品分类')|raw }}</h1>
+            </div>
+        </header>
+    {% else %}
+        <h1 class="visually-hidden sr-only">{{ i18n(site.title)|raw }} - {{ i18n('商品列表')|raw }}</h1>
+        {# Hero / 公告 #}
+        <section class="block block-rounded block-notice" aria-label="{{ i18n('公告')|raw }}">
             <div style="background: url('{{ site.notice_banner }}') center/cover !important;"
-                 class="notice-background"></div>
+                 class="notice-background" role="presentation"></div>
             <div class="block-content block-content-full content-notice ribbon ribbon-primary ribbon-left ribbon-modern">
                 <div class="ribbon-box notice-title">
                     <svg class="mcy-icon icon-14px" aria-hidden="true">
@@ -17,17 +99,16 @@
                 </div>
                 <div style="margin: 25px 10px 0 10px;">{{ i18n(site.notice)|raw }}</div>
             </div>
-        </div>
-        <!-- END Hero -->
+        </section>
     {% endif %}
 
-    <div class="row" id="masonry-grid">
+    <section class="row" id="masonry-grid" aria-label="{{ i18n('商品列表')|raw }}">
 
         {% if items is empty %}
 
             <div class="content content-full mb-3">
                 <div class="py-4 text-center">
-                    <h1 class="h2 fw-bold mt-4 mb-4 text-muted">): {{ i18n('没有找到你想要的商品')|raw }}</h1>
+                    <p class="h2 fw-bold mt-4 mb-4 text-muted">): {{ i18n('没有找到你想要的商品')|raw }}</p>
                 </div>
             </div>
 
@@ -35,25 +116,28 @@
 
             {% for m in items %}
 
-                <div class="col-sm-6 col-md-4 col-lg-3 mb-1 item-box">
-                    <a href="/item?id={{ m.id }}">
+                <article class="col-sm-6 col-md-4 col-lg-3 mb-1 item-box">
+                    <a href="/item?id={{ m.id }}" title="{{ i18n(m.name)|striptags }}" aria-label="{{ i18n(m.name)|striptags }} - {{ ccy() }}{{ m.sku[0].price }}">
                         <div class="block block-rounded item-block">
                             <div style="background: url('{{ m.thumb_url }}') center/cover !important; "
-                                 class="item-background"></div>
-                            <div class="block-content block-content-full  ribbon">
+                                 class="item-background" role="presentation"></div>
+                            <div class="block-content block-content-full ribbon">
                                 {% if m.have_wholesale %}
-                                    <div class="support-wholesale">{{ icon("icon-pifa","icon-30px")|raw }}</div>
+                                    <div class="support-wholesale" aria-label="{{ i18n('支持批发')|raw }}">{{ icon("icon-pifa","icon-30px")|raw }}</div>
                                 {% endif %}
-                                <div class="ribbon-item-price">
+                                <div class="ribbon-item-price" aria-label="{{ i18n('价格')|raw }}">
                                     {{ ccy() }}{{ m.sku[0].price }}
                                 </div>
                                 <div class="py-3 text-center">
                                     <div class="mb-3 item-card-icon">
-                                        <img src="{{ m.thumb_url }}" loading="lazy" decoding="async">
+                                        <img src="{{ m.thumb_url }}"
+                                             alt="{{ i18n(m.name)|striptags }}"
+                                             width="120" height="120"
+                                             loading="lazy" decoding="async">
                                     </div>
-                                    <div class="fs-3 fw-semibold mb-2"><span
+                                    <h2 class="fs-3 fw-semibold mb-2 h4"><span
                                                 class="item-text">{{ text_o(m.name)|raw }}</span>
-                                    </div>
+                                    </h2>
                                     <div class="ribbon-item-stock">
                                         <div class="item-stock">{{ i18n("库存")|raw }}：<span
                                                     class="item-number">{{ m.stock }}</span>
@@ -65,12 +149,12 @@
                             </div>
                         </div>
                     </a>
-                </div>
+                </article>
 
             {% endfor %}
 
         {% endif %}
-    </div>
+    </section>
 
 </div>
 <!-- END Page Content -->

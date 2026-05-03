@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <title>#{$title} - #{$config.title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="#{$config.description}">
+    <meta name="keywords" content="#{$config.keywords}">
+    <meta name="robots" content="noindex, follow">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#3d49a1">
 
     <link rel="dns-prefetch" href="https://cdn.staticfile.net">
     <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin>
@@ -69,7 +74,7 @@
     <div class="fly-header">
         <div class="layui-container">
             <a class="fly-logo">
-                <span class="user-logo"><img src="#{$favicon}"></span>
+                <span class="user-logo"><img src="#{$favicon}" alt="#{$config.shop_name} Logo" width="32" height="32" loading="eager" decoding="async"></span>
                 <span class="user-logo-title">#{$config.shop_name}</span>
             </a>
             <a class="fly-mobile-shop-link" target="_blank" href="/">去购物</a>
@@ -86,7 +91,7 @@
                 <!-- 登入后的状态 -->
                 <li class="layui-nav-item">
                     <div class="fly-nav-avatar" href="javascript:;">
-                        <img src="#{if $user.avatar}#{$user.avatar}#{else}/favicon.png#{/if}" class="layui-nav-img">
+                        <img src="#{if $user.avatar}#{$user.avatar}#{else}/favicon.png#{/if}" class="layui-nav-img" alt="#{$user.username} 头像" width="40" height="40" loading="lazy" decoding="async">
                         <cite>#{$user.username}</cite>
                     </div>
                     <dl class="layui-nav-child">

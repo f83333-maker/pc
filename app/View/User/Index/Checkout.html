@@ -1,8 +1,15 @@
+{% set seo = {
+    title: '订单结算',
+    description: site.title ~ ' 订单结算页 - 选择支付方式安全完成付款，自动发货。',
+    canonical_path: '/checkout',
+    noindex: true
+} %}
 {{ include ("Index/Header.html") }}
 
 
 <!-- Page Content -->
 <div class="content">
+    <h1 class="visually-hidden sr-only">{{ i18n("订单结算")|raw }}</h1>
     <form method="POST" onsubmit="return false;">
 
         {% if order.status == 3 %}
@@ -49,7 +56,9 @@
                         {% for item in order.items %}
                             <tr>
                                 <td style="width: 60px;">
-                                    <img class="img-fluid" src="{{ item.sku.thumb_url }}" alt=""
+                                    <img class="img-fluid" src="{{ item.sku.thumb_url }}"
+                                         alt="{{ item.item.name|striptags }} - {{ item.sku.name|striptags }}"
+                                         width="60" height="60"
                                          loading="lazy" decoding="async" style="border-radius: 10px;">
                                 </td>
                                 <td>
@@ -68,7 +77,9 @@
                     {% else %}
                         <tr>
                             <td style="width: 60px;">
-                                <img class="img-fluid" src="{{ order.product.icon }}" alt=""
+                                <img class="img-fluid" src="{{ order.product.icon }}"
+                                     alt="{{ order.product.name|striptags }}"
+                                     width="60" height="60"
                                      loading="lazy" decoding="async" style="border-radius: 10px;">
                             </td>
                             <td>
@@ -87,7 +98,7 @@
 
                         <tr>
                             <td style="width: 60px;">
-                                <img class="img-fluid" src="/assets/common/images/fee.png" loading="lazy" decoding="async" style="border-radius: 10px;">
+                                <img class="img-fluid" src="/assets/common/images/fee.png" alt="{{ i18n("交易手续费")|raw }}" width="40" height="40" loading="lazy" decoding="async" style="border-radius: 10px;">
                             </td>
                             <td>
                                 <span class="h6" style="color: #45c920;">交易手续费</span>
@@ -107,7 +118,7 @@
 
                         <tr>
                             <td style="width: 60px;">
-                                <img class="img-fluid" src="/assets/common/images/api.png" loading="lazy" decoding="async" style="border-radius: 10px;">
+                                <img class="img-fluid" src="/assets/common/images/api.png" alt="{{ i18n("API调用费")|raw }}" width="40" height="40" loading="lazy" decoding="async" style="border-radius: 10px;">
                             </td>
                             <td>
                                 <span class="h6" style="color: #0f6cf9;">API调用费</span>
@@ -155,7 +166,7 @@
                         <div class="pay-container">
                             <div class="pay-list">
                                 <div class="pay-item wallet-balance-click"><img
-                                            src="/assets/common/images/balance.png" loading="lazy" decoding="async"><span>{{ i18n("我的钱包")|raw }}</span>
+                                            src="/assets/common/images/balance.png" alt="{{ i18n("我的钱包")|raw }}" width="48" height="48" loading="lazy" decoding="async"><span>{{ i18n("我的钱包")|raw }}</span>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +186,7 @@
                             {% for item in pay %}
                                 <div class="pay-item online-pay"
                                      data-payId="{{ item.id }}">
-                                    <span class="pay-icon"><img src="{{ item.icon }}" loading="lazy" decoding="async"></span>
+                                    <span class="pay-icon"><img src="{{ item.icon }}" alt="{{ item.name|striptags }}" width="48" height="48" loading="lazy" decoding="async"></span>
                                     <span class="pay-name">{{ i18n(item.name)|raw }}</span>
                                 </div>
                             {% endfor %}

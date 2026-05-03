@@ -1,3 +1,10 @@
+{% set seo = {
+    title: '重置密码',
+    description: '通过邮箱安全重置 ' ~ site.title ~ ' 账号密码。',
+    canonical_path: '/reset',
+    noindex: true
+} %}
+{% set title = '重置密码' %}
 {{ include ("Auth/Header.html") }}
 
 <!-- Main Container -->
@@ -10,7 +17,7 @@
                 <form id="reset-form" method="POST">
                     <div class="block block-themed block-rounded block-fx-shadow">
                         <div class="block-header bg-gd-primary">
-                            <h3 class="block-title">{{ i18n("重置密码")|raw }}</h3>
+                            <h1 class="block-title h3">{{ i18n("重置密码")|raw }}</h1>
                         </div>
                         <div class="block-content">
 

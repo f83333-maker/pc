@@ -30,7 +30,7 @@
                                     #{foreach $level as $le}
                                         <a class="button-click business-group" data-id="#{$le.id}"
                                            style="line-height: 22px;color: #db66ac;"> <img
-                                                    src="#{$le.icon}" class="pay-icon" style="margin-top: -5px;"> <span
+                                                    src="#{$le.icon}" class="pay-icon" alt="#{$le.name} 商户等级" width="24" height="24" loading="lazy" decoding="async" style="margin-top: -5px;"> <span
                                                     style="font-weight: bold;">#{$le.name}</span> <span
                                                     style="font-weight: bold;">¥#{$le.price}</span>
                                             <hr>
@@ -76,7 +76,8 @@
                 #{else}
                     #{if $user.businessLevel.substation == 1}
                         <blockquote class="elem-quote">
-                            当前商户等级：<img src="#{$user.businessLevel.icon}"
+                            当前商户等级：<img src="#{$user.businessLevel.icon}" alt="#{$user.businessLevel.name} 商户等级"
+                                        width="16" height="16"
                                         style="height: 16px;margin-top: -4px;" loading="lazy" decoding="async">#{$user.businessLevel.name}，绑定独立域名：#{if
                             $user.businessLevel.top_domain == 1}<b style="color: green;">✔</b>#{else}<b
                                 style="color: red;">✖</b>#{/if}，供货权限：#{if

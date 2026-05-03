@@ -143,7 +143,7 @@
             <div class="panel item-detail h-100">
                 <div class="panel-header">
                     <span class="icon"><i class="fa-duotone fa-regular fa-memo-circle-info"></i></span>
-                    <h6 class="panel-title">商品详情</h6>
+                    <h2 class="panel-title h6" style="margin:0;">商品详情</h2>
                 </div>
                 <div class="panel-body">
                     #{$item.description}
@@ -155,8 +155,8 @@
         <div class="col-12 col-lg-4 order-1 order-lg-2">
             <div class="panel">
                 <div class="panel-body p-4">
-                    <!-- 商品标题 -->
-                    <h4 class="fw-bold mb-3">#{$item.name}</h4>
+                    <!-- 商品标题（H1，全页唯一，对 SEO 至关重要） -->
+                    <h1 class="fw-bold mb-3 h4" style="font-size:1.4rem;line-height:1.3;">#{$item.name}</h1>
 
                     <!-- 状态标签 -->
                     <div class="d-flex align-items-center flex-wrap gap-2 mb-4">

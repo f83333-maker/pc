@@ -1,0 +1,69 @@
+{# ============================================================
+   集中化 SEO 元信息局部模板  (pcccc.cc)
+   调用方在 include 父级 Header 之前用 `{% set seo = {...} %}`
+   传入页面级别的字段，所有缺省字段会自动回退到站点默认值。
+
+   支持字段：
+     title           : 页面专属标题（不含站点名）
+     description     : 页面描述（建议 70-160 字符）
+     keywords        : 关键词，逗号分隔
+     canonical_path  : 页面规范路径，例如 "/" 或 "/item?id=123"
+     type            : Open Graph type (website/article/product)
+     image           : 社交分享图片，绝对或相对路径均可
+     noindex         : true 时输出 noindex,nofollow（私密/查询页）
+     schema          : 已序列化的 JSON-LD 字符串（结构化数据）
+   ============================================================ #}
+{% set _seo = ({
+    title: '',
+    description: '',
+    keywords: '',
+    canonical_path: '',
+    type: 'website',
+    image: '',
+    noindex: false,
+    schema: ''
+})|merge(seo|default({})) %}
+
+{% set _site_title = site.title|striptags|trim %}
+{% set _site_desc  = site.description|striptags|trim %}
+{% set _site_kw    = site.keywords|striptags|trim %}
+{% set _site_logo  = site.logo %}
+
+{% set _seo_short = _seo.title|striptags|trim %}
+{% set _seo_full  = _seo_short ? (_seo_short ~ ' - ' ~ _site_title) : _site_title %}
+{% set _seo_desc  = (_seo.description|striptags|trim) ?: _site_desc %}
+{% set _seo_kw    = (_seo.keywords|striptags|trim) ?: _site_kw %}
+{% set _seo_image = _seo.image ?: _site_logo %}
+{% set _seo_path  = _seo.canonical_path ?: '/' %}
+{% set _seo_url   = request.url ~ _seo_path %}
+
+<title>{{ _seo_full }}</title>
+<meta name="description" content="{{ _seo_desc }}">
+<meta name="keywords" content="{{ _seo_kw }}">
+<meta name="robots" content="{{ _seo.noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1' }}">
+<link rel="canonical" href="{{ _seo_url }}">
+
+{# ---- Open Graph ---- #}
+<meta property="og:site_name" content="{{ _site_title }}">
+<meta property="og:title" content="{{ _seo_short ?: _site_title }}">
+<meta property="og:description" content="{{ _seo_desc }}">
+<meta property="og:type" content="{{ _seo.type }}">
+<meta property="og:url" content="{{ _seo_url }}">
+<meta property="og:image" content="{{ _seo_image }}">
+<meta property="og:locale" content="zh_CN">
+
+{# ---- Twitter Card ---- #}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ _seo_short ?: _site_title }}">
+<meta name="twitter:description" content="{{ _seo_desc }}">
+<meta name="twitter:image" content="{{ _seo_image }}">
+
+{# ---- 移动端 / 主题色 ---- #}
+<meta name="theme-color" content="#1565c0">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+{# ---- 结构化数据 (JSON-LD) ---- #}
+{% if _seo.schema %}
+<script type="application/ld+json">{{ _seo.schema|raw }}</script>
+{% endif %}

@@ -1,21 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <title>{{ item.sku ? item.name|striptags ~ " - " : "" }}{{ site.title }}</title>
-    <meta name="description" content="{{ site.description|striptags }}">
-    <meta name="keywords" content="{{ site.keywords|striptags }}">
-
-    {% if item.sku %}
-        <meta property="og:title" content="{{ item.name|striptags }}">
-        <meta property="og:description"
-              content="{{ item.source.introduce|striptags|length > 100 ? item.source.introduce|striptags|slice(0, 100) ~ '...' : item.source.introduce|striptags }}">
-        <meta property="og:image" content="{{ request.url  ~ item.source.picture_thumb_url }}">
-        <meta property="og:url" content="{{ request.url ~ "/item?id=" ~ item.id }}">
-        <meta property="og:type" content="website">
-    {% endif %}
+    {# 集中化 SEO：调用方通过 {% set seo = {...} %} 传入页面专属元信息 #}
+    {{ include('Common/Seo.html') }}
 
     <link rel="shortcut icon" href="{{ site.logo }}">
     <!-- Stylesheets -->
@@ -53,7 +43,7 @@
             <div class="d-flex align-items-center">
                 <!-- Logo -->
                 <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="/">
-                    <span class="shop-name"><img src="{{ site.logo }}" class="shop-logo"> <span
+                    <span class="shop-name"><img src="{{ site.logo }}" class="shop-logo" alt="{{ site.title|striptags }} Logo" width="32" height="32" loading="eager" decoding="async"> <span
                                 class="shop-title d-none d-md-inline-block">{{ site.title }}</span></span>
                 </a>
                 <!-- END Logo -->
@@ -88,7 +78,8 @@
                        class="btn btn-sm btn-alt-secondary d-flex align-items-center" {{ user ? 'id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : '' }}>
                         <img class="rounded-circle"
                              src="{{ user ? user.avatar is not null ? user.avatar : '/favicon.ico' : "/favicon.ico" }}"
-                             alt="Header Avatar"
+                             alt="{{ user ? user.username ~ ' 头像' : '访客头像' }}"
+                             width="21" height="21" loading="lazy" decoding="async"
                              style="width: 21px;"/>
 
 
@@ -104,7 +95,8 @@
                                  style="cursor: pointer;" onclick="location.href='/user/personal'">
                                 <img class="img-avatar img-avatar48 img-avatar-thumb"
                                      src="{{ user ? user.avatar is not null ? user.avatar : '/favicon.ico' : "/favicon.ico" }}"
-                                     alt="">
+                                     alt="{{ user ? user.username ~ ' 头像' : '用户头像' }}"
+                                     width="48" height="48" loading="lazy" decoding="async">
                                 <p class="mt-2 mb-0 fw-medium text-success">{{ user ? user.username : i18n("未登录")|raw }}</p>
 
 

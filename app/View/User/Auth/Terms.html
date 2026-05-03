@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ i18n(title)|raw }}</title>
+    <title>{{ i18n(title)|raw }} - {{ i18n(site.title)|raw }}</title>
+    <meta name="description" content="{{ i18n(title)|raw }} - {{ i18n(site.title)|raw }} 法律条款与协议说明。">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="{{ request.url }}/register/terms">
+    <link rel="icon" href="{{ site.logo }}">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,7 +59,8 @@
 </head>
 <body>
 <div class="container">
-    <button class="print-btn" onclick="printPage()">{{ i18n("打印")|raw }}"{{ i18n(title)|raw }}"</button>
+    <h1 style="text-align:center;margin:0 0 16px 0;font-size:1.6rem;color:#333;">{{ i18n(title)|raw }}</h1>
+    <button class="print-btn" onclick="printPage()" type="button" aria-label="{{ i18n("打印")|raw }} {{ i18n(title)|raw }}">{{ i18n("打印")|raw }}"{{ i18n(title)|raw }}"</button>
     {{ i18n(content)|raw }}
 </div>
 </body>

@@ -9,6 +9,9 @@ Route::add("/hello", [\App\Controller\Index::class, "hello"], "GET");
 Route::add("/wait/state", [\App\Controller\Index::class, "wait"], "POST");
 Route::add("/owner", [\App\Controller\Index::class, "owner"], "POST");
 
+# SEO：动态 sitemap.xml（robots.txt 由 Apache 直接静态返回）
+Route::add("/sitemap.xml", [\App\Controller\Sitemap::class, "index"], "GET");
+
 Route::add("/admin", [\App\Controller\Admin\Auth::class, "login"], "GET");
 Route::add("/admin", [\App\Controller\Admin\API\Auth::class, "login"], "POST");
 

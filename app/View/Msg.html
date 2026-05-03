@@ -1,9 +1,13 @@
 <!doctype html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>服务器出现错误</title>
+    <meta name="description" content="服务器暂时无法响应您的请求，请稍后重试或返回首页。">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#1565c0">
+    <link rel="icon" href="/favicon.ico">
     <style>
 
         @property --bg-angle {
@@ -79,9 +83,12 @@
 <body style="background: url('/assets/user/images/bg.jpg') fixed no-repeat;background-size: cover;">
 <main>
     <article>
-        <h3>错误总是如影随形</h3>
+        <h1 style="line-height:1.1;margin:0;font-size:1.5rem;color:#fff;">错误总是如影随形</h1>
         <p>
             {{ msg }}
+        </p>
+        <p style="margin-top:1rem;">
+            <a href="/" style="color:#2dff66;text-decoration:underline;" rel="noopener">返回首页</a>
         </p>
     </article>
 </main>

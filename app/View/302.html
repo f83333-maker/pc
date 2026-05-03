@@ -1,9 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>{{ message }}</title>
+    <title>{{ message }} - 安全跳转</title>
+    <meta name="description" content="正在为您的浏览器进行安全重定向，请稍候。">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="refresh" content="{{ time }};url={{ url }}">
+    <link rel="canonical" href="{{ url }}">
     <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" id="css-main" href="/assets/admin/css/codebase.min.css">
 </head>
@@ -15,10 +19,10 @@
             <div class="hero-inner">
                 <div class="content content-full">
                     <div class="py-4 text-center">
-                        <div class="display-4 fw-bold text-info">
-                            <i class="fa fa-lock opacity-50 me-1"></i> {{ message }}
-                        </div>
-                        <h2 class="fs-4 fw-medium text-muted mb-5 mt-5">{{ i18n("我们正在为您的浏览器进行安全重定向，请稍等..")|raw }}</h2>
+                        <h1 class="display-4 fw-bold text-info">
+                            <i class="fa fa-lock opacity-50 me-1" aria-hidden="true"></i> {{ message }}
+                        </h1>
+                        <p class="fs-4 fw-medium text-muted mb-5 mt-5">{{ i18n("我们正在为您的浏览器进行安全重定向，请稍等..")|raw }}</p>
                         <a class="btn btn-lg btn-outline-primary" href="{{ url }}">
                             立即跳转
                         </a>

@@ -1,9 +1,13 @@
 <!doctype html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>#{$msg}</title>
+  <title>#{$msg} - 404 页面未找到</title>
+  <meta name="description" content="抱歉，您访问的页面不存在或已被移除。请返回首页继续浏览。">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1565c0">
+  <link rel="icon" href="/favicon.ico">
   <style>
     body {
       background: radial-gradient(at 0% 0%, #2fa395 0%, transparent 70%), 
@@ -50,9 +54,12 @@
 </head>
 <body>
 <div class="container">
-  <form>
-    <p>#{$msg}</p>
-  </form>
+  <main>
+    <form>
+      <h1 style="font-weight:900;color:#fff;font-size:1.6rem;margin:0;text-shadow:0 2px 4px rgba(0,0,0,0.1);">#{$msg}</h1>
+      <p style="margin-top:1rem;"><a href="/" style="color:#fff;text-decoration:underline;" rel="noopener">返回首页</a></p>
+    </form>
+  </main>
 </div>
 </body>
 </html>
