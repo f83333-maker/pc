@@ -1,3 +1,67 @@
+# ============================================================
+# 性能优化配置 (perf): Gzip 压缩 + 长缓存 + Cloudflare CDN 缓存
+# 所有规则均使用 <IfModule> 包裹, 模块未启用时自动跳过, 不会 500
+# 不影响任何 PHP 路由与业务逻辑
+# ============================================================
+
+# --- 1. Gzip / Deflate 压缩 (减少传输体积) ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml
+    AddOutputFilterByType DEFLATE text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json application/xml application/rss+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject application/x-font-ttf font/opentype
+</IfModule>
+
+# --- 2. 静态资源过期时间 (浏览器本地缓存) ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault                              "access plus 1 month"
+
+    # 样式与脚本: 项目已用 ?v=3.4.8 做缓存破坏, 安全
+    ExpiresByType text/css                      "access plus 1 year"
+    ExpiresByType text/javascript               "access plus 1 year"
+    ExpiresByType application/javascript        "access plus 1 year"
+    ExpiresByType application/x-javascript      "access plus 1 year"
+
+    # 字体
+    ExpiresByType font/woff                     "access plus 1 year"
+    ExpiresByType font/woff2                    "access plus 1 year"
+    ExpiresByType application/font-woff         "access plus 1 year"
+    ExpiresByType application/font-woff2        "access plus 1 year"
+    ExpiresByType application/x-font-ttf        "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+
+    # 图片
+    ExpiresByType image/jpeg                    "access plus 1 year"
+    ExpiresByType image/png                     "access plus 1 year"
+    ExpiresByType image/gif                     "access plus 1 year"
+    ExpiresByType image/webp                    "access plus 1 year"
+    ExpiresByType image/svg+xml                 "access plus 1 year"
+    ExpiresByType image/x-icon                  "access plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon      "access plus 1 year"
+
+    # HTML 不缓存 (动态内容)
+    ExpiresByType text/html                     "access plus 0 seconds"
+</IfModule>
+
+# --- 3. Cache-Control 头 (含 Cloudflare CDN 边缘缓存指令) ---
+<IfModule mod_headers.c>
+    # 静态资源: 浏览器 + CDN 长期缓存
+    <FilesMatch "\.(css|js|woff|woff2|ttf|eot|otf|svg|png|jpg|jpeg|gif|webp|ico|map)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header set CDN-Cache-Control "public, max-age=31536000"
+    </FilesMatch>
+
+    # HTML / PHP 页面: 不缓存 (避免会员状态串号)
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+    </FilesMatch>
+</IfModule>
+
+# --- 4. 原有路由规则 (业务逻辑, 严禁修改) ---
 <IfModule mod_rewrite.c>
  RewriteEngine on
  RewriteBase /
