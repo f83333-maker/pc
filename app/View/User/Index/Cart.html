@@ -1,12 +1,19 @@
+{% set seo = {
+    title: '购物车',
+    description: site.title ~ ' 购物车页面 - 查看已选商品、调整数量并完成结算。',
+    canonical_path: '/shop/cart',
+    noindex: true
+} %}
 {{ include("Index/Header.html") }}
 
 
 <!-- Page Content -->
 <div class="content">
+    <h1 class="visually-hidden sr-only">{{ i18n("我的购物车")|raw }}</h1>
     <!-- Shopping Cart -->
     <div class="block block-rounded bg-gradient-blue">
         <div class="block-header block-header-default">
-            <h3 class="block-title">{{ icon("icon-gouwuche1")|raw }} {{ i18n("购物车")|raw }}</h3>
+            <h2 class="block-title h4">{{ icon("icon-gouwuche1")|raw }} {{ i18n("购物车")|raw }}</h2>
         </div>
         <div class="block-content block-content-full">
             {% if items|length > 0 %}
@@ -32,7 +39,7 @@
                                             class="fa fa-times"></i></a>
                             </td>
                             <td style="width: 60px;">
-                                <img class="img-fluid" src="{{ item.sku.thumb_url }}" alt="" loading="lazy" decoding="async"
+                                <img class="img-fluid" src="{{ item.sku.thumb_url }}" alt="{{ item.item.name|striptags }} - {{ item.sku.name|striptags }}" width="60" height="60" loading="lazy" decoding="async"
                                      style="border-radius: 10px;">
                             </td>
                             <td>

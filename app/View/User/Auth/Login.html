@@ -1,3 +1,10 @@
+{% set seo = {
+    title: '会员登录',
+    description: '登录 ' ~ site.title ~ ' 账号 - 安全访问您的订单、钱包余额和个人信息。',
+    canonical_path: '/login',
+    noindex: true
+} %}
+{% set title = '会员登录' %}
 {{ include ("Auth/Header.html") }}
 <!-- Main Container -->
 <main id="main-container">
@@ -9,7 +16,7 @@
                 <form id="login-form" method="POST">
                     <div class="block block-themed block-rounded block-fx-shadow">
                         <div class="block-header bg-gd-dusk">
-                            <a href="/" class="text-white"><h3 class="block-title">{{ i18n(site.title)|raw }}</h3></a>
+                            <a href="/" class="text-white"><h1 class="block-title h3">{{ i18n(site.title)|raw }} - {{ i18n("会员登录")|raw }}</h1></a>
                         </div>
                         <div class="block-content">
                             <div class="form-floating mb-4">

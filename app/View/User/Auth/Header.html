@@ -1,11 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>{{ i18n(title)|raw }} - {{ i18n(site.title)|raw }}</title>
-    <meta name="description" content="{{ site.description }}">
-    <meta name="keywords" content="{{ site.keywords }}"/>
+
+    {# 认证类页面默认 noindex（防止登录/注册被索引）。子页面可通过 {% set seo = {...} %} 覆盖。 #}
+    {% set seo = ({
+        title: title is defined ? title : '',
+        noindex: true,
+        type: 'website'
+    })|merge(seo|default({})) %}
+    {{ include('Common/Seo.html') }}
+
     <link href="{{ site.logo }}" rel="icon">
 
     {{ css([
