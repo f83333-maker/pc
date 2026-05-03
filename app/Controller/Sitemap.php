@@ -85,10 +85,12 @@ class Sitemap
 
         $xml = $this->buildXml($urls);
 
+        // 框架 Response 链式调用：raw() 必须先于 withHeader()
+        // 否则 Content-Type 会被默认的 text/html 覆盖
         return $this->response
+            ->raw($xml)
             ->withHeader('Content-Type', 'application/xml; charset=utf-8')
-            ->withHeader('Cache-Control', 'public, max-age=3600')
-            ->raw($xml);
+            ->withHeader('Cache-Control', 'public, max-age=3600');
     }
 
     /**
@@ -119,31 +121,26 @@ class Sitemap
     /**
      * 获取规范化的站点根 URL
      *
-     * 优先级：
-     *   1. 后台配置 ConfigModel::get('site_url')
-     *   2. 框架内置的 $request->url()
-     *   3. 兜底：https://pcccc.cc
+     * 站点对外只使用 https://pcccc.cc，硬编码以避免：
+     *   - sitemap 写入内网 IP（10.x.x.x / 127.0.0.1）
+     *   - 反向代理转发的 Host 头被搜索引擎抓到
+     *   - 后台未填写 site_url 时使用错误域名
+     *
+     * 如未来换域名，仅需修改下方常量；同时仍保留 ConfigModel
+     * 作为可选覆盖（方便多域名部署场景）。
      *
      * @return string
      */
     private function getBaseUrl(): string
     {
+        // 允许后台显式覆盖（仅当配置以 http:// 或 https:// 开头）
         try {
             $url = (string) ConfigModel::get('site_url');
-            if ($url !== '') {
+            if (preg_match('/^https?:\/\//i', $url)) {
                 return rtrim($url, '/');
             }
         } catch (\Throwable $e) {
-            // ignore - fall through to framework helper
-        }
-
-        try {
-            $url = (string) $this->request->url();
-            if ($url !== '') {
-                return rtrim($url, '/');
-            }
-        } catch (\Throwable $e) {
-            // ignore - fall through to default
+            // ignore
         }
 
         return 'https://pcccc.cc';
