@@ -69,18 +69,9 @@
             #{$cate.name}
         </a>
     #{/foreach}
-    <!-- 所有的二级分类容器都将动态渲染到这里，并由 JS 进行定位 -->
-    <div class="chip-list sub-category-container" style="display: none;">
-        <!-- 子分类由 JS 动态渲染到这里 -->
-    </div>
+    <div class="chip-list sub-category-container" style="display:none"></div>
 </div>
-<!-- 移除原来的全局 sub-category-list，因为每个一级分类都会有自己的子分类容器 -->
-<!-- <div class="chip-list sub-category-list mt-2" style="display: none; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 10px;">
-    子分类由 JS 动态渲染
-</div> -->
-    <div class="chip-list sub-category-list mt-2" style="display: none; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 10px;">
-        <!-- 子分类由 JS 动态渲染 -->
-    </div>
+<div class="chip-list sub-category-list mt-2" style="display:none;border-top:1px solid rgba(0,0,0,.05);padding-top:10px"></div>
   </div>
 
   <script>

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # perf: 重建首页专用精简 bundle (Cartoon 主题首页 Footer.html 引用)
-# 目标:  把首页/商品交易弹窗实际依赖的 JS 合并 + minify, 比通用 _.js 砍掉 ~40% 体积
+# 目标:  二段分包, 浏览器并行下载, 比通用 _.js 砍掉 ~60% 体积
+#         vendor (~252KB / gz 86KB):  jquery + util + layer + toastr + qrcode + ...
+#         layui  (~346KB / gz 113KB): layui 框架 (独立分包, 与 vendor 并行下载)
 # 用法:  在网站根目录执行  bash scripts/build-index-lite.sh
 # 依赖:  node + npx (会自动拉 terser)
 # 注意:  修改了任意一个 SOURCES 内的源文件后, 都需要重新执行本脚本
@@ -9,11 +11,11 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-OUT_RAW="assets/common/js/_index_lite.tmp.js"
-OUT_MIN="assets/common/js/_index_lite.min.js"
+# ---------- Bundle A: vendor (jQuery + 工具/UI 库) ----------
+VENDOR_RAW="assets/common/js/_vendor_lite.tmp.js"
+VENDOR_MIN="assets/common/js/_vendor_lite.min.js"
 
-# 首页 + 商品交易弹窗实际依赖的源文件 (顺序敏感)
-SOURCES=(
+VENDOR_SOURCES=(
   "assets/common/js/jquery.min.js"
   "assets/common/js/util/dict.js"
   "assets/common/js/util.js"
@@ -22,39 +24,47 @@ SOURCES=(
   "assets/common/js/message.js"
   "assets/common/js/toastr.min.js"
   "assets/common/js/layer/layer.js"
-  "assets/common/js/layui/layui.js"
   "assets/common/js/component/loading.js"
   "assets/common/js/component.js"
   "assets/common/js/jquery.qrcode.min.js"
   "assets/common/js/component/decimal.js"
-  "assets/common/fonts/base/iconfont.js"
   "assets/user/js/trade.js"
   "assets/user/js/treasure.js"
 )
 
-echo "[build-index-lite] 1/3 合并 ${#SOURCES[@]} 个源文件..."
-: > "$OUT_RAW"
-for f in "${SOURCES[@]}"; do
+echo "[build-index-lite] 1/4 合并 vendor 包 (${#VENDOR_SOURCES[@]} 个源文件)..."
+: > "$VENDOR_RAW"
+for f in "${VENDOR_SOURCES[@]}"; do
   if [ ! -f "$f" ]; then
     echo "  缺失: $f" >&2
     exit 1
   fi
-  cat "$f" >> "$OUT_RAW"
-  printf '\n;\n' >> "$OUT_RAW"
+  cat "$f" >> "$VENDOR_RAW"
+  printf '\n;\n' >> "$VENDOR_RAW"
 done
-RAW_SIZE=$(wc -c < "$OUT_RAW")
-echo "  合并后: $((RAW_SIZE/1024)) KB"
+echo "  合并后: $(($(wc -c < "$VENDOR_RAW")/1024)) KB"
 
-echo "[build-index-lite] 2/3 terser 压缩..."
-npx -y terser "$OUT_RAW" -c -m --ecma 2020 -o "$OUT_MIN"
-MIN_SIZE=$(wc -c < "$OUT_MIN")
-echo "  压缩后: $((MIN_SIZE/1024)) KB"
+echo "[build-index-lite] 2/4 terser 压缩 vendor..."
+npx -y terser "$VENDOR_RAW" -c -m --ecma 2020 -o "$VENDOR_MIN"
+echo "  压缩后: $(($(wc -c < "$VENDOR_MIN")/1024)) KB"
+echo "  gzip后: $(($(gzip -9c "$VENDOR_MIN" | wc -c)/1024)) KB"
+rm -f "$VENDOR_RAW"
 
-GZ_SIZE=$(gzip -9c "$OUT_MIN" | wc -c)
-echo "  gzip后: $((GZ_SIZE/1024)) KB"
+# ---------- Bundle B: layui (独立分包, 与 vendor 并行下载) ----------
+LAYUI_SRC="assets/common/js/layui/layui.js"
+LAYUI_MIN="assets/common/js/_layui_lite.min.js"
 
-echo "[build-index-lite] 3/3 清理临时文件..."
-rm -f "$OUT_RAW"
+echo "[build-index-lite] 3/4 terser 压缩 layui..."
+if [ ! -f "$LAYUI_SRC" ]; then
+  echo "  缺失: $LAYUI_SRC" >&2
+  exit 1
+fi
+npx -y terser "$LAYUI_SRC" -c -m --ecma 2020 -o "$LAYUI_MIN"
+echo "  压缩后: $(($(wc -c < "$LAYUI_MIN")/1024)) KB"
+echo "  gzip后: $(($(gzip -9c "$LAYUI_MIN" | wc -c)/1024)) KB"
 
-echo "[build-index-lite] 完成 -> $OUT_MIN"
-echo "[build-index-lite] 部署后请清空 Twig 编译缓存:  rm -rf runtime/view/cache/* runtime/view/compile/*"
+echo "[build-index-lite] 4/4 完成"
+echo "  vendor -> $VENDOR_MIN"
+echo "  layui  -> $LAYUI_MIN"
+echo "[build-index-lite] 部署后请清空 Smarty 编译缓存:"
+echo "    rm -rf runtime/view/cache/* runtime/view/compile/*"
