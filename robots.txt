@@ -1,0 +1,73 @@
+# robots.txt for pcccc.cc
+# 生成时间：2026-05
+# 说明：允许搜索引擎索引商城首页与商品详情页，禁止抓取后台、用户中心、API 与购物车结算等隐私/无 SEO 价值页面
+
+User-agent: *
+Allow: /$
+Allow: /item
+Allow: /shop/category
+Allow: /favicon.ico
+Allow: /assets/
+
+# 后台管理
+Disallow: /admin
+Disallow: /admin/
+# 用户中心（需登录）
+Disallow: /user/
+# 认证 / 表单类页面
+Disallow: /login
+Disallow: /register
+Disallow: /reset
+Disallow: /sendEmail
+# 购物车 / 结算 / 订单查询（动态、含会话状态）
+Disallow: /cart
+Disallow: /checkout
+Disallow: /search
+Disallow: /trade/
+# API 与系统接口
+Disallow: /api/
+Disallow: /admin/api/
+Disallow: /user/api/
+# 安装 / 维护
+Disallow: /install
+Disallow: /wait/state
+Disallow: /owner
+# 带敏感参数的 URL
+Disallow: /*?*token=
+Disallow: /*?*tradeNo=
+Disallow: /*?*sign=
+
+# 主流爬虫额外友好设置
+User-agent: Googlebot
+Crawl-delay: 1
+
+User-agent: Bingbot
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Crawl-delay: 2
+
+User-agent: Sogou web spider
+Crawl-delay: 2
+
+User-agent: 360Spider
+Crawl-delay: 2
+
+User-agent: Bytespider
+Crawl-delay: 2
+
+# 屏蔽明显的恶意 / 高频低价值爬虫
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap 索引
+Sitemap: https://pcccc.cc/sitemap.xml

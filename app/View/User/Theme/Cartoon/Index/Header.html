@@ -1,11 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="#{$config.keywords}"/>
-    <meta name="description" content="#{$config.description}"/>
+
+    <!-- ================== SEO 基础元信息（每页独立） ================== -->
+    #{if isset($item) && $item}
+        <meta name="keywords" content="#{$item.name|strip_tags|escape:'html'}, #{$config.keywords}"/>
+        <meta name="description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}"/>
+    #{else}
+        <meta name="keywords" content="#{$config.keywords}"/>
+        <meta name="description" content="#{$config.description}"/>
+    #{/if}
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#3d49a1">
+
+    <!-- ================== Canonical（避免重复内容降权） ================== -->
+    #{if isset($item) && $item}
+        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}"/>
+    #{else}
+        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/"/>
+    #{/if}
+
+    <!-- ================== Open Graph / 微信 / Twitter 卡片 ================== -->
+    <meta property="og:type" content="#{if isset($item) && $item}product#{else}website#{/if}">
+    <meta property="og:site_name" content="#{$config.shop_name}">
+    <meta property="og:locale" content="zh_CN">
+    #{if isset($item) && $item}
+        <meta property="og:title" content="#{$item.name|strip_tags|escape:'html'} - #{$config.shop_name}">
+        <meta property="og:description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}">
+        <meta property="og:image" content="#{if !empty($item.picture_url)}#{$item.picture_url}#{else}/favicon.png#{/if}">
+        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}">
+        <meta property="product:price:amount" content="#{$item.price|default:''}">
+        <meta property="product:price:currency" content="CNY">
+    #{else}
+        <meta property="og:title" content="#{$title} - #{$config.shop_name}">
+        <meta property="og:description" content="#{$config.description}">
+        <meta property="og:image" content="/favicon.png">
+    #{/if}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="#{if isset($item) && $item}#{$item.name|strip_tags|escape:'html'}#{else}#{$title}#{/if} - #{$config.shop_name}">
+    <meta name="twitter:description" content="#{if isset($item) && $item}#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}#{else}#{$config.description}#{/if}">
+
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
+
+    <!-- ================== Schema.org 结构化数据（增强 Google 富搜索结果） ================== -->
+    #{if isset($item) && $item}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "#{$item.name|strip_tags|escape:'javascript'}",
+      "description": "#{if !empty($item.description)}#{$item.description|strip_tags|truncate:300:''|escape:'javascript'}#{else}#{$item.name|strip_tags|escape:'javascript'}#{/if}",
+      "image": "#{if !empty($item.picture_url)}#{$item.picture_url|escape:'javascript'}#{else}/favicon.png#{/if}",
+      "sku": "#{$item.id}",
+      "brand": { "@type": "Brand", "name": "#{$config.shop_name|escape:'javascript'}" },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}",
+        "priceCurrency": "CNY",
+        "price": "#{$item.price|default:'0'}",
+        "availability": "#{if $item.is_stock|default:false}https://schema.org/InStock#{else}https://schema.org/OutOfStock#{/if}"
+      }
+    }
+    </script>
+    #{else}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "#{$config.shop_name|escape:'javascript'}",
+      "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/",
+      "description": "#{$config.description|escape:'javascript'}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/search?keyword={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    #{/if}
     <!--
         perf: 资源提示, 加速首屏 LCP / TTI
           - favicon 作为图片预加载 (作品 logo 也使用同一张图)

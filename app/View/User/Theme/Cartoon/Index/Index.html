@@ -31,9 +31,10 @@
 
         <div class="hero-search">
             <div class="hero-search-wrapper">
-                <i class="fa-duotone fa-regular fa-magnifying-glass search-icon"></i>
-                <input type="text" class="hero-search-input item-search-input" placeholder="搜索您需要的商品...">
-                <button class="hero-search-btn">
+                <i class="fa-duotone fa-regular fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                <label for="hero-item-search" class="visually-hidden sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">搜索商品</label>
+                <input type="search" id="hero-item-search" class="hero-search-input item-search-input" placeholder="搜索您需要的商品..." aria-label="搜索您需要的商品">
+                <button type="button" class="hero-search-btn" aria-label="搜索">
                     <i class="fa-duotone fa-regular fa-sparkles"></i> 搜索
                 </button>
             </div>
@@ -51,8 +52,8 @@
   <!-- 公告面板 -->
   <div class="panel">
     <div class="panel-header">
-      <span class="icon"><i class="fa-duotone fa-regular fa-bullhorn"></i></span>
-      <h6 class="panel-title">公告</h6>
+      <span class="icon" aria-hidden="true"><i class="fa-duotone fa-regular fa-bullhorn"></i></span>
+      <h2 class="panel-title h6" style="margin:0;">公告</h2>
     </div>
     <div class="panel-body">
         #{$config.notice}
@@ -64,7 +65,7 @@
     #{foreach $category as $cate}
         <a data-id="#{$cate.id}" class="switch-category chip #{if ($cate@first && $categoryId == 0) || $cate.id == $categoryId} is-primary #{/if}" href="javascript:void(0);">
             #{if $cate.id != 'recommend' && $cate.icon}
-                <img src="#{$cate.icon}" class="chip-icon" loading="lazy" decoding="async">
+                <img src="#{$cate.icon}" class="chip-icon" alt="#{$cate.name|default:'商品分类'}" width="24" height="24" loading="lazy" decoding="async">
             #{/if}
             #{$cate.name}
         </a>
