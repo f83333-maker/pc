@@ -6,6 +6,10 @@
     <meta name="keywords" content="#{$config.keywords}"/>
     <meta name="description" content="#{$config.description}"/>
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
+    <!-- perf: 资源提示, 加速首屏 LCP -->
+    <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.staticfile.net">
+    <link rel="preload" as="image" href="/favicon.png" fetchpriority="high">
     <title>#{$title} - #{$config.shop_name}</title>
     #{css(["/assets/common/css/bootstrap.min.css","/assets/common/css/_.css","/assets/user/css/index.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/common/css/toastr.min.css"],["/assets/common/css/bootstrap.min.css","/assets/common/css/_.css","/assets/user/css/index.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/common/css/toastr.min.css"])}
     #{js("/assets/common/js/ready.js")}

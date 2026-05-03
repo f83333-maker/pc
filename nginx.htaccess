@@ -1,3 +1,35 @@
+# ============================================================
+# Nginx 配置参考: Gzip 压缩 + 长缓存 + Cloudflare CDN 缓存
+# 把以下片段粘到 Nginx 站点的 server { ... } 内即可
+# 注意: nginx 不会自动读 .htaccess, 必须手动改 vhost 配置后 reload
+# ============================================================
+
+# --- 1. Gzip 压缩 ---
+gzip on;
+gzip_vary on;
+gzip_min_length 1024;
+gzip_comp_level 6;
+gzip_types text/plain text/css text/xml text/javascript
+           application/javascript application/x-javascript application/json
+           application/xml application/rss+xml image/svg+xml
+           application/vnd.ms-fontobject font/opentype font/ttf font/otf;
+
+# --- 2. 静态资源长缓存 (1 年, 配合 ?v=3.4.8 版本号缓存破坏) ---
+location ~* \.(css|js|woff|woff2|ttf|eot|otf|svg|png|jpg|jpeg|gif|webp|ico|map)$ {
+    expires 1y;
+    add_header Cache-Control "public, max-age=31536000, immutable";
+    add_header CDN-Cache-Control "public, max-age=31536000";
+    access_log off;
+    try_files $uri =404;
+}
+
+# --- 3. HTML 不缓存 ---
+location ~* \.(html|htm)$ {
+    add_header Cache-Control "no-cache, no-store, must-revalidate";
+    add_header Pragma "no-cache";
+}
+
+# --- 4. 原有路由规则 (业务逻辑, 严禁修改) ---
 location / {
     if (!-e $request_filename){
             rewrite ^(.*)$ /index.php?s=$1 last; break;

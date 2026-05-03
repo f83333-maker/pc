@@ -6,6 +6,8 @@
     <meta name="keywords" content="#{$config.keywords}"/>
     <meta name="description" content="#{$config.description}"/>
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
+    <!-- perf: 资源提示, 加速首屏 LCP -->
+    <link rel="preload" as="image" href="/favicon.ico" fetchpriority="high">
     <title>#{$title} - #{$config.shop_name}</title>
     #{css(
     [
