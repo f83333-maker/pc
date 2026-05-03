@@ -7,11 +7,34 @@
     <meta name="description" content="#{$config.description}"/>
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
     <!-- perf: 资源提示, 加速首屏 LCP -->
-    <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin>
-    <link rel="dns-prefetch" href="//cdn.staticfile.net">
     <link rel="preload" as="image" href="/favicon.png" fetchpriority="high">
     <title>#{$title} - #{$config.shop_name}</title>
-    #{css(["/assets/common/css/bootstrap.min.css","/assets/common/css/_.css","/assets/user/css/index.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/common/css/toastr.min.css"],["/assets/common/css/bootstrap.min.css","/assets/common/css/_.css","/assets/user/css/index.css","/assets/common/css/font.min.css","/assets/common/js/layui/css/layui.css","/assets/common/css/select2.min.css","/assets/common/css/component.css","/assets/common/js/table/bootstrap-table.css","/assets/common/js/layer/theme/default/layer.css","/assets/common/css/toastr.min.css"])}
+    <!--
+        perf: 生产环境只加载 3 个合并/必要的 CSS:
+          1) bootstrap.min.css —— 首页布局 (navbar/container/d-flex/col-lg-*)
+          2) _.css           —— 已合并 font/layui/select2/component/bootstrap-table/layer/toastr
+          3) index.css       —— 首页主题样式 (hero-apple/panel/chip-list 等)
+        DEBUG 模式 (第二个数组) 保留全部独立文件, 方便本地排查样式来源.
+    -->
+    #{css(
+        [
+            "/assets/common/css/bootstrap.min.css",
+            "/assets/common/css/_.css",
+            "/assets/user/css/index.css"
+        ],
+        [
+            "/assets/common/css/bootstrap.min.css",
+            "/assets/common/css/_.css",
+            "/assets/user/css/index.css",
+            "/assets/common/css/font.min.css",
+            "/assets/common/js/layui/css/layui.css",
+            "/assets/common/css/select2.min.css",
+            "/assets/common/css/component.css",
+            "/assets/common/js/table/bootstrap-table.css",
+            "/assets/common/js/layer/theme/default/layer.css",
+            "/assets/common/css/toastr.min.css"
+        ]
+    )}
     #{js("/assets/common/js/ready.js")}
     #{index_var()}
     <!--start::HOOK-->
