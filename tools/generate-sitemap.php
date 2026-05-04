@@ -84,33 +84,34 @@ $today     = date('Y-m-d');
 $baseUrl   = rtrim(SITE_URL, '/');
 
 // 1) 静态高优先级页面
-//    实际框架路由（约定式）：
-//    - 首页:        /  (= /index/index)
-//    - 订单查询:    /index/query
-//    - 商品详情:    /index/item?mid={商品id}
-//    - 分类筛选:    /?cid={分类id}     (分类是首页的过滤参数)
+//    本项目控制器在 App\Controller\User\* 命名空间下，
+//    框架约定式路由要求带 /user/ 前缀。已通过实测确认：
+//    - 首页:        /                          (200, 路由特例)
+//    - 订单查询:    /user/index/query          (200)
+//    - 商品详情:    /user/index/item?mid={id}  (200)
+//    - 分类筛选:    /?cid={id}                  (200, 在首页通过参数过滤)
 $xml  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-$xml .= build_url_node($baseUrl . '/',              $today, 'daily',  '1.0');
-$xml .= build_url_node($baseUrl . '/index/query',   $today, 'monthly','0.4');
+$xml .= build_url_node($baseUrl . '/',                   $today, 'daily',   '1.0');
+$xml .= build_url_node($baseUrl . '/user/index/query',   $today, 'monthly', '0.4');
 
 // 2) 上架商品（status = 1 表示启用）
+//    mcy-shop 的 commodity 表只有 create_time 字段，没有 update_time
+//    （参见 app/Model/Commodity.php 的属性声明）
 $itemCount = 0;
 try {
     $stmt = $pdo->query(
-        "SELECT id, name, update_time, create_time
+        "SELECT id, create_time
          FROM `{$prefix}commodity`
          WHERE status = 1
          ORDER BY id ASC"
     );
     while ($row = $stmt->fetch()) {
-        // 框架真实路由：/index/item?mid=<id>
-        $loc     = $baseUrl . '/index/item?mid=' . (int)$row['id'];
-        $lastmod = !empty($row['update_time'])
-            ? date('Y-m-d', is_numeric($row['update_time']) ? (int)$row['update_time'] : strtotime((string)$row['update_time']))
-            : (!empty($row['create_time'])
-                ? date('Y-m-d', is_numeric($row['create_time']) ? (int)$row['create_time'] : strtotime((string)$row['create_time']))
-                : $today);
+        // 框架真实路由：/user/index/item?mid=<id>
+        $loc     = $baseUrl . '/user/index/item?mid=' . (int)$row['id'];
+        $lastmod = !empty($row['create_time'])
+            ? date('Y-m-d', is_numeric($row['create_time']) ? (int)$row['create_time'] : strtotime((string)$row['create_time']))
+            : $today;
         $xml .= build_url_node($loc, $lastmod, 'weekly', '0.8');
         $itemCount++;
     }
