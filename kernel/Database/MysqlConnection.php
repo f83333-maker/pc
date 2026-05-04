@@ -8,9 +8,6 @@ use Kernel\Pool\Connection;
 class MysqlConnection implements Connection
 {
 
-    /**
-     * @return ConnectionProxy
-     */
     public function createObject(): ConnectionProxy
     {
         return ConnectionProxy::create();

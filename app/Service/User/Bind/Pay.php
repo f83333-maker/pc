@@ -13,15 +13,7 @@ use Kernel\Exception\ServiceException;
 
 class Pay implements \App\Service\User\Pay
 {
-    /**
-     * @param int $equipment
-     * @param string $business
-     * @param User|null $user
-     * @param string $amount
-     * @param array $options
-     * @return array
-     * @throws ServiceException
-     */
+    
     public function getList(int $equipment, string $business, ?User $user = null, string $amount = "0", array $options = []): array
     {
         if (!in_array($business, \App\Service\User\Pay::BUSINESS)) {
@@ -31,7 +23,6 @@ class Pay implements \App\Service\User\Pay
         $pay = \App\Model\Pay::query()->where("status", 1)->whereIn("equipment", [0, $equipment]);
 
         $openUser = false;
-
 
         if (in_array($business, ["product", "level"])) {
             $openUser = true;
@@ -52,9 +43,6 @@ class Pay implements \App\Service\User\Pay
 
         $group = $user?->group;
 
-        /**
-         * @var \App\Model\Pay $method
-         */
         foreach ($methods as $method) {
             if ($method->pid > 0 && $user && !$this->getMasterPay($method->pid, $user, $group)) {
                 continue;
@@ -68,19 +56,12 @@ class Pay implements \App\Service\User\Pay
         return $items;
     }
 
-    /**
-     * @param int|null $id
-     * @return \App\Model\Pay|null
-     */
     public function findPay(?int $id): ?\App\Model\Pay
     {
         if ($id <= 0) {
             return null;
         }
 
-        /**
-         * @var \App\Model\Pay $pay
-         */
         $pay = \App\Model\Pay::query()->find($id);
         if (!$pay) {
             return null;
@@ -88,38 +69,23 @@ class Pay implements \App\Service\User\Pay
         return $pay;
     }
 
-    /**
-     * @param int|null $id
-     * @return bool
-     */
     public function isCustom(?int $id): bool
     {
         $payOwner = $this->findPayOwner($id);
         return $payOwner === \App\Service\User\Pay::OWNER_MERCHANT;
     }
 
-    /**
-     * @param int|null $id
-     * @return bool
-     */
     public function isOfficial(?int $id): bool
     {
         $payOwner = $this->findPayOwner($id);
         return $payOwner === \App\Service\User\Pay::OWNER_OFFICIAL;
     }
 
-    /**
-     * @param int|null $id
-     * @return int|null
-     */
     public function findPayOwner(?int $id): ?int
     {
         return $this->resolvePayOwner($this->findPay($id));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hydratePayOrderMerchantFlag(array &$list): void
     {
         if ($list === []) {
@@ -166,10 +132,6 @@ class Pay implements \App\Service\User\Pay
         return null;
     }
 
-    /**
-     * @param User $user
-     * @return MasterPay[]
-     */
     public function getMasterPayList(User $user): array
     {
         $list = \App\Model\Pay::query()->where("status", 1)->whereNull("user_id")->orderBy("sort", "asc")->get()->toArray();
@@ -185,18 +147,10 @@ class Pay implements \App\Service\User\Pay
         return $pays;
     }
 
-
-    /**
-     * @param int $id
-     * @param User $user
-     * @param UserGroup|null $group
-     * @return MasterPay|null
-     */
+    
     public function getMasterPay(int $id, User $user, ?UserGroup $group): ?MasterPay
     {
-        /**
-         * @var \App\Model\Pay $pay
-         */
+        
         $pay = \App\Model\Pay::query()->find($id);
         if (!$pay) {
             return null;
@@ -213,18 +167,13 @@ class Pay implements \App\Service\User\Pay
         }
 
         if ($group) {
-            /**
-             * @var PayGroup $payGroup
-             */
+            
             $payGroup = PayGroup::query()->where("group_id", $group->id)->where("pay_id", $id)->first();
             if ($payGroup && $payGroup->status == 1) {
                 return new MasterPay($pay->id, $pay->name, $pay->icon, $payGroup->fee, $scope);
             }
         }
 
-        /**
-         * @var PayUser $payUser
-         */
         $payUser = PayUser::query()->where("user_id", $user->id)->where("pay_id", $id)->first();
 
         if ($payUser && $payUser->status == 1) {

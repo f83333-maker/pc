@@ -26,11 +26,7 @@ class Role extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $get = new Get(RoleModel::class);
@@ -44,10 +40,6 @@ class Role extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     public function save(): Response
     {
         $save = new Save(RoleModel::class);
@@ -62,11 +54,7 @@ class Role extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     */
+    
     public function del(): Response
     {
         $list = (array)$this->request->post("list");

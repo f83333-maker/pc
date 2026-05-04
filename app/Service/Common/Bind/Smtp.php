@@ -16,16 +16,6 @@ class Smtp implements \App\Service\Common\Smtp
     #[Inject]
     private \App\Service\Common\Config $config;
 
-    /**
-     * @param string $to
-     * @param string $title
-     * @param string $body
-     * @param array $files
-     * @param array $config
-     * @return bool
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function send(string $to, string $title, string $body, array $files = [], array $config = []): bool
     {
         if (empty($config)) {

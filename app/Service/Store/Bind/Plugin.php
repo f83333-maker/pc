@@ -10,16 +10,9 @@ use Kernel\Exception\ServiceException;
 class Plugin implements \App\Service\Store\Plugin
 {
 
-
     #[Inject]
     private \App\Service\Store\Http $http;
 
-    /**
-     * @param array $post
-     * @param Authentication $authentication
-     * @return void
-     * @throws ServiceException
-     */
     public function createOrUpdate(array $post, Authentication $authentication): void
     {
         $http = $this->http->request("/store/plugin/save", $post, $authentication);

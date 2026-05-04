@@ -7,6 +7,5 @@ interface Session
 {
     const CODE = "CODE_%s";
 
-
     const EMAIL_CODE = "EMAIL_%s_%s";
 }

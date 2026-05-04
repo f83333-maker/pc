@@ -1,6 +1,5 @@
 {{ include( "Common/Header.html") }}
 
-<!-- Hero -->
 <div class="bg-body-light">
     <div class="content content-full">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
@@ -25,9 +24,7 @@
         </div>
     </div>
 </div>
-<!-- END Hero -->
 
-<!-- Page Content -->
 <div class="content">
 
     <div class="row mb-2 data-count">
@@ -59,7 +56,6 @@
             </a>
         </div>
 
-
         <div class="col-md-6 col-xl-2 sense-boundary">
             <a class="block block-shadow block-rounded block-link-shadow text-end" href="javascript:void(0)">
                 <div class="block-content block-content-full d-flex justify-content-between align-items-center">
@@ -90,14 +86,11 @@
             </div>
         </div>
 
-
-
         <div class="block-content pt-0">
             <table id="pay-order-table"></table>
         </div>
     </div>
 </div>
-<!-- END Page Content -->
 
 {{ ready("/assets/user/controller/pay/order.js")|raw }}
 {{ hook(user_env(user.id) , point("USER_PAY_ORDER_BODY") , 1)|raw }}

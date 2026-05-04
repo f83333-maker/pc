@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Kernel\Server;
 
-
 use Kernel\Cache\Cache;
 use Kernel\Component\Singleton;
 use Kernel\Container\Di;
@@ -41,27 +40,14 @@ class CLI
 {
     use Singleton;
 
-    /**
-     * @var string
-     */
     public string $name;
 
-
-    /**
-     * 配置文件
-     * @var array
-     */
+    
     private array $config;
 
-
-    /**
-     * @var Server
-     */
+    
     private Server $httpServer;
 
-    /**
-     * @var int
-     */
     private int $workerId = 0;
 
     public function __construct()
@@ -71,36 +57,22 @@ class CLI
         Process::setName($this->name . ".main");
     }
 
-    /**
-     * @return Server
-     */
     public function getHttpServer(): Server
     {
         return $this->httpServer;
     }
 
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function getConfig(?string $key = null): mixed
     {
         return $key ? $this->config[$key] : $this->config;
     }
 
-
-    /**
-     * @return int
-     */
+    
     public function getWorkerId(): int
     {
         return $this->workerId;
     }
 
-    /**
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function start(): void
     {
 
@@ -114,7 +86,6 @@ class CLI
         App::$install && $this->startMysql();
         App::$install && $this->startProcess();
 
-
         Log::inst()->stdout("[REACTOR]:共({$this->config['options']['reactor_num']})個綫程啓動", Color::YELLOW, true);
         Log::inst()->stdout("[TASK]:共({$this->config['options']['task_worker_num']})個綫程啓動", Color::YELLOW, true);
         Log::inst()->stdout("[HTTP]:共({$this->config['options']['worker_num']})個綫程啓動", Color::YELLOW, true);
@@ -122,46 +93,30 @@ class CLI
         $this->startHttpServer();
     }
 
-    /**
-     * 启动MYSQL连接池
-     * @return void
-     */
     private function startMysql(): void
     {
-        #启动mysql连接池
+        
         Coroutine\run(function () {
             Di::instance()->set(ConnectionPool::class, new ConnectionPool(MysqlConnection::class, AppContext::$database['pool']));
             Log::inst()->stdout("[MYSQL]:連接池啓動，峰值：" . (AppContext::$database['pool'] * $this->config["options"][Constant::OPTION_WORKER_NUM]), Color::YELLOW, true);
         });
     }
 
-
-    /**
-     * 启动插件进程池
-     * @throws \ReflectionException
-     */
+    
     private function startProcess(): void
     {
-        #启动应用重启进程
+        
         \Kernel\Service\App::inst()->startRestartWaitProcess();
-        #启动插件进程池
+        
         \Kernel\Plugin\Process::inst()->started();
     }
 
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     private function startMemoryTable(): void
     {
         $size = Cache::instance()->initialize();
         Log::inst()->stdout("[CACHE]:啓動内存分配，容量：" . $size . "M", Color::YELLOW, true);
     }
 
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     private function startHttpServer(): void
     {
         if (!System::checkPortAvailable($this->config['port'])) {
@@ -182,30 +137,21 @@ class CLI
         $this->httpServer->start();
     }
 
-
-    /**
-     * @param \Swoole\Http\Request $request
-     * @param \Swoole\Http\Response $response
-     * @throws LoaderError
-     * @throws NotFoundException
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws \ReflectionException
-     */
+    
     public function httpRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response): void
     {
         try {
             if (trim((string)$request->server['request_uri'], "/") != "wait/state") {
-                //记录最后一次访问时间
+                
                 Cache::inst()->set(Swoole\Constant::CLI_LAST_REQUEST_TIME, time());
             }
             $req = new \Kernel\Context\CLI\Request($request);
             $resp = new \Kernel\Context\CLI\Response($response);
-            //context
+            
             Context::set(Request::class, $req);
             Context::set(Response::class, $resp);
             Manager::instance()->create();
-            //call
+            
             $resp = Http::instance()->call($req);
             if ($resp instanceof Response) {
                 $resp->draw();
@@ -219,13 +165,7 @@ class CLI
         }
     }
 
-
-    /**
-     * @param Server $server
-     * @param \Swoole\Http\Request $request
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function webSocketOpen(Server $server, \Swoole\Http\Request $request): void
     {
         if (!isset($request->header['upgrade'])) {
@@ -234,7 +174,6 @@ class CLI
 
         $req = new \Kernel\Context\CLI\Request($request);
         Context::set(Request::class, $req);
-
 
         $uri = trim($req->uri(), "/");
 
@@ -257,33 +196,16 @@ class CLI
         \Kernel\Plugin\WebSocket::instance()->open($route->name, Usr::inst()->userToEnv($route->usr), $server, $req, $request->fd);
     }
 
-    /**
-     * @param Server $server
-     * @param int $fd
-     * @return void
-     * @throws \ReflectionException
-     */
     public function webSocketClose(Server $server, int $fd): void
     {
         \Kernel\Plugin\WebSocket::instance()->close($server, $fd);
     }
 
-    /**
-     * @param Server $server
-     * @param Frame $frame
-     * @return void
-     * @throws \ReflectionException
-     */
     public function webSocketMessage(Server $server, Frame $frame): void
     {
         \Kernel\Plugin\WebSocket::instance()->message($server, $frame);
     }
 
-    /**
-     * @param Server $server
-     * @param Task $task
-     * @return void
-     */
     public function task(Server $server, Task $task): void
     {
         $callable = $task->data['callable'] ?? false;
@@ -292,20 +214,13 @@ class CLI
         }
     }
 
-
-    /**
-     * @param Server $server
-     * @return void
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
+    
     public function httpStart(Server $server): void
     {
-        Manager::instance()->gc();  //启动session gc回收
-        //将server加入容器
+        Manager::instance()->gc();  
+        
         Plugin::instance()->hook(App::env(), Point::CLI_INIT_AFTER);
         $startTime = (Date::timestamp() - App::$startTime) / 1000;
-
 
         Log::inst()->stdout("HTTP高性能サーバーの起動に成功!", Color::GREEN, true);
         Log::inst()->stdout("Listening server: " . $this->config['host'] . ":" . $this->config['port'], Color::RED, true);
@@ -321,13 +236,7 @@ class CLI
         }
     }
 
-
-    /**
-     * @param Server $server
-     * @param int $workerId
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function workerStart(Server $server, int $workerId): void
     {
         $this->workerId = $workerId;
@@ -341,13 +250,6 @@ class CLI
         }
     }
 
-    /**
-     * @param Server $server
-     * @param int $srcWorkerId
-     * @param string $message
-     * @return void
-     * @throws \ReflectionException
-     */
     public function pipeMessage(Server $server, int $srcWorkerId, mixed $message): void
     {
         $json = is_array($message) ? $message : [];

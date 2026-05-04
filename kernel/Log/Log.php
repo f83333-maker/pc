@@ -12,9 +12,6 @@ class Log
 {
     use Singleton;
 
-    /**
-     * @var array
-     */
     private array $config = [
         "error" => BASE_PATH . '/runtime/error.log',
         "update" => BASE_PATH . '/runtime/update.log',
@@ -27,32 +24,18 @@ class Log
         $this->config = array_merge($this->config, Config::get('log'));
     }
 
-
-    /**
-     * @param string $message
-     * @param int $color
-     * @param bool $bold
-     * @return void
-     */
+    
     public function stdout(string $message, int $color = Color::BLUE, bool $bold = false): void
     {
         $time = "[" . date("H:i:s", time()) . "]:";
         echo "\033[0;36m{$time}\033[0m\033[" . (int)$bold . ";{$color}m{$message}\033[0m\n";
     }
 
-    /**
-     * @param string $type
-     * @return void
-     */
     public function clear(string $type = "error"): void
     {
         file_put_contents($this->config[$type], "");
     }
 
-    /**
-     * @param string $message
-     * @return void
-     */
     public function error(string $message): void
     {
         if (App::$debug || \Kernel\Context\App::$isCommand) {
@@ -61,10 +44,6 @@ class Log
         $this->write($message, $this->config['error']);
     }
 
-    /**
-     * @param string $message
-     * @return void
-     */
     public function update(string $message): void
     {
         if (\Kernel\Context\App::$isCommand) {
@@ -73,11 +52,7 @@ class Log
         $this->write($message, $this->config['update']);
     }
 
-
-    /**
-     * @param string $message
-     * @return void
-     */
+    
     public function info(string $message): void
     {
         if (App::$debug) {
@@ -86,11 +61,7 @@ class Log
         $this->write($message, $this->config['info']);
     }
 
-
-    /**
-     * @param string $message
-     * @return void
-     */
+    
     public function debug(mixed $message): void
     {
         $text = "";
@@ -107,12 +78,7 @@ class Log
         $this->write($text, $this->config['debug']);
     }
 
-
-    /**
-     * @param string $message
-     * @param string $file
-     * @return void
-     */
+    
     private function write(string $message, string $file): void
     {
         file_put_contents($file, "[" . date("Y-m-d H:i:s", time()) . "]:" . $message . PHP_EOL, FILE_APPEND);

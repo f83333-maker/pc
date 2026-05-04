@@ -38,10 +38,6 @@ class Order
         $this->payUrl = $payOrder->pay_url;
     }
 
-    /**
-     * @param Pay $pay
-     * @return void
-     */
     public function setPay(Pay $pay): void
     {
         $this->pay = $pay;

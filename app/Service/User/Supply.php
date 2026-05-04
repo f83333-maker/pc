@@ -11,10 +11,5 @@ use Kernel\Annotation\Bind;
 interface Supply
 {
 
-    /**
-     * @param User|null $customer
-     * @param int $itemId
-     * @return RepertoryItem
-     */
     public function getItem(?User $customer, int $itemId): RepertoryItem;
 }

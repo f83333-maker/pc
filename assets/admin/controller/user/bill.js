@@ -27,8 +27,6 @@
         }
     ]);
 
-
-
     table.setSearch([
         {title: "搜索会员", name: "equal-owner", type: "remoteSelect" , dict: "user,id,username"},
         {
@@ -46,8 +44,6 @@
         {title: "交易时间", name: "between-create_time", type: "date"}
     ]);
     table.setState("type", "_bill_status");
-
-
 
     table.render();
 }();

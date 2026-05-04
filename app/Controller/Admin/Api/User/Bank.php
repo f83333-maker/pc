@@ -24,11 +24,7 @@ class Bank extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $get = new Get(Model::class);
@@ -36,10 +32,6 @@ class Bank extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\Bank::class, ['name', 'code']]
     ])]
@@ -56,10 +48,7 @@ class Bank extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
+    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

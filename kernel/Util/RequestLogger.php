@@ -10,9 +10,6 @@ use Kernel\Context\Interface\Request;
 class RequestLogger
 {
 
-    /**
-     * 记录当前请求
-     */
     public static function logCurrentRequest(Request $request): void
     {
         try {
@@ -64,10 +61,6 @@ class RequestLogger
         }
     }
 
-    /**
-     * @param string $dir
-     * @return void
-     */
     private static function ensureDirectory(string $dir): void
     {
         if (is_dir($dir)) {

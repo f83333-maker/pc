@@ -14,13 +14,7 @@ class Column
     public string $field;
     public string $direction = "after";
 
-
-    /**
-     * @param string $route
-     * @param string $code
-     * @param string $field
-     * @param string $direction
-     */
+    
     public function __construct(string $route, string $code, string $field, string $direction = "after")
     {
         $this->code = $code;

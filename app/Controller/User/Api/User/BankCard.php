@@ -26,15 +26,10 @@ class BankCard extends Base
     #[Inject]
     private Query $query;
 
-
     #[Inject]
     private \App\Service\User\BankCard $bankCard;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $get = new Get(Model::class);
@@ -52,10 +47,6 @@ class BankCard extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\UserBankCard::class, ['bankId', 'cardNo']]
     ])]
@@ -68,10 +59,6 @@ class BankCard extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

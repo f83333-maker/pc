@@ -11,9 +11,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Category extends Base
 {
-    /**
-     * @return Response
-     */
+    
     public function index(): Response
     {
         return $this->render("Repertory/Category.html", "仓库分类");

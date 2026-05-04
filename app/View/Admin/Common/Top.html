@@ -1,19 +1,14 @@
 <header id="page-header">
-    <!-- Header Content -->
+    
     <div class="content-header">
-        <!-- Left Section -->
+        
         <div class="space-x-1">
-            <!-- Toggle Sidebar -->
-            <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-            <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" data-action="sidebar_toggle"> <i class="fa fa-fw fa-bars"></i></button>
-            <!-- END Toggle Sidebar -->
 
+            <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" data-action="sidebar_toggle"> <i class="fa fa-fw fa-bars"></i></button>
 
                 <a class="btn btn-sm btn-success fw-bold store-button" href="/admin/store">
                    <i class="fab fa-app-store"></i> {{ i18n('应用商店')|raw }}
                 </a>
-
-
 
                 <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle store-node-select hide" id="dropdown-default-outline-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                 <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-default-outline-primary" style="">
@@ -22,17 +17,13 @@
                     <a class="dropdown-item store-node-2" href="javascript:void(0)">腾讯云</a>
                 </div>
 
-
-
             <div class="store-user d-inline-block"></div>
         </div>
 
+        
 
-        <!-- END Left Section -->
-
-        <!-- Right Section -->
         <div class="space-x-1">
-            <!-- User Dropdown -->
+            
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="d-flex align-items-center">
@@ -52,7 +43,6 @@
                     </div>
                     <div class="p-2">
 
-
                         <a href="/admin/personal/login/log" class="dropdown-item d-flex align-items-center justify-content-between space-x-1" data-avatar="{{ manage.avatar }}">
                             <span>{{ icon("icon-rizhi")|raw }} {{ i18n("登录日志")|raw }}</span>
                         </a>
@@ -68,14 +58,11 @@
                     </div>
                 </div>
             </div>
-            <!-- END User Dropdown -->
 
         </div>
-        <!-- END Right Section -->
+        
     </div>
-    <!-- END Header Content -->
 
-
-    <!-- Header Loader -->
+    
 
 </header>

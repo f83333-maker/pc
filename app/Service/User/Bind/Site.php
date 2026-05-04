@@ -35,9 +35,6 @@ use Kernel\Plugin\Const\Plugin as PGN;
 class Site implements \App\Service\User\Site
 {
 
-    /**
-     * 路由白名单，不需要绑定域名的路由
-     */
     private const EFFECTIVE_WHITELIST = [
         [\App\Controller\User\API\Pay\PayOrder::class, "async"]
     ];
@@ -45,11 +42,7 @@ class Site implements \App\Service\User\Site
     #[Inject]
     private \App\Service\Common\Config $config;
 
-
-    /**
-     * @param string $host
-     * @return NginxInfo
-     */
+    
     public function getNginxInfo(string $host): NginxInfo
     {
         return new NginxInfo(
@@ -61,20 +54,9 @@ class Site implements \App\Service\User\Site
         );
     }
 
-    /**
-     * @param int $themePage
-     * @param string $template
-     * @param array $data
-     * @return array
-     * @throws NotFoundException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
     public function bind(int $themePage, string $template, array &$data): array
     {
-        /**
-         * @var Request $request
-         */
+        
         $request = Context::get(Request::class);
         $data['request']['url'] = $request->url();
         $this->setTemplateData($data);
@@ -104,17 +86,9 @@ class Site implements \App\Service\User\Site
         return ["template" => $template, "data" => $data, "templatePath" => $templatePath];
     }
 
-    /**
-     * @param array $data
-     * @return void
-     * @throws NotFoundException
-     * @throws ViewException
-     */
     public function setTemplateData(array &$data): void
     {
-        /**
-         * @var Request $request
-         */
+        
         $request = Context::get(Request::class);
         $host = (string)$request->header("Host");
         $user = \App\Model\Site::getUser($host);
@@ -129,35 +103,17 @@ class Site implements \App\Service\User\Site
         }
     }
 
-    /**
-     * @return bool
-     * @throws NotFoundException
-     */
     public function effective(): bool
     {
-        return true; // Bypassed domain binding check
+        return true; 
     }
 
-    /**
-     * @return array
-     */
     public function getMainDomains(): array
     {
         $pull = $this->config->getMainConfig("site");
         return Arr::strToList((string)$pull['domains'], "\n");
     }
 
-    /**
-     * @param User $user
-     * @param int $type
-     * @param string $domain
-     * @param string $subdomain
-     * @param string $pem
-     * @param string $key
-     * @return void
-     * @throws JSONException
-     * @throws \Throwable
-     */
     public function add(User $user, int $type, string $domain, string $subdomain = "", string $pem = "", string $key = ""): void
     {
         $group = $user->group;
@@ -167,7 +123,7 @@ class Site implements \App\Service\User\Site
         $config = Config::main("subdomain");
         $certInfo = [];
 
-        if ($type === \App\Const\Site::TYPE_SUBDOMAIN) { //子域名
+        if ($type === \App\Const\Site::TYPE_SUBDOMAIN) { 
             if (!isset($config['subdomain'])) {
                 throw new JSONException("系统没有配置主域名，请联系客服处理");
             }
@@ -225,7 +181,7 @@ class Site implements \App\Service\User\Site
                     $site->ssl_expire_time = $certInfo['expire'];
                     $site->ssl_domain = $certInfo['domain'];
                     $site->ssl_issuer = $certInfo['issuer'];
-                    //将证书保存到config目录下
+                    
                     if (!File::write($nginxInfo->pem, $pem) || !File::write($nginxInfo->key, $key)) {
                         throw new JSONException("证书写入失败，请联系客服");
                     }
@@ -247,28 +203,19 @@ class Site implements \App\Service\User\Site
         }
 
         if ($type == \App\Const\Site::TYPE_DOMAIN) {
-            //重载nginx
+            
             Shell::inst()->exec("sudo nginx -s reload");
         }
     }
 
-
-    /**
-     * @param string $domain
-     * @return void
-     * @throws JSONException
-     * @throws \Exception
-     */
+    
     public function del(string $domain): void
     {
-        /**
-         * @var \App\Model\Site $site
-         */
+        
         $site = \App\Model\Site::where("host", $domain)->first();
         if (!$site) {
             throw new JSONException("该域名不存在");
         }
-
 
         Plugin::instance()->unsafeHook(Usr::inst()->getEnv(), Point::SERVICE_SITE_DEL_BEFORE, PGN::HOOK_TYPE_PAGE, $site, $domain);
 
@@ -284,15 +231,6 @@ class Site implements \App\Service\User\Site
         Plugin::instance()->unsafeHook(Usr::inst()->getEnv(), Point::SERVICE_SITE_DEL_AFTER, PGN::HOOK_TYPE_PAGE, $site, $domain);
     }
 
-    /**
-     * @param string $domain
-     * @param string $pem
-     * @param string $key
-     * @return void
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function modifyCertificate(string $domain, string $pem, string $key): void
     {
         $site = \App\Model\Site::where("host", $domain)->first();
@@ -320,7 +258,6 @@ class Site implements \App\Service\User\Site
         $site->ssl_domain = $certInfo['domain'];
         $site->ssl_issuer = $certInfo['issuer'];
 
-        //将证书保存到config目录下
         if (!File::write($nginxInfo->pem, $pem) || !File::write($nginxInfo->key, $key)) {
             throw new JSONException("证书写入失败，请联系客服");
         }
@@ -330,11 +267,6 @@ class Site implements \App\Service\User\Site
         Shell::inst()->exec("sudo nginx -s reload");
     }
 
-    /**
-     * @param string $domain
-     * @return array
-     * @throws JSONException
-     */
     public function getCertificate(string $domain): array
     {
         $site = \App\Model\Site::where("host", $domain)->first();
@@ -351,21 +283,12 @@ class Site implements \App\Service\User\Site
         return ["pem" => File::read($nginxInfo->pem), "key" => File::read($nginxInfo->key)];
     }
 
-    /**
-     * @param string $key
-     * @param string|null $userId
-     * @return array
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function getConfig(string $key, ?string $userId = null): array
     {
-        /**
-         * @var Request $request
-         */
+        
         $request = Context::get(Request::class);
         if ($request) {
-            //HTTP环境
+            
             $host = $request->header("Host");
             $user = \App\Model\Site::getUser((string)$host);
             $cacheKey = "config_find_sql_{$key}" . ($user ? "_{$user->id}" : "");
@@ -384,7 +307,7 @@ class Site implements \App\Service\User\Site
             Memory::inst()->set($cacheKey, $json);
             return $json;
         } else {
-            //非HTTP环境
+            
             if (is_numeric($userId)) {
                 $config = Config::where("key", $key)->where("user_id", $userId)->first();
             } else {
@@ -397,12 +320,7 @@ class Site implements \App\Service\User\Site
         }
     }
 
-
-    /**
-     * @param string $host
-     * @return array
-     * @throws \ReflectionException
-     */
+    
     public function getDnsRecord(string $host): array
     {
         $cache = str_replace("*", "_", BASE_PATH . "/runtime/dns/{$host}");
@@ -420,19 +338,13 @@ class Site implements \App\Service\User\Site
         return $arr;
     }
 
-    /**
-     * @param NginxInfo $nginxInfo
-     * @param string $proxyPass
-     * @param string|null $conf
-     * @return string
-     */
     public function getNginxProxyConfig(NginxInfo $nginxInfo, string $proxyPass, ?string $conf = null): string
     {
         $nginxConf = $conf ?? $this->config->getMainConfig("subdomain.nginx_conf");
-        $nginxConf = str_replace('${server_name}', $nginxInfo->host, $nginxConf); //替换域名
-        $nginxConf = str_replace('${ssl_certificate}', $nginxInfo->pem, $nginxConf); //证书
-        $nginxConf = str_replace('${ssl_certificate_key}', $nginxInfo->key, $nginxConf); //秘钥
-        //反向代理地址
+        $nginxConf = str_replace('${server_name}', $nginxInfo->host, $nginxConf); 
+        $nginxConf = str_replace('${ssl_certificate}', $nginxInfo->pem, $nginxConf); 
+        $nginxConf = str_replace('${ssl_certificate_key}', $nginxInfo->key, $nginxConf); 
+        
         return str_replace('${proxy_pass}', $proxyPass, $nginxConf);
     }
 }

@@ -15,7 +15,6 @@ class Group
     public bool $isSupplier;
     public string $taxRatio;
 
-
     public function __construct(UserGroup $group)
     {
         $this->id = $group->id;

@@ -48,7 +48,6 @@
         },
     ]);
 
-
     table.setSearch([
         {
             title: "会员ID", name: "equal-id", type: "input"

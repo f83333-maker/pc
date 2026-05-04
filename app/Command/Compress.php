@@ -6,30 +6,19 @@ namespace App\Command;
 use Kernel\Console\Command;
 use Kernel\Util\Date;
 
-/**
- * 使用该命令需要依赖nodejs，以及uglifyjs、cleancss
- * 安装uglifyjs: npm install uglify-js -g
- * 安装cleancss: npm install clean-css-cli -g
- */
 class Compress extends Command
 {
 
-    /**
-     * @return void
-     */
     public function all(): void
     {
         $this->mergeCss();
         $this->mergeJs();
     }
 
-
-    /**
-     * @return void
-     */
+    
     public function mergeJs(): void
     {
-        //公共
+        
         $commons = [
             "/assets/common/js/jquery.min.js",
             "/assets/common/js/toastr.min.js",
@@ -62,7 +51,6 @@ class Compress extends Command
             "/assets/common/fonts/base/iconfont.js",
         ];
 
-        //后台
         $admins = [
             "/assets/admin/js/codebase.app.min.js",
             "/assets/admin/js/util/dict.js",
@@ -70,7 +58,6 @@ class Compress extends Command
             "/assets/common/js/pjax.js",
         ];
 
-        //用户
         $users = [
             "/assets/user/js/oneui.app.min.js",
             "/assets/user/js/util/dict.js",
@@ -80,7 +67,6 @@ class Compress extends Command
             "/assets/common/js/pjax.js",
         ];
 
-        //首页
         $index = [
             "/assets/user/js/oneui.app.min.js",
             "/assets/user/js/widget.js",
@@ -99,15 +85,12 @@ class Compress extends Command
         $this->success(sprintf("[JS]压缩结束，总耗时：%d秒", (Date::timestamp() - $startTime) / 1000));
     }
 
-
-    /**
-     * @return void
-     */
+    
     public function mergeCss(): void
     {
         $startTime = Date::timestamp();
         $this->info("[CSS]开始压缩..");
-        //公共
+        
         $admins = [
             "/assets/admin/css/codebase.min.css",
             "/assets/admin/css/admin.css",
@@ -141,7 +124,6 @@ class Compress extends Command
             "/assets/common/js/layer/theme/default/layer.css"
         ];
 
-
         shell_exec($this->createCss($admins, "/assets/admin/css/admin.min.css"));
         shell_exec($this->createCss($users, "/assets/user/css/user.min.css"));
         shell_exec($this->createCss($index, "/assets/user/css/index.min.css"));
@@ -149,11 +131,6 @@ class Compress extends Command
         $this->success(sprintf("[CSS]压缩结束，总耗时：%d秒", (Date::timestamp() - $startTime) / 1000));
     }
 
-    /**
-     * @param array $js
-     * @param string $to
-     * @return string
-     */
     private function createUglifyjs(array $js, string $to): string
     {
         $res = "uglifyjs ";
@@ -163,11 +140,6 @@ class Compress extends Command
         return trim($res) . " -o " . BASE_PATH . "{$to} -c -m";
     }
 
-    /**
-     * @param array $css
-     * @param string $to
-     * @return string
-     */
     private function createCss(array $css, string $to): string
     {
         $res = "cleancss -o " . BASE_PATH . "{$to} ";

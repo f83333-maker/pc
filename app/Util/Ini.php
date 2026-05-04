@@ -8,11 +8,6 @@ use Kernel\Exception\JSONException;
 class Ini
 {
 
-    /**
-     * @param array $a1
-     * @param array $a2
-     * @return array
-     */
     private static function arrayMerge(array $a1, array $a2): array
     {
         $arr = $a1 + $a2;
@@ -24,38 +19,28 @@ class Ini
         return $arr;
     }
 
-    /**
-     * @param $src
-     * @param array $link
-     * @param string $value
-     */
     private static function parseObj(&$src, array $link, string $value)
     {
         if (count($link) <= 0) {
             $src = $value;
             return;
         }
-        //拿到第一个key
+        
         $shift = array_shift($link);
-        //判断当前链式是否带[]
+        
         if (str_contains($shift, '[]')) {
-            //数组解析，创建数组
+            
             $key = str_replace("[]", "", $shift);
             $src[$key][] = [];
             $index = count($src[$key]) - 1;
             self::parseObj($src[$key][$index], $link, $value);
-            //解析对象
+            
         } else {
             $src[$shift] = [];
             self::parseObj($src[$shift], $link, $value);
         }
     }
 
-    /**
-     * @param string $content
-     * @return array
-     * @throws JSONException
-     */
     public static function toArray(string $content): array
     {
         $data = preg_split('/[\r\n]+/s', trim($content));
@@ -91,12 +76,7 @@ class Ini
         return $list;
     }
 
-
-    /**
-     * @param array $config
-     * @param string|null $prefix
-     * @return string
-     */
+    
     private static function parseContent(array $config, ?string $prefix = null): string
     {
         $cfg = "";
@@ -104,7 +84,7 @@ class Ini
             if (is_array($val)) {
                 $cfg .= self::parseContent($val, $prefix ? $prefix . "." . $key : $key);
             } else {
-                //不是数组
+                
                 $cfg .= ($prefix ? $prefix . "." : "") . $key . "=" . $val . PHP_EOL;
             }
         }
@@ -112,10 +92,6 @@ class Ini
         return $cfg;
     }
 
-    /**
-     * @param array $config
-     * @return string
-     */
     public static function toConfig(array $config): string
     {
         $cfg = "";

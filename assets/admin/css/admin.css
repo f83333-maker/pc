@@ -51,9 +51,6 @@
     background-color: #e6e6e6;
 }
 
-/**
-打款信息
- */
 .withdraw-info {
     font-family: 'Arial', sans-serif;
     background-color: #f5f5f5;
@@ -80,7 +77,7 @@
 
 .withdraw-info .w-text {
     flex: 2;
-    text-align: left; /* 使文本居左 */
+    text-align: left; 
 }
 
 .withdraw-info .w-copy {
@@ -99,34 +96,33 @@
 }
 
 .withdraw-info .w-item img {
-    max-width: 100px; /* 控制图片大小 */
+    max-width: 100px; 
     border-radius: 4px;
 }
 
 .withdraw-info .w-copy.invisible {
-    visibility: hidden; /* 隐藏按钮 */
+    visibility: hidden; 
 }
 
 .shop-name {
-    display: inline-flex; /* 使用flex布局让图标和名称在同一行显示 */
-    align-items: center; /* 垂直居中对齐 */
-    padding: 5px 8px; /* 添加一些内边距让它看起来不那么拥挤 */
-    border-radius: 8px; /* 给元素添加圆角边框 */
+    display: inline-flex; 
+    align-items: center; 
+    padding: 5px 8px; 
+    border-radius: 8px; 
 
-    transition: all 0.3s ease; /* 添加一个过渡效果让鼠标悬停时有一个小动画 */
+    transition: all 0.3s ease; 
     cursor: pointer;
 }
 
-
 .shop-name .shop-logo {
-    width: 22px; /* 图标的大小，根据需要调整 */
-    height: 22px; /* 图标的大小，根据需要调整 */
-    border-radius: 50%; /* 使图标变成圆形 */
-    margin-right: 6px; /* 在图标和名称之间添加一些间隔 */
+    width: 22px; 
+    height: 22px; 
+    border-radius: 50%; 
+    margin-right: 6px; 
 }
 
 .shop-name .shop-title {
-    font-size: 16px; /* 名称的字体大小，根据需要调整 */
+    font-size: 16px; 
 
     font-weight: bolder;
     white-space: nowrap;
@@ -142,18 +138,12 @@
     cursor: pointer;
 }
 
-
-
 .nav-menu-img-icon {
     width: 19px;
     height: 19px;
     margin-right: .625rem;
     border-radius: 5px;
 }
-
-/**
-弹窗支付
- */
 
 .pay-container .layout-box {
     margin-bottom: 16px;
@@ -167,7 +157,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-start; /* 确保列表项靠左对齐 */
+    justify-content: flex-start; 
     margin: 0 -10px;
 }
 

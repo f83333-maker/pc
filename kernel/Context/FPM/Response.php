@@ -11,28 +11,15 @@ use Twig\Error\SyntaxError;
 
 class Response implements \Kernel\Context\Interface\Response
 {
-    /**
-     * @var array
-     */
+    
     private array $options = [];
 
-    /**
-     * @param string $key
-     * @param string $value
-     * @param int $expire
-     * @return $this
-     */
     public function withCookie(string $key, string $value, int $expire): static
     {
         setcookie($key, $value, time() + $expire, "/");
         return $this;
     }
 
-    /**
-     * @param string $key
-     * @param string $value
-     * @return $this
-     */
     public function withHeader(string $key, string $value): static
     {
         if ($key == "Status") {
@@ -43,10 +30,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    /**
-     * @param string $url
-     * @return $this
-     */
     public function redirect(string $url): static
     {
         $this->options['type'] = \Kernel\Context\Interface\Response::TYPE_REDIRECT;
@@ -54,13 +37,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    /**
-     * @param int $code
-     * @param string $message
-     * @param array|null $data
-     * @param array $ext
-     * @return $this
-     */
     public function json(int $code = 200, string $message = "success", ?array $data = null, array $ext = []): static
     {
         $this->withHeader("Content-Type", "application/json;charset=utf-8");
@@ -76,13 +52,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    /**
-     * @param string $template
-     * @param string|null $title
-     * @param array $data
-     * @param string|array $path
-     * @return $this
-     */
     public function render(string $template, ?string $title = null, array $data = [], string|array $path = BASE_PATH . "/app/View/"): static
     {
         $this->withHeader("Content-Type", "text/html; charset=utf-8");
@@ -94,10 +63,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    /**
-     * @param string $data
-     * @return $this
-     */
     public function raw(string $data): static
     {
         $this->options['type'] = \Kernel\Context\Interface\Response::TYPE_RAW;
@@ -105,14 +70,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    /**
-     * @return void
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function draw(): void
     {
         switch ($this->options['type']) {
@@ -132,10 +89,6 @@ class Response implements \Kernel\Context\Interface\Response
         }
     }
 
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function getOptions(?string $key = null): mixed
     {
         if ($key) {
@@ -144,9 +97,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this->options;
     }
 
-    /**
-     * @return $this
-     */
     public function end(): static
     {
         $this->options['forced_end'] = true;

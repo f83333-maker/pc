@@ -10,7 +10,6 @@
 
     const broadcast = new Broadcast(".report-voice-broadcast", "/assets/common/audio/report");
 
-
     const reportApply = (unique, item) => {
         component.popup({
             submit: '/user/report/order/reply',
@@ -46,13 +45,12 @@
                 }
             ],
             done: () => {
-                //刷新聊天记录
+                
                 loadMessage(unique, item, true);
             },
             autoPosition: true,
         });
     }
-
 
     const loadMessage = (unique, reportOrder, reply = false) => {
         let latest = 0, token = util.generateRandStr(16),
@@ -142,7 +140,6 @@
             }
         });
     }
-
 
     const table = new Table("/user/report/order/get", "#report-order-table");
     table.setPagination(12, [12, 20, 50, 100]);

@@ -41,10 +41,6 @@ class ItemMarkupTemplate extends Base
     #[Inject]
     private \App\Service\User\Item $item;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -61,12 +57,6 @@ class ItemMarkupTemplate extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Admin\ItemMarkupTemplate::class, ["name", "driftBaseAmount", "driftValue", "driftModel"]]
     ])]
@@ -90,11 +80,7 @@ class ItemMarkupTemplate extends Base
         return $this->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

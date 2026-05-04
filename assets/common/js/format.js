@@ -17,24 +17,24 @@ const format = new class Format {
 
     browser(ua = navigator.userAgent) {
         let list = {
-            UC: /ucweb/i.test(ua), // UC浏览器
-            Firefox: /firefox/i.test(ua), // 火狐浏览器
-            Opera: /opera/i.test(ua), // Opera浏览器
-            Safari: /safari/i.test(ua) && !/chrome/i.test(ua), // safari浏览器
-            360: /360se/i.test(ua), // 360浏览器
-            '百度': /bidubrowser/i.test(ua), // 百度浏览器
-            '搜狗': /metasr/i.test(ua), // 搜狗浏览器
-            IE6: /msie 6.0/i.test(ua), // IE6
-            IE7: /msie 7.0/i.test(ua), // IE7
-            IE8: /msie 8.0/i.test(ua), // IE8
-            IE9: /msie 9.0/i.test(ua), // IE9
-            IE10: /msie 10.0/i.test(ua), // IE10
-            IE11: /msie 11.0/i.test(ua), // IE11
-            Edge: /edg/i.test(ua), // 微软EDGE
-            '猎豹': /lbbrowser/i.test(ua), // 猎豹浏览器
-            '微信': /micromessenger/i.test(ua), // 微信内置浏览器
-            QQ: /qqbrowser/i.test(ua), // QQ浏览器
-            Chrome: /safari/i.test(ua) && /chrome/i.test(ua), // Chrome浏览器
+            UC: /ucweb/i.test(ua), 
+            Firefox: /firefox/i.test(ua), 
+            Opera: /opera/i.test(ua), 
+            Safari: /safari/i.test(ua) && !/chrome/i.test(ua), 
+            360: /360se/i.test(ua), 
+            '百度': /bidubrowser/i.test(ua), 
+            '搜狗': /metasr/i.test(ua), 
+            IE6: /msie 6.0/i.test(ua), 
+            IE7: /msie 7.0/i.test(ua), 
+            IE8: /msie 8.0/i.test(ua), 
+            IE9: /msie 9.0/i.test(ua), 
+            IE10: /msie 10.0/i.test(ua), 
+            IE11: /msie 11.0/i.test(ua), 
+            Edge: /edg/i.test(ua), 
+            '猎豹': /lbbrowser/i.test(ua), 
+            '微信': /micromessenger/i.test(ua), 
+            QQ: /qqbrowser/i.test(ua), 
+            Chrome: /safari/i.test(ua) && /chrome/i.test(ua), 
         };
         for (const key in list) {
             if (list[key]) {
@@ -163,7 +163,6 @@ const format = new class Format {
         }
         return `<span class="table-item table-item-cate"><img src="${group.icon}" class="table-item-icon"><span class="table-item-name">${group.name}</span></span>`;
     }
-
 
     user(item) {
         if (!item) {

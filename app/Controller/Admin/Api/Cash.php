@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Get;
 use App\Interceptor\ManageSession;
@@ -26,9 +25,6 @@ class Cash extends Manage
     #[Inject]
     private \App\Service\Cash $cash;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -46,10 +42,6 @@ class Cash extends Manage
         return $this->json(data: $data);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function decide(): array
     {
         $id = (int)$_POST['id'];
@@ -78,7 +70,7 @@ class Cash extends Manage
                 $cash->save();
                 $user = $cash->user;
                 if ($user instanceof \App\Model\User) {
-                    //驳回钱款
+                    
                     \App\Model\Bill::create($user, $cash->amount + (float)$cash->cost, \App\Model\Bill::TYPE_ADD, "兑现被拒绝", 1);
                     ManageLog::log($this->getManage(), "驳回了用户($user->username)的提现");
                 }
@@ -89,10 +81,7 @@ class Cash extends Manage
 
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function settlement(): array
     {
         $amount = (float)$_POST['amount'];

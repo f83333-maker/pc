@@ -10,19 +10,8 @@ use Kernel\Annotation\Bind;
 interface Identity
 {
 
-    /**
-     * @param Authentication $authentication
-     * @param string $tradeNo
-     * @return array
-     */
     public function status(Authentication $authentication, string $tradeNo = ""): array;
 
-
-    /**
-     * @param string $certName
-     * @param string $certNo
-     * @param Authentication $authentication
-     * @return mixed
-     */
+    
     public function certification(string $certName, string $certNo, Authentication $authentication): string;
 }

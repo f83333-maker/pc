@@ -1,6 +1,5 @@
 !function () {
 
-
     const tmp = new Table("/user/shop/order/get", "#shop-order-table");
     tmp.setPagination(12, [12, 20, 50, 100]);
     tmp.setColumns([
@@ -105,11 +104,7 @@
                 return `<a href="/user/pay/order?tradeNo=${item.order.trade_no}" target="_blank" class="text-primary">查看订单</a>`;
             }
         },
-/*        {
-            field: 'order.pay_order.status', title: '支付状态', formatter: (status, item) => {
-                return _Dict.result("pay_order_status", status);
-            }
-        },*/
+
         {
             field: 'order.pay_order.pay_url', title: '支付地址', formatter: (url) => {
                 if (!url) {

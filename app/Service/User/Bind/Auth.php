@@ -33,18 +33,14 @@ class Auth implements \App\Service\User\Auth
     #[Inject]
     private Code $code;
 
-
     #[Inject]
     private Smtp $smtp;
-
 
     #[Inject]
     private Cart $cart;
 
-
     #[Inject]
     private Lifetime $lifetime;
-
 
     #[Inject]
     private LoginLog $loginLog;
@@ -52,21 +48,12 @@ class Auth implements \App\Service\User\Auth
     #[Inject]
     private Log $log;
 
-
     #[Inject]
     private Level $level;
 
     #[Inject]
     private \App\Service\Common\Config $config;
 
-    /**
-     * @param string $type
-     * @param array $map
-     * @return void
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function sendEmail(string $type, array $map): void
     {
         if (!in_array($type, ["register", "reset"])) {
@@ -99,18 +86,6 @@ class Auth implements \App\Service\User\Auth
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_SEND_EMAIL_SUCCESS, PGI::HOOK_TYPE_PAGE, $map);
     }
 
-    /**
-     * @param array $map
-     * @param string $clientId
-     * @param string $ip
-     * @param string $ua
-     * @param User|null $merchant
-     * @param User|null $inviter
-     * @return User
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function register(array $map, string $clientId, string $ip, string $ua, ?User $merchant = null, ?User $inviter = null): User
     {
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_REGISTER_BEFORE, PGI::HOOK_TYPE_PAGE, $map);
@@ -154,11 +129,11 @@ class Auth implements \App\Service\User\Auth
         $user->balance = 0;
         $user->withdraw_amount = 0;
         $user->level_id = $this->level->getDefaultId($merchant);
-        $user->avatar = "/favicon.ico"; //默认头像
+        $user->avatar = "/favicon.ico"; 
         $user->api_code = strtoupper(Str::generateRandStr(6));
-        $merchant && ($user->pid = $merchant->id); //上级id
+        $merchant && ($user->pid = $merchant->id); 
         if ($inviter) {
-            $user->invite_id = $inviter->id; //邀请者id
+            $user->invite_id = $inviter->id; 
             $this->lifetime->increment($inviter->id, "total_referral_count");
         }
 
@@ -166,32 +141,18 @@ class Auth implements \App\Service\User\Auth
         $user->save();
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_REGISTER_SUCCESS, PGI::HOOK_TYPE_PAGE, $user);
 
-        //创建生涯
         $this->lifetime->create($user->id, $ip, $ua);
-        //更新购物车
+        
         $this->cart->bindUser($user, $clientId);
         return $user;
     }
 
-
-    /**
-     * @param array $map
-     * @param string $ip
-     * @param string $ua
-     * @param string $clientId
-     * @return string
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
+    
     public function login(array $map, string $ip, string $ua, string $clientId): string
     {
 
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_LOGIN_BEFORE, PGI::HOOK_TYPE_PAGE, $map, $ip, $ua);
-        /**
-         * @var User $user
-         */
+        
         $user = User::query()->where("username", $map['username'])->first() ?? User::query()->where("email", $map['username'])->first();
         if (!$user) {
             throw new JSONException("用户不存在");
@@ -209,16 +170,9 @@ class Auth implements \App\Service\User\Auth
         return $this->setLoginSuccess($user);
     }
 
-    /**
-     * @param User $user
-     * @return string
-     * @throws ServiceException
-     */
     public function setLoginSuccess(User $user): string
     {
-        /**
-         * @var Request $request
-         */
+        
         $request = Context::get(Request::class);
         if (!$request) {
             throw new ServiceException("此方法只能在HTTP环境中调用");
@@ -241,35 +195,24 @@ class Auth implements \App\Service\User\Auth
             head: ["uid" => $user->id]
         ));
 
-        //$data[Cookie::USER_ID] = $user->id;
-        //$data[Cookie::USER_TOKEN] = $jwt;
-        //更新上下文
+        
+        
         Context::set(\App\Model\User::class, $user);
-        //更新生涯
+        
         $this->lifetime->update($user->id, "last_login_time", $loginTime);
-        //更新登录状态
+        
         $this->lifetime->update($user->id, "login_status", 1);
-        //登录日志
+        
         $this->loginLog->create($user->id, $ip, $ua);
 
-        //更新购物车
         $this->cart->bindUser($user, $clientId);
         return $jwt;
     }
 
-    /**
-     * @param array $map
-     * @return void
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function reset(array $map): void
     {
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_RESET_BEFORE, PGI::HOOK_TYPE_PAGE, $map);
-        /**
-         * @var User $user
-         */
+        
         $user = User::query()->where("email", $map['email'])->first();
         if (!$user) {
             throw new JSONException("该邮箱未注册");

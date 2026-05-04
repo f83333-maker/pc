@@ -26,10 +26,7 @@ class Cart extends Base
     #[Inject]
     private \App\Service\User\Cart $cart;
 
-
-    /**
-     * @return string
-     */
+    
     private function getClientId(): string
     {
         $clientId = $this->cart->getClientId($this->getUser(), (string)$this->request->cookie("client_id"));
@@ -37,17 +34,12 @@ class Cart extends Base
         return $clientId;
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\User\Cart::class, ["skuId", "quantity"]]
     ])]
     public function add(): Response
     {
-        $post = $this->request->post(); //option
+        $post = $this->request->post(); 
         $quantity = $this->request->post("quantity", Filter::INTEGER);
         $skuId = $this->request->post("sku_id", Filter::INTEGER);
         $add = $this->cart->add($this->getUser(), $this->getClientId(), $quantity, $skuId, $post);
@@ -57,30 +49,18 @@ class Cart extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function items(): Response
     {
         $items = $this->cart->getItems($this->getUser(), $this->getClientId());
         return $this->json(data: $items);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function getAmount(): Response
     {
         return $this->json(data: ['amount' => $this->cart->getAmount($this->getUser(), $this->getClientId())]);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Cart::class, ["itemId", "quantity"]]
     ])]
@@ -92,10 +72,6 @@ class Cart extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Cart::class, "itemId"]
     ], Method::GET)]
@@ -106,10 +82,6 @@ class Cart extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Cart::class, "itemId"]
     ])]
@@ -119,10 +91,6 @@ class Cart extends Base
         return $this->json(data: $this->cart->getItem($this->getUser(), $this->getClientId(), $itemId)->toArray());
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Cart::class, "itemId"]
     ])]
@@ -133,10 +101,6 @@ class Cart extends Base
         return $this->json(data: ['status' => $status]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function clear(): Response
     {
         $this->cart->clear($this->getUser(), $this->getClientId());

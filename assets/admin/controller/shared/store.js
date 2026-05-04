@@ -47,7 +47,6 @@
         });
     }
 
-
     table.setColumns([
         {checkbox: true}
         , {
@@ -136,7 +135,6 @@
                                     items[item.id] = item;
                                 });
                             });
-
 
                             component.popup({
                                 submit: (result, index) => {
@@ -276,7 +274,6 @@
         });
     });
     table.render();
-
 
     $('.btn-app-create').click(function () {
         modal(`${util.icon("fa-duotone fa-regular fa-link")} 添加远端店铺`);

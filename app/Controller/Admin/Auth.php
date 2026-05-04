@@ -9,19 +9,12 @@ use Kernel\Util\File;
 
 class Auth extends Base
 {
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
+    
     public function index(): Response
     {
         return $this->login();
     }
 
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function login(): Response
     {
 

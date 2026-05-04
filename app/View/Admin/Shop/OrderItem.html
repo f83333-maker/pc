@@ -1,6 +1,5 @@
 {{ include ("Common/Header.html") }}
 
-
 <div class="content">
     <div class="row mb-2 data-count">
 
@@ -42,7 +41,6 @@
         </div>
     </div>
 </div>
-
 
 {{ ready("/assets/admin/controller/shop/order.item.js")|raw }}
 {{ hook(env(true) , point("ADMIN_ITEM_ORDER_BODY") , 1)|raw }}

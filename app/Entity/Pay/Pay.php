@@ -13,7 +13,6 @@ class Pay
     public string $name;
     public string $icon;
 
-
     public function __construct(\App\Model\Pay $pay)
     {
         $this->id = $pay->id;

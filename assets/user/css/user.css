@@ -136,17 +136,10 @@ a.link-fx {
     --bs-list-group-bg: rgba(255, 255, 255, 0.38) !important;
 }
 
-/* Initialize counter */
 .header-message {
     counter-reset: item;
 }
 
-
-/**
-充值界面
- */
-
-/* 基础样式 */
 .recharge-view {
     background-color: #f5f5f5d9;
     padding: 40px;
@@ -175,7 +168,6 @@ a.link-fx {
     font-size: 16px;
 }
 
-/* 特定内容的样式 */
 .recharge-view .recharge-content.balance {
     color: #2b8eff;
     font-size: 16px;
@@ -186,7 +178,7 @@ a.link-fx {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-start; /* 确保列表项靠左对齐 */
+    justify-content: flex-start; 
     margin: 0 -10px;
 }
 
@@ -250,10 +242,9 @@ a.link-fx {
 }
 
 .recharge-view input:focus {
-    border-bottom-color: #007bff; /* 聚焦时改变下划线颜色 */
+    border-bottom-color: #007bff; 
 }
 
-/* 媒体查询，用于响应式调整 */
 @media (max-width: 762px) {
     .recharge-view {
         padding: 10px;
@@ -268,10 +259,6 @@ a.link-fx {
     }
 }
 
-/*
-个人资料页面
- */
-
 .image-avatar {
     height: 100px;
     width: 100px;
@@ -281,34 +268,24 @@ a.link-fx {
     cursor: pointer;
 }
 
-
-/**
-开通商家页面
- */
-
 .user-group-name {
     display: inline-flex;
     align-items: center;
-    /*    background-color: #f4f4f8; !* 背景色 *!*/
-    border-radius: 5px; /* 边框圆角 */
-    padding: 5px 10px; /* 内边距 */
-    font-family: 'Arial', sans-serif; /* 字体 */
-    font-size: 24px; /* 字号 */
-    color: #ffffff; /* 文字颜色 */
-    /*  box-shadow: 0 2px 5px rgba(0,0,0,0.1); !* 盒子阴影 *!*/
+    
+    border-radius: 5px; 
+    padding: 5px 10px; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 24px; 
+    color: #ffffff; 
+    
 }
 
 .user-group-name img {
-    width: 32px; /* 图标大小 */
+    width: 32px; 
     height: 32px;
-    margin-right: 8px; /* 图标和文本之间的距离 */
+    margin-right: 8px; 
     border-radius: 50%;
 }
-
-
-/**
-弹窗支付
- */
 
 .pay-container .layout-box {
     margin-bottom: 16px;
@@ -322,7 +299,7 @@ a.link-fx {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-start; /* 确保列表项靠左对齐 */
+    justify-content: flex-start; 
     margin: 0 -10px;
 }
 
@@ -384,21 +361,19 @@ a.link-fx {
     background-color: #0056b3;
 }
 
-
 @media (min-width: 762px) {
     .block-security {
         min-height: calc(100vh - 270px);
     }
 }
 
-
 .shop-name {
-    display: inline-flex; /* 使用flex布局让图标和名称在同一行显示 */
-    align-items: center; /* 垂直居中对齐 */
-    padding: 5px 8px; /* 添加一些内边距让它看起来不那么拥挤 */
-    border-radius: 8px; /* 给元素添加圆角边框 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加一些阴影效果让它立体一些 */
-    transition: all 0.3s ease; /* 添加一个过渡效果让鼠标悬停时有一个小动画 */
+    display: inline-flex; 
+    align-items: center; 
+    padding: 5px 8px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
     cursor: pointer;
 }
 

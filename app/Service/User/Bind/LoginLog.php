@@ -15,13 +15,7 @@ class LoginLog implements \App\Service\User\LoginLog
     #[Inject]
     private Lifetime $lifetime;
 
-
-    /**
-     * @param int $userId
-     * @param string $ip
-     * @param string $ua
-     * @return void
-     */
+    
     public function create(int $userId, string $ip, string $ua): void
     {
         $ipCount = UserLoginLog::query()->where("user_id", $userId)->where("ip", $ip)->count();
@@ -35,12 +29,6 @@ class LoginLog implements \App\Service\User\LoginLog
         $log->save();
     }
 
-    /**
-     * 检测2个用户是否同一个人
-     * @param int $userId
-     * @param int $targetId
-     * @return bool
-     */
     public function isSame(int $userId, int $targetId): bool
     {
         $user = User::find($userId);
@@ -49,12 +37,10 @@ class LoginLog implements \App\Service\User\LoginLog
             return false;
         }
 
-        //如果注册IP相同，代表是同一个人
         if ($this->lifetime->get($userId, "register_ip") == $this->lifetime->get($targetId, "register_ip")) {
             return true;
         }
 
-        //取出100条登录记录做对比
         $userLoginLog = UserLoginLog::query()->where("user_id", $userId)->limit(100)->orderBy("id", "desc")->get()->toArray();
         $targetLoginLog = UserLoginLog::query()->where("user_id", $targetId)->limit(100)->orderBy("id", "desc")->get()->toArray();
 
@@ -68,7 +54,6 @@ class LoginLog implements \App\Service\User\LoginLog
 
         $common = array_intersect($ips1, $ips2);
 
-        //如果2个用户有相同的登录IP，代表是同一个人
         return !empty($common);
     }
 }

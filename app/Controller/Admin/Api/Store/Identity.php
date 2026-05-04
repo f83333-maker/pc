@@ -19,13 +19,7 @@ class Identity extends Base
     #[Inject]
     private \App\Service\Store\Identity $identity;
 
-
-    /**
-     * @param string $tradeNo
-     * @return Response
-     * @throws RuntimeException
-     * @throws JSONException
-     */
+    
     #[Validator([
         [\App\Validator\Store\Identity::class, "tradeNo"]
     ])]
@@ -34,12 +28,7 @@ class Identity extends Base
         return $this->json(data: $this->identity->status($this->getStoreAuth(), $tradeNo));
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\Store\Identity::class, ["certName", "certNo"]]
     ])]

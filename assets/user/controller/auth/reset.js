@@ -10,7 +10,6 @@
         });
     });
 
-
     $(".reset-btn").click(function () {
         let map = util.arrayToObject($('#reset-form').serializeArray());
         util.post("/reset", map, res => {

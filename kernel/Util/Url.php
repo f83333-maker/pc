@@ -6,11 +6,7 @@ namespace Kernel\Util;
 class Url
 {
 
-
-    /**
-     * @param string $domain
-     * @return string
-     */
+    
     public static function getWildcard(string $domain): string
     {
         $parts = explode('.', $domain);

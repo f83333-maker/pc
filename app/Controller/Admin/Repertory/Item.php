@@ -11,10 +11,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Item extends Base
 {
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
+    
     public function index(): Response
     {
         return $this->render("Repertory/Item.html", "货源管理");

@@ -30,7 +30,7 @@
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            /* position: relative; */
+            
             position: absolute;
             top: 50%;
             left: 50%;
@@ -361,7 +361,6 @@
             }
         }
 
-        /* 移动端触摸优化 */
         @media (max-width: 768px) {
             body {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -369,13 +368,11 @@
                 padding: 0;
             }
 
-            /* 优化滚动体验 */
             .content {
                 -webkit-overflow-scrolling: touch;
                 scroll-behavior: smooth;
             }
 
-            /* 防止页面缩放 */
             input[type="checkbox"] {
                 -webkit-appearance: none;
                 appearance: none;
@@ -513,7 +510,6 @@
             <p>继续使用系统即表示同意修改后的协议条款。</p>
         </div>
 
-
         <div class="section">
             <h2>六、禁止违法用途声明</h2>
             <h3>6.1 严禁非法用途</h3>
@@ -553,7 +549,6 @@
     let hasScrolled = false;
     let hasChecked = false;
 
-    // 滚动进度条
     const content = document.getElementById('content');
     const progressBar = document.getElementById('progressBar');
 

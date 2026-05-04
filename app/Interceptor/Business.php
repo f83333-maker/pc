@@ -3,20 +3,14 @@ declare(strict_types=1);
 
 namespace App\Interceptor;
 
-
 use App\Util\Client;
 use App\Util\Context;
 use JetBrains\PhpStorm\NoReturn;
 use Kernel\Annotation\Interceptor;
 use Kernel\Annotation\InterceptorInterface;
 
-/**
- * Class Business
- * @package App\Interceptor
- */
 class Business implements InterceptorInterface
 {
-
 
     public function handle(int $type): void
     {
@@ -30,11 +24,7 @@ class Business implements InterceptorInterface
         }
     }
 
-
-    /**
-     * @param string $message
-     * @param int $type
-     */
+    
     #[NoReturn] private function kick(string $message, int $type): void
     {
         if ($type == Interceptor::TYPE_VIEW) {

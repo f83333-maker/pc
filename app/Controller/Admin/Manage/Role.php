@@ -12,9 +12,6 @@ use Kernel\Context\Interface\Response;
 class Role extends Base
 {
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->render("Manage/Role.html", "角色管理");

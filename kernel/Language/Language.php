@@ -19,30 +19,14 @@ class Language
 
     use Singleton;
 
-    /**
-     * 语言包路径
-     * @var string
-     */
     public string $languagePackPath = BASE_PATH . "/config/language";
 
-
-    /**
-     * @var array|null
-     */
+    
     private ?array $languages = null;
 
-
-    /**
-     * 内存缓存
-     * @var array
-     */
+    
     private array $cache = [];
 
-    /**
-     * 输出国际化内容
-     * @param string $text
-     * @return string
-     */
     public function output(string $text): string
     {
         if ($text === "0") {
@@ -56,16 +40,12 @@ class Language
         }
 
         try {
-            //检测是否包含中文
+            
             if (!preg_match("/[\x{4e00}-\x{9fa5}]+/u", $text)) {
                 return $text;
             }
 
-            // \Kernel\Language\Language::inst()->recordSource($text);
-
-            /**
-             * @var Entity\Language $language
-             */
+            
             $language = Context::get(Entity\Language::class);
             if (!$language) {
                 return $text;
@@ -85,12 +65,10 @@ class Language
                 return $this->cache[$cacheKey];
             }
 
-
             if ($result = Plugin::instance()->hook($_env, Point::LANGUAGE_PROCESS_BEFORE, PGC::HOOK_TYPE_PAGE, $language, $md5, $text)) {
                 return $result;
             }
 
-            //这里将插件语言包替换系统语言，使得插件可翻译整个系统的语言
             $languagePack = array_merge($this->getLanguagePack($packName), \Kernel\Plugin\Language::instance()->packs($packName, App::env()));
 
             if (array_key_exists($md5, $languagePack)) {
@@ -98,11 +76,10 @@ class Language
                 if ($result = Plugin::instance()->hook($_env, Point::LANGUAGE_PROCESS_MATCH_SUCCESS, PGC::HOOK_TYPE_PAGE, $language, $md5, $text, $translation)) {
                     return $result;
                 }
-                $this->cache[$cacheKey] = $translation; //缓存
+                $this->cache[$cacheKey] = $translation; 
                 return $translation;
             }
 
-            //如果没有语言包，返回原文
             if ($result = Plugin::instance()->hook($_env, Point::LANGUAGE_PROCESS_MATCH_FAILED, PGC::HOOK_TYPE_PAGE, $language, $md5, $text)) {
                 return $result;
             }
@@ -112,11 +89,6 @@ class Language
         }
     }
 
-    /**
-     * 获得首选语言
-     * @param string|null $acceptLanguage
-     * @return string
-     */
     public function getAcceptPreferredLanguage(?string $acceptLanguage): string
     {
         $preferredLanguage = App::$language['default'];
@@ -135,10 +107,6 @@ class Language
         return trim($preferredLanguage);
     }
 
-    /**
-     * @param Request $request
-     * @return Entity\Language
-     */
     public function getPreferredLanguage(Request $request): Entity\Language
     {
         $preferredLanguage = $this->getAcceptPreferredLanguage($request->header("AcceptLanguage"));
@@ -146,13 +114,6 @@ class Language
         return new Entity\Language(strtolower($preferredLanguage));
     }
 
-    /**
-     * @param string $language
-     * @param string $text
-     * @param string $translateText
-     * @return void
-     * @throws RuntimeException
-     */
     public function createLanguagePack(string $language, string $text, string $translateText): void
     {
         $language = strtolower($language);
@@ -165,10 +126,7 @@ class Language
         });
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
+    
     public function recordSource(string $text): void
     {
         if (!$text) {
@@ -185,11 +143,6 @@ class Language
         });
     }
 
-    /**
-     * @param string $text
-     * @return void
-     * @throws RuntimeException
-     */
     public function clearSource(string $text): void
     {
         $text = trim($text);
@@ -206,20 +159,13 @@ class Language
             return json_encode($list, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         });
 
-        //删除所有译文
         $languages = array_values(array_filter(\Kernel\Util\Config::get("language")['languages'], fn($language) => $language['code'] != Const\Language::ZH_CN));
         foreach ($languages as $language) {
             $this->deleteLanguagePack($language['code'], $text);
         }
     }
 
-
-    /**
-     * @param string|null $keywords
-     * @param int $limit
-     * @param int $page
-     * @return array
-     */
+    
     public function getSources(?string $keywords = null, int $limit = 10, int $page = 1): array
     {
         $list = File::read($this->languagePackPath . "/zh-cn.json", function (string $contents) {
@@ -264,11 +210,6 @@ class Language
         ];
     }
 
-    /**
-     * @param string $language
-     * @param string $text
-     * @return bool
-     */
     public function existLanguagePack(string $language, string $text): bool
     {
         $languages = $this->getLanguagePack($language);
@@ -279,12 +220,6 @@ class Language
         return false;
     }
 
-    /**
-     * @param string $language
-     * @param string $text
-     * @return bool
-     * @throws RuntimeException
-     */
     public function deleteLanguagePack(string $language, string $text): bool
     {
         $language = strtolower($language);
@@ -304,12 +239,7 @@ class Language
         return false;
     }
 
-
-    /**
-     * @param string $language
-     * @param string $basePath
-     * @return array
-     */
+    
     public function getLanguagePack(string $language, string $basePath = BASE_PATH . "/config/language"): array
     {
         $language = strtolower($language);
@@ -330,12 +260,7 @@ class Language
         }) ?: [];
     }
 
-
-    /**
-     * @param string $language
-     * @param string $basePath
-     * @return string
-     */
+    
     public function getHash(string $language, string $basePath = BASE_PATH . "/config/language"): string
     {
         $language = strtolower($language);

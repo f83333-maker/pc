@@ -13,10 +13,7 @@ class Code implements \App\Service\Common\Code
     #[Inject]
     private Session $session;
 
-
-    /**
-     * @throws JSONException
-     */
+    
     public function create(string $key, int $expire = 60): int
     {
 
@@ -40,13 +37,7 @@ class Code implements \App\Service\Common\Code
         return $code;
     }
 
-
-    /**
-     * @param string $key
-     * @param int $code
-     * @param int $expire
-     * @return bool
-     */
+    
     public function verify(string $key, int $code, int $expire = 300): bool
     {
         if ($code == 0) {

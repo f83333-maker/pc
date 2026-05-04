@@ -1,49 +1,25 @@
-/**
- * 后台图片上传自动转 WebP 转换器 (纯客户端实现, 零 PHP 修改)
- * --------------------------------------------------------------
- * 工作原理:
- *   1. 拦截 XMLHttpRequest 与 fetch 上传到 /admin/api/upload/send 与
- *      /admin/api/upload/handle 的请求
- *   2. 当请求 body 是 FormData 且包含可转码的图片时, 用浏览器原生
- *      Canvas API 在客户端转成 WebP, 替换 FormData 中的文件字段
- *   3. PHP 后端按 .webp 扩展名正常处理 (后端已原生支持 WebP)
- *
- * 安全保证:
- *   - 任何环节失败 (浏览器不支持 / 解码错误 / 转码后反而更大) 都会
- *     自动回退到使用原文件上传, 不会导致上传失败
- *   - GIF (动图) / SVG / ICO / 已是 WebP / 视频 / 字体 / ZIP 等格式
- *     均被自动跳过, 不会造成功能异常
- *   - 转换是无损视觉级别 (quality=0.85, 与 Cloudflare Polish 一致)
- *
- * 红线合规:
- *   - 0 PHP 代码修改
- *   - 0 业务逻辑变更
- *   - 0 视觉效果偏差
- */
+
+
 (function () {
     'use strict';
 
-    // 仅在管理后台 (/admin/...) 路径下生效, 防止误拦截前台
     if (!/^\/admin(\/|$)/.test(location.pathname)) {
         return;
     }
 
-    // 命中即拦截的 URL 模式
     var TARGET_PATTERNS = [
         /\/admin\/api\/upload\/send(\?|$)/,
         /\/admin\/api\/upload\/handle(\?|$)/
     ];
 
-    // 这些扩展名/MIME 不转换 (动图、矢量、图标、非图片)
     var SKIP_EXTS = ['gif', 'webp', 'svg', 'ico', 'mp4', 'mov', 'avi',
         'zip', 'rar', '7z', 'woff', 'woff2', 'ttf', 'otf', 'eot'];
     var SKIP_MIMES = ['image/gif', 'image/webp', 'image/svg+xml',
         'image/x-icon', 'image/vnd.microsoft.icon'];
 
-    var QUALITY = 0.85;        // WebP 质量 (0-1, 0.85 视觉无损)
-    var MAX_DIMENSION = 4096;  // 单边最大尺寸 (超过会等比缩放, 防 OOM)
+    var QUALITY = 0.85;        
+    var MAX_DIMENSION = 4096;  
 
-    // 浏览器 WebP 编码能力检测 (有些老浏览器 Canvas.toBlob 不支持 image/webp)
     var webpSupported = null;
     function checkWebpSupport() {
         if (webpSupported !== null) return Promise.resolve(webpSupported);
@@ -67,7 +43,6 @@
         });
     }
 
-    // 判断 FormData 中某个值是否需要转换
     function shouldConvert(file) {
         if (!file) return false;
         if (typeof File !== 'undefined' && !(file instanceof File)
@@ -86,7 +61,6 @@
         return true;
     }
 
-    // 把单个 File/Blob 转成 WebP File
     function convertToWebp(file) {
         return new Promise(function (resolve, reject) {
             var url = URL.createObjectURL(file);
@@ -100,7 +74,6 @@
                 }
             };
 
-            // 5 秒超时, 避免某些异常图片卡死
             var timer = setTimeout(function () {
                 cleanup();
                 reject(new Error('webp convert timeout'));
@@ -116,7 +89,6 @@
                         return reject(new Error('invalid image size'));
                     }
 
-                    // 限制最大尺寸 (按比例缩放)
                     if (w > MAX_DIMENSION || h > MAX_DIMENSION) {
                         var ratio = Math.min(MAX_DIMENSION / w, MAX_DIMENSION / h);
                         w = Math.round(w * ratio);
@@ -137,12 +109,10 @@
                         cleanup();
                         if (!blob) return reject(new Error('toBlob returned null'));
 
-                        // 转换后比原图还大 -> 不划算, 用原图
                         if (blob.size >= file.size) {
                             return reject(new Error('webp not smaller than original'));
                         }
 
-                        // 替换扩展名为 .webp
                         var origName = file.name || 'image';
                         var dotIdx = origName.lastIndexOf('.');
                         var baseName = dotIdx > -1 ? origName.substring(0, dotIdx) : origName;
@@ -155,7 +125,7 @@
                             });
                             resolve(webpFile);
                         } catch (e) {
-                            // 老浏览器不支持 File 构造函数 -> 退化用 Blob
+                            
                             blob.name = newName;
                             blob.lastModifiedDate = new Date();
                             resolve(blob);
@@ -177,7 +147,6 @@
         });
     }
 
-    // 处理整个 FormData, 返回新的 FormData (失败时返回原 FormData)
     function processFormData(formData) {
         if (!(formData instanceof FormData)) return Promise.resolve(formData);
         if (typeof formData.entries !== 'function') return Promise.resolve(formData);
@@ -199,7 +168,7 @@
                         jobs.push(
                             convertToWebp(v).then(
                                 function (webp) { return { k: k, v: webp }; },
-                                function () { return { k: k, v: v }; } // 失败回退
+                                function () { return { k: k, v: v }; } 
                             )
                         );
                     } else {
@@ -229,7 +198,6 @@
         return false;
     }
 
-    // ============ 拦截 XMLHttpRequest ============
     var XHRProto = XMLHttpRequest.prototype;
     var origOpen = XHRProto.open;
     var origSend = XHRProto.send;
@@ -257,7 +225,7 @@
                 });
                 return;
             } catch (e) {
-                // 任意环节出错都回退到原始上传
+                
                 return origSend.call(self, body);
             }
         }
@@ -265,7 +233,6 @@
         return origSend.apply(self, arguments);
     };
 
-    // ============ 拦截 fetch (兜底) ============
     if (typeof window.fetch === 'function') {
         var origFetch = window.fetch;
         window.fetch = function (input, init) {
@@ -291,7 +258,6 @@
         };
     }
 
-    // 仅在控制台打一次提示, 方便排查
     try {
         if (window.console && console.log) {
             console.log('%c[WebP] 后台图片上传自动 WebP 转换器已启用',

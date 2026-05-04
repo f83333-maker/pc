@@ -10,45 +10,21 @@ class Deliver
 {
     use ToArray;
 
-    /**
-     * 发货内容
-     * @var string
-     */
     public string $contents;
 
-
-    /**
-     * 订单号
-     * @var string
-     */
+    
     public string $tradeNo;
 
-
-    /**
-     * 消费金额
-     * @var string
-     */
+    
     public string $amount;
 
-    /**
-     * @var int
-     */
     public int $status;
 
-    /**
-     * @var string
-     */
     public string $itemTradeNo;
 
-    /**
-     * @var string
-     */
     public string $tradeTime;
 
-
-    /**
-     * @param RepertoryOrder $repertoryOrder
-     */
+    
     public function __construct(RepertoryOrder $repertoryOrder)
     {
         $this->tradeNo = $repertoryOrder->trade_no;

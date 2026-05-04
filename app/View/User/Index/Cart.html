@@ -6,11 +6,9 @@
 } %}
 {{ include("Index/Header.html") }}
 
-
-<!-- Page Content -->
 <div class="content">
     <h1 class="visually-hidden sr-only">{{ i18n("我的购物车")|raw }}</h1>
-    <!-- Shopping Cart -->
+    
     <div class="block block-rounded bg-gradient-blue">
         <div class="block-header block-header-default">
             <h2 class="block-title h4">{{ icon("icon-gouwuche1")|raw }} {{ i18n("购物车")|raw }}</h2>
@@ -95,20 +93,18 @@
             {% endif %}
         </div>
     </div>
-    <!-- END Shopping Cart -->
 
     {% if items|length > 0 %}
-        <!-- Submit Form -->
+        
         <div class="block-cart-btn">
             <button type="button"
                     class="btn-cart-clear">{{ icon("icon-shanchu1")|raw }} {{ i18n("清空购物车")|raw }}</button>
             <button type="button"
                     class="btn-cart-bill">{{ icon("icon-fukuan")|raw }} {{ i18n("现在结账")|raw }}</button>
         </div>
-        <!-- END Submit Form -->
+        
     {% endif %}
 </div>
-<!-- END Page Content -->
 
 {{ ready("/assets/user/controller/index/cart.js")|raw }}
 {{ include("Index/Footer.html") }}

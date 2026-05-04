@@ -260,7 +260,6 @@
     ]);
     table.render();
 
-
     $('.add-shop-markup').click(() => {
         modal(util.icon("icon-tianjia") + " 添加模板");
     });

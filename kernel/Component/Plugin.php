@@ -13,11 +13,7 @@ use Kernel\Util\Str;
 
 trait Plugin
 {
-    /**
-     * @return PGI
-     * @throws JSONException
-     * @throws NotFoundException
-     */
+    
     public function getPlugin(): PGI
     {
         $var = Context::get(Route::class);
@@ -32,11 +28,11 @@ trait Plugin
         }
 
         if (!preg_match("/^\d+$/", $rt[1])) {
-            //主站
+            
             $name = Str::snakeToPascal($rt[1]);
             $env = Usr::MAIN;
         } else {
-            //分站
+            
             if (!isset($rt[2])) {
                 throw new JSONException("没有检测到插件");
             }

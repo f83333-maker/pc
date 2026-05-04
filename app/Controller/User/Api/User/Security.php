@@ -41,15 +41,9 @@ class Security extends Base
     #[Inject]
     private Captcha $captcha;
 
-
     #[Inject]
     private Config $config;
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function editGeneral(): Response
     {
         $map = $this->request->post();
@@ -68,11 +62,7 @@ class Security extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function sendCurrentEmailCode(): Response
     {
         $config = $this->config->getMainConfig("register");
@@ -83,17 +73,12 @@ class Security extends Base
             throw new RuntimeException("邮箱绑定未开启");
         }
 
-        //异步发送邮件
         Call::create(function () use ($config, $code, $to) {
             $this->smtp->send($to, "【正在更改邮箱】验证码", str_replace('{$code}', $code, $config['email_template']));
         });
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Security::class, "email"]
     ])]
@@ -107,17 +92,12 @@ class Security extends Base
             throw new RuntimeException("邮箱绑定未开启");
         }
 
-        //异步发送邮件
         Call::create(function () use ($config, $code, $to) {
             $this->smtp->send($to, "【正在绑定邮箱】验证码", str_replace('{$code}', $code, $config['email_template']));
         });
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Security::class, ["email", "currentEmailCode", "newEmailCode"]]
     ])]
@@ -129,11 +109,7 @@ class Security extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Security::class, ["currentPassword", "newPassword", "reNewPassword"]]
     ])]
@@ -145,10 +121,7 @@ class Security extends Base
         return $this->json();
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Security::class, ["type", "name", "idCard"]]
     ])]
@@ -171,17 +144,10 @@ class Security extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \Exception
-     */
+    
     public function resubmitIdentity(): Response
     {
-        /**
-         * @var UserIdentity $identity
-         */
+        
         $identity = UserIdentity::query()->where("user_id", $this->getUser()->id)->first();
         if (!$identity) {
             throw new RuntimeException("未提交过实名认证");
@@ -195,11 +161,7 @@ class Security extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]

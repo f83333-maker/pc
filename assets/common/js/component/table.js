@@ -28,76 +28,64 @@ class Table {
     }
 
     constructor(urlOrData, container) {
-        //表单构造参数
+        
         this.options = {container: container};
 
-        //列数据
         this.columns = [];
         this.handleColumns = {};
 
         this.$deleteSelector = null;
-        this.$table = $(container); // 表格容器
-        this.queryParams = null; // 查询参数
+        this.$table = $(container); 
+        this.queryParams = null; 
         this.secret = CryptoJS.MD5(new Date().getTime().toString()).toString();
-        this.unique = util.generateRandStr(8); // 唯一标识
+        this.unique = util.generateRandStr(8); 
 
-        // 详情显示
         this.detail = null;
         this.isShowDetail = false;
 
-        //悬浮消息
         this.floatMessage = null;
         this.isFloatMessage = false;
         this.floatMessageMap = {};
 
-        //按钮版详细内容
         this.isShowButtonDetail = false;
         this.buttonDetail = {}
 
-        // 是否显示工具栏
         this.isShowToolbar = false;
         this.layuiForm = layui.form;
 
-        //搜索功能
         this.search = null;
 
-        //添加工具栏
         this.$table.append(`<div class="${this.unique}-query"></div>`);
         this.$toolbar = $(`.${this.unique}-query`);
 
-        // 状态切换工具栏
         this.$state = null;
         this.stateField = null;
 
-        //分页数据
         this.pagination = {size: 10, list: [10, 20, 50, 100, 500, 1000]};
         this.isPagination = true;
 
-        //是否可以单选
         this.singleSelect = false;
 
         this.cardView = false;
 
-
-        //回调方法
+        
         this.fn = {
             complete: [],
             response: []
         }
 
-
-        this.queryUrl = urlOrData; //查询地址
-        this.updateUrl = null; //更新地址
-        this.response = null; //返回数据
-        this.handleData = {}; //处理过的返回数据，ID键值对
-        //如果查询地址是静态数据
+        this.queryUrl = urlOrData; 
+        this.updateUrl = null; 
+        this.response = null; 
+        this.handleData = {}; 
+        
         if (typeof this.queryUrl == "object") {
             this.queryUrl.forEach(item => {
                 this.handleData[item.id] = item;
             });
         }
 
-        this.isTreeTable = false; //是否树形表格
+        this.isTreeTable = false; 
     }
 
     setWhere(field, value) {
@@ -129,19 +117,11 @@ class Table {
         this.columns = this.columns.concat(this.#getPreprocessColumns(columns));
     }
 
-    /**
-     * 设置分页数据
-     * @param size
-     * @param list
-     */
     setPagination(size, list) {
         this.pagination.size = size;
         this.pagination.list = list;
     }
 
-    /**
-     * 关闭分页
-     */
     disablePagination() {
         this.isPagination = false;
     }
@@ -195,7 +175,6 @@ class Table {
                 click: (event, value, item, index) => {
                     let html = `<table class="table table-bordered table-hover"><tbody>`;
 
-
                     this.buttonDetail.forEach(det => {
                         det.title && (det.title = i18n(det.title));
                         let val = (det.formatter ? det.formatter(util.parseStringObject(item, util.replaceDotWithHyphen(det.field)), item) : util.parseStringObject(item, util.replaceDotWithHyphen(det.field)) ?? "-");
@@ -227,9 +206,7 @@ class Table {
                         }
                     });
 
-
                     html += `</tbody></table>`;
-
 
                     component.popup({
                         submit: false,
@@ -270,12 +247,8 @@ class Table {
         this.cardView = true;
     }
 
+    
 
-    /**
-     *
-     * @param search
-     * @param button
-     */
     setSearch(search, button = true) {
         const hackSearch = getVar("HACK_ROUTE_TABLE_SEARCH");
 
@@ -305,7 +278,6 @@ class Table {
         }, button);
     }
 
-
     setUpdate(urlOrCallback) {
         this.updateUrl = urlOrCallback;
     }
@@ -325,7 +297,6 @@ class Table {
         });
     }
 
-
     getSelections() {
         return this.$table.bootstrapTable('getSelections');
     }
@@ -338,12 +309,8 @@ class Table {
         return this.search.getData();
     }
 
+    
 
-    /**
-     * 设置删除选中数据
-     * @param selector
-     * @param urlOrCallback
-     */
     setDeleteSelector(selector, urlOrCallback) {
         this.$deleteSelector = $(selector);
         this.$deleteSelector.click(() => {
@@ -370,11 +337,6 @@ class Table {
         return {field: this.stateField, value: value};
     }
 
-    /**
-     * 添加状态切换工具栏
-     * @param field
-     * @param dict
-     */
     setState(field, dict) {
         const $this = this;
         this.isShowToolbar = true;
@@ -415,14 +377,6 @@ class Table {
         });
     }
 
-    /**
-     * 启用并设置树形结构
-     * @param treeShowFieldIndex
-     * @param treeShowField
-     * @param idField
-     * @param parentIdField
-     * @param expand 默认展开
-     */
     setTree(treeShowFieldIndex = 1, treeShowField = "name", idField = "id", parentIdField = "pid", expand = true) {
         this.options.parentIdField = parentIdField;
         this.options.treeShowField = treeShowField;
@@ -445,26 +399,16 @@ class Table {
         });
     }
 
-    /**
-     * 启用单选模式
-     */
     enableSingleSelect() {
         this.singleSelect = true;
     }
 
+    
 
-    /**
-     * 网页下发数据时回调
-     * @param callback
-     */
     onResponse(callback) {
         this.fn.response.push(callback);
     }
 
-    /**
-     * 表格渲染完成时回调
-     * @param callback
-     */
     onComplete(callback) {
         this.fn.complete.push(callback);
     }
@@ -475,11 +419,10 @@ class Table {
 
         column?.title && (column.title = i18n(column.title));
 
-        //排序功能
         if (column.hasOwnProperty("sort") && column.sort === true) {
             column["title"] = column.title + ` <span style='cursor: pointer;' data-field='${column.field}' class='btn-sort'><i class="fa-duotone fa-regular fa-arrow-up-arrow-down"></i></span>`;
         }
-        //检测是否有formatter
+        
         typeof column.formatter == "function" && (column.fn = {formatter: column.formatter});
         column.hasOwnProperty("class") && (column.cellStyle = {classes: column.class});
         switch (type) {
@@ -669,10 +612,9 @@ class Table {
             pagination: this.isPagination,
             pageNumber: 1,
             singleSelect: this.singleSelect,
-            // onColumnSwitch: function (field, checked) {
-            //     console.log(field, checked);
-            // },
-            // showColumns: true,
+
+            
+            
             sidePagination: 'server',
             contentType: "application/x-www-form-urlencoded",
             dataType: "json",
@@ -681,13 +623,11 @@ class Table {
             detailViewIcon: false,
             detailView: this.isShowDetail,
             columns: this.columns,
-            // ajaxOptions: () => {
-            //     return {
-            //         headers: {
-            //             Secret: this.secret, Signature: util.generateSignature(this.queryParams, this.secret)
-            //         }
-            //     };
-            // },
+
+            
+
+            
+            
             queryParams: (params) => {
                 params.page = (params.offset / params.limit) + 1;
                 if (this.queryParams) {
@@ -698,7 +638,6 @@ class Table {
                     this.queryParams = params;
                 }
 
-                //自动搜索功能
                 let searchData = this.search?.getData();
                 if (searchData) {
                     for (const dataKey in searchData) {
@@ -724,7 +663,6 @@ class Table {
                 this.fn.response.forEach(call => {
                     typeof call == "function" && call(response);
                 });
-
 
                 return {
                     "total": response.data.total, "rows": response.data.list
@@ -753,7 +691,6 @@ class Table {
             },
             onPostBody: () => {
 
-
                 this.fn.complete.forEach(call => {
                     typeof call == "function" && call(this.$table, this.unique, this.response);
                 });
@@ -763,8 +700,7 @@ class Table {
 
                 if (this.isFloatMessage) {
 
-
-                    // 监听键盘事件，检测Ctrl键是否按下
+                    
                     $(document).on('keydown', function (event) {
                         if (event.key === 'Control' && $(`.lock-hotkeys`).length > 0 && isCtrlPressed === false) {
                             isCtrlPressed = true;
@@ -780,7 +716,6 @@ class Table {
                         }
                     });
 
-
                     $(document).on('click', '.lock-hotkeys-cancel', function () {
                         isCtrlPressed = false;
                         for (const tipsId in _this.floatMessageMap) {
@@ -788,7 +723,6 @@ class Table {
                             delete _this.floatMessageMap[tipsId];
                         }
                     });
-
 
                     this.$table.find('tbody tr').hover(
                         function () {
@@ -877,13 +811,6 @@ class Table {
         typeof handleColumn?.change == "function" && handleColumn.change(value, this.#getData(id));
     }
 
-    /**
-     *
-     * @param value
-     * @param field
-     * @param id
-     * @param reload
-     */
     #updateDatabase(value, field, id, reload = false) {
         this.#triggerChange(value, field, id);
 
@@ -903,7 +830,6 @@ class Table {
             });
         }
     }
-
 
     #deleteDatabase(url, list, done = null) {
         message.ask("一旦数据被遗弃，您将无法恢复它！", () => {
@@ -933,17 +859,14 @@ class Table {
         this.$table.addClass(this.unique);
         const $this = this;
 
-        //监听文本框
         $(`.${this.unique} .metadata-text`).change(function () {
             $this.#updateDatabase(this.value, $(this).attr("data-field"), $(this).attr("data-id"), $(this).attr("reload"));
         });
 
-        //监听下拉框
         $(`.${this.unique} .metadata-select`).change(function () {
             $this.#updateDatabase(this.value, $(this).attr("data-field"), $(this).attr("data-id"), $(this).attr("reload"));
         });
 
-        //监听开关
         this.layuiForm.on(`switch(${this.unique}-switch)`, function (data) {
             $this.#updateDatabase(data.elem.checked ? 1 : 0, $(data.elem).attr("data-field"), $(data.elem).attr("data-id"), $(data.elem).attr("reload"));
         });
@@ -962,7 +885,6 @@ class Table {
             });
         });
 
-        //排序组件
         let $btnSort = $(`.${this.unique} .btn-sort`);
         $btnSort.off('click');
         $btnSort.click(function () {
@@ -984,7 +906,6 @@ class Table {
         this.layuiForm.render();
     }
 
-
     #registerGlobalEvent() {
         if (this.isTreeTable) {
             this.$table.off('check.bs.table uncheck.bs.table')
@@ -1002,12 +923,9 @@ class Table {
         }
     }
 
-    /**
-     * 渲染表格
-     */
     render() {
         const $this = this;
-        //表单构造参数
+        
         this.#createOptions();
         this.#createRequest();
         this.$table.bootstrapTable(this.options);

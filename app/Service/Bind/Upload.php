@@ -3,19 +3,12 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use Kernel\Util\Date;
 use Kernel\Util\File;
 
 class Upload implements \App\Service\Upload
 {
 
-    /**
-     * @param string $path
-     * @param string $type
-     * @param int|null $userId
-     * @return void
-     */
     public function add(string $path, string $type, ?int $userId = null): void
     {
         if (!is_file(BASE_PATH . $path)) {
@@ -30,20 +23,12 @@ class Upload implements \App\Service\Upload
         $upload->save();
     }
 
-
-    /**
-     * @param string $hash
-     * @return string|null
-     */
+    
     public function get(string $hash): ?string
     {
         return (\App\Model\Upload::query()->where("hash", $hash)->first())?->path;
     }
 
-    /**
-     * @param string $path
-     * @return void
-     */
     public function remove(string $path): void
     {
         if (!is_file(BASE_PATH . $path)) {
@@ -51,7 +36,7 @@ class Upload implements \App\Service\Upload
         }
 
         $hash = md5_file(BASE_PATH . $path);
-        \App\Model\Upload::query()->where("hash", $hash)->delete(); //删除数据库
+        \App\Model\Upload::query()->where("hash", $hash)->delete(); 
         File::remove(BASE_PATH . $path);
     }
 
@@ -61,26 +46,25 @@ class Upload implements \App\Service\Upload
             return "请选择文件";
         }
 
-        //单文件处理
         if (count($upload) == count($upload, 1)) {
             $load = self::error($upload, $type, $size);
             if (is_array($load)) {
-                //上传文件
+                
                 return self::move($load, $dir, $fileName);
             } else {
                 return $load;
             }
         } else {
-            //多文件初始化
+            
             $list = array();
-            //多文件处理
+            
             for ($i = 0; $i < count($upload); $i++) {
 
                 $load = self::error($upload[$i], $type, $size);
                 if (is_array($load)) {
-                    //上传文件
+                    
                     $move = self::move($load, $dir, $fileName);
-                    //上传成功加入数组
+                    
                     if (is_array($move)) {
                         $list[] = $move;
                     }
@@ -91,10 +75,9 @@ class Upload implements \App\Service\Upload
         }
     }
 
-    //抛异常
     private static function error($upload, $type, $size)
     {
-        //异常代码处理
+        
         if ($upload['error'] > 0) {
             switch ($upload['error']) {
                 case 1:
@@ -121,27 +104,23 @@ class Upload implements \App\Service\Upload
             }
             return $err_info;
         }
-        //文件类型处理
+        
         $exp = explode(".", (string)$upload['name']);
 
-        //判断文件数组是否大于2
         if (count($exp) < 2) return "文件无后缀无法识别";
 
-        //最后一个值必定是后缀
         $fix = $exp[count($exp) - 1];
         if (!in_array(strtolower($fix), $type)) return '不支持该后缀的文件:' . $type;
 
-        //文件大小限制
         $upload_size = $upload['size'] / 1024;
         if ($upload_size > $size) return '文件太大';
 
         return array('tmp' => $upload['tmp_name'], 'size' => $upload_size, 'name' => $upload['name'], 'fix' => $fix);
     }
 
-    //开始处理文件
     private static function move($array, $dir, $file_name)
     {
-        //检测目录是否存在，不存在则创建目录
+        
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
@@ -149,7 +128,7 @@ class Upload implements \App\Service\Upload
         if ($file_name != '') {
             $uniqueName = $dir . '/' . $file_name;
         } else {
-            //文件名生成
+            
             $uniqueName = $dir . '/' . $names;
         }
         if (move_uploaded_file($array['tmp'], $uniqueName)) {

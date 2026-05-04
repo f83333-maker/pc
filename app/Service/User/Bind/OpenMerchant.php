@@ -21,26 +21,13 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
     #[Inject]
     private \App\Service\User\Balance $balance;
 
-
-    /**
-     * @param User $user
-     * @param int $groupId
-     * @param string $clientId
-     * @param string $userAgent
-     * @param string $clientIp
-     * @return Trade
-     * @throws JSONException
-     * @throws \Throwable
-     */
+    
     public function trade(User $user, int $groupId, string $clientId, string $userAgent, string $clientIp): Trade
     {
         if ($user->group_id == $groupId) {
             throw new JSONException("你已经是该用户组的成员");
         }
 
-        /**
-         * @var UserGroup $group
-         */
         $group = UserGroup::query()->find($groupId);
 
         if (!$group) {
@@ -52,9 +39,6 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
             return (new Trade())->setIsFree(true);
         }
 
-        /**
-         * @var \App\Service\User\Order $orderService
-         */
         $orderService = Di::inst()->make(\App\Service\User\Order::class);
 
         $orderService->clearUnpaidOrder($user->id, \App\Const\Order::ORDER_TYPE_UPGRADE_GROUP);
@@ -65,9 +49,7 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
             $createOrder->setCustomer($user);
             $createOrder->setOption(["group_id" => $group->id]);
             $createOrder->setProductInfo("/assets/common/images/open.merchant.png", "升级商家用户组");
-            /**
-             * @var \App\Model\Order $order
-             */
+            
             $order = $orderService->create($createOrder);
 
             return new Trade(
@@ -79,19 +61,10 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
 
     }
 
-
-    /**
-     * @param int $userId
-     * @param int $groupId
-     * @param bool $isDividend
-     * @param string|null $tradeNo
-     * @return bool
-     */
+    
     public function become(int $userId, int $groupId, bool $isDividend = false, ?string $tradeNo = null): bool
     {
-        /**
-         * @var User $user
-         */
+        
         $user = User::query()->find($userId);
         if (!$user) {
             return false;
@@ -102,9 +75,6 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
             return false;
         }
 
-        /**
-         * @var User $parent
-         */
         $parent = $user->parent;
         if ($parent && $userGroup->dividend_amount > 0 && $isDividend && $userGroup->price > 0) {
             $this->balance->add(
@@ -125,15 +95,10 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
         return $user->save();
     }
 
-
-    /**
-     * @param int $userId
-     * @param UserGroup $group
-     * @return void
-     */
+    
     public function firstInitialization(int $userId, UserGroup $group): void
     {
-        //添加会员等级
+        
         $userLevel = new  UserLevel();
         $userLevel->user_id = $userId;
         $userLevel->icon = "/assets/user/images/lv1.png";
@@ -147,7 +112,7 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
         $userLevel->save();
 
         if ($group->is_merchant == 1) {
-            //添加同步模版
+            
             $itemMarkupTemplate = new ItemMarkupTemplate();
             $itemMarkupTemplate->user_id = $userId;
             $itemMarkupTemplate->name = "默认同步模版(固定金额10+1)";
@@ -163,7 +128,6 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
             $itemMarkupTemplate->create_time = Date::current();
             $itemMarkupTemplate->save();
 
-            //添加默认分类
             $category = new \App\Model\Category();
             $category->user_id = $userId;
             $category->icon = "/favicon.ico";

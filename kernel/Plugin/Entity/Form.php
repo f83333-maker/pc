@@ -14,12 +14,6 @@ class Form
     public string $field;
     public string $direction = "after";
 
-    /**
-     * @param string $submit
-     * @param string $code
-     * @param string $field
-     * @param string $direction
-     */
     public function __construct(string $submit, string $code, string $field, string $direction = "after")
     {
         $this->code = $code;

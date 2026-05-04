@@ -15,18 +15,9 @@ class Route
 {
     use Singleton;
 
-
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/route";
 
-
-    /**
-     * @param array $router
-     * @param string $name
-     * @param string $prefix
-     * @param string $usr
-     * @return void
-     * @throws RuntimeException
-     */
+    
     public function add(array $router, string $name, string $prefix = "plugin", string $usr = "*"): void
     {
         foreach ($router as $item) {
@@ -53,14 +44,7 @@ class Route
         }
     }
 
-
-    /**
-     * @param string $route
-     * @param string $method
-     * @param string $usr
-     * @return void
-     * @throws RuntimeException
-     */
+    
     private function remove(string $route, string $method, string $usr = "*"): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($usr, $route, $method) {
@@ -71,16 +55,10 @@ class Route
         });
     }
 
-    /**
-     * @param string|null $usr
-     * @return array
-     */
     public function list(?string $usr = null): array
     {
         if ($usr == null) {
-            /**
-             * @var Request $var
-             */
+            
             $var = Context::get(Request::class);
             $rt = explode("/", trim($var->uri(), "/"));
             if (strtolower($rt[0]) != "plugin" || !isset($rt[1])) {
@@ -88,10 +66,10 @@ class Route
             }
 
             if (!preg_match("/^\d+$/", $rt[1])) {
-                //主站
+                
                 $usr = "*";
             } else {
-                //分站
+                
                 if (!isset($rt[2])) {
                     return [];
                 }
@@ -107,13 +85,6 @@ class Route
         return $list[$usr] ?? [];
     }
 
-    /**
-     * @param string $name
-     * @param string $prefix
-     * @param string $usr
-     * @return void
-     * @throws RuntimeException
-     */
     public function del(string $name, string $prefix = "plugin", string $usr = "*"): void
     {
         $routes = $this->list($usr);

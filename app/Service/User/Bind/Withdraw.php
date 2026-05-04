@@ -17,13 +17,6 @@ class Withdraw implements \App\Service\User\Withdraw
     #[Inject]
     private \App\Service\User\Balance $balance;
 
-    /**
-     * @param int $userId
-     * @param int $cardId
-     * @param string $amount
-     * @return void
-     * @throws \Throwable
-     */
     public function apply(int $userId, int $cardId, string $amount): void
     {
         if ($amount <= 0) {
@@ -58,20 +51,10 @@ class Withdraw implements \App\Service\User\Withdraw
         }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE);
     }
 
-    /**
-     * @param int $withdrawId
-     * @param bool $lockCard
-     * @param int $status
-     * @param string $message
-     * @return void
-     * @throws \Throwable
-     */
     public function processed(int $withdrawId, bool $lockCard, int $status, string $message): void
     {
         Db::transaction(function () use ($lockCard, $message, $status, $withdrawId) {
-            /**
-             * @var UserWithdraw $withdraw
-             */
+            
             $withdraw = UserWithdraw::query()->find($withdrawId);
 
             if (!$withdraw) {
@@ -87,13 +70,11 @@ class Withdraw implements \App\Service\User\Withdraw
             $withdraw->handle_time = Date::current();
             $withdraw->save();
 
-            //封禁银行卡
             if ($status == 2) {
                 if ($lockCard) {
                     UserBankCard::query()->where("id", $withdraw->card_id)->update(['status' => 0]);
                 }
 
-                //驳回钱款
                 $this->balance->add(
                     userId: $withdraw->user_id,
                     amount: (string)$withdraw->amount,

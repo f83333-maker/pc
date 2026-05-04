@@ -9,9 +9,7 @@ class Log
 {
     use Singleton;
 
-
     private string $path;
-
 
     public function __construct()
     {
@@ -22,11 +20,6 @@ class Log
         }
     }
 
-    /**
-     * @param mixed $message
-     * @param string $name
-     * @return void
-     */
     public function write(mixed $message, string $name): void
     {
         $text = "";
@@ -38,39 +31,23 @@ class Log
         file_put_contents($this->path . "/{$name}.log", "[" . date("Y-m-d H:i:s", time()) . "]:" . $text . PHP_EOL, FILE_APPEND);
     }
 
-    /**
-     * @param string $name
-     * @return void
-     */
     public function clear(string $name): void
     {
         file_put_contents($this->path . "/{$name}.log", "");
     }
 
-
-    /**
-     * @param mixed $message
-     * @return void
-     */
+    
     public function debug(mixed $message): void
     {
         $this->write($message, "debug");
     }
 
-    /**
-     * @param mixed $message
-     * @return void
-     */
     public function error(mixed $message): void
     {
         $this->write($message, "error");
     }
 
-
-    /**
-     * @param string $name
-     * @return string
-     */
+    
     public function get(string $name): string
     {
         return file_get_contents($this->path . "/{$name}.log") ?: "";

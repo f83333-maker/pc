@@ -14,23 +14,13 @@ use Kernel\Exception\RuntimeException;
 #[Interceptor(class: [PostDecrypt::class, Admin::class], type: Interceptor::API)]
 class Language extends Base
 {
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function get(): Response
     {
         $sources = \Kernel\Language\Language::inst()->getSources($this->request->post("keywords"), (int)$this->request->post("limit"), (int)$this->request->post("page"));
         return $this->json(data: $sources, ext: ["languages" => array_values(array_filter(\Kernel\Util\Config::get("language")['languages'], fn($language) => $language['code'] != \Kernel\Language\Const\Language::ZH_CN))]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function save(): Response
     {
         $text = trim($this->request->post("zh_cn") ?? "");
@@ -53,12 +43,6 @@ class Language extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function del(): Response
     {
         $arr = $this->request->post("source") ?: [];

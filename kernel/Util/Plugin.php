@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Kernel\Util;
 
-
 use App\Util\Opcache;
 use Kernel\Consts\Base;
 use Kernel\Container\Di;
@@ -11,26 +10,13 @@ use Kernel\Plugin\Entity\Stock;
 
 class Plugin
 {
-    /**
-     * @var array
-     */
+    
     public static array $container = [];
 
-    /**
-     * @var string|null
-     */
     public static ?string $currentPluginName = null;
 
-    /**
-     * @var string|null
-     */
     public static ?string $currentControllerPluginName = null;
 
-    /**
-     * @param string $name
-     * @param bool $cache
-     * @return array|null
-     */
     public static function getPlugin(string $name, bool $cache = true): ?array
     {
         $path = BASE_PATH . "/app/Plugin/{$name}";
@@ -55,7 +41,6 @@ class Plugin
             $submit = file_get_contents($submitJsPath);
         }
 
-        //submit
         if (is_array($submit)) {
             foreach ($submit as $index => $item) {
                 if (isset($config[$item['name']])) {
@@ -68,10 +53,6 @@ class Plugin
         return $info;
     }
 
-    /**
-     * @param bool $cache
-     * @return array|null
-     */
     public static function getPlugins(bool $cache = true): ?array
     {
         $path = BASE_PATH . "/app/Plugin/";
@@ -87,17 +68,11 @@ class Plugin
         return $plugins;
     }
 
-    /**
-     * @param string $pluginName
-     * @param int $state
-     * @param mixed ...$args
-     * @throws \ReflectionException
-     */
     public static function runHookState(string $pluginName, int $state, mixed ...$args): void
     {
-        //扫描目标目录文件
+        
         $path = BASE_PATH . "/app/Plugin/{$pluginName}/Hook/";
-        //扫描插件的hook
+        
         $hookScan = File::scan($path, true);
         foreach ($hookScan as $class) {
             $_class = explode(".", $class);
@@ -123,12 +98,6 @@ class Plugin
         }
     }
 
-    /**
-     * @param int $point
-     * @param mixed ...$args
-     * @return array|Stock|string|void
-     * @throws \ReflectionException
-     */
     public static function hook(int $point, mixed &...$args)
     {
         if (Context::get(Base::STORE_STATUS) && Context::get(Base::IS_INSTALL)) {
@@ -158,10 +127,6 @@ class Plugin
         }
     }
 
-    /**
-     * @param int $point
-     * @return int
-     */
     public static function getHookNum(int $point): int
     {
         return (int)count((array)self::$container['hook'][$point]);

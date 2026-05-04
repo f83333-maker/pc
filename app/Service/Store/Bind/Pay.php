@@ -13,13 +13,7 @@ class Pay implements \App\Service\Store\Pay
     #[Inject]
     private \App\Service\Store\Http $http;
 
-
-    /**
-     * @param Authentication $authentication
-     * @param int $equipment
-     * @return array
-     * @throws ServiceException
-     */
+    
     public function getList(Authentication $authentication, int $equipment = 1): array
     {
         $http = $this->http->request("/pay/list", [
@@ -32,12 +26,6 @@ class Pay implements \App\Service\Store\Pay
         return ["list" => $http->data, "balance" => $http->origin['balance']];
     }
 
-    /**
-     * @param Authentication $authentication
-     * @param string $tradeNo
-     * @return array
-     * @throws ServiceException
-     */
     public function getPayOrder(Authentication $authentication, string $tradeNo): array
     {
         $http = $this->http->request("/pay/order", [

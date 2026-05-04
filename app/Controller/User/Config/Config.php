@@ -15,10 +15,6 @@ use Kernel\Util\Arr;
 class Config extends Base
 {
 
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function index(): Response
     {
 

@@ -18,9 +18,6 @@ class Log extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $get = new Get(ManageLog::class);

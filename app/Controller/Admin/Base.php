@@ -34,23 +34,12 @@ abstract class Base
     #[Inject]
     protected \App\Service\Common\Config $_config;
 
-    /**
-     * @throws \ReflectionException
-     */
     public function __construct()
     {
         Di::instance()->make(Site::class);
     }
 
-
-    /**
-     * @param int $code
-     * @param string $message
-     * @param array|null $data
-     * @param array $ext
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function json(int $code = 200, string $message = "success", ?array $data = null, array $ext = []): Response
     {
         $secret = Str::generateRandStr(32);
@@ -59,14 +48,6 @@ abstract class Base
         return $this->response->withHeader("Content-Type", "text/plain; charset=utf-8")->withHeader("Secret", $secret)->raw(Aes::encrypt($json, $key, $key));
     }
 
-    /**
-     * 渲染视图
-     * @param string $template
-     * @param string|null $title
-     * @param array $data
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function render(string $template, ?string $title = null, array $data = []): Response
     {
         $data["language"] = strtolower(Context::get(Language::class)->preferred);
@@ -76,19 +57,11 @@ abstract class Base
         return $this->response->render($template, $title, $data, BASE_PATH . "/app/View/Admin/");
     }
 
-    /**
-     * @return \App\Controller\Admin\Manage\Manage|null
-     */
     public function getManage(): ?Manage
     {
         return Context::get(Manage::class);
     }
 
-    /**
-     * @return Authentication
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function getStoreAuth(): Authentication
     {
         $store = Plugin::inst()->getStoreUser("main");

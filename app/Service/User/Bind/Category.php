@@ -8,14 +8,9 @@ use App\Model\User;
 use Hyperf\Database\Model\Builder;
 use Kernel\Util\Tree;
 
-
 class Category implements \App\Service\User\Category
 {
 
-    /**
-     * @param User|null $user
-     * @return array[]
-     */
     public function only(?User $user): array
     {
         $query = Model::query()->withCount(['item as item_count' => function (Builder $relation) {
@@ -32,11 +27,7 @@ class Category implements \App\Service\User\Category
         return $this->updateItemCount(Tree::generate($category));
     }
 
-
-    /**
-     * @param array $category
-     * @return array
-     */
+    
     private function updateItemCount(array $category): array
     {
         $updateItemCount = function (&$node) use (&$updateItemCount) {
@@ -48,17 +39,17 @@ class Category implements \App\Service\User\Category
             foreach ($node['children'] as &$child) {
                 $childCount = $updateItemCount($child);
                 if ($childCount > 0) {
-                    $newChildren[] = $child; // 仅保留 item_count > 0 的子节点
+                    $newChildren[] = $child; 
                 }
                 $node['item_count'] += $childCount;
             }
-            $node['children'] = $newChildren; // 更新子节点
+            $node['children'] = $newChildren; 
             return $node['item_count'];
         };
 
         foreach ($category as &$rootNode) {
             $updateItemCount($rootNode);
         }
-        return array_filter($category, fn($node) => $node['item_count'] > 0); // 过滤根节点
+        return array_filter($category, fn($node) => $node['item_count'] > 0); 
     }
 }

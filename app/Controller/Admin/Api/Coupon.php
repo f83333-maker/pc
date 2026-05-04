@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -25,9 +24,6 @@ class Coupon extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -46,22 +42,18 @@ class Coupon extends Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function save(): array
     {
-        $prefix = $_POST['prefix']; //卡密前缀
-        $note = $_POST['note']; //备注信息
-        $commodityId = (int)$_POST['commodity_id']; //商品ID
-        $categoryId = (int)$_POST['category_id']; //分类ID
-        $expireTime = (string)$_POST['expire_time'];//到期时间
-        $money = (float)$_POST['money']; //金额
-        $num = (int)$_POST['num']; //生成数量
-        $life = (int)$_POST['life']; //可用次数
-        $mode = (int)$_POST['mode']; //抵扣模式
+        $prefix = $_POST['prefix']; 
+        $note = $_POST['note']; 
+        $commodityId = (int)$_POST['commodity_id']; 
+        $categoryId = (int)$_POST['category_id']; 
+        $expireTime = (string)$_POST['expire_time'];
+        $money = (float)$_POST['money']; 
+        $num = (int)$_POST['num']; 
+        $life = (int)$_POST['life']; 
+        $mode = (int)$_POST['mode']; 
         $raceGetMode = (int)$_POST['race_get_mode'];
         $race = $raceGetMode == 0 ? $_POST['race'] : $_POST['race_input'];
         $sku = $_POST['sku'] ?: [];
@@ -114,10 +106,6 @@ class Coupon extends Manage
         return $this->json(200, "生成完毕，成功:{$success}张，失败：{$error}张", ["code" => $codes, "success" => $success, "error" => $error]);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function edit(): array
     {
         $map = $_POST;
@@ -132,10 +120,7 @@ class Coupon extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function lock(): array
     {
         $list = (array)$_POST['list'];
@@ -145,9 +130,6 @@ class Coupon extends Manage
         return $this->json(200, '锁定成功');
     }
 
-    /**
-     * @return array
-     */
     public function unlock(): array
     {
         $list = (array)$_POST['list'];
@@ -157,11 +139,7 @@ class Coupon extends Manage
         return $this->json(200, '解锁成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function del(): array
     {
         $delete = new Delete(\App\Model\Coupon::class, $_POST['list']);
@@ -174,11 +152,7 @@ class Coupon extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-
-    /**
-     * 导出
-     * @return string
-     */
+    
     public function export(): string
     {
         $map = $this->request->get(flags: Filter::NORMAL);

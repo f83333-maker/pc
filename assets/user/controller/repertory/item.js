@@ -288,8 +288,6 @@
                                 },
                             ]);
                             skuTable.render();
-                            //-------------
-
 
                             $('.add-repertory-itemSku').click(() => {
                                 let skuAssign = {
@@ -320,9 +318,8 @@
                         change: (obj, value) => {
                             if (value == 1) {
                                 obj.hide("markup_template_id");
-                                //    obj.show("markup.drift_base_amount");
-                                //     obj.show("markup.drift_model");
-                                //   obj.show("markup.drift_value");
+
+                                
                                 obj.show("markup.sync_name");
                                 obj.show("markup.sync_introduce");
                                 obj.show("markup.sync_picture");
@@ -670,7 +667,6 @@
             }
         });
 
-
     }
 
     const marketControlModal = (url, assign = {}, $table = null) => {
@@ -900,7 +896,6 @@
         $('.data-count .item_count').html(data.data.shelves_have_count + data.data.under_review_count + data.data.shelves_not_count + data.data.banned_count);
     });
     table.render();
-
 
     $('.add-repertory-item').click(() => {
         modal(`${util.icon("icon-tianjia")} 添加货源`);

@@ -12,11 +12,7 @@ class Task
 {
     use Singleton;
 
-    /**
-     * @var Server
-     */
     private Server $server;
-
 
     public function __construct()
     {
@@ -28,12 +24,7 @@ class Task
         $this->server = CLI::instance()->getHttpServer();
     }
 
-
-    /**
-     * @param Interface\Task $task
-     * @param callable|null $finish
-     * @return void
-     */
+    
     public function task(\Kernel\Task\Interface\Task $task, ?callable $finish = null): void
     {
         if (!App::$cli) {
@@ -49,11 +40,7 @@ class Task
         });
     }
 
-
-    /**
-     * @param Interface\Task $task
-     * @return mixed
-     */
+    
     public function taskGetResults(\Kernel\Task\Interface\Task $task): mixed
     {
         if (!App::$cli) {

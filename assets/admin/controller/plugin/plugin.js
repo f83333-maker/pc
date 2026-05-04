@@ -84,7 +84,6 @@
             },
         ];
 
-
         columns.forEach(item => {
             tables.splice(3, 0, item);
         });
@@ -95,7 +94,6 @@
         handleTable.render();
         return handleTable;
     }
-
 
     const getPluginLogs = (key, name, done) => {
         let hash = "";
@@ -501,7 +499,6 @@
                                                                                                             width: "720px"
                                                                                                         });
 
-
                                                                                                     },
                                                                                                     confirmText: util.icon("icon-yunxiazai") + " 立即导入",
                                                                                                     tab: [
@@ -599,7 +596,6 @@
                                                                         width: "820px",
                                                                     });
 
-
                                                                 }
                                                             }
                                                         ]
@@ -675,7 +671,7 @@
 
                                     const keydown = function (event) {
                                         if (event.key === 'F5') {
-                                            event.preventDefault(); // 阻止默认行为，即刷新
+                                            event.preventDefault(); 
                                             layer.msg("正在进行重要更新，请勿刷新网页！");
                                         }
                                     };
@@ -686,7 +682,6 @@
                                         return confirmationMessage;
                                     }
 
-                                    //开始升级
                                     util.post({
                                         url: "/admin/store/plugin/version/update",
                                         data: {key: row.name},
@@ -794,7 +789,6 @@
                             });
                         }
                     });
-
 
                 }
             }
@@ -941,7 +935,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                //同步
+                
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
@@ -987,7 +981,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                //同步
+                
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
@@ -1033,13 +1027,12 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                //同步
+                
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
         }, 300, true);
     });
-
 
     $('.plugin-restart').click(() => {
         message.ask("请注意，此操作将强制重启程序，网站将会立即进入1~3秒的宕机状态。在此期间，所有正在购买商品的客户将无法正常访问网站。请您确认是否继续操作。", () => {

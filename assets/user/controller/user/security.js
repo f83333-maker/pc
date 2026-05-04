@@ -11,7 +11,6 @@
         });
     });
 
-
     $('.send-current-email-code').click(function () {
         util.post({
             url: "/user/security/email/current/code",
@@ -33,7 +32,6 @@
         });
     });
 
-
     $('.email-save-btn').click(function () {
         util.post({
             url: "/user/security/email/bind",
@@ -48,7 +46,6 @@
         });
     });
 
-
     $('.passwd-save-btn').click(function () {
         util.post({
             url: "/user/security/password/edit",
@@ -62,7 +59,6 @@
             }
         });
     });
-
 
     $('.identity-save-btn').click(function () {
         util.post({
@@ -91,8 +87,6 @@
     $('button[data-bs-toggle=tab]').click(function (){
         location.hash = $(this).attr("id");
     });
-
-
 
     location.hash && $(location.hash).click();
 }();

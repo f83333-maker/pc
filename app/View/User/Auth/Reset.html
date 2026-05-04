@@ -7,13 +7,12 @@
 {% set title = '重置密码' %}
 {{ include ("Auth/Header.html") }}
 
-<!-- Main Container -->
 <main id="main-container">
-    <!-- Page Content -->
+    
     <div class="row mx-0 justify-content-center hero-static align-items-center">
         <div class="col-xl-4" style="width: 540px;">
             <div class="content content-full overflow-hidden">
-                <!-- Register In Form -->
+                
                 <form id="reset-form" method="POST">
                     <div class="block block-themed block-rounded block-fx-shadow">
                         <div class="block-header bg-gd-primary">
@@ -21,13 +20,11 @@
                         </div>
                         <div class="block-content">
 
-
                             <div class="form-floating mb-4">
                                 <input type="text" class="form-control" id="email" name="email"
                                        placeholder="{{ i18n("请输入邮箱")|raw }}">
                                 <label class="form-label" for="email">{{ i18n("邮箱")|raw }}</label>
                             </div>
-
 
                             <div class="row mb-4">
                                 <div class="col-sm-8 col-8">
@@ -45,7 +42,6 @@
                                 </div>
                             </div>
 
-
                             <div class="form-floating mb-4">
                                 <input type="text" class="form-control" id="password" name="password"
                                        placeholder="{{ i18n("请输入新密码")|raw }}">
@@ -60,7 +56,6 @@
                                     {{ i18n("确认重置")|raw }}
                                 </button>
                             </div>
-
 
                             {{ hook(env(), point("USER_AUTH_RESET_FORM_BUTTON"))|raw }}
                         </div>
@@ -77,13 +72,12 @@
                         </div>
                     </div>
                 </form>
-                <!-- END Sign In Form -->
+                
             </div>
         </div>
     </div>
-    <!-- END Page Content -->
+    
 </main>
-<!-- END Main Container -->
 
 {{ ready("/assets/user/controller/auth/reset.js")|raw }}
 {{ hook( env(), point("USER_AUTH_RESET_BODY"))|raw }}

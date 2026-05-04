@@ -87,7 +87,6 @@
         opacity: 0.7;
     }
 
-    /* 验证码结果显示 */
     .twofa-result {
         margin-top: 30px;
         padding-top: 30px;
@@ -130,7 +129,6 @@
         color: #34c759;
     }
 
-    /* 使用说明 */
     .twofa-guide {
         background: rgba(255, 159, 10, 0.05);
         border: 1px solid rgba(255, 159, 10, 0.2);
@@ -252,7 +250,6 @@
                 codeDisplay.innerText = code;
                 resultArea.style.display = 'block';
 
-                // 计算剩余时间
                 const seconds = Math.floor(Date.now() / 1000);
                 const remaining = 30 - (seconds % 30);
                 timerDisplay.innerText = remaining;
@@ -265,21 +262,18 @@
 
         secretInput.addEventListener('input', updateTOTP);
 
-        // 每秒更新一次计时器
         setInterval(() => {
             if (secretInput.value) {
                 const seconds = Math.floor(Date.now() / 1000);
                 const remaining = 30 - (seconds % 30);
                 timerDisplay.innerText = remaining;
-                
-                // 如果刚好到 30 秒，重新生成验证码
+
                 if (remaining === 30) {
                     updateTOTP();
                 }
             }
         }, 1000);
 
-        // 复制功能
         copyBtn.addEventListener('click', function() {
             const code = codeDisplay.innerText;
             if (code && code !== '------') {

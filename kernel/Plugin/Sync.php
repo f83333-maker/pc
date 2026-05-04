@@ -19,14 +19,7 @@ class Sync
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/sync";
 
-
-    /**
-     * @param int $state
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
+    
     public function add(int $state, string $name, string $env): void
     {
         if (!App::$cli) {
@@ -48,9 +41,6 @@ class Sync
         });
     }
 
-    /**
-     * @return array
-     */
     public function list(): array
     {
         return File::read(self::CACHE_FILE, function (string $contents) {
@@ -58,20 +48,11 @@ class Sync
         }) ?: [];
     }
 
-    /**
-     * @return void
-     */
     public function clear(): void
     {
         File::remove(BASE_PATH . "/runtime/plugin/sync");
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return bool
-     * @throws \ReflectionException
-     */
     public function has(string $name, string $env): bool
     {
         $waits = Sync::inst()->list();
@@ -83,9 +64,6 @@ class Sync
         return false;
     }
 
-    /**
-     * @return void
-     */
     public function started(): void
     {
         if (!App::$cli) {
@@ -101,7 +79,7 @@ class Sync
                     $wait[2] != 2 && Plugin::inst()->setState($wait[0], (int)$wait[2], $wait[1]);
                 }
                 Sync::inst()->clear();
-                //重启
+                
                 !$init && Di::inst()->make(Service::class)->restart();
             }
             Coroutine::sleep(1);

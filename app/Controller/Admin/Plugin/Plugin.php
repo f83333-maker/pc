@@ -13,22 +13,13 @@ use Kernel\Exception\ViewException;
 #[Interceptor(class: Admin::class)]
 class Plugin extends Base
 {
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
+    
     public function index(): Response
     {
         return $this->render("Plugin/Plugin.html", "插件管理");
     }
 
-
-    /**
-     * @param string $name
-     * @return Response
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
+    
     public function wiki(string $name): Response
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, App::$mEnv);

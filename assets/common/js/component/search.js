@@ -9,8 +9,7 @@ class Search {
         opt.forEach(item => {
             item.title = i18n(item.title);
             this.item[item.name] = item;
-            //let width = item.hasOwnProperty('width') ? 'style="width:' + (util.isPc() ? item.width + "px" : "100%") + ';"' : '';
-            //设置默认值
+
             switch (item.type) {
                 case "input":
                     instance.append(this.inputHtml(item));
@@ -42,7 +41,7 @@ class Search {
         item.title = i18n(item.title);
         this.item[item.name] = item;
         let target = $('.' + this.unique + " .e-" + targetName);
-        //设置默认值
+        
         let d;
         switch (item.type) {
             case "input":
@@ -73,11 +72,9 @@ class Search {
         }
     }
 
-
     removeSearch(name) {
         $('.' + this.unique + " .e-" + name)?.remove();
     }
-
 
     getWidth(item) {
         return item.hasOwnProperty('width') ? 'style="width:' + (util.isPc() ? item.width + "px" : "100%") + ';"' : '';
@@ -177,7 +174,6 @@ class Search {
         layui.form.render();
     }
 
-
     remoteSelectHtml(item) {
         return '<div class="layui-input-inline ' + (item.hide ? 'hide' : '') + ' e-' + item.name + '" ' + this.getWidth(item) + '>\n' +
             '                    <span class="' + item.name + '"></span>\n' +
@@ -202,27 +198,23 @@ class Search {
         let _this = this;
         $('.' + this.unique + " .tree-" + item.name).html(`<input type="text" lay-filter="${this.unique + item.name}" class="layui-input ${this.unique + item.name}"><input name="${item.name}"  type="hidden" class="layui-input"">`);
         layui.treeSelect.render({
-            // 选择器
+            
             elem: '.' + _this.unique + item.name,
-            // 数据
+            
             data: item.dict,
-            // 异步加载方式：get/post，默认get
-            //type: 'post',
-            // 占位符
+
+            
             placeholder: item.title,
-            // 是否开启搜索功能：true/false，默认false
+            
             search: true,
-            // 点击回调
+            
             click: function (d) {
                 $('.' + _this.unique + " input[name=" + item.name + "]").val(d.current.id);
                 item.change && item.change(_this, d.current.id);
             },
-            // 加载完成后的回调函数
+            
             success: function (d) {
-                /*                if (form.default) {
-                                    layui.treeSelect.checkNode(_this.unique + item.name, parseInt(item.default));
-                                }
-                                item.complete && item.complete(_this, item.default);*/
+
             }
         });
 
@@ -240,15 +232,15 @@ class Search {
             radio: true,
             autoRow: true,
             name: item.name,
-            // data: initValue,
+            
             tips: item.title,
             searchTips: item.title,
-            //  toolbar: {show: true},
+            
             filterable: true,
             remoteSearch: true,
             language: 'zn',
             remoteMethod: (val, cb, show) => {
-                //这里如果val为空, 则不触发搜索
+                
                 if (!val) {
                     return cb([]);
                 }
@@ -282,7 +274,6 @@ class Search {
     resetButton() {
         $("." + this.unique + ' .query-button .btn-name').html(i18n('查询'));
     }
-
 
     getData() {
         return util.paramsToJSONObject($("." + this.unique).serialize());

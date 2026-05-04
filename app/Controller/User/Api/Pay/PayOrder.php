@@ -20,11 +20,7 @@ class PayOrder extends Base
     #[Inject]
     protected \App\Service\User\PayOrder $payOrder;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Interceptor(class: [PostDecrypt::class, Waf::class, Visitor::class], type: Interceptor::API)]
     #[Validator([
         [\App\Validator\User\Order::class, "tradeNo"]
@@ -38,9 +34,6 @@ class PayOrder extends Base
         return $this->json(200, "success", $pay->toArray());
     }
 
-    /**
-     * @throws RuntimeException
-     */
     #[Interceptor(class: [PostDecrypt::class, Waf::class, Visitor::class], type: Interceptor::API)]
     #[Validator([
         [\App\Validator\User\Order::class, "tradeNo"]
@@ -52,11 +45,7 @@ class PayOrder extends Base
         return $this->json(data: $order->toArray());
     }
 
-
-    /**
-     * @return Response
-     * @throws ViewException
-     */
+    
     public function async(): Response
     {
         $tradeNo = $this->request->uriSuffix();

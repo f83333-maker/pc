@@ -928,7 +928,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
 
     table.render();
 
-
     $('.btn-app-create').click(function () {
         modal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加商品`);
     });
@@ -948,7 +947,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
         });
     });
 
-
     $('.listed').click(() => {
         let data = table.getSelectionIds();
         if (data.length == 0) {
@@ -963,7 +961,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
         });
     });
 
-
     $('.btn-app-del').click(() => {
         let data = table.getSelectionIds();
         if (data.length == 0) {
@@ -977,7 +974,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
             });
         });
     });
-
 
     $('.handle').click(() => {
         let data = table.getSelectionIds();

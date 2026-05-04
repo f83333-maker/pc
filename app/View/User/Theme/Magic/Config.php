@@ -17,7 +17,6 @@ interface Config
         "RENDER" => Render::ENGINE_PHP
     ];
 
-
     const THEME = [
         "INDEX" => "Index.php",
         "ITEM" => "Index.php",

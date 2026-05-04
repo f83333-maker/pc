@@ -12,26 +12,17 @@ use Kernel\Util\Context;
 class OrderReport
 {
 
-    /**
-     * @throws JSONException
-     */
     #[Required("维权ID不能为空")]
     #[Regex("/^[1-9]\d*$/", "维权ID错误")]
     public function reportId(mixed $value): bool
     {
-        /**
-         * @var \App\Model\OrderReport $orderReport
-         */
+        
         $orderReport = \App\Model\OrderReport::query()->find($value);
         if (!$orderReport) {
             throw new JSONException("维权记录不存在");
         }
 
-        /**
-         * @var User $user
-         */
         $user = Context::get(User::class);
-
 
         if ($user?->id != $orderReport->supply_id) {
             throw new JSONException("权限验证失败");
@@ -52,7 +43,6 @@ class OrderReport
     {
         return true;
     }
-
 
     public function treasure(mixed $value, array $data): bool|string
     {

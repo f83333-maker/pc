@@ -5,12 +5,9 @@ namespace App\View\User\Theme\MountFuji;
 
 use App\Consts\Render;
 
-
 interface Config
 {
-    /**
-     * 介绍信息
-     */
+    
     const INFO = [
         "NAME" => "富士山",
         "AUTHOR" => "荔枝",
@@ -20,9 +17,6 @@ interface Config
         "RENDER" => Render::ENGINE_SMARTY
     ];
 
-    /**
-     * 配置信息
-     */
     const SUBMIT = [
         [
             "title" => "色彩模式",
@@ -37,26 +31,23 @@ interface Config
         ]
     ];
 
-    /**
-     * 模板文件重定向，不需要修改的直接删除
-     */
     const THEME = [
-        "DASHBOARD" => "Dashboard/Index.html", //会员-个人主页
-        "RECHARGE" => "User/Recharge.html", //会员-充值中心
-        "BILL" => "User/Bill.html", //会员-我的账单
-        "BUSINESS" => "User/Business.html", //会员-我的店铺
-        "CATEGORY" => "User/Category.html", //会员-商品分类
-        "COMMODITY" => "User/Commodity.html", //会员-我的商品
-        "CARD" => "User/Card.html", //会员-卡密管理
-        "COUPON" => "User/Coupon.html", //会员-优惠卷管理
-        "CASH" => "User/Cash.html", //会员-硬币兑现
-        "CASH_RECORD" => "User/CashRecord.html", //会员-兑现记录
-        "PERSONAL" => "User/Personal.html", //会员-个人资料
-        "EMAIL" => "User/Email.html", //会员-邮箱
-        "PHONE" => "User/Phone.html", //会员-手机
-        "PASSWORD" => "User/Password.html", //会员-密码设置
-        "ORDER" => "User/Order.html", //会员-密码设置
-        "PURCHASE_RECORD" => "User/PurchaseRecord.html", //会员-购买记录
-        "AGENT_MEMBER" => "Agent/Member.html", //推广代理-我的下级
+        "DASHBOARD" => "Dashboard/Index.html", 
+        "RECHARGE" => "User/Recharge.html", 
+        "BILL" => "User/Bill.html", 
+        "BUSINESS" => "User/Business.html", 
+        "CATEGORY" => "User/Category.html", 
+        "COMMODITY" => "User/Commodity.html", 
+        "CARD" => "User/Card.html", 
+        "COUPON" => "User/Coupon.html", 
+        "CASH" => "User/Cash.html", 
+        "CASH_RECORD" => "User/CashRecord.html", 
+        "PERSONAL" => "User/Personal.html", 
+        "EMAIL" => "User/Email.html", 
+        "PHONE" => "User/Phone.html", 
+        "PASSWORD" => "User/Password.html", 
+        "ORDER" => "User/Order.html", 
+        "PURCHASE_RECORD" => "User/PurchaseRecord.html", 
+        "AGENT_MEMBER" => "Agent/Member.html", 
     ];
 }

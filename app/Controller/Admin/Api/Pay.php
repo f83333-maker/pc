@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -28,9 +27,6 @@ class Pay extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -42,12 +38,7 @@ class Pay extends Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
+    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -66,11 +57,7 @@ class Pay extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function del(): array
     {
         if (in_array("1", $_POST['list'])) {
@@ -86,10 +73,6 @@ class Pay extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    /**
-     * 获取插件列表
-     * @return array
-     */
     public function getPlugins(): array
     {
         $plugins = $this->pay->getPlugins();
@@ -120,21 +103,12 @@ class Pay extends Manage
         return $this->json(data: ["list" => $plugins]);
     }
 
-    /**
-     * 获取插件日志
-     * @param string $handle
-     * @return array
-     */
     public function getPluginLog(string $handle): array
     {
         $pluginLog = $this->pay->getPluginLog($handle);
         return $this->json(200, 'success', ['log' => $pluginLog]);
     }
 
-    /**
-     * @param string $handle
-     * @return array
-     */
     public function ClearPluginLog(string $handle): array
     {
         $this->pay->ClearPluginLog($handle);
@@ -142,9 +116,6 @@ class Pay extends Manage
         return $this->json(200, 'success');
     }
 
-    /**
-     * @throws JSONException
-     */
     public function setPluginConfig(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);

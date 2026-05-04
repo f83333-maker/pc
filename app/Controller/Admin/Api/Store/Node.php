@@ -18,20 +18,12 @@ class Node extends Base
     #[Inject]
     private Http $http;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function ping(): Response
     {
         return $this->json(data: $this->http->ping(), ext: ["index" => $this->http->getNode()]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function save(): Response
     {
         $index = $this->request->post("index") ?: 0;

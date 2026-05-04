@@ -9,12 +9,6 @@ use Kernel\Annotation\Bind;
 interface LoginLog
 {
 
-
-    /**
-     * @param int $manageId
-     * @param string $ip
-     * @param string $ua
-     * @return void
-     */
+    
     public function create(int $manageId, string $ip, string $ua): void;
 }

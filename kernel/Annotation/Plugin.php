@@ -14,15 +14,8 @@ class Plugin
     const UPGRADE = 0x5;
     const SAVE_CONFIG = 0x6;
 
-    /**
-     * @var int
-     */
     public int $state;
 
-    /**
-     * Hook constructor.
-     * @param int $state
-     */
     public function __construct(int $state)
     {
     }

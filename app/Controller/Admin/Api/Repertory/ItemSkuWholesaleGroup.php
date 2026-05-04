@@ -25,12 +25,7 @@ class ItemSkuWholesaleGroup extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param int $wholesaleId
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(int $wholesaleId): Response
     {
         $columns = [
@@ -53,11 +48,6 @@ class ItemSkuWholesaleGroup extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-    /**
-     * @param int $wholesaleId
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         ['key' => 'stock_price', 'rule' => 'notZero', 'message' => ['notZero' => '进货价，必须大于0']],
     ])]
@@ -65,15 +55,12 @@ class ItemSkuWholesaleGroup extends Base
     {
         $map = $this->request->post();
         try {
-            /**
-             * @var RepertoryItemSkuWholesale $repertoryItemSkuWholesale
-             */
+            
             $repertoryItemSkuWholesale = RepertoryItemSkuWholesale::query()->find($wholesaleId);
 
             if (!$repertoryItemSkuWholesale) {
                 throw new JSONException("批发配置不存在");
             }
-
 
             $model = Model::query()->where("wholesale_id", $wholesaleId)->where("group_id", $map['id'])->first();
 

@@ -24,11 +24,6 @@ class Transfer extends Base
     #[Inject]
     private Balance $balance;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \Throwable
-     */
     #[Validator([
         [\App\Validator\User\Transfer::class, ['payee', 'amount']]
     ])]

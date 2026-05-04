@@ -25,19 +25,10 @@ class Ship extends Base
     #[Inject]
     private RepertoryItem $repertoryItem;
 
-
-    /**
-     * @param int $configId
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function items(int $configId): Response
     {
-        /**
-         * @var PluginConfig $config
-         */
+        
         $config = PluginConfig::find($configId);
         if (!$config) {
             throw new JSONException("配置不存在");
@@ -72,13 +63,7 @@ class Ship extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-
-    /**
-     * @param int $configId
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
+    
     public function import(int $configId): Response
     {
         $categoryId = (int)$this->request->post("category_id", Filter::INTEGER);
@@ -101,22 +86,13 @@ class Ship extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function getSyncRemoteItems(): Response
     {
         $syncRemoteItems = $this->repertoryItem->getSyncRemoteItems(true, null);
         return $this->json(data: $syncRemoteItems);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function syncRemoteItem(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);

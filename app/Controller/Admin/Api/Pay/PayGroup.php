@@ -20,12 +20,6 @@ use Kernel\Util\Date;
 class PayGroup extends Base
 {
 
-    /**
-     * @param string $id
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(string $id, string $type): Response
     {
         $columns = ["fee", "status"];
@@ -43,15 +37,7 @@ class PayGroup extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-
-    /**
-     * @param string $payId
-     * @param string $type
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function save(string $payId, string $type): Response
     {
         $map = $this->request->post();

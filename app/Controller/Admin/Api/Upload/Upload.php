@@ -28,10 +28,6 @@ class Upload extends Base
     #[Inject]
     private \App\Service\Common\Upload $upload;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -56,11 +52,6 @@ class Upload extends Base
                 }
             }
 
-            /*        if (isset($map['user_id']) && $map['user_id'] > 0) {
-                        $builder = $builder->where("user_id", $map['user_id']);
-                    } else {
-                        $builder = $builder->whereNull("user_id");
-                    }*/
             return $builder->with(["user" => function (Relation $relation) {
                 $relation->select(["id", "username", "avatar"]);
             }]);
@@ -77,18 +68,14 @@ class Upload extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function del(): Response
     {
         $list = (array)$this->request->post("list");
         if (count($list) > 0) {
             $uploads = \App\Model\Upload::query()->whereIn("id", $list)->get();
             foreach ($uploads as $upload) {
-                $this->upload->remove($upload->path); //通过hash删除文件
+                $this->upload->remove($upload->path); 
             }
         }
         return $this->json();

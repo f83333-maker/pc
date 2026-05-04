@@ -1,7 +1,6 @@
 !function () {
     let table;
 
-
     const viewItem = (id) => {
         util.post({
             url: "/user/shop/supply/item?id=" + id, done: res => {
@@ -217,7 +216,6 @@
         });
     }
 
-
     table = new Table("/user/shop/supply/get", "#shop-supply-table");
     table.setColumns([
         {checkbox: true},
@@ -263,7 +261,6 @@
     ]);
 
     table.render();
-
 
     $('.add-supply-item').click(() => {
         let data = table.getSelectionIds();

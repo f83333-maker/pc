@@ -3,17 +3,9 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-/**
- * Class Theme
- * @package App\Util
- */
 class Theme
 {
 
-    /**
-     * @param string $name
-     * @return array|null
-     */
     public static function getConfig(string $name): ?array
     {
         try {
@@ -32,7 +24,6 @@ class Theme
             $info = $interface::INFO;
             $info['KEY'] = $name;
 
-
             $ref = new \ReflectionClass($interface);
             $submit = $ref->getConstant("SUBMIT");
 
@@ -40,7 +31,6 @@ class Theme
                 $submit = [];
             }
 
-            //获取配置
             $setting = [];
             $settingPath = BASE_PATH . "/app/View/User/Theme/{$name}/Setting.php";
             Opcache::invalidate($settingPath);
@@ -66,9 +56,6 @@ class Theme
         }
     }
 
-    /**
-     * @return array
-     */
     public static function getThemes(): array
     {
         $path = BASE_PATH . '/app/View/User/Theme/';

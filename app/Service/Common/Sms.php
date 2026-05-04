@@ -9,13 +9,5 @@ use Kernel\Annotation\Bind;
 interface Sms
 {
 
-    /**
-     * 发送短信
-     * @param array $config
-     * @param string $phone
-     * @param string $templateCode
-     * @param array $var
-     * @return void
-     */
     public function send(array $config, string $phone, string $templateCode, array $var = []): void;
 }

@@ -13,47 +13,26 @@ class Di
 {
     use Singleton;
 
-    /**
-     * 容器列表
-     * @var array
-     */
     private array $container = [];
 
-
-    /**
-     * @param string $id
-     * @param mixed $object
-     * @param mixed ...$arg
-     * @return void
-     */
+    
     public function set(string $id, mixed $object, ...$arg): void
     {
         $this->container[$id] = [$object, $arg];
     }
 
-    /**
-     * @param string $id
-     * @return $this
-     */
     public function del(string $id): static
     {
         unset($this->container[$id]);
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function clear(): static
     {
         $this->container = [];
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @return object
-     */
     public function get(string $id): mixed
     {
         if (!isset($this->container[$id])) {
@@ -78,22 +57,12 @@ class Di
         return $object;
     }
 
-    /**
-     * @param string $id
-     * @return bool
-     */
     public function has(string $id): bool
     {
         return isset($this->container[$id]);
     }
 
-
-    /**
-     * @param string $class
-     * @param ...$arg
-     * @return mixed
-     * @throws \ReflectionException
-     */
+    
     public function make(string $class, ...$arg): mixed
     {
         if ($this->has($class)) {
@@ -119,16 +88,11 @@ class Di
         return $obj;
     }
 
-
-    /**
-     * @param $object
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function inject(&$object): void
     {
         Collector::instance()->propertiesParse($object, function (\ReflectionAttribute $attribute, \ReflectionProperty $property) use ($object) {
-            //依赖注入
+            
             if ($attribute->getName() == Inject::class) {
                 $class = $property->getType()->getName();
                 if (Context::has($class)) {
@@ -147,7 +111,6 @@ class Di
                                 }
                             }
                         });
-
 
                         if (!$service) {
                             $obj = new $class;

@@ -19,12 +19,6 @@ class Bill extends Base
     #[Inject]
     private Http $http;
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function get(): Response
     {
         $http = $this->http->request("/user/bill/get", $this->request->post(), $this->getStoreAuth());

@@ -262,7 +262,6 @@
         });
     }
 
-
     table = new Table("/user/pay/get", "#pay-table");
     table.setDeleteSelector(".del-pay", "/user/pay/del");
     table.setPagination(10, [10, 20, 30, 50]);
@@ -376,7 +375,6 @@
     ]);
     table.setState("equipment", "pay_equipment");
     table.render();
-
 
     $('.add-pay').click(() => {
         modal(util.icon("icon-tianjia") + " 新增个人支付接口");

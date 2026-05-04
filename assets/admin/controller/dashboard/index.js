@@ -7,7 +7,6 @@
         </div>
     </div>`;
 
-    // 获取仪表板数据
     function loadDashboardData(type) {
         let loaderIndex = layer.load(2, {shade: ['0.3', '#fff']});
         $.post("/admin/api/dashboard/data", {type: type}, res => {
@@ -30,7 +29,7 @@
     }
 
     function loadWeekStatistics() {
-        // 加载周统计数据
+        
         $.get("/admin/api/dashboard/weekStatistics", res => {
             if (res.code != 200) {
                 layer.msg(res.msg);
@@ -158,7 +157,6 @@
             };
             statistics.setOption(option);
 
-            // 响应式处理
             window.addEventListener('resize', function () {
                 statistics.resize();
             });

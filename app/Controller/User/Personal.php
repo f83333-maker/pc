@@ -12,22 +12,13 @@ use Kernel\Exception\JSONException;
 #[Interceptor([Waf::class, UserSession::class])]
 class Personal extends User
 {
-    /**
-     * 购买记录
-     * @return string
-     * @throws \Kernel\Exception\ViewException
-     * @throws \ReflectionException
-     */
+    
     public function purchaseRecord(): string
     {
         $tradeNo = (string)$_GET['tradeNo'];
         return $this->theme("购买记录", "PURCHASE_RECORD", "User/PurchaseRecord.html", ['tradeNo' => $tradeNo]);
     }
 
-    /**
-     * 下载宝贝信息
-     * @throws \Kernel\Exception\JSONException
-     */
     public function secretDownload(): string
     {
         $id = (int)$_GET['id'];

@@ -13,11 +13,7 @@ use Kernel\Exception\ViewException;
 #[Interceptor([Waf::class, UserSession::class, Business::class])]
 class Category extends User
 {
-    /**
-     * @return string
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
+    
     public function index(): string
     {
         return $this->theme("商品分类", "CATEGORY", "User/Category.html");

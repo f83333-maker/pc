@@ -8,12 +8,9 @@ use Kernel\Context\App;
 use Kernel\Database\Db;
 use Kernel\Database\Schema;
 
-
 class Database extends Command
 {
-    /**
-     * @return void
-     */
+    
     public function createModel(): void
     {
         if (empty($this->param)) {
@@ -34,7 +31,7 @@ class Database extends Command
             foreach ($columnDetails as $detail) {
                 $type = $this->mapColumnTypeToPropertyType($detail->Type);
                 $properties[] = " * @property {$type} \${$detail->Field}";
-                if ($type !== 'string') { // Only add to casts if not string
+                if ($type !== 'string') { 
                     $casts[$detail->Field] = $type;
                 }
             }
@@ -49,10 +46,6 @@ class Database extends Command
         }
     }
 
-    /**
-     * @param string $columnType
-     * @return string
-     */
     private function mapColumnTypeToPropertyType(string $columnType): string
     {
         if (preg_match("/decimal|float|double/", $columnType)) {
@@ -64,22 +57,11 @@ class Database extends Command
         }
     }
 
-    /**
-     * @param string $table
-     * @return string
-     */
     private function generateModelFileName(string $table): string
     {
         return implode('', array_map('ucfirst', explode('_', $table)));
     }
 
-    /**
-     * @param string $fileName
-     * @param string $table
-     * @param string $annotation
-     * @param string $castsArray
-     * @return string
-     */
     private function generateModelClass(string $fileName, string $table, string $annotation, string $castsArray): string
     {
         return <<<PHP
@@ -100,11 +82,6 @@ class $fileName extends Model
 PHP;
     }
 
-    /**
-     * @param string $fileName
-     * @param string $phpContent
-     * @return void
-     */
     private function writeModelFile(string $fileName, string $phpContent): void
     {
         $filePath = BASE_PATH . "/app/Model/" . $fileName . ".php";

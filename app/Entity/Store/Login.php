@@ -15,9 +15,6 @@ class Login
     public string $username;
     public string $avatar;
 
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
         $this->id = (int)$data['id'];

@@ -17,10 +17,6 @@ class Security extends Base
     #[Inject]
     private Captcha $captcha;
 
-    /**
-     * @param string $value
-     * @return bool|string
-     */
     public function email(mixed $value): bool|string
     {
         if (!$value) {
@@ -38,11 +34,10 @@ class Security extends Base
         return true;
     }
 
-
     #[Regex("/^\d{6}$/", "当前邮箱验证码错误")]
     public function currentEmailCode(mixed $value): bool|string
     {
-        //如果当前没有绑定邮箱，则不验证
+        
         if (!$this->getUser()->email) {
             return true;
         }
@@ -66,7 +61,6 @@ class Security extends Base
         }
         return true;
     }
-
 
     #[Required("当前登录密码不能为空")]
     public function currentPassword(mixed $value): bool|string
@@ -92,7 +86,6 @@ class Security extends Base
         }
         return true;
     }
-
 
     #[Required("证件类型不能为空")]
     public function type(mixed $value): bool|string

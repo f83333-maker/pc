@@ -21,7 +21,6 @@ class Config extends Base
     #[Inject]
     private Query $query;
 
-
     public function index(): Response
     {
         $get = new Get(Model::class);
@@ -33,10 +32,7 @@ class Config extends Base
         return $this->render("Config/Config.html", "系统设置", ["configs" => $configs, "nginxConf" => BASE_PATH . "config/nginx/*.conf", "cli" => App::$cli]);
     }
 
-
-    /**
-     * @return Response
-     */
+    
     public function language(): Response
     {
         return $this->render("Config/Language.html", "国际化管理");

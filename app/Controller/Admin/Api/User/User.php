@@ -34,14 +34,9 @@ class User extends Base
     #[Inject]
     private Balance $balance;
 
-
     #[Inject]
     private Lifetime $lifetime;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -67,10 +62,8 @@ class User extends Base
                 }
             }
 
-
             $raw['user_count'] = (clone $builder)->count();
             $raw['user_total_balance'] = (clone $builder)->sum("balance");
-
 
             return $builder->with([
                 'parent' => function (HasOne $query) {
@@ -86,11 +79,7 @@ class User extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function del(): Response
     {
         $delete = new Delete(\App\Model\User::class, (array)$this->request->post("list"));
@@ -98,9 +87,6 @@ class User extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     */
     public function balanceChange(): Response
     {
         $type = $this->request->post('type', Filter::INTEGER);
@@ -122,10 +108,6 @@ class User extends Base
         return $this->response->json();
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\User::class, "password"]
     ])]
@@ -135,13 +117,11 @@ class User extends Base
         $save = new Save(Model::class);
         $save->setMap($post, ['username', 'email', 'avatar', 'status', 'note', 'group_id', 'level_id', 'withdraw_amount']);
         try {
-            //重置密码
+            
             if (isset($post['password']) && $post['password'] != "") {
 
                 if (isset($post['id'])) {
-                    /**
-                     * @var Model $user
-                     */
+                    
                     $user = Model::query()->find($post['id']);
                     $save->addForceMap("password", Str::generatePassword($post['password'], $user?->salt));
                 } else {
@@ -156,7 +136,7 @@ class User extends Base
             $model = $this->query->save($save);
 
             if (!isset($post['id'])) {
-                //创建生涯
+                
                 $this->lifetime->create($model->id, "127.0.0.1", 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36');
             }
         } catch (\Exception $exception) {

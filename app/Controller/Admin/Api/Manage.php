@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
 use App\Entity\Query\Save;
@@ -25,9 +24,6 @@ class Manage extends \App\Controller\Base\API\Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     #[Interceptor(Super::class, Interceptor::TYPE_API)]
     public function data(): array
     {
@@ -41,11 +37,7 @@ class Manage extends \App\Controller\Base\API\Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     #[Interceptor(Super::class, Interceptor::TYPE_API)]
     public function save(): array
     {
@@ -90,11 +82,7 @@ class Manage extends \App\Controller\Base\API\Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     #[Interceptor(Super::class, Interceptor::TYPE_API)]
     public function del(): array
     {
@@ -108,10 +96,6 @@ class Manage extends \App\Controller\Base\API\Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function set(): array
     {
         $map = $_POST;

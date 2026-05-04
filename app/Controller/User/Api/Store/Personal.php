@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\User\API\Store;
 
-
 use App\Controller\User\Base;
 use App\Interceptor\Group;
 use App\Interceptor\PostDecrypt;
@@ -21,11 +20,6 @@ class Personal extends Base
     #[Inject]
     private \App\Service\Store\Personal $personal;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws JSONException
-     */
     public function info(): Response
     {
         return $this->json(data: $this->personal->getInfo($this->getStoreAuth()));

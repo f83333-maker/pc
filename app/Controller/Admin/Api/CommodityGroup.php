@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -21,16 +20,12 @@ use Kernel\Exception\NotFoundException;
 use Kernel\Exception\RuntimeException;
 use Kernel\Waf\Filter;
 
-
 #[Interceptor(ManageSession::class, Interceptor::TYPE_API)]
 class CommodityGroup extends Manage
 {
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -40,12 +35,7 @@ class CommodityGroup extends Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
+    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -61,11 +51,6 @@ class CommodityGroup extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    /**
-     * @param int $id
-     * @return array
-     * @throws JSONException
-     */
     public function list(int $id): array
     {
         $commodityGroup = \App\Model\CommodityGroup::query()->find($id);
@@ -78,7 +63,6 @@ class CommodityGroup extends Manage
         $list = $commodity->toArray();
 
         $commodityList = $commodityGroup->commodity_list ?: [];
-
 
         $result = [];
 
@@ -102,7 +86,6 @@ class CommodityGroup extends Manage
                     ];
                 }
 
-                // 一级分类
                 $result[] = [
                     'id' => $id,
                     'name' => $category['name'],
@@ -111,21 +94,13 @@ class CommodityGroup extends Manage
                 ];
             }
 
-            // 合并子项
             $result = array_merge($result, $children);
         }
-
 
         return $this->json(data: ["list" => $result]);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
+    
     public function del(): array
     {
         $list = (array)$_POST['list'];

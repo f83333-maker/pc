@@ -5,15 +5,6 @@ namespace App\Model;
 
 use Kernel\Database\Model;
 
-/**
- * @property integer $id
- * @property integer $user_id
- * @property string $name
- * @property string $plugin
- * @property string $handle
- * @property array $config
- * @property string $create_time
- */
 class PluginConfig extends Model
 {
     protected ?string $table = 'plugin_config';

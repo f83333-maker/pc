@@ -25,26 +25,17 @@ class Widget
         $this->type = strip_tags($type);
     }
 
-
-    /**
-     * @param string $regex
-     */
+    
     public function setRegex(string $regex): void
     {
         $this->regex = strip_tags($regex);
     }
 
-    /**
-     * @param string $error
-     */
     public function setError(string $error): void
     {
         $this->error = strip_tags($error);
     }
 
-    /**
-     * @param string $data
-     */
     public function setData(string $data): void
     {
         $this->data = strip_tags($data);

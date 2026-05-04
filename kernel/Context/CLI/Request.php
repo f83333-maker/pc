@@ -6,10 +6,6 @@ namespace Kernel\Context\CLI;
 class Request extends \Kernel\Context\Abstract\Request
 {
 
-    /**
-     * @param \Swoole\Http\Request $request
-     * @throws \ReflectionException
-     */
     public function __construct(\Swoole\Http\Request $request)
     {
         $this->post = (array)$request->post;
@@ -49,11 +45,7 @@ class Request extends \Kernel\Context\Abstract\Request
         parent::__construct();
     }
 
-
-    /**
-     * @param array $headers
-     * @return array
-     */
+    
     private function parseHeader(array $headers): array
     {
         $array = [];

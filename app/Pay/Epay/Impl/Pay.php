@@ -9,17 +9,9 @@ use App\Util\Client;
 use App\Util\Http;
 use Kernel\Exception\JSONException;
 
-/**
- * Class Pay
- * @package App\Pay\Kvmpay\Impl
- */
 class Pay extends Base implements \App\Pay\Pay
 {
 
-    /**
-     * @return PayEntity
-     * @throws JSONException
-     */
     public function trade(): PayEntity
     {
 
@@ -45,7 +37,6 @@ class Pay extends Base implements \App\Pay\Pay
             'clientip' => $this->clientIp,
             'device' => Client::isMobile() ? 'mobile' : 'pc'
         ];
-
 
         $url = trim($this->config['url'], "/");
 

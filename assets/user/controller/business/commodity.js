@@ -620,11 +620,9 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
 
     table.render();
 
-
     $('.button-add').click(function () {
         modal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加商品`);
     });
-
 
     $(document).off("click", ".add-card").on("click", ".add-card", function () {
         const id = $(this).data("id");

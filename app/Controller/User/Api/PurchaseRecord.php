@@ -20,9 +20,6 @@ class PurchaseRecord extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $this->request->post();

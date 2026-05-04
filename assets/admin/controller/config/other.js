@@ -2,8 +2,6 @@
     let _substation_display_list = JSON.parse(getVar("_substation_display_list"));
     util.isEmptyOrNotJson(_substation_display_list) && (_substation_display_list = []);
 
-
-
     const table = new Table("/admin/api/config/getBusiness", "#substation_display_list");
 
     table.setColumns([
@@ -70,7 +68,6 @@
     ]);
 
     table.render();
-
 
     $('.save-data').click(function () {
         util.post("/admin/api/config/other", util.arrayToObject($("#data-form").serializeArray()), res => {

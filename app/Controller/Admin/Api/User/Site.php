@@ -35,11 +35,7 @@ class Site extends Base
     #[Inject]
     private \App\Service\User\Site $site;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -68,13 +64,7 @@ class Site extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function save(): Response
     {
         $save = new Save(Model::class);
@@ -89,9 +79,6 @@ class Site extends Base
         return $this->json();
     }
 
-    /**
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Site::class, ["domain", "pem", "key"]]
     ])]
@@ -104,10 +91,6 @@ class Site extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Site::class, "domain"]
     ])]
@@ -117,11 +100,7 @@ class Site extends Base
         return $this->json(data: $this->site->getCertificate($domain));
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Site::class, "domain"]
     ])]
@@ -132,10 +111,6 @@ class Site extends Base
         return $this->json(message: "删除成功");
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function getDnsRecord(): Response
     {
         $dnsValue = trim((string)$this->config->getMainConfig("subdomain.dns_value"));

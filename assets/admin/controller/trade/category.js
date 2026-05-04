@@ -183,7 +183,6 @@
 
     table.render();
 
-
     $('.btn-app-create').click(function () {
         modal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加分类`);
     });
@@ -230,6 +229,5 @@
             });
         });
     });
-
 
 }();

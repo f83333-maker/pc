@@ -367,9 +367,8 @@
                         change: (obj, value) => {
                             if (value == 1) {
                                 obj.hide("markup_template_id");
-                                // obj.show("markup.drift_base_amount");
-                                // obj.show("markup.drift_model");
-                                //  obj.show("markup.drift_value");
+
+                                
                                 obj.show("markup.sync_name");
                                 obj.show("markup.sync_introduce");
                                 obj.show("markup.sync_picture");
@@ -804,7 +803,7 @@
                                 {title: "备注", name: "search-note", type: "input", width: 125}
                             ]);
                             skuUserTable.render();
-                            //-------------
+                            
                         }
                     }
                 ]
@@ -831,7 +830,6 @@
             });
             return;
         }
-
 
         if (!shipName) {
             message.error("请选择发货插件，在添加/修改SKU");
@@ -900,7 +898,7 @@
                                                 title: "配置",
                                                 class: 'btn-outline-dodgerblue',
                                                 click: (event, value, row, index) => {
-                                                    //------------------------------
+                                                    
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -940,7 +938,7 @@
                                                                             ]);
                                                                             table.setUpdate("/admin/repertory/item/sku/wholesale/group/save?wholesaleId=" + row.id);
                                                                             table.render();
-                                                                            //-------------
+                                                                            
                                                                         }
                                                                     }
                                                                 ]
@@ -949,7 +947,7 @@
                                                         autoPosition: true,
                                                         width: "480px"
                                                     });
-                                                    //-----------------------------
+                                                    
                                                 }
                                             }
                                         ]
@@ -961,7 +959,7 @@
                                                 title: "配置",
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    //------------------------------
+                                                    
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -1021,7 +1019,7 @@
                                                                             ]);
 
                                                                             table.render();
-                                                                            //-------------
+                                                                            
                                                                         }
                                                                     }
                                                                 ]
@@ -1030,7 +1028,7 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    //-----------------------------
+                                                    
                                                 }
                                             }
                                         ]

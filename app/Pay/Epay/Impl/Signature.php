@@ -3,21 +3,12 @@ declare(strict_types=1);
 
 namespace App\Pay\Epay\Impl;
 
-
 use App\Util\Str;
 use Kernel\Exception\JSONException;
 
-/**
- * Class Signature
- * @package App\Pay\Kvmpay\Impl
- */
 class Signature implements \App\Pay\Signature
 {
-    /**
-     * @param mixed $str
-     * @param string $local
-     * @return bool
-     */
+    
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {
@@ -27,12 +18,6 @@ class Signature implements \App\Pay\Signature
         return hash_equals($local, $str);
     }
 
-    /**
-     * 生成签名
-     * @param array $data
-     * @param string $key
-     * @return string
-     */
     public static function generateSignature(array $data, string $key): string
     {
         unset($data['sign'], $data['sign_type']);
@@ -46,11 +31,7 @@ class Signature implements \App\Pay\Signature
         return md5($sign . $key);
     }
 
-
-    /**
-     * @param array $param
-     * @return string
-     */
+    
     public static function getStr(array $param): string
     {
         ksort($param);
@@ -63,13 +44,7 @@ class Signature implements \App\Pay\Signature
         return substr($signstr, 1);
     }
 
-
-    /**
-     * @param array $param
-     * @param string $key
-     * @return string
-     * @throws JSONException
-     */
+    
     public static function rsa(array $param, string $key): string
     {
         $data = self::getStr($param);
@@ -84,12 +59,7 @@ class Signature implements \App\Pay\Signature
         return base64_encode($sign);
     }
 
-
-    /**
-     * @param array $params
-     * @param string $publicKey
-     * @return bool
-     */
+    
     public static function rsaVerify(array $params, string $publicKey): bool
     {
         $key = "-----BEGIN PUBLIC KEY-----\n" .
@@ -104,10 +74,7 @@ class Signature implements \App\Pay\Signature
         return $result === 1;
     }
 
-
-    /**
-     * @inheritDoc
-     */
+    
     public function verification(array $data, array $config): bool
     {
         if ($config['version'] == 1) {

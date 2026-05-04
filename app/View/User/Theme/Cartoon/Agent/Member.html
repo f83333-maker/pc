@@ -21,20 +21,20 @@
             let cao = layui.hex;
             let queryParams = null;
             table.bootstrapTable({
-                url: '/user/api/agentMember/data',//请求的url地址
-                method: "post",//请求方式
-                pageSize: 8,//每页显示的数量
-                showRefresh: false,//是否显示刷新按钮
-                cache: false,//是否使用缓存
-                showToggle: false,//是否显示详细视图和列表视图的切换按钮
+                url: '/user/api/agentMember/data',
+                method: "post",
+                pageSize: 8,
+                showRefresh: false,
+                cache: false,
+                showToggle: false,
                 cardView: false,
-                pagination: true,//是否显示分页
-                pageNumber: 1,//初始化显示第几页，默认第1页
-                singleSelect: false,//复选框只能选择一条记录
-                sidePagination: 'server',//分页显示方式，可以选择客户端和服务端（server|client）
-                contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
-                dataType: "json",//接收的数据类型
-                queryParamsType: 'limit',//参数格式，发送标准的Restful类型的请求
+                pagination: true,
+                pageNumber: 1,
+                singleSelect: false,
+                sidePagination: 'server',
+                contentType: "application/x-www-form-urlencoded",
+                dataType: "json",
+                queryParamsType: 'limit',
                 queryParams: function (params) {
                     params.page = (params.offset / params.limit) + 1;
                     if (queryParams) {
@@ -46,7 +46,7 @@
                     }
                     return queryParams;
                 },
-                //回调函数
+                
                 responseHandler: function (res) {
                     return {
                         "total": res.count,

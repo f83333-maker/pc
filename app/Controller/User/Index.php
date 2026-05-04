@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-
 use App\Consts\Hook;
 use App\Controller\Base\View\User;
 use App\Interceptor\UserVisitor;
@@ -23,13 +22,6 @@ class Index extends User
     #[Inject]
     private Shop $shop;
 
-    /**
-     * @return string
-     * @throws RuntimeException
-     * @throws ViewException
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function index(): string
     {
         if ((int)Config::get("closed") == 1) {
@@ -39,7 +31,6 @@ class Index extends User
 
         $_GET['cid'] = ($_GET['cid'] ?? null) ?: Config::get("default_category");
 
-        //获取所有分类
         $categoryRaw = $this->shop->getCategory($this->getUserGroup());
         $category = Tree::generate($categoryRaw);
         hook(Hook::USER_API_INDEX_CATEGORY_LIST, $category);
@@ -53,12 +44,6 @@ class Index extends User
         ]);
     }
 
-    /**
-     * @return string
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
     public function item(): string
     {
         $item = $this->shop->getItem((int)$_GET['mid'], $this->getUser(), $this->getUserGroup());
@@ -83,22 +68,11 @@ class Index extends User
         ]);
     }
 
-    /**
-     * @return string
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
     public function query(): string
     {
         return $this->theme("订单查询", "QUERY", "Index/Query.html", ['user' => $this->getUser(), 'tradeNo' => (string)($_GET['tradeNo'] ?? "")]);
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
     public function twofa(): string
     {
         return $this->theme("2FA验证", "2FA", "Index/Twofa.html", ['user' => $this->getUser()]);

@@ -4,7 +4,6 @@
     const $transferPayee = $('.transfer-payee');
     const $balance = $('.recharge-view .balance');
 
-
     $btnTransfer.click(function () {
         message.ask("资金一旦转出则无法追回。", () => {
             util.post("/user/transfer/to", {payee: $transferPayee.val(), amount: $amount.val()}, res => {

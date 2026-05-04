@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-
 use App\Controller\Base\View\Manage;
 use App\Interceptor\ManageSession;
 use App\Model\UserRecharge;
@@ -13,9 +12,7 @@ use Kernel\Exception\ViewException;
 #[Interceptor(ManageSession::class)]
 class User extends Manage
 {
-    /**
-     * @throws ViewException
-     */
+    
     public function index(): string
     {
 
@@ -36,26 +33,17 @@ class User extends Manage
         ]);
     }
 
-
-    /**
-     * @throws ViewException
-     */
+    
     public function group(): string
     {
         return $this->render("会员等级", "User/Group.html");
     }
 
-    /**
-     * @throws ViewException
-     */
     public function businessLevel(): string
     {
         return $this->render("商户等级", "User/BusinessLevel.html");
     }
 
-    /**
-     * @throws ViewException
-     */
     public function bill(): string
     {
         return $this->render("账单管理", "User/Bill.html");

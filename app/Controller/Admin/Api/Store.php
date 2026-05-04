@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -35,9 +34,6 @@ class Store extends Manage
     #[Inject]
     private Image $image;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -48,11 +44,7 @@ class Store extends Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function save(): array
     {
         $map = $_POST;
@@ -88,10 +80,6 @@ class Store extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function connect(): array
     {
         $id = (int)$_POST['id'];
@@ -107,10 +95,6 @@ class Store extends Manage
         return $this->json(200, 'success');
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function items(): array
     {
         $id = (int)$_POST['id'];
@@ -138,9 +122,6 @@ class Store extends Manage
         return $this->json(200, 'success', $items);
     }
 
-    /**
-     * @throws JSONException
-     */
     public function addItem(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -148,10 +129,10 @@ class Store extends Manage
         $categoryId = (int)$map['category_id'];
         $storeId = (int)$_GET['storeId'];
         $items = (array)$map['items'];
-        $premium = (float)$map['premium']; // 加价金额
-        $premiumType = (int)$map['premium_type']; // 加价模式
+        $premium = (float)$map['premium']; 
+        $premiumType = (int)$map['premium_type']; 
         $imageDownload = (bool)$map['image_download'];
-        $shelves = (int)$map['shelves'] == 0 ? 0 : 1; // 立即上架
+        $shelves = (int)$map['shelves'] == 0 ? 0 : 1; 
         $sharedSync = (int)$map['shared_sync'] == 0 ? 0 : 1;
         $sharedAmountSync = (int)$map['shared_amount_sync'] == 0 ? 0 : 1;
         $sharedConfigSync = (int)$map['shared_config_sync'] == 0 ? 0 : 1;
@@ -174,13 +155,12 @@ class Store extends Manage
                 $commodity->name = $item['name'];
                 $commodity->description = $item['description'];
 
-                //正则处理
                 preg_match_all('#<img.*?src="(/.*?)"#', $commodity->description, $matchs);
                 $list = (array)$matchs[1];
 
                 if (count($list) > 0) {
                     foreach ($list as $e) {
-                        //远端图片下载
+                        
                         if ($imageDownload) {
                             $download = $this->image->downloadRemoteImage($shared->domain . $e);
                             $commodity->description = str_replace($e, $download[0], $commodity->description);
@@ -190,7 +170,6 @@ class Store extends Manage
                     }
                 }
 
-                //远端cover下载
                 if ($imageDownload) {
                     $download = $this->image->downloadRemoteImage($shared->domain . $item['cover']);
                     $commodity->cover = $download[0];
@@ -228,7 +207,6 @@ class Store extends Manage
                     $commodity->draft_premium = $this->shared->AdjustmentAmount($premiumType, $premium, $item['draft_premium']);
                 }
 
-                //2022/01/05新增
                 $commodity->inventory_hidden = $item['inventory_hidden'];
                 $commodity->only_user = $item['only_user'];
                 $commodity->purchase_count = $item['purchase_count'];
@@ -236,7 +214,6 @@ class Store extends Manage
                 $commodity->minimum = $item['minimum'];
                 !empty($item['stock']) && $commodity->stock = $item['stock'];
 
-                //自动加价
                 $config = $this->shared->AdjustmentPrice((string)$item['config'], $item['price'], $item['user_price'], $premiumType, $premium);
 
                 $_config = Ini::toArray((string)$item['config']);
@@ -265,11 +242,7 @@ class Store extends Manage
         return $this->json(200, "拉取结束，总数量：{$count}，成功：{$success}，失败：{$error}");
     }
 
-
-    /**
-     * @param int $id
-     * @return array
-     */
+    
     public function syncRemote(int $id): array
     {
         $list = \App\Model\Commodity::query()->where("shared_id", $id)->get();
@@ -290,10 +263,6 @@ class Store extends Manage
         return $this->json();
     }
 
-    /**
-     * @param int $id
-     * @return array
-     */
     public function getSyncRemoteLog(int $id): array
     {
         $logName = "sync_remote_item_{$id}";
@@ -301,11 +270,7 @@ class Store extends Manage
         return $this->json(data: ["log" => $log]);
     }
 
-
-    /**
-     * @param int $id
-     * @return array
-     */
+    
     public function clearSyncRemoteLog(int $id): array
     {
         $logName = "sync_remote_item_{$id}";
@@ -313,11 +278,7 @@ class Store extends Manage
         return $this->json();
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function del(): array
     {
         $deleteBatchEntity = new Delete(Shared::class, $_POST['list']);

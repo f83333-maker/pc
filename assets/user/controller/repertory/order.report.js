@@ -10,7 +10,6 @@
 
     const broadcast = new Broadcast(".report-voice-broadcast", "/assets/common/audio/report");
 
-
     const reportApply = (unique, item) => {
         let refundAmount = 0;
         const sku = item?.order_item?.sku?.repertory_item_sku
@@ -101,13 +100,12 @@
                 }
             ],
             done: () => {
-                //刷新聊天记录
+                
                 loadMessage(unique, item);
             },
             autoPosition: true,
         });
     }
-
 
     const loadMessage = (unique, reportOrder) => {
         let latest = 0, token = util.generateRandStr(16), tokenKey = `order_report_message_heartbeat_${reportOrder.id}`;
@@ -187,7 +185,6 @@
             }
         });
     }
-
 
     const table = new Table("/user/repertory/report/order/get", "#repertory-report-order-table");
     table.setPagination(12, [12, 20, 50, 100]);

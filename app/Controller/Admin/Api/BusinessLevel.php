@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -23,11 +22,6 @@ class BusinessLevel extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -39,14 +33,7 @@ class BusinessLevel extends Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function save(): array
     {
         $save = new Save(\App\Model\BusinessLevel::class);
@@ -60,13 +47,7 @@ class BusinessLevel extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
+    
     public function del(): array
     {
         $delete = new Delete(\App\Model\BusinessLevel::class, $_POST['list']);

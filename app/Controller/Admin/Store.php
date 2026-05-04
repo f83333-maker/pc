@@ -19,20 +19,12 @@ class Store extends Manage
         ["name" => '<i class="fa-duotone fa-regular fa-code"></i> 开发者中心', "url" => "/admin/store/developer"]
     ];
 
-    /**
-     * @throws ViewException
-     */
     public function index(): string
     {
         return $this->render("店铺共享", "Shared/Store.html");
     }
 
-
-    /**
-     * @return string
-     * @throws ViewException
-     * @throws JSONException
-     */
+    
     public function home(): string
     {
 
@@ -43,11 +35,7 @@ class Store extends Manage
         return $this->render("应用商店", "Store/Store.html", ["toolbar" => $this->TOOLBAR]);
     }
 
-
-    /**
-     * @throws ViewException
-     * @throws JSONException
-     */
+    
     public function developer(): string
     {
         if (!file_exists(BASE_PATH . "/kernel/Plugin.php")) {

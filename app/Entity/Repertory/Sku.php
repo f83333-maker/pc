@@ -10,80 +10,36 @@ class Sku
 
     use ToArray;
 
-    /**
-     * @var int
-     */
     public int $repertoryItemSkuId;
 
-
-    /**
-     * @var string
-     */
+    
     public string $name;
 
-
-    /**
-     * @var string
-     */
+    
     public string $stockPrice;
 
-
-    /**
-     * @var bool
-     */
+    
     public bool $marketControl;
 
-
-    /**
-     * @var string
-     */
+    
     public string $marketControlMinPrice;
 
-    /**
-     * @var string
-     */
     public string $marketControlMaxPrice;
 
-    /**
-     * @var string
-     */
     public string $marketControlLevelMinPrice;
 
-    /**
-     * @var string
-     */
     public string $marketControlLevelMaxPrice;
-    /**
-     * @var string
-     */
+    
     public string $marketControlUserMinPrice;
 
-    /**
-     * @var string
-     */
     public string $marketControlUserMaxPrice;
 
-    /**
-     * @var int
-     */
     public int $marketControlMinNum;
 
-    /**
-     * @var int
-     */
     public int $marketControlMaxNum;
 
-    /**
-     * @var int
-     */
     public int $marketControlOnlyNum;
 
-    /**
-     * @param int $id
-     * @param string|null $name
-     * @param string|float|int $stockPrice
-     * @param object $marketControl
-     */
     public function __construct(int $id, ?string $name, string|float|int $stockPrice, object $marketControl)
     {
         $this->repertoryItemSkuId = $id;

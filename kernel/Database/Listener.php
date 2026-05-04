@@ -3,26 +3,18 @@ declare (strict_types=1);
 
 namespace Kernel\Database;
 
-
 use Illuminate\Contracts\Events\Dispatcher;
 use Kernel\Component\Singleton;
-
 
 class Listener
 {
 
     use Singleton;
 
-
-    /**
-     * @var Dispatcher|null
-     */
+    
     private ?Dispatcher $queryEvent = null;
 
-
-    /**
-     * @return Dispatcher
-     */
+    
     public function query(): Dispatcher
     {
         if ($this->queryEvent) {

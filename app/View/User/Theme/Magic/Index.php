@@ -55,7 +55,6 @@
     </div>
     </div>
 
-
     <script>
         acg.ready("<?php echo $data['from'];?>", () => {
             let __html = $('.__html').html();

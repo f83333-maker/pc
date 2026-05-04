@@ -27,13 +27,7 @@ class PayUser extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $id
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(string $id, string $type): Response
     {
         $columns = ["fee", "status"];
@@ -59,15 +53,7 @@ class PayUser extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param string $payId
-     * @param string $type
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function save(string $payId, string $type): Response
     {
         $map = $this->request->post();

@@ -5,12 +5,6 @@ namespace App\Model;
 
 use Kernel\Database\Model;
 
-/**
- * @property integer $id
- * @property integer $customer_id
- * @property string $client_id
- * @property string $create_time
- */
 class Cart extends Model
 {
     protected ?string $table = 'cart';

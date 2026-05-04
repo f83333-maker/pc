@@ -3,20 +3,11 @@ declare (strict_types=1);
 
 namespace Kernel\Util;
 
-
 use Kernel\Exception\JSONException;
 
 class View
 {
-    /**
-     * @param string $template
-     * @param array $data
-     * @param string $dir
-     * @param bool $controller
-     * @return string
-     * @throws JSONException
-     * @throws \SmartyException
-     */
+    
     public static function render(string $template, array $data = [], string $dir = BASE_PATH . '/app/View', bool $controller = true): string
     {
         if (!self::isSafeDir($dir)) {
@@ -41,11 +32,7 @@ class View
         return $result;
     }
 
-
-    /**
-     * @param string $dir
-     * @return bool
-     */
+    
     public static function isSafeDir(string $dir): bool
     {
         $dirReal = realpath($dir);
@@ -68,11 +55,7 @@ class View
         return false;
     }
 
-
-    /**
-     * @param string $file
-     * @return bool
-     */
+    
     public static function isSafeTemplate(string $file): bool
     {
         $allowedExt = ['html', 'hook', 'tpl'];

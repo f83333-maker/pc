@@ -27,9 +27,6 @@ class Card extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $get = new Get(\App\Model\Card::class);
@@ -49,11 +46,6 @@ class Card extends User
         return $this->json(data: $data);
     }
 
-    /**
-     * @param int $commodityId
-     * @return array
-     * @throws JSONException
-     */
     public function sku(int $commodityId): array
     {
         $commodity = \App\Model\Commodity::query()->where("owner", $this->getUser()->id)->find($commodityId);
@@ -66,11 +58,6 @@ class Card extends User
         return $this->json(data: $config);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
     public function save(Request $request): array
     {
         $commodityId = $request->post("commodity_id", Filter::INTEGER);
@@ -89,7 +76,6 @@ class Card extends User
 
         $cards = trim(trim((string)$request->post("secret", Filter::NORMAL)), PHP_EOL);
 
-        //进行批量插入
         if ($cards == '') {
             throw new JSONException('(`･ω･´)请至少添加1条卡密信息哦');
         }
@@ -107,7 +93,7 @@ class Card extends User
         foreach ($cards as $card) {
             $cardt = trim(trim($card), PHP_EOL);
             if ($cardt == "") {
-                $error++; //error ++
+                $error++; 
                 continue;
             }
 
@@ -116,20 +102,18 @@ class Card extends User
             if ($cardType == 0) {
                 $cardObj->secret = $cardt;
             } else {
-                //分割
+                
                 $list = explode("║", $cardt);
                 if (count($list) < 2) {
-                    $error++; //error ++
+                    $error++; 
                     continue;
                 }
                 $cardObj->secret = trim($list[0]);
 
-                //预选信息
                 if (isset($list[1])) {
                     $cardObj->draft = trim($list[1]);
                 }
 
-                //独立加价
                 if (isset($list[2])) {
                     $cardObj->draft_premium = (float)$list[2];
                 }
@@ -137,7 +121,7 @@ class Card extends User
 
             if ($unique) {
                 if (\App\Model\Card::query()->where("owner", $userId)->where("secret", $cardObj->secret)->first()) {
-                    $error++; //error ++
+                    $error++; 
                     continue;
                 }
             }
@@ -148,7 +132,6 @@ class Card extends User
                 $cardObj->note = $_POST['note'];
             }
             $cardObj->status = 0;
-
 
             $cardObj->sku = $sku;
             $cardObj->create_time = $date;
@@ -161,17 +144,13 @@ class Card extends User
                 $cardObj->save();
                 $success++;
             } catch (\Exception $e) {
-                $error++; //error ++
+                $error++; 
             }
         }
 
         return $this->json(200, "共计导入:{$count}张卡密，成功:{$success}张，失败：{$error}张");
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function edit(): array
     {
         $map = $_POST;
@@ -193,10 +172,7 @@ class Card extends User
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function lock(): array
     {
         $list = (array)$_POST['list'];
@@ -204,9 +180,6 @@ class Card extends User
         return $this->json(200, '锁定成功');
     }
 
-    /**
-     * @return array
-     */
     public function unlock(): array
     {
         $list = (array)$_POST['list'];
@@ -214,9 +187,6 @@ class Card extends User
         return $this->json(200, '解锁成功');
     }
 
-    /**
-     * @return array
-     */
     public function del(): array
     {
         $list = (array)$_POST['list'];
@@ -224,10 +194,7 @@ class Card extends User
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function sell(): array
     {
         $list = (array)$_POST['list'];
@@ -235,10 +202,6 @@ class Card extends User
         return $this->json(200, '操作成功');
     }
 
-    /**
-     * 导出
-     * @return string
-     */
     public function export(): string
     {
         $map = $_GET;
@@ -248,7 +211,6 @@ class Card extends User
 
         unset($map['export_status']);
         unset($map['export_num']);
-
 
         $map['equal-owner'] = $this->getUser()->id;
         $get = new Get(\App\Model\Card::class);
@@ -273,13 +235,13 @@ class Card extends User
         }
 
         if ($exportStatus == 1) {
-            //锁定卡密
+            
             try {
                 \App\Model\Card::query()->whereIn('id', $ids)->whereRaw("status!=1")->update(['status' => 2]);
             } catch (\Exception $e) {
             }
         } elseif ($exportStatus == 2) {
-            //删除卡密
+            
             try {
                 $deleteBatchEntity = new Delete(\App\Model\Card::class, $ids);
                 $this->query->delete($deleteBatchEntity);

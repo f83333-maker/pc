@@ -1,5 +1,5 @@
 #{include file="./Header.html"}
-<!-- Main Container -->
+
 <main class="auth-wrapper">
     <div class="auth-card">
 
@@ -54,16 +54,13 @@
             </div>
         </form>
 
-
         #{if getHookNum(\App\Consts\Hook::USER_VIEW_AUTH_LOGIN_BUTTON) > 0}
-            <!--begin::Separator-->
+            
             <div class="divider small my-3">OR</div>
-            <!--end::Separator-->
+            
         #{/if}
 
-        <!--start::HOOK-->
         #{hook(\App\Consts\Hook::USER_VIEW_AUTH_LOGIN_BUTTON)}
-        <!--end::HOOK-->
 
         #{if $config.registered_state == 1}
         <p class="text-center small mt-3 mb-0">
@@ -73,6 +70,6 @@
         #{/if}
     </div>
 </main>
-<!-- END Main Container -->
+
 #{ready("/assets/user/controller/auth/login.js")}
 #{include file="./Footer.html"}

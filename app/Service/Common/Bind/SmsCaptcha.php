@@ -17,12 +17,6 @@ class SmsCaptcha implements \App\Service\Common\SmsCaptcha
     #[Inject]
     private Session $session;
 
-    /**
-     * @param string $key
-     * @param string $phone
-     * @return void
-     * @throws JSONException
-     */
     public function sendCaptcha(string $key, string $phone): void
     {
         $key = $key . "_" . $phone;
@@ -37,28 +31,22 @@ class SmsCaptcha implements \App\Service\Common\SmsCaptcha
         $platform = (int)$smsConfig['platform'];
 
         $templateCode = match ($platform) {
-            \App\Const\Sms::PLATFORM_ALI => $smsConfig['ali_template_code'], //阿里云
-            \App\Const\Sms::PLATFORM_TENCENT => $smsConfig['tencent_template_id'], //腾讯云
-            \App\Const\Sms::PLATFORM_DXB => str_replace("{code}", (string)$captcha, $smsConfig['dxb_template'])//短信宝
+            \App\Const\Sms::PLATFORM_ALI => $smsConfig['ali_template_code'], 
+            \App\Const\Sms::PLATFORM_TENCENT => $smsConfig['tencent_template_id'], 
+            \App\Const\Sms::PLATFORM_DXB => str_replace("{code}", (string)$captcha, $smsConfig['dxb_template'])
         };
 
         $var = match ($platform) {
-            \App\Const\Sms::PLATFORM_ALI => ['code' => $captcha], //阿里云
-            \App\Const\Sms::PLATFORM_TENCENT => [(string)$captcha], //腾讯云
-            \App\Const\Sms::PLATFORM_DXB => [], //短信宝
+            \App\Const\Sms::PLATFORM_ALI => ['code' => $captcha], 
+            \App\Const\Sms::PLATFORM_TENCENT => [(string)$captcha], 
+            \App\Const\Sms::PLATFORM_DXB => [], 
         };
 
         $this->session->set($key, ["time" => time(), "code" => $captcha]);
-        //统一短信发送接口
+        
         $this->sms->send($smsConfig, $phone, $templateCode, $var);
     }
 
-    /**
-     * @param string $key
-     * @param string $phone
-     * @param int $code
-     * @return bool
-     */
     public function checkCaptcha(string $key, string $phone, int $code): bool
     {
         $key = $key . "_" . $phone;
@@ -79,11 +67,6 @@ class SmsCaptcha implements \App\Service\Common\SmsCaptcha
         return true;
     }
 
-    /**
-     * @param string $key
-     * @param string $phone
-     * @return void
-     */
     public function destroyCaptcha(string $key, string $phone): void
     {
         $key = $key . "_" . $phone;

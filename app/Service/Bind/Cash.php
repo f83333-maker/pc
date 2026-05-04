@@ -3,22 +3,14 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Model\Bill;
 use App\Model\User;
 use App\Util\Date;
 use Illuminate\Database\Capsule\Manager as DB;
 
-/**
- * Class CashService
- * @package App\Service\Impl
- */
 class Cash implements \App\Service\Cash
 {
 
-    /**
-     * @param float $amount
-     */
     public function settlement(float $amount): void
     {
         $users = User::query()->where("coin", ">=", $amount)->get();
@@ -35,7 +27,7 @@ class Cash implements \App\Service\Cash
                     $cash->create_time = $date;
                     $cash->cost = 0;
                     $cash->status = 0;
-                    //创建扣款订单
+                    
                     Bill::create($usr, $usr->coin, \App\Model\Bill::TYPE_SUB, "自动结算", 1);
                     $cash->save();
                 });

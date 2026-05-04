@@ -32,11 +32,7 @@ class Order extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -63,8 +59,8 @@ class Order extends Base
             }
 
             $row['order_count'] = (clone $builder)->count();
-            $row['trade_amount'] = (clone $builder)->sum("trade_amount"); //第三方支付金额
-            $row['balance_amount'] = (clone $builder)->sum("balance_amount"); //余额支付金额
+            $row['trade_amount'] = (clone $builder)->sum("trade_amount"); 
+            $row['balance_amount'] = (clone $builder)->sum("balance_amount"); 
 
             return $builder->with([
                 "customer" => function (HasOne $one) {
@@ -84,21 +80,13 @@ class Order extends Base
         return $this->json(data: array_merge($data, $row));
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function getLatestOrderId(): Response
     {
         $p = PayOrder::query()->whereNull("user_id")->orderBy("id", "desc")->first();
         return $this->json(data: ["id" => $p ? $p->id : 0]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function status(): Response
     {
         $list = (array)$this->request->post("list", Filter::INTEGER);
@@ -118,11 +106,7 @@ class Order extends Base
         return $this->json(data: ["status" => false]);
     }
 
-
-    /**
-     * @return Response
-     * @throws \Throwable
-     */
+    
     #[Validator([
         [Common::class, "id"]
     ])]
@@ -132,19 +116,12 @@ class Order extends Base
 
         Db::transaction(function () use ($id) {
 
-            /**
-             * @var PayOrder $payOrder
-             */
             $payOrder = PayOrder::find($id);
-
 
             if (!$payOrder || ($payOrder->status != 1 && $payOrder->status != 3)) {
                 throw new JSONException("此订单无法操作#0");
             }
 
-            /**
-             * @var \App\Model\Order $order
-             */
             $order = \App\Model\Order::query()->find($payOrder->order_id);
 
             if (!$order || $order->status != 3) {
@@ -160,20 +137,13 @@ class Order extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, "id"]
     ])]
     public function close(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        /**
-         * @var PayOrder $payOrder
-         */
+        
         $payOrder = PayOrder::query()->find($id);
         if (!$payOrder) {
             throw new JSONException("订单不存在");

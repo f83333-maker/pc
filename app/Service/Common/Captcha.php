@@ -9,26 +9,11 @@ use Kernel\Annotation\Bind;
 interface Captcha
 {
 
-    /**
-     * @param string $key
-     * @param int $expire
-     * @param int $limiter
-     * @return string
-     */
     public function create(string $key, int $expire, int $limiter = 60): string;
 
-
-    /**
-     * @param string $key
-     * @param string $code
-     * @return bool
-     */
+    
     public function verify(string $key, string $code): bool;
 
-
-    /**
-     * @param string $key
-     * @return void
-     */
+    
     public function destroy(string $key): void;
 }

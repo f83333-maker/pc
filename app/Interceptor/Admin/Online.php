@@ -24,14 +24,6 @@ class Online implements Interceptor
     #[Inject]
     private \App\Service\Admin\Manage $manage;
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
 
@@ -71,14 +63,6 @@ class Online implements Interceptor
         return $response;
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     private function login(Request $request, Response $response, int $type): Response
     {
         $response->withCookie(Cookie::MANAGE_TOKEN, "", 0);

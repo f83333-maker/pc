@@ -26,11 +26,7 @@ class Group extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $map = $this->request->post();
@@ -45,10 +41,6 @@ class Group extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\Group::class, ["icon", "name"]]
     ])]
@@ -66,11 +58,7 @@ class Group extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     */
+    
     #[Validator([
         [\App\Validator\Common::class, "id"]
     ])]

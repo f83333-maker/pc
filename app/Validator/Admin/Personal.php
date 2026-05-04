@@ -13,7 +13,6 @@ use Kernel\Util\Verify;
 class Personal extends Base
 {
 
-
     public function currentPassword(mixed $value, array $data): bool|string
     {
         if ($this->request->post("reset_password") == 0) {
@@ -59,7 +58,6 @@ class Personal extends Base
         }
         return true;
     }
-
 
     #[Required("请上传头像")]
     public function avatar(mixed $value): bool|string

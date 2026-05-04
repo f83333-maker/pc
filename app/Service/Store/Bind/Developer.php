@@ -21,12 +21,6 @@ class Developer implements \App\Service\Store\Developer
 
     public const DEVELOPER_RUNTIME = BASE_PATH . "/runtime/developer";
 
-    /**
-     * @param array $post
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function pluginList(array $post, Authentication $authentication): array
     {
         $http = $this->http->request("/store/plugin/get", $post, $authentication);
@@ -36,13 +30,7 @@ class Developer implements \App\Service\Store\Developer
         return $http->data;
     }
 
-
-    /**
-     * @param array $post
-     * @param Authentication $authentication
-     * @return void
-     * @throws ServiceException
-     */
+    
     public function createOrUpdatePlugin(array $post, Authentication $authentication): void
     {
         $http = $this->http->request("/store/plugin/save", $post, $authentication);
@@ -51,12 +39,7 @@ class Developer implements \App\Service\Store\Developer
         }
     }
 
-
-    /**
-     * @param string $name
-     * @return array
-     * @throws ServiceException
-     */
+    
     public function getPluginTrackedFiles(string $name): array
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, Usr::MAIN);
@@ -103,24 +86,18 @@ class Developer implements \App\Service\Store\Developer
         return $files;
     }
 
-    /**
-     * @throws ServiceException
-     * @throws RuntimeException
-     */
     public function publishPlugin(string $name, Authentication $authentication): void
     {
-        //检查插件
+        
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, Usr::MAIN);
         if (!$plugin) {
             throw new ServiceException("插件不存在");
         }
 
-        //检查文档是否存在
         if (!file_exists($plugin->path . "/Wiki/Readme.md") || !file_exists($plugin->path . "/Wiki/Sidebar.md")) {
             throw new ServiceException("插件文档不存在");
         }
 
-        //将插件打包成zip
         if (!Zip::state()) {
             throw new ServiceException("PHP-ZIP扩展未开启");
         }
@@ -129,7 +106,6 @@ class Developer implements \App\Service\Store\Developer
             throw new ServiceException("打包插件失败");
         }
 
-        //上传插件
         $http = $this->http->upload("other", self::DEVELOPER_RUNTIME . "/{$name}.zip", $authentication);
         $data = ['key' => $name, 'release' => $http->data['url']];
         $res = $this->http->request("/store/plugin/publish", $data, $authentication);
@@ -138,20 +114,11 @@ class Developer implements \App\Service\Store\Developer
             throw new ServiceException($res->message ?? "插件发布失败");
         }
 
-        //创建版本管理
         Directory::delete($plugin->path . "/.version");
-        Zip::unzip(self::DEVELOPER_RUNTIME . "/{$name}.zip", $plugin->path . "/.version/master"); //创建主版本目录
+        Zip::unzip(self::DEVELOPER_RUNTIME . "/{$name}.zip", $plugin->path . "/.version/master"); 
         File::remove(self::DEVELOPER_RUNTIME . "/{$name}.zip");
     }
 
-    /**
-     * @param string $name
-     * @param string $content
-     * @param Authentication $authentication
-     * @return void
-     * @throws JSONException
-     * @throws ServiceException
-     */
     public function updatePlugin(string $name, string $content, Authentication $authentication): void
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, Usr::MAIN);
@@ -181,7 +148,6 @@ class Developer implements \App\Service\Store\Developer
             throw new ServiceException("打包插件失败");
         }
 
-        //上传插件
         $http = $this->http->upload("other", $updatePack, $authentication);
         $data = ['key' => $name, 'release' => $http->data['url'], "version" => $plugin->info['version'], "content" => $content];
         $res = $this->http->request("/store/plugin/updated", $data, $authentication);
@@ -190,7 +156,6 @@ class Developer implements \App\Service\Store\Developer
             throw new ServiceException($res->message ?? "版本提交失败");
         }
 
-        //覆盖版本管理
         foreach ($files as $file) {
             $relativePath = str_replace(rtrim($plugin->path, "/") . '/', '', $file);
             $dstFile = $plugin->path . "/.version/master/" . $relativePath;
@@ -199,19 +164,10 @@ class Developer implements \App\Service\Store\Developer
             }
         }
 
-        //解压版本
-        Zip::unzip($updatePack, $plugin->path . "/.version/{$plugin->info['version']}"); //创建当前版本目录
+        Zip::unzip($updatePack, $plugin->path . "/.version/{$plugin->info['version']}"); 
         File::remove($updatePack);
     }
 
-    /**
-     * @param int $pluginId
-     * @param int $page
-     * @param int $limit
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function getPluginVersionList(int $pluginId, int $page, int $limit, Authentication $authentication): array
     {
         $http = $this->http->request("/store/plugin/version/list", [
@@ -225,13 +181,6 @@ class Developer implements \App\Service\Store\Developer
         return $http->data;
     }
 
-    /**
-     * @param int $pluginId
-     * @param array $post
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function getPluginAuthorizationList(int $pluginId, array $post, Authentication $authentication): array
     {
         $http = $this->http->request("/store/plugin/authorization/list?pluginId=" . $pluginId, $post, $authentication);
@@ -241,12 +190,6 @@ class Developer implements \App\Service\Store\Developer
         return $http->data;
     }
 
-    /**
-     * @param array $post
-     * @param Authentication $authentication
-     * @return void
-     * @throws ServiceException
-     */
     public function addPluginAuthorization(array $post, Authentication $authentication): void
     {
         $http = $this->http->request("/store/plugin/authorization/add", $post, $authentication);
@@ -255,11 +198,6 @@ class Developer implements \App\Service\Store\Developer
         }
     }
 
-    /**
-     * @param int $authId
-     * @param Authentication $authentication
-     * @return void
-     */
     public function removePluginAuthorization(int $authId, Authentication $authentication): void
     {
         $this->http->request("/store/plugin/authorization/remove", [

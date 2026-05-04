@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-
 use App\Controller\Base\View\User;
 use App\Interceptor\UserSession;
 use App\Interceptor\Waf;
@@ -14,10 +13,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor([Waf::class, UserSession::class])]
 class Business extends User
 {
-    /**
-     * @return string
-     * @throws \Kernel\Exception\ViewException|\Kernel\Exception\JSONException
-     */
+    
     public function index(): string
     {
 

@@ -75,7 +75,6 @@
                 $(document).on("click", `.${did}`, () => {
                     util.get(`/admin/api/user/statistics?id=${_.id}`, data => {
 
-
                         component.popup({
                             submit: false,
                             maxmin: false,
@@ -245,7 +244,6 @@
 
     ]);
 
-
     table.setFloatMessage([
         {field: 'nicename', title: '真实姓名'}
         , {field: 'total_coin', title: '总硬币'}
@@ -267,10 +265,10 @@
                     layer.open({
                         type: 1,
                         title: false,
-                        closeBtn: 0, //不显示关闭按钮
+                        closeBtn: 0, 
                         anim: 5,
                         area: ['245px', '245px'],
-                        shadeClose: true, //开启遮罩关闭
+                        shadeClose: true, 
                         content: '<div class="wxqrcode-' + item.id + '" style="padding: 22px 20px 20px 24px;overflow: hidden;"></div>',
                         success: () => {
                             $('.wxqrcode-' + item.id).qrcode({
@@ -294,7 +292,6 @@
             ]
         }
     ]);
-
 
     table.setSearch([
         {title: "用户名", name: "search-username", type: "input"},

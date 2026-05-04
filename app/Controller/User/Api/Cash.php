@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Controller\Base\API\User;
 use App\Entity\Query\Get;
 use App\Interceptor\UserSession;
@@ -25,11 +24,6 @@ class Cash extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function submit(): array
     {
         $type = (int)$_POST['type'];
@@ -49,7 +43,6 @@ class Cash extends User
         if ($amount <= $cashCost) {
             throw new JSONException("最低兑现金额必须大于{$cashCost}");
         }
-
 
         $u = $this->getUser();
 
@@ -98,7 +91,7 @@ class Cash extends User
 
             if ($cash->status == 1) {
                 $cash->arrive_time = Date::current();
-                //将硬币转给用户余额
+                
                 \App\Model\Bill::create($u, $cash->amount, 1, "硬币兑现到钱包", 0, true);
             }
 
@@ -108,10 +101,7 @@ class Cash extends User
         return $this->json(200, "兑现成功");
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function record(): array
     {
         $map = $this->request->post();

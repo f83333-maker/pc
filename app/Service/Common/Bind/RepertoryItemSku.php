@@ -28,29 +28,18 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
     #[Inject]
     private \App\Service\Common\Ship $ship;
 
-    /**
-     * @param int|\App\Model\RepertoryItemSku $skuModel
-     * @param int|null $userId
-     * @return ?Sku
-     */
     public function getSKUEntity(int|\App\Model\RepertoryItemSku $skuModel, ?int $userId): ?Sku
     {
 
-        /**
-         * @var User $user
-         */
         $user = $userId > 0 ? User::query()->find($userId) : null;
 
         if (is_int($skuModel)) {
-            /**
-             * @var \App\Model\RepertoryItemSku $skuModel
-             */
+            
             $skuModel = \App\Model\RepertoryItemSku::query()->find($skuModel);
             if (!$skuModel) {
                 return null;
             }
         }
-
 
         $sku = $skuModel;
         $syncList = [
@@ -71,15 +60,15 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
             if ($groupModel && $groupModel->status == 1) {
                 $sku = $groupModel;
                 if ($groupModel->market_control_status == 0) {
-                    //同步全局设置
+                    
                     foreach ($syncList as $key) {
                         $sku->$key = $skuModel->$key;
                     }
                 } elseif ($groupModel->market_control_status == 1) {
-                    //自定义设置
+                    
                     $sku->market_control_status = 1;
                 } elseif ($groupModel->market_control_status == 2) {
-                    //关闭限制
+                    
                     $sku->market_control_status = 0;
                 }
             }
@@ -88,15 +77,15 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
                 $sku = $userModel;
 
                 if ($userModel->market_control_status == 0) {
-                    //同步全局设置
+                    
                     foreach ($syncList as $key) {
                         $sku->$key = $skuModel->$key;
                     }
                 } elseif ($userModel->market_control_status == 1) {
-                    //自定义设置
+                    
                     $sku->market_control_status = 1;
                 } elseif ($userModel->market_control_status == 2) {
-                    //关闭限制
+                    
                     $sku->market_control_status = 0;
                 }
             }
@@ -105,48 +94,32 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return new Sku($skuModel->id, $skuModel->name, $this->order->getAmount($user, $skuModel), $sku);
     }
 
-
-    /**
-     * @param int|\App\Model\RepertoryItemSku $skuModel
-     * @param int|User $userModel
-     * @return bool
-     */
+    
     public function isDisplay(int|\App\Model\RepertoryItemSku $skuModel, int|User $userModel): bool
     {
         if (is_int($userModel)) {
-            /**
-             * @var User $userModel
-             */
+            
             $userModel = User::query()->find($userModel);
             if (!$userModel) {
                 return false;
             }
         }
 
-
         if (is_int($skuModel)) {
-            /**
-             * @var \App\Model\RepertoryItemSku $skuModel
-             */
+            
             $skuModel = \App\Model\RepertoryItemSku::query()->find($skuModel);
             if (!$skuModel) {
                 return false;
             }
         }
 
-        $result = $skuModel->private_display != 1; //true
+        $result = $skuModel->private_display != 1; 
 
-        /**
-         * @var RepertoryItemSkuGroup $groupModel
-         */
         $groupModel = RepertoryItemSkuGroup::query()->where("group_id", $userModel->group_id)->where("sku_id", $skuModel->id)->first();
         if ($groupModel?->status == 1) {
             $result = true;
         }
 
-        /**
-         * @var RepertoryItemSkuUser $userSkuModel
-         */
         $userSkuModel = RepertoryItemSkuUser::query()->where("customer_id", $userModel->id)->where("sku_id", $skuModel->id)->first();
 
         if ($userSkuModel?->status == 1) {
@@ -156,14 +129,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return $result;
     }
 
-    /**
-     * @param string $price
-     * @param int $repertoryItemSkuId
-     * @param int $userId
-     * @param int $type
-     * @return void
-     * @throws ServiceException
-     */
     public function marketControlCheck(string $price, int $repertoryItemSkuId, int $userId, int $type = MarketControl::TYPE_VISITOR): void
     {
         $SKUEntity = $this->getSKUEntity($repertoryItemSkuId, $userId);
@@ -197,13 +162,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-
-    /**
-     * @param int $repertoryItemSkuId
-     * @param int $type
-     * @param string $value
-     * @return void
-     */
+    
     public function setCache(int $repertoryItemSkuId, int $type, string $value): void
     {
         try {
@@ -214,37 +173,24 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-
-    /**
-     * @param User|null $user
-     * @param int $skuId
-     * @return Wholesale[]
-     */
+    
     public function getWholesale(?User $user, int $skuId): array
     {
         $list = RepertoryItemSkuWholesale::query()->where("sku_id", $skuId)->orderBy("quantity", "asc")->get();
         $data = [];
-        /**
-         * @var RepertoryItemSkuWholesale $li
-         */
+        
         foreach ($list as $li) {
             $wholesale = new Wholesale($li->id, $li->quantity, $li->stock_price);
             if ($user) {
-                /**
-                 * @var UserGroup $group
-                 */
+                
                 $group = $user?->group;
-                //商家等级批发
+                
                 if ($group) {
-                    /**
-                     * @var RepertoryItemSkuWholesaleGroup $levelRule
-                     */
+                    
                     $levelRule = RepertoryItemSkuWholesaleGroup::where("group_id", $group->id)->where("wholesale_id", $wholesale->id)->first();
                     ($levelRule && $levelRule->status == 1 && $levelRule->stock_price < $wholesale->price) && $wholesale->setPrice($levelRule->stock_price);
                 }
-                /**
-                 * @var RepertoryItemSkuWholesaleUser $userRule
-                 */
+                
                 $userRule = RepertoryItemSkuWholesaleUser::where("customer_id", $user->id)->where("wholesale_id", $wholesale->id)->first();
                 ($userRule && $userRule->status == 1 && $userRule->stock_price < $wholesale->price) && $wholesale->setPrice($userRule->stock_price);
             }
@@ -254,25 +200,14 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return $data;
     }
 
-
-    /**
-     * @param int $repertoryItemSkuId
-     * @param int $type
-     * @return string|null
-     */
+    
     public function getCache(int $repertoryItemSkuId, int $type): ?string
     {
-        /**
-         * @var RepertoryItemSkuCache $cache
-         */
+        
         $cache = RepertoryItemSkuCache::query()->where("sku_id", $repertoryItemSkuId)->where("type", $type)->first();
         return $cache?->value;
     }
 
-    /**
-     * @param int $repertoryItemSkuId
-     * @return bool
-     */
     public function existCache(int $repertoryItemSkuId): bool
     {
         $a = RepertoryItemSkuCache::query()->where("sku_id", $repertoryItemSkuId)->where("type", \App\Const\RepertoryItemSkuCache::TYPE_STOCK)->exists();
@@ -280,12 +215,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return $a && $b;
     }
 
-
-    /**
-     * @param int $repertoryItemSkuId
-     * @param bool $force
-     * @return void
-     */
+    
     public function delCache(int $repertoryItemSkuId, bool $force = false): void
     {
         $a = RepertoryItemSkuCache::query()->where("sku_id", $repertoryItemSkuId);
@@ -295,15 +225,10 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         $a->delete();
     }
 
-    /**
-     * @param int $repertoryItemSkuId
-     * @return void
-     * @throws \ReflectionException
-     */
     public function syncCache(int $repertoryItemSkuId): void
     {
         try {
-            //同步缓存
+            
             $this->ship->stock($repertoryItemSkuId, \App\Const\RepertoryItemSkuCache::ACTION_READ_SOURCE);
             $this->ship->hasEnoughStock($repertoryItemSkuId, 1, \App\Const\RepertoryItemSkuCache::ACTION_READ_SOURCE);
         } catch (\Throwable $e) {
@@ -311,11 +236,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-    /**
-     * @param int $repertoryItemId
-     * @return void
-     * @throws \ReflectionException
-     */
     public function syncCacheForItem(int $repertoryItemId): void
     {
         $skus = \App\Model\RepertoryItemSku::query()->where("repertory_item_id", $repertoryItemId)->get();
@@ -324,11 +244,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-    /**
-     * @param int $repertoryItemId
-     * @return void
-     * @throws \ReflectionException
-     */
     public function checkSyncCacheForItem(int $repertoryItemId): void
     {
         $skus = \App\Model\RepertoryItemSku::query()->where("repertory_item_id", $repertoryItemId)->get();
@@ -339,20 +254,8 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-    /**
-     * @param int $repertoryItemId
-     * @return void
-     */
     public function delCacheForItem(int $repertoryItemId): void
     {
-        /*        $ids = \App\Model\RepertoryItemSku::query()
-                    ->where("repertory_item_id", $repertoryItemId)
-                    ->pluck('id')
-                    ->toArray();
-
-                if (!empty($ids)) {
-                    //->where("create_time", "<", \date("Y-m-d H:i:s", time() - 60))
-                    RepertoryItemSkuCache::query()->whereIn("sku_id", $ids)->delete();
-                }*/
+        
     }
 }

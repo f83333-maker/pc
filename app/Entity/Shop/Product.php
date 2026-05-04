@@ -14,7 +14,6 @@ class Product
     public string $name;
     public int $quantity;
 
-
     public function __construct(string $icon, string $name, int $quantity)
     {
         $this->icon = $icon;

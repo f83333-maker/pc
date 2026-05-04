@@ -22,7 +22,6 @@
     table.setWhere("equal-type", 10);
     table.render();
 
-
     $('.copy-invite-url').click(() => {
         util.copyTextToClipboard($('.invite-url').val(), () => {
             layer.msg("推广链接已复制");

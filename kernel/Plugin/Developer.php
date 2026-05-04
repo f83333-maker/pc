@@ -13,10 +13,7 @@ class Developer
 
     private string $path = BASE_PATH . "app/Plugin/";
 
-
-    /**
-     * @throws JSONException
-     */
+    
     public function getTmp(string $name): string
     {
         $file = BASE_PATH . "/kernel/Plugin/Developer/Template/{$name}.tmp";
@@ -26,12 +23,6 @@ class Developer
         return file_get_contents($file);
     }
 
-    /**
-     * @param array $replace
-     * @param string $name
-     * @return string
-     * @throws JSONException
-     */
     public function getReplaceTmp(array $replace, string $name): string
     {
         $tmp = $this->getTmp($name);
@@ -41,13 +32,6 @@ class Developer
         return $tmp;
     }
 
-    /**
-     * @param array $replace
-     * @param string $name
-     * @param string $file
-     * @return void
-     * @throws JSONException
-     */
     public function writeConfig(array $replace, string $name, string $file): void
     {
         $replaceTmp = $this->getReplaceTmp($replace, $name);
@@ -55,14 +39,9 @@ class Developer
         file_put_contents($path, $replaceTmp);
     }
 
-    /**
-     * @param array $data
-     * @return void
-     * @throws JSONException
-     */
     public function createPlugin(array $data): void
     {
-        //创建插件
+        
         $key = ucfirst($data['key']);
         $path = $this->path . $key;
 
@@ -70,9 +49,8 @@ class Developer
             return;
         }
 
-        //创建插件目录
         mkdir($path, 0777, true);
-        mkdir($path . "/Config", 0777, true);//配置目录
+        mkdir($path . "/Config", 0777, true);
 
         $cli = 'Plugin::ARCH_CLI';
         $fpm = 'Plugin::ARCH_FPM';

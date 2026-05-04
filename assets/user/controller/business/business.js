@@ -24,13 +24,11 @@
             });
         });
 
-
         $('.save-config').click(() => {
             util.post("/user/api/business/saveConfig", util.arrayToObject($('.form-data').serializeArray()), res => {
                 message.success("保存成功");
             });
         });
-
 
         $('.category-show').click(function () {
             let status = $(this).data("state");
@@ -50,7 +48,6 @@
                 _ItemTable.refresh();
             });
         });
-
 
         $('.commodity-premium').click(function () {
             component.popup({
@@ -82,7 +79,6 @@
             });
         });
 
-
         $('.unbind-subdomain').click(function () {
             message.ask("您正在解绑子域名，解绑后，用户将无法再通过旧子域名访问您的店铺。", () => {
                 util.post("/user/api/business/unbind", {type: 0}, res => {
@@ -107,7 +103,6 @@
 
     }
 
-
     function _NoticeEditor() {
         ['basePath', 'workerPath', 'modePath', 'themePath'].forEach(name => {
             ace.config.set(name, '/assets/common/js/editor/code/lib');
@@ -131,7 +126,7 @@
         editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
         editor.config.uploadImgMaxLength = 1;
         editor.config.uploadImgTimeout = 60 * 1000;
-        editor.config.uploadImgMaxSize = 50 * 1024 * 1024;  //50M
+        editor.config.uploadImgMaxSize = 50 * 1024 * 1024;  
         editor.config.uploadImgHooks = {
             customInsert: function (insertImgFn, result) {
                 if (result.code != 200) {
@@ -163,7 +158,6 @@
 
         editor.txt.html(business_notice_var);
         textarea.val(business_notice_var);
-
 
         $('.button-switch-notice').click(function () {
             let _obj = $(this);
@@ -197,7 +191,6 @@
             }
         });
     }
-
 
     function _CategoryDef() {
         _CateTable = new Table("/user/api/master/category", "#master_category");
@@ -321,7 +314,6 @@
         ]);
         _CateTable.render();
     }
-
 
     function _ItemDef() {
         _ItemTable = new Table("/user/api/master/commodity", "#master_commodity");
@@ -449,7 +441,6 @@
         ]);
         _ItemTable.render();
     }
-
 
     _OpenBusinessGroup();
     _NoticeEditor();

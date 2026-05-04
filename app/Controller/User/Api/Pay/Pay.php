@@ -21,12 +21,7 @@ class Pay extends Base
     #[Inject]
     private \App\Service\User\Pay $pay;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws NotFoundException
-     */
+    
     public function getList(): Response
     {
         $business = (string)$this->request->post("business");

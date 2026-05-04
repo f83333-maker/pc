@@ -11,17 +11,12 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Pay extends Base
 {
-    /**
-     * @return Response
-     */
+    
     public function index(): Response
     {
         return $this->render("Pay/Pay.html", "支付接口");
     }
 
-    /**
-     * @return Response
-     */
     public function order(): Response
     {
         return $this->render("Pay/Order.html", "支付订单");

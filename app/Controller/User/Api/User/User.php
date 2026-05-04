@@ -32,14 +32,9 @@ class User extends Base
     #[Inject]
     private Balance $balance;
 
-
     #[Inject]
     private Lifetime $lifetime;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -58,7 +53,6 @@ class User extends Base
             $raw['user_count'] = (clone $builder)->count();
             $raw['user_total_balance'] = (clone $builder)->sum("balance");
 
-
             return $builder->with([
                 'level',
                 'lifetime' => function (HasOne $one) {
@@ -70,17 +64,12 @@ class User extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-
-    /**
-     * @return Response
-     * @throws \Throwable
-     */
+    
     public function transfer(): Response
     {
         $id = $this->request->post('id', Filter::INTEGER);
         $amount = $this->request->post('amount');
 
-        //转账操作
         Db::transaction(function () use ($amount, $id) {
             $this->balance->transfer($this->getUser()->id, $id, $amount);
             $this->lifetime->increment($id, "total_recharge_amount", $amount);
@@ -89,9 +78,6 @@ class User extends Base
         return $this->response->json();
     }
 
-    /**
-     * @return Response
-     */
     #[Validator([
         [\App\Validator\User\User::class, ["userId", "levelId"]]
     ])]
@@ -102,7 +88,5 @@ class User extends Base
         \App\Model\User::query()->where("id", $userId)->where("pid", $this->getUser()->id)->update(['level_id' => $levelId]);
         return $this->response->json();
     }
-
-
 
 }

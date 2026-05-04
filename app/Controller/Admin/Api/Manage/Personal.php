@@ -25,10 +25,6 @@ class Personal extends Base
     #[Inject]
     private Query $query;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\Personal::class, ["avatar", "currentPassword", "newPassword", "reNewPassword"]]
     ])]
@@ -47,11 +43,6 @@ class Personal extends Base
         \App\Model\Manage::query()->where("id", $this->getManage()->id)->update($data);
         return $this->json();
     }
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
 
     #[Validator([
         [Common::class, ["page", "limit"]]

@@ -30,13 +30,7 @@ class Config extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $plugin
-     * @param string $handle
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -51,13 +45,6 @@ class Config extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @param string $plugin
-     * @param string $handle
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Admin\PayConfig::class, "name"]
     ])]
@@ -91,10 +78,7 @@ class Config extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
+    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

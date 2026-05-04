@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\User\Shop;
 
-
 use App\Controller\User\Base;
 use App\Interceptor\Merchant;
 use App\Interceptor\User;
@@ -15,9 +14,6 @@ use Kernel\Plugin\Const\Theme;
 class Category extends Base
 {
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->theme(Theme::USER_SHOP_CATEGORY, "Shop/Category.html", "商品分类");

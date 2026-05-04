@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Consts\Manage as ManageConst;
 use App\Model\Manage;
 use App\Model\ManageLog;
@@ -13,20 +12,9 @@ use App\Util\Str;
 use Firebase\JWT\JWT;
 use Kernel\Exception\JSONException;
 
-/**
- * Class ManageSSOService
- * @package App\Service\Impl
- */
 class ManageSSO implements \App\Service\ManageSSO
 {
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @param bool $remember
-     * @return array
-     * @throws JSONException
-     */
     public function login(string $username, string $password, bool $remember = false): array
     {
         $manage = Manage::query()->where("email", $username)->first();

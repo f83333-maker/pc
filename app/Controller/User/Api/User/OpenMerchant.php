@@ -22,11 +22,7 @@ class OpenMerchant extends Base
     #[Inject]
     private \App\Service\User\OpenMerchant $openMerchant;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
 
     #[Validator([
         [\App\Validator\User\OpenMerchant::class, "groupId"]
@@ -34,7 +30,6 @@ class OpenMerchant extends Base
     public function trade(): Response
     {
         $groupId = $this->request->post("group_id", Filter::INTEGER);
-
 
         $trade = $this->openMerchant->trade(
             user: $this->getUser(),

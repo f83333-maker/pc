@@ -15,19 +15,12 @@ use Kernel\Plugin\Usr;
 #[Interceptor(class: [User::class, Group::class])]
 class Plugin extends Base
 {
-    /**
-     * @return Response
-     */
+    
     public function index(): Response
     {
         return $this->theme(Theme::USER_PLUGIN, "Plugin/Plugin.html", "插件管理");
     }
 
-    /**
-     * @param string $name
-     * @return Response
-     * @throws ViewException
-     */
     public function wiki(string $name): Response
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, Usr::inst()->userToEnv($this->getUser()->id));

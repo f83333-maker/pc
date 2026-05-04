@@ -93,7 +93,6 @@
         });
     }
 
-
     const walletChange = (title, user = {}) => {
         component.popup({
             submit: '/admin/user/balanceChange',
@@ -347,7 +346,6 @@
         $('.data-count .user-total-balance').html(getVar("CCY") + data.user_total_balance);
     });
     table.render();
-
 
     $(`.add-user`).click(() => {
         modal(util.icon("icon-tianjia") + " 添加会员");

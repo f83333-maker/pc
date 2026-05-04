@@ -31,10 +31,6 @@ class Manage extends Base
     #[Inject]
     private Query $query;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(): Response
     {
         $get = new Get(ManageModel::class);
@@ -48,13 +44,7 @@ class Manage extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     #[Validator([
         [\App\Validator\Admin\Manage::class, ["id", "email", "nickname", "password"]]
     ])]
@@ -89,10 +79,6 @@ class Manage extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(ManageModel::class, (array)$this->request->post("list"));

@@ -11,24 +11,8 @@ use Kernel\Annotation\Bind;
 interface OpenMerchant
 {
 
-    /**
-     * @param User $user
-     * @param int $groupId
-     * @param string $clientId
-     * @param string $userAgent
-     * @param string $clientIp
-     * @return Trade
-     */
     public function trade(User $user, int $groupId, string $clientId, string $userAgent, string $clientIp): Trade;
 
-
-    /**
-     * 成为商家
-     * @param int $userId
-     * @param int $groupId
-     * @param bool $isDividend
-     * @param string|null $tradeNo
-     * @return bool
-     */
+    
     public function become(int $userId, int $groupId, bool $isDividend  = false, ?string $tradeNo = null): bool;
 }

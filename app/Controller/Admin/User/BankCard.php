@@ -12,9 +12,6 @@ use Kernel\Context\Interface\Response;
 class BankCard extends Base
 {
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->render("User/BankCard.html", "银行卡管理");

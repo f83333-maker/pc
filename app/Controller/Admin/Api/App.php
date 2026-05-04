@@ -19,17 +19,11 @@ class App extends Manage
     #[Inject]
     private \App\Service\App $app;
 
-    /**
-     * @return array
-     */
     public function versions(): array
     {
         return $this->json(200, "ok", $this->app->getVersions());
     }
 
-    /**
-     * @return array
-     */
     public function latest(): array
     {
         $versions = $this->app->getVersions();
@@ -39,27 +33,18 @@ class App extends Manage
         return $this->json(200, 'ok', ["local" => $local, "latest" => $latest, "version" => $latestVersion]);
     }
 
-    /**
-     * @return array
-     */
     public function update(): array
     {
         $this->app->update();
         return $this->json(200, "升级完成");
     }
 
-    /**
-     * @return array
-     */
     public function ad(): array
     {
         return $this->json(200, "ok", $this->app->ad());
     }
 
-
-    /**
-     * @throws JSONException
-     */
+    
     public function init(): array
     {
         $config = (array)config("store");
@@ -69,9 +54,6 @@ class App extends Manage
         return $this->json(200, "ok");
     }
 
-    /**
-     * @return array
-     */
     public function captcha(): array
     {
         $type = (string)$_GET['type'];
@@ -79,9 +61,6 @@ class App extends Manage
         return $this->json(200, "ok", $captcha);
     }
 
-    /**
-     * @throws JSONException
-     */
     public function register(): array
     {
         if (!$_POST['username'] || !$_POST['password'] || !$_POST['captcha'] || !$_POST['cookie']) {
@@ -96,9 +75,6 @@ class App extends Manage
         return $this->json(200, "success");
     }
 
-    /**
-     * @throws JSONException
-     */
     public function login(): array
     {
         if (!$_POST['username'] || !$_POST['password']) {
@@ -113,9 +89,6 @@ class App extends Manage
         return $this->json(200, "success");
     }
 
-    /**
-     * @return array
-     */
     public function plugins(): array
     {
         $owner = -1;
@@ -137,7 +110,6 @@ class App extends Manage
 
         $plugins = $this->app->plugins($data);
 
-        //判断自己是否安装
         $fileInit = false;
         foreach ($plugins['rows'] as $index => $plugin) {
             if ($plugin['type'] == 0) {
@@ -184,9 +156,6 @@ class App extends Manage
         return $json;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdates(): array
     {
         $file = BASE_PATH . "/runtime/plugin/store.cache";
@@ -206,7 +175,6 @@ class App extends Manage
             "group" => 0,
         ]);
 
-        //appStroe缓存
         $appStore = (array)json_decode((string)file_get_contents($file), true) ?: [];
 
         $generalPlugin = 0;
@@ -220,7 +188,7 @@ class App extends Manage
                 "version" => $plugin['version'],
                 "update_content" => $plugin['update_content'],
                 "id" => $plugin['id'],
-                "type" => $plugin['type']  // 0 = 通用插件，2 = 模版 , 1 = 支付插件
+                "type" => $plugin['type']  
             ];
 
             switch ($plugin['type']) {
@@ -257,9 +225,6 @@ class App extends Manage
         return array_merge($this->json(200, "ok", $appStore), $updateData);
     }
 
-    /**
-     * @return array
-     */
     public function delUpdates(): array
     {
         $file = BASE_PATH . "/runtime/plugin/store.cache";
@@ -267,18 +232,12 @@ class App extends Manage
         return $this->json(200, "ok");
     }
 
-    /**
-     * @return array
-     */
     public function purchase(): array
     {
         $purchase = $this->app->purchase((int)$_POST['type'], (int)$_POST['plugin_id'], (int)$_POST['payType']);
         return $this->json(200, "下单成功", $purchase);
     }
 
-    /**
-     * @return array
-     */
     public function install(): array
     {
         $this->app->installPlugin((string)$_POST['plugin_key'], (int)$_POST['type'], (int)$_POST['plugin_id']);
@@ -286,9 +245,6 @@ class App extends Manage
         return $this->json(200, "安装完成");
     }
 
-    /**
-     * @return array
-     */
     public function upgrade(): array
     {
         $this->app->updatePlugin((string)$_POST['plugin_key'], (int)$_POST['type'], (int)$_POST['plugin_id']);
@@ -296,12 +252,9 @@ class App extends Manage
         return $this->json(200, "更新完成");
     }
 
-    /**
-     * @return array
-     */
     public function uninstall(): array
     {
-        //卸载插件
+        
         $pluginKey = (string)$_POST['plugin_key'];
         $type = (int)$_POST['type'];
 
@@ -315,10 +268,6 @@ class App extends Manage
         return $this->json(200, "卸载完成");
     }
 
-    /**
-     * 开发者插件
-     * @return array
-     */
     public function developerPlugins(): array
     {
         $plugins = $this->app->developerPlugins([
@@ -338,12 +287,7 @@ class App extends Manage
         return $json;
     }
 
-
-    /**
-     * 创建插件
-     * @return array
-     * @throws JSONException
-     */
+    
     public function developerCreatePlugin(): array
     {
         $file = $_POST['icon'];
@@ -355,16 +299,13 @@ class App extends Manage
         return $this->json(200, "创建成功", $this->app->developerCreatePlugin($_POST));
     }
 
-    /**
-     * @throws JSONException
-     */
     public function developerCreateKit(): array
     {
         $file = $_POST['resource'];
         if (!file_exists(BASE_PATH . $file)) {
             throw new JSONException("请重新上传插件包");
         }
-        //上传安装包
+        
         $upload = $this->app->upload([
             [
                 'name' => 'file',
@@ -372,32 +313,25 @@ class App extends Manage
                 'filename' => 'file.zip'
             ]
         ]);
-        //删除本地安装包
+        
         unlink(BASE_PATH . $file);
-        //需要审核的安装包临时存放地址
+        
         $_POST['resource'] = $upload['path'];
         return $this->json(200, "提交成功", $this->app->developerCreateKit($_POST));
     }
 
-    /**
-     * @return array
-     */
     public function developerDeletePlugin(): array
     {
         return $this->json(200, "删除成功", $this->app->developerDeletePlugin($_POST));
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function developerUpdatePlugin(): array
     {
         $file = $_POST['audit_resource'];
         if (!file_exists(BASE_PATH . $file)) {
             throw new JSONException("请重新上传插件包");
         }
-        //上传更新包
+        
         $upload = $this->app->upload([
             [
                 'name' => 'file',
@@ -405,42 +339,30 @@ class App extends Manage
                 'filename' => 'file.zip'
             ]
         ]);
-        //删除本地更新包
+        
         unlink(BASE_PATH . $file);
-        //需要审核的安装包临时存放地址
+        
         $_POST['audit_resource'] = $upload['path'];
         return $this->json(200, "提交成功", $this->app->developerUpdatePlugin($_POST));
     }
 
-    /**
-     * @return array
-     */
     public function developerPluginPriceSet(): array
     {
         return $this->json(200, "新的定价已生效", $this->app->developerPluginPriceSet($_POST));
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function purchaseRecords(): array
     {
         return $this->json(data: ["list" => $this->app->purchaseRecords((int)$_GET['plugin_id'])]);
     }
 
-    /**
-     * @return array
-     */
     public function unbind(): array
     {
         $this->app->unbind((int)$_POST['auth_id']);
         return $this->json(200, "绑定授权成功");
     }
 
-    /**
-     * @throws JSONException
-     */
     public function setServer(): array
     {
         $server = (int)$_POST['server'];
@@ -452,35 +374,23 @@ class App extends Manage
         return $this->json(200, "线路切换成功");
     }
 
-    /**
-     * @return array
-     */
     public function levels(): array
     {
         return $this->json(data: ["list" => $this->app->levels()]);
     }
 
-    /**
-     * @return array
-     */
     public function bindLevel(): array
     {
         $this->app->bindLevel((int)$_POST['auth_id']);
         return $this->json(200, "绑定授权成功");
     }
 
-    /**
-     * @return array
-     */
     public function service(): array
     {
         return $this->json(data: $this->app->service());
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function editPassword(): array
     {
         $this->app->editPassword($_POST);

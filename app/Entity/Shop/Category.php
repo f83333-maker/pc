@@ -13,12 +13,7 @@ class Category
     public string $name;
     public string $icon;
 
-
-    /**
-     * @param int $id
-     * @param string $name
-     * @param string $icon
-     */
+    
     public function __construct(int $id, string $name, string $icon)
     {
         $this->id = $id;

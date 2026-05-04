@@ -6,13 +6,13 @@
 } %}
 {% set title = '注册账号' %}
 {{ include ("Auth/Header.html") }}
-<!-- Main Container -->
+
 <main id="main-container">
-    <!-- Page Content -->
+    
     <div class="row mx-0 justify-content-center hero-static align-items-center">
         <div class="col-xl-4" style="width: 540px;">
             <div class="content content-full overflow-hidden">
-                <!-- Register In Form -->
+                
                 <form id="register-form" method="POST">
                     <div class="block block-themed block-rounded block-fx-shadow">
                         <div class="block-header bg-gd-emerald">
@@ -49,18 +49,15 @@
                                 {% endif %}
                             {% endif %}
 
-
                             <div class="form-floating mb-4">
                                 <input type="password" class="form-control" id="password" name="password" placeholder="{{ i18n("请输入密码")|raw }}">
                                 <label class="form-label" for="password">{{ i18n("设置密码")|raw }}</label>
                             </div>
 
-
                             <div class="form-floating mb-4">
                                 <input type="password" class="form-control" id="re-password" name="password_re" placeholder="{{ i18n("请再次输入密码")|raw }}">
                                 <label class="form-label" for="re-password">{{ i18n("确认密码")|raw }}</label>
                             </div>
-
 
                             {{ hook(env(), point("USER_AUTH_REGISTER_FORM"))|raw}}
 
@@ -93,13 +90,12 @@
                         </div>
                     </div>
                 </form>
-                <!-- END Sign In Form -->
+                
             </div>
         </div>
     </div>
-    <!-- END Page Content -->
+    
 </main>
-<!-- END Main Container -->
 
 {{ ready("/assets/user/controller/auth/register.js")|raw }}
 {{ hook(env(), point("USER_AUTH_REGISTER_BODY"))|raw }}

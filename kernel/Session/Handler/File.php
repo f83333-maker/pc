@@ -14,9 +14,6 @@ use Symfony\Component\Finder\Finder;
 class File implements Session
 {
 
-    /**
-     * @var string
-     */
     private string $path = BASE_PATH . "/runtime/session/";
 
     public function __construct()
@@ -26,19 +23,12 @@ class File implements Session
         }
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
         return $this->path . $this->id();
     }
 
-
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
+    
     public function get(?string $key = null): mixed
     {
         if (!App::$cli) {
@@ -60,12 +50,6 @@ class File implements Session
         return $data;
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     * @throws RuntimeException
-     */
     public function set(string $key, mixed $value): void
     {
         if (!App::$cli) {
@@ -80,10 +64,6 @@ class File implements Session
         });
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
     public function has(string $key): bool
     {
         if (!App::$cli) {
@@ -99,11 +79,6 @@ class File implements Session
         return isset($data[$key]);
     }
 
-    /**
-     * @param string $key
-     * @return void
-     * @throws RuntimeException
-     */
     public function remove(string $key): void
     {
         if (!App::$cli) {
@@ -124,9 +99,6 @@ class File implements Session
         });
     }
 
-    /**
-     * @return void
-     */
     public function clear(): void
     {
         if (!App::$cli) {
@@ -137,9 +109,6 @@ class File implements Session
         Filesystem::remove($this->getPath());
     }
 
-    /**
-     * @return bool
-     */
     public function gc(): bool
     {
         $files = Finder::create()
@@ -155,9 +124,6 @@ class File implements Session
         return true;
     }
 
-    /**
-     * @return string
-     */
     public function id(): string
     {
         return Context::get(Request::class)->cookie(Session::NAME);

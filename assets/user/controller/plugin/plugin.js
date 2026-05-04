@@ -84,7 +84,6 @@
             },
         ];
 
-
         columns.forEach(item => {
             tables.splice(3, 0, item);
         });
@@ -533,7 +532,6 @@
                                                                         width: "820px",
                                                                     });
 
-
                                                                 }
                                                             }
                                                         ]
@@ -670,7 +668,7 @@
 
                                     const keydown = function (event) {
                                         if (event.key === 'F5') {
-                                            event.preventDefault(); // 阻止默认行为，即刷新
+                                            event.preventDefault(); 
                                             layer.msg("正在进行重要更新，请勿刷新网页！");
                                         }
                                     };
@@ -681,7 +679,6 @@
                                         return confirmationMessage;
                                     }
 
-                                    //开始升级
                                     util.post({
                                         url: "/user/store/plugin/version/update",
                                         data: {key: row.name},
@@ -694,7 +691,6 @@
                                             setTimeout(() => {
                                                 cache.del(readLogsThreadKey);
                                             }, 300);
-
 
                                             util.waitSyncLoader(() => {
                                                 layer.closeAll();
@@ -790,7 +786,6 @@
                             });
                         }
                     });
-
 
                 }
             }
@@ -930,12 +925,11 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                //同步
+                
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
         }, 300, true);
-
 
     });
 
@@ -978,7 +972,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                //同步
+                
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
@@ -1024,7 +1018,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                //同步
+                
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });

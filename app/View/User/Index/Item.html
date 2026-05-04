@@ -1,6 +1,5 @@
-{# ============================================================
-   商品详情页 (Product) - 每个商品独立 SEO + Product 结构化数据
-   ============================================================ #}
+
+
 {% set _item_name = item.name|striptags|trim %}
 {% set _item_intro_full = item.source.introduce|striptags|trim %}
 {% set _item_intro = _item_intro_full|length > 150 ? _item_intro_full|slice(0, 150) ~ '...' : _item_intro_full %}
@@ -47,17 +46,17 @@
 {{ multi_hook([usr(), item.supplier_id] , point("INDEX_ITEM_HEAD") , 1, item)|raw }}
 
 <script>setVar("item", {{ item|json_encode|raw }});</script>
-<!-- Page Content -->
+
 <div class="content">
     <div class="row">
         <div class="col-xl-12 order-xl-0">
-            <!-- Product -->
+            
             <article class="block block-rounded">
                 <div class="block-content">
-                    <!-- Vitals -->
+                    
                     <div class="row items-push">
                         <div class="col-md-5">
-                            <!-- Images -->
+                            
                             <div class="row g-sm js-gallery img-fluid-100">
                                 <div class="col-12 mb-1 item-image-main animate-height-change">
                                     <a class="img-link img-link-zoom-in img-lightbox">
@@ -81,10 +80,10 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <!-- END Images -->
+                            
                         </div>
                         <div class="col-md-7 product-info-area">
-                            <!-- Info -->
+                            
                             <header class="d-flex justify-content-between align-items-center item-title-content">
                                 <div>
                                     <h1 class="fs-4 fw-semibold m-0">{{ i18n(item.name)|raw }}</h1>
@@ -148,12 +147,11 @@
                                 </div>
 
                             </form>
-                            <!-- END Info -->
+                            
                         </div>
                     </div>
-                    <!-- END Vitals -->
 
-                    <!-- Extra Info Tabs -->
+                    
                     <section class="block block-rounded no-bg" aria-label="{{ i18n("宝贝详情")|raw }}">
                         <ul class="nav nav-tabs nav-tabs-alt align-items-center" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -165,7 +163,7 @@
                             </li>
                         </ul>
                         <div class="block-content tab-content">
-                            <!-- Info -->
+                            
                             <div class="tab-pane pull-x active" id="ecom-product-info" role="tabpanel"
                                  aria-labelledby="ecom-product-info-tab" tabindex="0">
                                 {% if item.attr|length > 0 %}
@@ -185,17 +183,17 @@
                                     {{ i18n(item.source.introduce)|raw }}
                                 </div>
                             </div>
-                            <!-- END Info -->
+                            
                         </div>
                     </section>
-                    <!-- END Extra Info Tabs -->
+                    
                 </div>
             </article>
-            <!-- END Product -->
+            
         </div>
     </div>
 </div>
-<!-- END Page Content -->
+
 {{ ready("/assets/user/controller/index/item.js")|raw }}
 {{ multi_hook([usr(), item.supplier_id] , point("INDEX_ITEM_BODY") , 1, item)|raw }}
 {{ include('Index/Footer.html') }}

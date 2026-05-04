@@ -5,13 +5,6 @@ const component = new class Component {
         return $detailView.length > 0;
     }
 
-    /**
-     *
-     * @param url
-     * @param value
-     * @param field
-     * @param id
-     */
     updateDatabase(url, value, field, id, table = null, reload = false) {
         let data = {};
         data[field] = value;
@@ -31,10 +24,6 @@ const component = new class Component {
         });
     }
 
-    /**
-     *
-     * @param opt
-     */
     popup(opt = {}) {
         const submitTab = getVar("HACK_SUBMIT_TAB"), submitForm = getVar("HACK_SUBMIT_FORM");
 
@@ -81,7 +70,6 @@ const component = new class Component {
             area = ["100%", "100%"];
         }
 
-        //弹窗参数
         let openOption = {
             shade: opt.shade ?? 0.3,
             btn: opt.submit ? [(opt.confirmText ? i18n(opt.confirmText) : null) ?? util.icon("fa-duotone fa-regular fa-floppy-disk me-1 text-success") + i18n("保存"), util.icon('fa-duotone fa-regular fa-xmark me-1 text-warning') + i18n('取消')] : false,
@@ -121,7 +109,6 @@ const component = new class Component {
                 form.setIndex(layIndex);
                 form.registerEvent();
                 $('.component-popup.' + form.getUnique()).append('<img src="/assets/common/images/ks.webp" class="component-popup-acg">');
-
 
                 if (opt.content && util.isPc()) {
                     if (opt.content.css) {
@@ -169,20 +156,19 @@ const component = new class Component {
         };
 
         if (tab.length === 1) {
-            //单选卡
+            
             openOption.type = 1;
             openOption.content = tab[0].content;
             openOption.title = tab[0].title;
             openOption.skin = 'component-popup ' + form.getUnique();
             layer.open(openOption);
         } else {
-            //多选卡
+            
             openOption.tab = tab;
             openOption.skin = 'layui-layer-tab component-popup ' + form.getUnique();
             layer.tab(openOption);
         }
     }
-
 
     idObjToList(array = []) {
         let list = [];
@@ -191,7 +177,6 @@ const component = new class Component {
         });
         return list;
     }
-
 
     async loadScript(src) {
         return new Promise((resolve, reject) => {
@@ -208,7 +193,6 @@ const component = new class Component {
             await this.loadScript(src);
         }
     }
-
 
     resizeObserver(element, done) {
         if ('ResizeObserver' in window) {

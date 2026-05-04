@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\User\API\Shop;
 
-
 use App\Controller\User\Base;
 use App\Interceptor\Merchant;
 use App\Interceptor\PostDecrypt;
@@ -24,11 +23,7 @@ class OrderSummary extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $dateType = (int)$this->request->post("equal-date_type");

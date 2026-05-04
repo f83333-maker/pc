@@ -19,31 +19,19 @@ class Index
     #[Inject]
     protected Response $response;
 
-    /**
-     * @return Response
-     */
     public function hello(): Response
     {
         return $this->response->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
+    
     public function wait(): Response
     {
         $list = Sync::inst()->list();
         return $this->response->json(data: ["state" => empty($list)]);
     }
 
-
-    /**
-     * @return Response
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
+    
     public function owner(): Response
     {
         $usr = Usr::inst()->getUsr();

@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 use App\Consts\Hook;
 
 if (!function_exists("index_var")) {
@@ -18,11 +17,10 @@ if (!function_exists("index_var")) {
     }
 }
 
-
 if (!function_exists("contact_type_msg")) {
     function contact_type_msg(int $type): string
     {
-        //联系方式：0=任意，1=手机，2=邮箱，3=QQ
+        
         return match ($type) {
             0 => "联系方式",
             1 => "手机号",
@@ -31,7 +29,6 @@ if (!function_exists("contact_type_msg")) {
         };
     }
 }
-
 
 if (!function_exists("widget_render")) {
     function widget_render(mixed $widgets): string
@@ -56,7 +53,6 @@ if (!function_exists("widget_render")) {
             $html .= <<<HTML
 <div><label class="form-label mb-1">{$widget['cn']}</label>
 HTML;
-
 
             if (in_array($widget['type'], ["text", "password", "number"])) {
                 $html .= <<<HTML
@@ -111,11 +107,9 @@ HTML;
             $html .= "</div>";
         }
 
-
         return $html;
     }
 }
-
 
 if (!function_exists("item_var")) {
     function item_var(array $item): string

@@ -25,10 +25,6 @@ class Master extends User
     #[Inject]
     private \App\Service\Order $order;
 
-    /**
-     * 获取主站分类
-     * @return array
-     */
     public function category(): array
     {
         $map = [];
@@ -43,7 +39,6 @@ class Master extends User
         $get->setColumn('id', 'icon', 'name', 'pid');
         $data = $this->query->get($get);
 
-
         foreach ($data['list'] as &$item) {
             $userCategory = UserCategory::query()->where("user_id", $this->getUser()->id)->where("category_id", $item['id'])->first();
             $item['user_category'] = $userCategory?->toArray();
@@ -52,9 +47,6 @@ class Master extends User
         return $this->json(data: $data);
     }
 
-    /**
-     * @throws JSONException
-     */
     public function setCategory(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -76,9 +68,6 @@ class Master extends User
         return $this->json(200, '（＾∀＾）配置已生效');
     }
 
-    /**
-     * @return array
-     */
     public function setCategoryStatus(): array
     {
         $id = (int)$_POST['id'];
@@ -99,9 +88,6 @@ class Master extends User
         return $this->json(200, "已生效");
     }
 
-    /**
-     * @return array
-     */
     public function setCategoryAllStatus(): array
     {
         $status = (int)$_POST['status'] == 0 ? 0 : 1;
@@ -121,9 +107,6 @@ class Master extends User
         return $this->json(200, "已生效");
     }
 
-    /**
-     * @return array
-     */
     public function commodity(): array
     {
         $map = [];
@@ -151,10 +134,7 @@ class Master extends User
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @throws JSONException
-     */
+    
     public function setCommodity(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -179,9 +159,6 @@ class Master extends User
         return $this->json(200, '（＾∀＾）配置已生效');
     }
 
-    /**
-     * @return array
-     */
     public function setCommodityStatus(): array
     {
         $id = (int)$_POST['id'];
@@ -202,10 +179,7 @@ class Master extends User
         return $this->json(200, "已生效");
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function setCommodityAllStatus(): array
     {
         $status = (int)$_POST['status'] == 0 ? 0 : 1;
@@ -233,10 +207,6 @@ class Master extends User
         return $this->json(200, "已生效");
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function setCommodityAllPremium(): array
     {
         $categoryId = (int)$_POST['category_id'];
@@ -268,6 +238,5 @@ class Master extends User
 
         return $this->json(200, "加价已生效");
     }
-
 
 }

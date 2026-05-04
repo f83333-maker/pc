@@ -18,19 +18,7 @@ class Balance implements \App\Service\User\Balance
     #[Inject]
     private \App\Service\User\Lifetime $lifetime;
 
-
-    /**
-     * @param int $userId
-     * @param string|float|int $amount
-     * @param int $type
-     * @param bool $isWithdraw
-     * @param int $status
-     * @param int $freeze
-     * @param string|null $tradeNo
-     * @param string|null $remark
-     * @return int
-     * @throws ServiceException
-     */
+    
     public function add(int $userId, string|float|int $amount, int $type, bool $isWithdraw, int $status = Bce::STATUS_DIRECT, int $freeze = 0, ?string $tradeNo = null, ?string $remark = null): int
     {
         if ($amount <= 0) {
@@ -39,9 +27,6 @@ class Balance implements \App\Service\User\Balance
 
         $amount = (string)$amount;
 
-        /**
-         * @var User $user
-         */
         $user = User::query()->lock()->find($userId);
 
         if (!$user) {
@@ -61,7 +46,7 @@ class Balance implements \App\Service\User\Balance
 
         if ($status === Bce::STATUS_DIRECT) {
             $user->balance = $userBill->after_balance = (new Decimal((string)($userBill->before_balance = $user->balance), 2))->add($amount)->getAmount(2);
-            //如果这笔资金可以提现，则增加提现额度
+            
             $isWithdraw && ($user->withdraw_amount = (new Decimal((string)$user->withdraw_amount))->add($amount)->getAmount(2));
             $user->save();
         } else if ($status === Bce::STATUS_DELAYED) {
@@ -71,7 +56,6 @@ class Balance implements \App\Service\User\Balance
         }
 
         $userBill->save();
-
 
         if (in_array($type, [
             Bce::TYPE_SUB_DIVIDEND,
@@ -88,16 +72,6 @@ class Balance implements \App\Service\User\Balance
         return $userBill->id;
     }
 
-    /**
-     * @param int $userId
-     * @param string|float|int $amount
-     * @param int $type
-     * @param string|null $tradeNo
-     * @param string|null $remark
-     * @param bool $deductionWithdraw
-     * @return void
-     * @throws ServiceException
-     */
     public function deduct(int $userId, string|float|int $amount, int $type, ?string $tradeNo = null, ?string $remark = null, bool $deductionWithdraw = false): void
     {
         if ($amount <= 0) {
@@ -106,9 +80,6 @@ class Balance implements \App\Service\User\Balance
 
         $amount = (string)$amount;
 
-        /**
-         * @var User $user
-         */
         $user = User::query()->lock()->find($userId);
 
         if (!$user) {
@@ -150,16 +121,9 @@ class Balance implements \App\Service\User\Balance
         $userBill->save();
     }
 
-    /**
-     * @param int $id
-     * @return void
-     * @throws ServiceException
-     */
     public function unfreeze(int $id): void
     {
-        /**
-         * @var UserBill $bill
-         */
+        
         $bill = UserBill::query()->lock()->find($id);
         if (!$bill) {
             throw new ServiceException("资金不存在");
@@ -169,9 +133,6 @@ class Balance implements \App\Service\User\Balance
             throw new ServiceException("这笔资金无法解冻");
         }
 
-        /**
-         * @var User $user
-         */
         $user = User::query()->lock()->find($bill->user_id);
 
         if (!$user) {
@@ -189,16 +150,9 @@ class Balance implements \App\Service\User\Balance
         $bill->save();
     }
 
-    /**
-     * @param int $id
-     * @return void
-     * @throws ServiceException
-     */
     public function rollback(int $id): void
     {
-        /**
-         * @var UserBill $bill
-         */
+        
         $bill = UserBill::query()->lock()->find($id);
         if (!$bill) {
             throw new ServiceException("资金不存在");
@@ -213,21 +167,13 @@ class Balance implements \App\Service\User\Balance
         $bill->save();
     }
 
-
-    /**
-     * @param int $id
-     * @param bool $deductionWithdraw
-     * @return bool
-     */
+    
     public function refund(int $id, bool $deductionWithdraw = false): bool
     {
         if ($id <= 0) {
             return false;
         }
 
-        /**
-         * @var UserBill $bill
-         */
         $bill = UserBill::query()->lock()->find($id);
 
         if (!$bill) {
@@ -257,20 +203,12 @@ class Balance implements \App\Service\User\Balance
         return true;
     }
 
-    /**
-     * 转账
-     * @param int $payer
-     * @param int $payee
-     * @param string $amount
-     * @return void
-     * @throws ServiceException
-     */
     public function transfer(int $payer, int $payee, string $amount): void
     {
-        $transferNo = Str::generateTradeNo(); //转账订单号
-        //扣款
+        $transferNo = Str::generateTradeNo(); 
+        
         $this->deduct($payer, $amount, Bce::TYPE_TRANSFER, $transferNo);
-        //加款
+        
         $this->add($payee, $amount, Bce::TYPE_TRANSFER, false, Bce::STATUS_DIRECT, 0, $transferNo);
     }
 }

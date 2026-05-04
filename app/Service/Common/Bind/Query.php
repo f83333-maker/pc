@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
+<?php 
 declare(strict_types=1);
 
 namespace App\Service\Common\Bind;
@@ -19,25 +19,13 @@ use Kernel\Util\Date;
 class Query implements \App\Service\Common\Query
 {
 
-
-    /**
-     * @param string $model
-     * @return string
-     * @throws \ReflectionException
-     */
+    
     private function getTable(string $model): string
     {
         $instance = Di::instance()->make($model);
         return $instance->getTable();
     }
 
-    /**
-     * @param mixed $query
-     * @param string $type
-     * @param string $column
-     * @param string $val
-     * @return void
-     */
     private function setWhere(mixed &$query, string $type, string $column, string $val): void
     {
         switch ($type) {
@@ -56,22 +44,11 @@ class Query implements \App\Service\Common\Query
         }
     }
 
-    /**
-     * @param Get $get
-     * @param callable|null $append
-     * @param int $resultType
-     * @return mixed
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function get(Get $get, ?callable $append = null, int $resultType = self::RESULT_TYPE_ARRAY): mixed
     {
-        /**
-         * @var Builder $query
-         */
+        
         $query = $get->model::query();
         $tableName = $this->getTable($get->model);
-
 
         if (count($get->leftJoinWhere) > 0) {
             $get->orderBy[0] = "{$tableName}.{$get->orderBy[0]}";
@@ -113,11 +90,9 @@ class Query implements \App\Service\Common\Query
             $this->setWhere($query, $type, $tableName . "." . $column, $val);
         }
 
-        //追加执行
         if (is_callable($append)) {
             $query = call_user_func($append, $query);
         }
-
 
         $query = $query->orderBy($get->orderBy[0], $get->orderBy[1])->distinct();
 
@@ -140,19 +115,10 @@ class Query implements \App\Service\Common\Query
         return $result;
     }
 
-
-    /**
-     * @param Save $save
-     * @return mixed
-     * @throws NotFoundException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function save(Save $save): mixed
     {
-        /**
-         * @var Builder $query
-         */
+        
         $query = $save->model::query();
 
         $model = $save->id ? $query->find($save->id) : null;
@@ -173,22 +139,13 @@ class Query implements \App\Service\Common\Query
 
         $middles = [];
 
-        /**
-         * @param string $key
-         * @param mixed $value
-         * @param array $middles
-         * @param mixed $model
-         * @param Save $save
-         * @return void
-         */
         $addColumn = function (string $key, mixed $value, array &$middles, mixed &$model, Save $save) {
             $middle = $save->getMiddle($key);
             if ($middle) {
                 $middles[] = ['middle' => $middle, 'data' => $value];
             } else {
-                // if (is_scalar($value) && !is_integer($value)) {
-                //    $value = urldecode($value);
-                // }
+
+                
                 $model->$key = $value;
             }
         };
@@ -218,12 +175,12 @@ class Query implements \App\Service\Common\Query
             $middle = $m['middle'];
             $data = $m['data'];
             if (!empty($data)) {
-                //删除中间表关系
+                
                 $middle['middle']::query()->where($middle['localKey'], $id)->delete();
             }
             $localKey = $middle['localKey'];
             $foreignKey = $middle['foreignKey'];
-            //重新建立模型关系
+            
             foreach ($data as $datum) {
                 $middleObject = new $middle['middle'];
                 $middleObject->$localKey = $id;
@@ -235,14 +192,6 @@ class Query implements \App\Service\Common\Query
         return $model;
     }
 
-    /**
-     * @param Delete $delete
-     * @return int
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     * @throws \Exception
-     */
     public function delete(Delete $delete): int
     {
         if (count($delete->list) === 0) {
@@ -251,9 +200,7 @@ class Query implements \App\Service\Common\Query
 
         $count = 0;
         foreach ($delete->list as $id) {
-            /**
-             * @var Builder $query
-             */
+            
             $query = $delete->model::query();
             foreach ($delete->where as $where) {
                 $query = $query->where(...$where);
@@ -271,12 +218,6 @@ class Query implements \App\Service\Common\Query
         return $count;
     }
 
-    /**
-     * @param array $map
-     * @param string $field
-     * @param string $rule
-     * @return array
-     */
     public function getOrderBy(array $map, string $field, string $rule = 'desc'): array
     {
         if (isset($map['sort_field']) && isset($map['sort_rule'])) {

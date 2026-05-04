@@ -34,11 +34,6 @@ class ItemSkuWholesaleLevel extends Base
     #[Inject]
     private Ownership $ownership;
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -60,12 +55,6 @@ class ItemSkuWholesaleLevel extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\User\ItemSkuWholesale::class, "price"]
     ])]

@@ -11,17 +11,9 @@ class Memory
 {
     use Singleton;
 
-    /**
-     * @var array
-     */
     private array $memory = [];
 
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
+    
     public function set(string $key, mixed $value): void
     {
         if (!App::$cli) {
@@ -39,10 +31,6 @@ class Memory
         }
     }
 
-    /**
-     * @param string $key
-     * @return mixed
-     */
     public function get(string $key): mixed
     {
         if (!App::$cli) {
@@ -57,11 +45,7 @@ class Memory
         }
     }
 
-
-    /**
-     * @param string ...$key
-     * @return void
-     */
+    
     public function del(string ...$key): void
     {
         if (!App::$cli) {
@@ -80,10 +64,6 @@ class Memory
         }
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
     public function has(string $key): bool
     {
         if (!App::$cli) {

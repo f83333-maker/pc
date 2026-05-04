@@ -16,12 +16,9 @@ class App
 
     private Process $restartWaitProcess;
 
-    /**
-     * @return void
-     */
     public function startRestartWaitProcess(): void
     {
-        // 创建一个子进程
+        
         $this->restartWaitProcess = new Process(function (Process $worker) {
             $config = Config::get("cli-server");
             $worker->name($config['name'] . "." . $config['port'] . ".restart");
@@ -39,10 +36,6 @@ class App
         $this->restartWaitProcess->start();
     }
 
-    /**
-     * 重启service服务
-     * @return void
-     */
     public function restart(): void
     {
         if (!\Kernel\Context\App::$cli) {
@@ -52,10 +45,6 @@ class App
         $this->restartWaitProcess->write("restart");
     }
 
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function shutdown(): void
     {
         if (!\Kernel\Context\App::$cli) {

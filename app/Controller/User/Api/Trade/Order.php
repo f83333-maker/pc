@@ -24,7 +24,6 @@ use Kernel\Util\Date;
 use Kernel\Validator\Method;
 use Kernel\Waf\Filter;
 
-
 #[Interceptor(class: [PostDecrypt::class, Waf::class, User::class], type: Interceptor::API)]
 class Order extends Base
 {
@@ -38,10 +37,6 @@ class Order extends Base
     #[Inject]
     private Ownership $ownership;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -79,16 +74,11 @@ class Order extends Base
             return $builder;
         });
 
-
         $this->order->hydrateOrderItemRenderFlags($data['list']);
 
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException|JSONException
-     */
     #[Validator([[Common::class, "id"]])]
     public function item(): Response
     {
@@ -104,11 +94,7 @@ class Order extends Base
         return $this->json(data: $orderItem->toArray());
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([[Common::class, "id"]])]
     public function receipt(): Response
     {
@@ -120,9 +106,6 @@ class Order extends Base
         return $this->json();
     }
 
-    /**
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\User\Order::class, "orderId"]
     ], Method::GET)]

@@ -17,9 +17,6 @@ class UpgradeLevel extends Base
     #[Inject]
     private \App\Service\User\Level $level;
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         $level = $this->level->getList($this->getUser());

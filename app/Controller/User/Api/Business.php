@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Controller\Base\API\User;
 use App\Interceptor\UserSession;
 use App\Interceptor\Waf;
@@ -23,10 +22,6 @@ use Kernel\Waf\Filter;
 class Business extends User
 {
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function purchase(): array
     {
         $levelId = (int)$_POST['levelId'];
@@ -43,19 +38,18 @@ class Business extends User
         $user = $this->getUser();
         $businessLevel = $user->businessLevel;
         if ($businessLevel) {
-            //判断当前等级是否
+            
             if ($businessLevel->id == $level->id || $businessLevel->price >= $level->price) {
                 throw new JSONException("不能购买已有等级或比自己更低的等级");
             }
         }
 
-        //开始扣费
         DB::transaction(function () use ($level, $user) {
-            //扣费
+            
             Bill::create($user, $level->price, Bill::TYPE_SUB, "购买商户等级", 0);
             $user->business_level = $level->id;
             $user->save();
-            //新建店铺
+            
             if (!\App\Model\Business::query()->where("user_id", $user->id)->first()) {
                 $business = new \App\Model\Business();
                 $business->user_id = $user->id;
@@ -68,12 +62,6 @@ class Business extends User
         return $this->json(200, "开通成功");
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function saveConfig(Request $request): array
     {
         $post = $request->post(flags: Filter::NORMAL);
@@ -145,16 +133,12 @@ class Business extends User
         return $this->json(200, "保存成功");
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function unbind(): array
     {
         $this->businessValidation();
         $type = (int)$_POST['type'];
-        $business = \App\Model\Business::query()->where("user_id", $this->getUser()->id)->first(); //店铺信息
+        $business = \App\Model\Business::query()->where("user_id", $this->getUser()->id)->first(); 
         if ($type == 0) {
             $business->subdomain = null;
         } else {

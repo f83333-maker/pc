@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 use App\Consts\Hook;
 
 if (!function_exists("admin_var")) {
@@ -16,5 +15,4 @@ if (!function_exists("admin_var")) {
         ]);
     }
 }
-
 

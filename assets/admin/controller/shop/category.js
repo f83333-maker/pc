@@ -53,7 +53,6 @@
         });
     }
 
-
     table = new Table("/admin/shop/category/get", "#shop-category-table");
     table.setTree(3);
     table.setDeleteSelector(".del-shop-category", "/admin/shop/category/del");

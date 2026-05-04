@@ -50,7 +50,6 @@
         });
     }
 
-
     const getUserWithdrawBalance = () => {
         util.post({
             url: "/admin/store/personal/info",
@@ -80,7 +79,6 @@
                             text: res?.data?.url
                         });
                         $('.cert-status-scan').show(200);
-
 
                         util.timer(() => {
                             return new Promise(resolve => {
@@ -121,7 +119,6 @@
             }
         });
     }
-
 
     identityCheck(() => {
         getUserWithdrawBalance();
@@ -164,7 +161,6 @@
         $('.withdrawal-apply').click(() => {
             WithdrawalApply(util.icon("icon-tixian") + " 申请兑现");
         });
-
 
         table = new Table("/admin/store/bill/get", "#bill-table");
         table.setPagination(10, [10, 20, 50, 100]);

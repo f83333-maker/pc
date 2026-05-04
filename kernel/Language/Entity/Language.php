@@ -7,9 +7,6 @@ class Language
 {
     public string $preferred;
 
-    /**
-     * @param string $preferred
-     */
     public function __construct(string $preferred)
     {
         $this->preferred = $preferred;

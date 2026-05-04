@@ -12,11 +12,7 @@ class UpdateLog
     public string $hash;
     public string $log;
 
-
-    /**
-     * @param string $hash
-     * @param string $log
-     */
+    
     public function __construct(string $hash, string $log)
     {
         $this->hash = $hash;

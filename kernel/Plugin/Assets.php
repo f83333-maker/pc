@@ -11,15 +11,9 @@ class Assets
 {
     use Singleton;
 
-
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/assets";
 
-
-    /**
-     * @param string $path
-     * @return void
-     * @throws RuntimeException
-     */
+    
     public function add(string $path): void
     {
         if (!is_dir(BASE_PATH . $path) && !is_file(BASE_PATH . $path)) {
@@ -34,12 +28,7 @@ class Assets
         });
     }
 
-
-    /**
-     * @param string $path
-     * @return void
-     * @throws RuntimeException
-     */
+    
     public function del(string $path): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($path) {
@@ -51,10 +40,7 @@ class Assets
         });
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function list(): array
     {
         return File::read(self::CACHE_FILE, function (string $contents) {

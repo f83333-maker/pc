@@ -19,12 +19,7 @@ class Pay extends Base
     #[Inject]
     private \App\Service\User\Pay $pay;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * 获得支付列表
-     */
+    
     public function list(): Response
     {
         $equipment = UserAgent::isMobile((string)$this->request->header("UserAgent")) ? 1 : 2;

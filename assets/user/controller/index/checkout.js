@@ -36,8 +36,7 @@
                 $renderPay.find(".block-header").show();
             } else {
                 $renderPay.find(`.card-body`).html(`<button type="button" class="btn btn-primary me-1 mb-1 continue-payment"><i class="fa fa-upload opacity-50 me-1"></i> 继续付款</button>`);
-                //jump url
-                // window.location.href = order.pay_url;
+
                 !payUrl && (payUrl = order.pay_url);
                 util.openCheckoutWindowUrl(payUrl);
 
@@ -46,7 +45,7 @@
                 });
             }
             switch (order.render_mode) {
-                case 3: //支付宝
+                case 3: 
                     $payIcon.html(util.icon("icon-zhifubao") + `<space></space><span class="pay-icon-alipay">${i18n('支付宝')}</span>`);
                     if (util.isMobile()) {
                         let goto = "alipays://platformapi/startapp?appId=20000067&url=" + order.pay_url;
@@ -56,21 +55,20 @@
                         window.location.href = goto;
                     }
                     break;
-                case 4: //微信
+                case 4: 
                     $payIcon.html(util.icon("icon-weixinzhifu") + `<space></space><span class="pay-icon-wxpay">${i18n('微信支付')}</span>`);
                     break;
-                case 5: //QQ
+                case 5: 
                     $payIcon.html(util.icon("icon-tengxunQQ") + `<space></space><span class="pay-icon-qqpay">${i18n('QQ钱包')}</span>`);
                     break;
             }
         });
 
-
     }
 
     const $payItem = $('.pay-container .online-pay');
     const $balanceClick = $('.wallet-balance-click');
-    /*  const $payInput = $('.pay-wrapper input[name=pay_id]');*/
+    
     const $btnCancel = $('.btn-cancel-order');
     const $btnPay = $('.btn-pay-now');
     const $renderPay = $('.render-pay');

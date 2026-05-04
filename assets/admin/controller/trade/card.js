@@ -384,11 +384,9 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
     table.setState("status", "_card_status");
     table.render();
 
-
     $('.btn-app-create').click(function () {
         uploadCard();
     });
-
 
     $('.btn-app-del').click(() => {
         let data = table.getSelectionIds();
@@ -433,7 +431,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
         });
     });
 
-
     $('.btn-app-sell').click(() => {
         let data = table.getSelectionIds();
         if (data.length == 0) {
@@ -447,7 +444,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
             });
         });
     });
-
 
     $('.btn-app-export').click(function () {
 
@@ -513,6 +509,5 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
             },
         });
     });
-
 
 }();

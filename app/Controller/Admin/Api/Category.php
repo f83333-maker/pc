@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\CreateObjectEntity;
 use App\Entity\DeleteBatchEntity;
@@ -25,19 +24,12 @@ use Kernel\Exception\NotFoundException;
 use Kernel\Exception\RuntimeException;
 use Kernel\Waf\Filter;
 
-/**
- * Class Category
- * @package App\Controller\Admin\Api
- */
 #[Interceptor(ManageSession::class, Interceptor::TYPE_API)]
 class Category extends Manage
 {
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -63,15 +55,7 @@ class Category extends Manage
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -87,13 +71,7 @@ class Category extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
+    
     public function del(): array
     {
         $list = (array)$_POST['list'];
@@ -103,7 +81,6 @@ class Category extends Manage
             throw new JSONException("没有移除任何数据");
         }
 
-        //删除所有商品
         foreach ($list as $id) {
             \App\Model\Commodity::query()->where("category_id", $id)->delete();
         }
@@ -112,9 +89,6 @@ class Category extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    /**
-     * @return array
-     */
     public function status(): array
     {
         $list = (array)$_POST['list'];

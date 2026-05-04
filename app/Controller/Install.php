@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-
 use App\Controller\Base\API\User;
 use App\Service\App;
 use App\Util\Client;
@@ -21,19 +20,12 @@ class Install extends User
     #[Inject]
     private App $app;
 
-    /**
-     * 伪静态探测
-     * @return array
-     */
     public function rewrite(): array
     {
         return $this->json(200, "success");
     }
 
-
-    /**
-     * @return string
-     */
+    
     public function step(): string
     {
         if (file_exists(BASE_PATH . '/kernel/Install/Lock')) {
@@ -52,7 +44,6 @@ class Install extends User
         $data['ext']['session'] = extension_loaded("session");
         $data['ext']['zip'] = extension_loaded("zip");
 
-
         $data['install'] = true;
         if ($data['php_version'] < 8) {
             $data['install'] = false;
@@ -67,11 +58,7 @@ class Install extends User
         return View::render("Install.html", $data);
     }
 
-
-    /**
-     * @return array
-     * @throws \Kernel\Exception\JSONException
-     */
+    
     public function submit(): array
     {
         if (file_exists(BASE_PATH . '/kernel/Install/Lock')) {
@@ -112,9 +99,8 @@ class Install extends User
             throw new JSONException("没有写入权限，请检查权限是否足够");
         }
 
-        //导入数据库
         SQL::import($sqlFile . ".tmp", $host, $map['database'], $map['username'], $map['password'], $map['prefix']);
-        //设置数据库账号密码
+        
         setConfig([
             'driver' => 'mysql',
             'host' => $host,

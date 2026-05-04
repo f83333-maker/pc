@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -30,9 +29,6 @@ class User extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $this->request->post();
@@ -62,10 +58,6 @@ class User extends Manage
         return $this->json(data: $data);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function save(): array
     {
         $map = $_POST;
@@ -97,7 +89,7 @@ class User extends Manage
             if (!$level) {
                 throw new JSONException("该商户等级不存在");
             }
-            //新建店铺
+            
             if (!Business::query()->where("user_id", $user->id)->first()) {
                 $business = new Business();
                 $business->user_id = $user->id;
@@ -125,9 +117,6 @@ class User extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    /**
-     * @throws JSONException
-     */
     public function recharge(): array
     {
         $map = $_POST;
@@ -149,9 +138,6 @@ class User extends Manage
         return $this->json(200, "操作成功");
     }
 
-    /**
-     * @throws JSONException
-     */
     public function coin(): array
     {
         $map = $_POST;
@@ -168,41 +154,31 @@ class User extends Manage
             throw new JSONException("用户不存在");
         }
 
-        //创建扣款订单
         Bill::create($user, (float)$map['amount'], (int)$map['action'], $map['log'], 1, (bool)$map['total']);
         ManageLog::log($this->getManage(), "为会员($user->username)进行了硬币变动操作，详情查看账变明细");
         return $this->json(200, "操作成功");
     }
 
-    /**
-     * @return array
-     */
     public function statistics(): array
     {
         $userId = $_GET['id'];
         $order = \App\Model\Order::query()->where("user_id", $userId)->where("status", 1);
         $data = [];
-        //今日交易
+        
         $data['today_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [Date::calcDay(), Date::calcDay(1)])->sum("amount"));
-        //昨日交易
+        
         $data['yesterday_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [Date::calcDay(-1), Date::calcDay()])->sum("amount"));
-        //本周交易
+        
         $data['week_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [Date::weekDay(1, Date::TYPE_START), Date::weekDay(7, Date::TYPE_END)])->sum("amount"));
-        //本月交易
+        
         $data['month_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [date("Y-m-01 00:00:00"), Date::calcDay()])->sum("amount"));
-        //全部交易
+        
         $data['total_order_amount'] = sprintf("%.2f", (clone $order)->sum("amount"));
 
         return $this->json(200, "success", $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
+    
     public function del(): array
     {
         $deleteBatchEntity = new Delete(\App\Model\User::class, $_POST['list']);
@@ -213,7 +189,6 @@ class User extends Manage
 
         $list = (array)$_POST['list'];
 
-        //删除店铺
         foreach ($list as $id) {
             Business::query()->where("user_id", $id)->delete();
         }
@@ -222,9 +197,6 @@ class User extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    /**
-     * @throws JSONException
-     */
     public function shopClosed(): array
     {
         $id = (int)$_POST['id'];
@@ -243,9 +215,6 @@ class User extends Manage
         return $this->json(200, '（＾∀＾）关闭成功');
     }
 
-    /**
-     * @throws JSONException
-     */
     public function fastUpdateUserGroup(): array
     {
         $list = (array)explode(",", (string)$_POST['list']);

@@ -108,7 +108,6 @@
         });
     }
 
-
     const topUp = () => {
         component.popup({
             submit: false,
@@ -163,7 +162,6 @@
                                             }
                                         }
 
-
                                         $onlinePay.find('.online-pay-click').click(function () {
                                             payId = $(this).attr("data-payId");
                                             $onlinePay.find(".online-pay-click").removeClass("pay-current");
@@ -192,7 +190,6 @@
             assign: {}
         });
     }
-
 
     const billModal = (item = {}, subscriptionId = 0, success = null) => {
         let billModalIndex = 0;
@@ -241,8 +238,7 @@
                             <div class="subscription-list online-pay">${payList}</div>
                         </div>
                     </div>
-         
-        
+
                 <form class="form-store-login">
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn fw-bold btn-lg btn-alt-primary py-2 text-primary btn-purchasing">
@@ -520,7 +516,6 @@
                                     }, "请确认您续费的订阅！");
                                 });
 
-
                                 dom.find('.bind-subscription').click(() => {
                                     const selections = subscriptionTable.getSelections();
                                     if (selections.length == 0) {
@@ -533,7 +528,6 @@
                                     selections.forEach(item => {
                                         powers.push(`<b class="text-success">${item?.is_group ? "用户组" : "插件"}-${util.plainText(item.name)}</b>`);
                                     });
-
 
                                     message.ask(`<p>${powers.join("、")}</p><p class="mt-3 fs-sm text-danger">将授权转移至本机后，其他机器上的插件将被停用。如果本机已存在授权的插件，则授权转移将失败。</p>`, () => {
                                         let index = 0;
@@ -683,13 +677,11 @@
                 },
             ]);
 
-
             table.setSearch([
                 {title: "搜索插件", name: "keywords", type: "input"}
             ]);
             table.setState("type", "store_plugin_type");
             table.render();
-
 
             $('.add-plugin').click(() => {
                 pluginDeveloperModal(util.icon("icon-tianjia") + " 创建插件");
@@ -842,7 +834,6 @@
                                     const $imageCode = $('.img-captcha-register');
                                     const $registerPhoneCountry = $("#register-phone-country");
 
-
                                     $('.btn-send-register-code').click(function () {
                                         let phone = $("#register-phone").val();
 
@@ -864,7 +855,6 @@
                                         });
                                     });
 
-
                                     $('.btn-register').click(() => {
                                         let phone = $("#register-phone").val();
                                         if ($registerPhoneCountry.val() !== "86") {
@@ -885,7 +875,6 @@
                                             $imageCode.click();
                                         });
                                     });
-
 
                                     _Dict.advanced("sms_country", data => {
                                         data.forEach(item => {
@@ -957,7 +946,6 @@
                                     const $resetPhoneCountry = $("#reset-phone-country");
                                     const $resetCaptcha = $("#reset-captcha");
 
-
                                     $('.btn-send-reset-code').click(function () {
                                         let phone = $("#reset-phone").val();
 
@@ -978,7 +966,6 @@
                                             $imageCode.click();
                                         });
                                     });
-
 
                                     $('.btn-reset').click(() => {
                                         let phone = $("#reset-phone").val();

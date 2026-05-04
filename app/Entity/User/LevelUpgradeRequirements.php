@@ -14,10 +14,7 @@ class LevelUpgradeRequirements
     public string $totalReferralCount;
     public string $totalProfitAmount;
 
-
-    /**
-     * @param string|array $requirements
-     */
+    
     public function __construct(string|array $requirements)
     {
         if (is_string($requirements)) {

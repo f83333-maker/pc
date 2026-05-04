@@ -29,19 +29,11 @@ class ItemSkuWholesale extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param int $id
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(int $id): Response
     {
         $itemSku = \App\Model\ItemSku::with(['user'])->find($id);
 
-        /**
-         * @var RepertoryItemSku $repertoryItemSku
-         */
         $repertoryItemSku = RepertoryItemSku::query()->find($itemSku->repertory_item_sku_id);
         $data = Model::query()->orderBy("quantity", "asc")->where("sku_id", $id)->get()->toArray();
         foreach ($data as $index => $value) {
@@ -51,13 +43,7 @@ class ItemSkuWholesale extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     #[Validator([
         [\App\Validator\Admin\ItemSku::class, "price"]
     ])]

@@ -5,9 +5,6 @@ namespace Kernel\Task\Interface;
 
 interface Task
 {
-    /**
-     * 执行任务子程序
-     * @return mixed
-     */
+    
     public function handle(): mixed;
 }

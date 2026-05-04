@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\User\User;
 
-
 use App\Controller\User\Base;
 use App\Interceptor\User;
 use Kernel\Annotation\Inject;
@@ -18,9 +17,6 @@ class Recharge extends Base
     #[Inject]
     private \App\Service\User\Pay $pay;
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         $pay = $this->pay->getList(UserAgent::getEquipment($this->request->header("UserAgent")), "recharge");

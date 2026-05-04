@@ -17,12 +17,6 @@ class Image implements \App\Service\Common\Image
     #[Inject]
     private \App\Service\Common\Upload $upload;
 
-    /**
-     * @param string $imagePath
-     * @param int $newHeight
-     * @param string $basePath
-     * @return bool|string
-     */
     public function createThumbnail(string $imagePath, int $newHeight, string $basePath = BASE_PATH): bool|string
     {
         $baseImagePathInfo = pathinfo($imagePath);
@@ -119,11 +113,7 @@ class Image implements \App\Service\Common\Image
         return $thumbPath;
     }
 
-
-    /**
-     * @param string $filePath
-     * @return bool
-     */
+    
     public function isRealImage(string $filePath): bool
     {
         $imageInfo = getimagesize($filePath);
@@ -134,22 +124,13 @@ class Image implements \App\Service\Common\Image
         }
     }
 
-    /**
-     * @param string $url
-     * @return string
-     */
     public function getImageExtensionFromURL(string $url): string
     {
-        // 解析 URL 获取路径部分
+        
         $path = parse_url($url, PHP_URL_PATH);
         return strtolower((string)pathinfo($path, PATHINFO_EXTENSION));
     }
 
-    /**
-     * @param $url
-     * @return bool
-     * @throws GuzzleException
-     */
     public function isRealImageFromURL($url): bool
     {
         $response = Http::make()->head($url);
@@ -161,14 +142,6 @@ class Image implements \App\Service\Common\Image
         return false;
     }
 
-    /**
-     * @param string $url
-     * @param bool $isCreateThumbnail
-     * @param int|null $userId
-     * @return array
-     * @throws GuzzleException
-     * @throws ServiceException
-     */
     public function downloadRemoteImage(string $url, bool $isCreateThumbnail = true, ?int $userId = null): array
     {
         $extension = $this->getImageExtensionFromURL($url);

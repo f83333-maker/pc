@@ -12,9 +12,7 @@ use Kernel\Plugin\Const\Theme;
 #[Interceptor(class: [\App\Interceptor\User::class, Merchant::class])]
 class Level extends Base
 {
-    /**
-     * @return Response
-     */
+    
     public function index(): Response
     {
         return $this->theme(Theme::USER_LEVEL, "User/Level.html", "会员等级");

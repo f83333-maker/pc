@@ -7,7 +7,6 @@
 
         const msg = amount > 0 ? `您正在开通商家权限<b class="text-warning">「${group}」</b>，需要支付<b class="text-success">${getVar("CCY")}${amount}</b>，一旦开通成功，无法退款，是否继续？` : `您正在开通商家权限<b class="text-warning">「${group}」</b>，此权限可免费开通，是否继续？`;
 
-
         message.ask(msg, () => {
             if (amount > 0) {
                 pay.openPayment("group", amount, (isBalance, payId) => {

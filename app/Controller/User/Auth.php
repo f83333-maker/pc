@@ -11,17 +11,12 @@ use Kernel\Exception\JSONException;
 use Kernel\Exception\RedirectException;
 use Kernel\Plugin\Const\Theme;
 
-
 class Auth extends Base
 {
 
     #[Inject]
     private \App\Service\Common\Config $config;
 
-    /**
-     * @return Response
-     * @throws RedirectException
-     */
     public function register(): Response
     {
         if ($this->request->cookie(Cookie::USER_TOKEN)) {
@@ -39,9 +34,6 @@ class Auth extends Base
         ]);
     }
 
-    /**
-     * @return Response
-     */
     public function login(): Response
     {
         if ($this->request->cookie(Cookie::USER_TOKEN)) {
@@ -53,11 +45,7 @@ class Auth extends Base
         return $this->theme(Theme::LOGIN, "Auth/Login.html", "登录账号", ["option" => $config]);
     }
 
-
-    /**
-     * @return Response
-     * @throws RedirectException
-     */
+    
     public function reset(): Response
     {
         if ($this->request->cookie(Cookie::USER_TOKEN)) {
@@ -73,12 +61,7 @@ class Auth extends Base
         return $this->theme(Theme::LOGIN, "Auth/Reset.html", "重置密码");
     }
 
-
-    /**
-     * @param int $type
-     * @return Response
-     * @throws JSONException
-     */
+    
     public function terms(int $type): Response
     {
         $titles = [

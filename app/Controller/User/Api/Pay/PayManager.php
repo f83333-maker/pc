@@ -33,14 +33,7 @@ class PayManager extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $plugin
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+    
     public function code(string $plugin): Response
     {
         $plg = Plugin::instance()->getPlugin($plugin, Usr::inst()->userToEnv($this->getUser()->id));
@@ -50,11 +43,6 @@ class PayManager extends Base
         return $this->json(data: $plg->payCode);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -95,12 +83,6 @@ class PayManager extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\User\Pay::class, ["id", "name", "pid", "code", "payConfigId"]]
     ])]
@@ -123,9 +105,7 @@ class PayManager extends Base
         $save->addForceMap("user_id", $this->getUser()->id);
 
         if (isset($post['pid'])) {
-            /**
-             * @var Model $pay
-             */
+            
             $pay = Model::query()->find($post['pid']);
             if (!$pay || $pay->user_id !== null) {
                 throw new JSONException("上级支付接口不存在");
@@ -151,11 +131,7 @@ class PayManager extends Base
         return $this->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

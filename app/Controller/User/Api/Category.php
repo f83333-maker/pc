@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Controller\Base\API\User;
 use App\Entity\Query\Get;
 use App\Entity\Query\Save;
@@ -25,9 +24,6 @@ class Category extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $this->request->post();
@@ -45,12 +41,7 @@ class Category extends User
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
+    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -80,12 +71,7 @@ class Category extends User
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws \Exception
-     */
+    
     public function del(): array
     {
         $id = (int)$_POST['id'];

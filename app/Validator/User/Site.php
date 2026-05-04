@@ -11,14 +11,12 @@ use Kernel\Annotation\Required;
 class Site extends Base
 {
 
-
     #[Required("类型不能为空")]
     #[Regex("/^[01]$/", "类型错误")]
     public function type(): bool
     {
         return true;
     }
-
 
     #[Required("SSL证书(PEM)不能为空")]
     public function pem(): bool
@@ -32,7 +30,6 @@ class Site extends Base
         return true;
     }
 
-
     #[Required("域名不能为空")]
     public function domain(mixed $value): bool|string
     {
@@ -41,7 +38,6 @@ class Site extends Base
         }
         return true;
     }
-
 
     #[Name("domain")]
     #[Required("域名不能为空")]

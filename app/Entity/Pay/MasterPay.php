@@ -16,7 +16,6 @@ class MasterPay
     public string $fee;
     public array $scope = [];
 
-
     public function __construct(int $id, string $name, string $icon, string|float|int $fee, array $scope)
     {
         $this->id = $id;
@@ -26,10 +25,7 @@ class MasterPay
         $this->scope = $scope;
     }
 
-
-    /**
-     * @param string|float|int $fee
-     */
+    
     public function setFee(string|float|int $fee): void
     {
         $this->fee = (string)$fee;

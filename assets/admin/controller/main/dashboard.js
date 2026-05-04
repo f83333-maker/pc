@@ -51,7 +51,6 @@
         });
     }
 
-
     function handleLoadNotice() {
         util.post({
             url: "/admin/store/notice",
@@ -75,11 +74,9 @@
         });
     }
 
-
     $(".select-show-date").change(function () {
         handleStatistics($(this).val(), true);
     });
-
 
     handleStatistics();
     handleProgressShopOrder();

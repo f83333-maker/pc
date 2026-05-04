@@ -23,11 +23,7 @@ class PayOrder extends Base
     #[Inject]
     private \App\Service\User\PayOrder $payOrder;
 
-
-    /**
-     * @return Response
-     * @throws ViewException
-     */
+    
     public function pay(): Response
     {
         $tradeNo = $this->request->uriSuffix();
@@ -61,15 +57,11 @@ class PayOrder extends Base
 
         $pay = $this->payOrder->getPay($payOrder->pay_id);
 
-        /**
-         * @var PluginConfig $config
-         */
         $config = $pay->config;
 
         if (!$config) {
             throw new ViewException("支付配置文件不存在");
         }
-
 
         $data = [
             "order" => $payOrder->toArray(),
@@ -87,7 +79,7 @@ class PayOrder extends Base
                 }
                 return $this->response->render(template: "User/Pay/Render/Submit.html", data: ["url" => $payOrder->pay_url, "option" => $payOrder->option->option]);
             case  \Kernel\Plugin\Const\Pay::RENDER_LOCAL_PLUGIN_VIEW:
-                //实现插件视图渲染
+                
                 return $this->response->render(
                     template: "{$pay->code}.html",
                     title: $pay->name,
@@ -106,10 +98,6 @@ class PayOrder extends Base
         }
     }
 
-    /**
-     * @return Response
-     * @throws ViewException
-     */
     public function sync(): Response
     {
         $tradeNo = $this->request->uriSuffix();

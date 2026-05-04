@@ -14,70 +14,40 @@ class Query
     private int $limit = 10;
     private int $state = -1;
 
-    /**
-     * @var int|null
-     */
     private ?int $type = null;
 
-    /**
-     * @var string|null
-     */
     private ?string $keyword = null;
 
-
-    /**
-     * @param string $env
-     */
+    
     public function __construct(string $env = "/app/Plugin")
     {
         $this->env = $env;
     }
 
-
-    /**
-     * @param int $page
-     * @param int $limit
-     * @return void
-     */
+    
     public function setPaginate(int $page, int $limit): void
     {
         $this->page = $page;
         $this->limit = $limit;
     }
 
-    /**
-     * @param int $state
-     * @return void
-     */
     public function setState(int $state): void
     {
         $this->state = $state;
     }
 
-
-    /**
-     * @param string $keyword
-     * @return void
-     */
+    
     public function setKeyword(string $keyword): void
     {
         $this->keyword = trim(strtoupper(urldecode($keyword)));
     }
 
-    /**
-     * @param int $type
-     * @return void
-     */
     public function setType(int $type): void
     {
         $this->type = $type;
     }
 
-
-    /**
-     * @param Plugin $plugin
-     * @return bool
-     */
+    
     private function isKeywordMatch(Plugin $plugin): bool
     {
         if (!$this->keyword) {
@@ -93,31 +63,22 @@ class Query
         return false;
     }
 
-    /**
-     * @param Plugin $plugin
-     * @return bool
-     */
     private function isStateMatch(Plugin $plugin): bool
     {
         if ($this->state == -1) {
             return true;
         }
 
-        //状态查询
         if ($this->state == $plugin->state['run']) {
             return true;
         }
         return false;
     }
 
-
-    /**
-     * @param Plugin $plugin
-     * @return bool
-     */
+    
     private function isTypeMatch(Plugin $plugin): bool
     {
-        // 如果没有指定类型，那么任何插件都匹配
+        
         if (!$this->type || $this->type == 16) {
             return true;
         }
@@ -125,11 +86,6 @@ class Query
         return $this->type == $plugin->info[\Kernel\Plugin\Const\Plugin::TYPE];
     }
 
-    /**
-     * @param Plugin $plugin
-     * @param array $counter
-     * @return void
-     */
     private function updateStateNums(Plugin $plugin, array &$counter): void
     {
         switch ($plugin->state['run']) {
@@ -148,10 +104,6 @@ class Query
         }
     }
 
-    /**
-     * @return array
-     * @throws \ReflectionException
-     */
     public function list(): array
     {
         $finder = is_dir(BASE_PATH . $this->env) ? Finder::create()->in(BASE_PATH . $this->env)->depth("== 0")->ignoreUnreadableDirs(true)->directories() : [];
@@ -166,17 +118,14 @@ class Query
 
             $this->updateStateNums($plugin, $counter);
 
-            //搜索
             if (!$this->isKeywordMatch($plugin)) {
                 continue;
             }
 
-            //状态查询
             if (!$this->isStateMatch($plugin)) {
                 continue;
             }
 
-            //能力查询
             if (!$this->isTypeMatch($plugin)) {
                 continue;
             }
@@ -184,7 +133,6 @@ class Query
             $data[] = $plugin;
         }
 
-        //插件置顶功能
         usort($data, function ($a, $b) {
             $updateA = $a->getSystemConfig("update") ?? 0;
             $updateB = $b->getSystemConfig("update") ?? 0;

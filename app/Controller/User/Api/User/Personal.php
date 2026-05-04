@@ -16,10 +16,6 @@ use Kernel\Exception\RuntimeException;
 class Personal extends Base
 {
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function info(): Response
     {
         $user = \App\Model\User::with([

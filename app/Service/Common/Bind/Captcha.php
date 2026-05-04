@@ -13,13 +13,6 @@ class Captcha implements \App\Service\Common\Captcha
     #[Inject]
     private Session $session;
 
-    /**
-     * @param string $key
-     * @param int $expire second
-     * @param int $limiter second
-     * @return string
-     * @throws JSONException
-     */
     public function create(string $key, int $expire, int $limiter = 60): string
     {
         if ($this->session->has($key) && $limiter > 0) {
@@ -32,11 +25,6 @@ class Captcha implements \App\Service\Common\Captcha
         return (string)$code;
     }
 
-    /**
-     * @param string $key
-     * @param string $code
-     * @return bool
-     */
     public function verify(string $key, string $code): bool
     {
         if (!$this->session->has($key)) {
@@ -56,10 +44,6 @@ class Captcha implements \App\Service\Common\Captcha
         return true;
     }
 
-    /**
-     * @param string $key
-     * @return void
-     */
     public function destroy(string $key): void
     {
         $this->session->remove($key);

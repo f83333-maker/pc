@@ -8,27 +8,14 @@ use Kernel\Plugin\Plugin;
 use Kernel\Util\Aes;
 use Kernel\Util\Str;
 
-/**
- *
- */
 class Http
 {
-    /**
-     * @param array $opt
-     * @return \GuzzleHttp\Client
-     */
+    
     public static function make(array $opt = []): \GuzzleHttp\Client
     {
         return new \GuzzleHttp\Client(array_merge(["verify" => false], $opt));
     }
 
-    /**
-     * @param string $url
-     * @param string $path
-     * @param string $method
-     * @param array $data
-     * @return bool
-     */
     public static function download(string $url, string $path, string $method = "GET", array $data = []): bool
     {
         try {

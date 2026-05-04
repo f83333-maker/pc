@@ -65,7 +65,6 @@
                                     return;
                                 }
 
-
                                 util.post({
                                     url: "/admin/pay/code?plugin=" + val,
                                     done: res => {

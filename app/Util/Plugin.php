@@ -5,21 +5,9 @@ namespace App\Util;
 
 use Kernel\Exception\JSONException;
 
-/**
- * Class Plugin
- * @package App\Util
- */
 class Plugin
 {
-    /**
-     * @param string $pluginName
-     * @param string $db
-     * @param string $key
-     * @param mixed $value
-     * @param int $expire
-     * @param bool $cli
-     * @throws JSONException
-     */
+    
     public static function setCache(string $pluginName, string $db, string $key, mixed $value, int $expire = 0, bool $cli = false): void
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Db/';
@@ -39,14 +27,6 @@ class Plugin
         setConfig($data, $db);
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $db
-     * @param string $key
-     * @param bool $cli
-     * @return mixed
-     * @throws JSONException
-     */
     public static function getCache(string $pluginName, string $db, string $key, bool $cli = false): mixed
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Db/' . $db . ".php";
@@ -70,13 +50,6 @@ class Plugin
         return $unserialize['data'];
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $db
-     * @param bool $cli
-     * @return array
-     * @throws JSONException
-     */
     public static function getCaches(string $pluginName, string $db, bool $cli = false): array
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Db/' . $db . ".php";
@@ -96,9 +69,6 @@ class Plugin
         return $success;
     }
 
-    /**
-     * @throws JSONException
-     */
     public static function delCache(string $pluginName, string $db, string $key, bool $cli = false): void
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Db/' . $db . ".php";
@@ -116,10 +86,6 @@ class Plugin
         setConfig($data, $path, true);
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $db
-     */
     public static function clearCache(string $pluginName, string $db)
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Db/' . $db . ".php";
@@ -129,12 +95,7 @@ class Plugin
         unlink($path);
     }
 
-
-    /**
-     * @param string $pluginName
-     * @param bool $cache
-     * @return array
-     */
+    
     public static function getConfig(string $pluginName, bool $cache = true): array
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Config/Config.php';
@@ -150,13 +111,6 @@ class Plugin
         return (array)File::codeLoad($path);
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $key
-     * @param string $value
-     * @param bool $cache
-     * @throws \Kernel\Exception\JSONException
-     */
     public static function setConfig(string $pluginName, string $key, string $value, bool $cache = true): void
     {
         unlink(BASE_PATH . "/runtime/plugin/plugin.cache");
@@ -165,31 +119,19 @@ class Plugin
         setConfig($config, BASE_PATH . '/app/Plugin/' . $pluginName . '/Config/Config.php');
     }
 
-
-    /**
-     * @param string $pluginName
-     * @return string
-     */
+    
     public static function getPluginLog(string $pluginName): string
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/runtime.log';
         return (string)file_get_contents($path);
     }
 
-    /**
-     * @param string $pluginName
-     * @return bool
-     */
     public static function ClearPluginLog(string $pluginName): bool
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/runtime.log';
         return unlink($path);
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $message
-     */
     public static function log(string $pluginName, string $message): void
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/runtime.log';

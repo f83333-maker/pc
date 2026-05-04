@@ -22,7 +22,6 @@ class Item
         return true;
     }
 
-
     #[Required("SKU不能为空")]
     #[Regex("/^[1-9]\d*$/", "SKU错误")]
     public function skuId(): bool

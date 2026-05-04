@@ -14,14 +14,6 @@ class Command implements \Kernel\Context\Interface\Command
     private ?string $name = null;
     private ?string $desc = null;
 
-    /**
-     * @param string $command
-     * @param string $class
-     * @param string $method
-     * @param mixed|null $extend
-     * @param string|null $name
-     * @param string|null $desc
-     */
     public function __construct(string $command, string $class, string $method, mixed $extend = null , ?string $name = null , ?string $desc = null)
     {
         $this->command = $command;
@@ -51,7 +43,6 @@ class Command implements \Kernel\Context\Interface\Command
     {
         return $this->extend;
     }
-
 
     public function getName(): ?string
     {

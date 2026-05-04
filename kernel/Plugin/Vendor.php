@@ -7,9 +7,6 @@ use Kernel\Exception\RuntimeException;
 use Kernel\Log\Log;
 use Kernel\Util\File;
 
-/**
- * 此类已废弃
- */
 class Vendor
 {
 
@@ -17,12 +14,6 @@ class Vendor
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/vendor";
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
     public function add(string $name, string $env): void
     {
         $autoload = BASE_PATH . $env . "/{$name}/Vendor/autoload.php";
@@ -40,13 +31,7 @@ class Vendor
         });
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
+    
     public function del(string $name, string $env): void
     {
         $autoload = BASE_PATH . $env . "/{$name}/Vendor/autoload.php";
@@ -61,9 +46,6 @@ class Vendor
         });
     }
 
-    /**
-     * @return array
-     */
     public function list(): array
     {
         return File::read(self::CACHE_FILE, function (string $contents) {
@@ -71,10 +53,6 @@ class Vendor
         }) ?: [];
     }
 
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function load(): void
     {
         try {

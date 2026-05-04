@@ -11,14 +11,11 @@ use Kernel\Util\Context;
 class OrderItem
 {
 
-
     #[Required("物品ID不能为空")]
     #[Regex("/^[1-9]\d*$/", "物品ID错误")]
     public function id(mixed $value): bool|string
     {
-        /**
-         * @var User $user
-         */
+        
         $user = Context::get(User::class);
         $orderItem = \App\Model\OrderItem::find($value);
 

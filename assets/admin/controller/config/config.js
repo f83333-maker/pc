@@ -509,7 +509,6 @@
         })
     });
 
-
     const displayForm = {
         formKeys: {
             ali: ['ali_access_key_id', 'ali_access_key_secret', 'ali_sign_name', 'ali_template_code'],
@@ -558,7 +557,6 @@
             }
         }
     }
-
 
     $('.sms-setting').click(() => {
         getConfig("sms", config => {
@@ -721,7 +719,6 @@
         });
     });
 
-
     $('.subdomain-setting').click(() => {
         getConfig("subdomain", config => {
             component.popup({
@@ -814,14 +811,7 @@ ${i18n(`<p>4.宝塔的nginx.conf：<b style="color: green;">/www/server/nginx/co
                                     `);
                                 }
                             },
-                            /*                            {
-                                                            title: "重启命令",
-                                                            name: "nginx_reload_command",
-                                                            type: "input",
-                                                            placeholder: "请填写重启您服务器nginx配置的命令",
-                                                            default: "sudo nginx -s reload",
-                                                            required: true
-                                                        },*/
+
                             {
                                 hide: getVar("cli"),
                                 title: "FPM地址",
@@ -886,7 +876,6 @@ ${i18n(`<p>4.宝塔的nginx.conf：<b style="color: green;">/www/server/nginx/co
         });
     });
 
-
     $('.waf-setting').click(() => {
         getConfig("waf", config => {
             component.popup({
@@ -919,7 +908,6 @@ ${i18n(`<p>4.宝塔的nginx.conf：<b style="color: green;">/www/server/nginx/co
             });
         });
     });
-
 
     $('.withdraw-setting').click(() => {
         getConfig("withdraw", config => {

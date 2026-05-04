@@ -22,22 +22,9 @@ class Template
 
     use Singleton;
 
-
     private array $caches = [];
 
-
-    /**
-     * @param string $template
-     * @param array $data
-     * @param string|array $path
-     * @param bool $safety
-     * @return string
-     * @throws LoaderError
-     * @throws NotFoundException
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws \ReflectionException
-     */
+    
     public function load(string $template, array $data = [], string|array $path = BASE_PATH . '/app/View', bool $safety = false): string
     {
         $themeHelper = $data['__theme_helper_class'] ?? null;
@@ -82,15 +69,7 @@ class Template
         return $html;
     }
 
-
-    /**
-     * @param \Throwable $e
-     * @return string
-     * @throws LoaderError
-     * @throws NotFoundException
-     * @throws RuntimeError
-     * @throws SyntaxError|\ReflectionException
-     */
+    
     public function error(\Throwable $e): string
     {
         Log::inst()->error($e->getFile() . ":" . $e->getLine() . ' ' . $e->getMessage());
@@ -100,17 +79,7 @@ class Template
         return $this->load("Runtime.html", ["error" => $e]);
     }
 
-
-    /**
-     * @param string $message
-     * @param string|null $url
-     * @param int $time
-     * @return string
-     * @throws LoaderError
-     * @throws NotFoundException
-     * @throws RuntimeError
-     * @throws SyntaxError|\ReflectionException
-     */
+    
     public function redirect(string $message, ?string $url = null, int $time = 0): string
     {
         return $this->load("302.html", ["url" => $url, "time" => $time, "message" => $message]);

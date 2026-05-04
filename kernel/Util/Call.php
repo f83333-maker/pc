@@ -9,11 +9,6 @@ use Swoole\Coroutine;
 class Call
 {
 
-    /**
-     * @param callable $callable
-     * @param mixed ...$args
-     * @return void
-     */
     public static function create(callable $callable, ...$args): void
     {
         if (!App::$cli) {
@@ -23,11 +18,7 @@ class Call
         Coroutine::create($callable, ...$args);
     }
 
-
-    /**
-     * @param callable $callable
-     * @return void
-     */
+    
     public static function defer(callable $callable): void
     {
         if (!App::$cli) {

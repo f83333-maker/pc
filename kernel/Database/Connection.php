@@ -14,15 +14,9 @@ class Connection
 {
     use Singleton;
 
-    /**
-     * @var array
-     */
     private array $connections = [];
 
-
-    /**
-     * @return ConnectionInterface
-     */
+    
     public function get(): ConnectionInterface
     {
         if (!App::$cli) {
@@ -41,8 +35,7 @@ class Connection
         $di = Di::instance()->get(ConnectionPool::class);
         $this->connections[$cid] = $di->get();
 
-
-        //返还连接
+        
         \Swoole\Coroutine\defer(function () use ($cid, $di) {
             $di->put($this->connections[$cid]);
             unset($this->connections[$cid]);
@@ -50,10 +43,6 @@ class Connection
         return $this->connections[$cid];
     }
 
-    /**
-     * 释放链接
-     * @return void
-     */
     public function release(): void
     {
         if (!App::$cli) {
@@ -64,11 +53,6 @@ class Connection
         $this->connections[$cid] = null;
     }
 
-    /**
-     * 设置链接
-     * @param ConnectionProxy $connection
-     * @return void
-     */
     public function set(ConnectionProxy $connection): void
     {
         if (!App::$cli) {
@@ -79,10 +63,7 @@ class Connection
         $this->connections[$cid] = $connection;
     }
 
-
-    /**
-     * @return int
-     */
+    
     public function usage(): int
     {
         return count($this->connections);

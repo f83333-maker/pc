@@ -3,7 +3,7 @@
     <div class="container">
         <div class="footer-top">
             <div class="row">
-                <!-- 左侧：Logo 和 简介 -->
+                
                 <div class="col-lg-5 footer-brand">
                     <div class="footer-logo">
                         <img src="/favicon.png" alt="Logo" loading="lazy" decoding="async" width="32" height="32">
@@ -11,8 +11,7 @@
                     </div>
                     <p class="footer-desc">专业的在线工作室，为您提供优质的产品和服务。助力全球化业务拓展，一站式跨境资源采购平台。</p>
                 </div>
-                
-                <!-- 中间：快速链接 -->
+
                 <div class="col-lg-3 footer-links">
                     <h6 class="footer-title">快速链接</h6>
                     <ul>
@@ -21,8 +20,7 @@
                         <li><a href="/user/index/twofa"><i class="fa-duotone fa-regular fa-shield-keyhole"></i> 2FA验证</a></li>
                     </ul>
                 </div>
-                
-                <!-- 右侧：联系我们 -->
+
                 <div class="col-lg-4 footer-contact">
                     <h6 class="footer-title">联系我们</h6>
                     <ul class="contact-list">
@@ -46,16 +44,6 @@
     </div>
 </footer>
 
-<!--
-    perf: 首页 JS 二段分包 (浏览器并行下载 vendor + layui, 主线程一边解析一边等)
-      - vendor 252KB (gz 86KB): jquery + util + dict + language + format + message + toastr + layer + loading + component + qrcode + decimal + trade + treasure
-      - layui  346KB (gz 113KB): 独立 layui 框架, 与 vendor 并行下载
-      - 旧合包 _index_lite.min.js 1.0MB (gz 340KB) -> 现在两包合计 gz 199KB, 再省 41%
-      - 移除 iconfont.js (444KB!) - 首页 0 处 SVG symbol 引用, 由 FontAwesome 接管
-      - defer 安全: ready.js 已在 head 同步加载, inline 脚本不依赖外部
-      - 重建: 见 scripts/build-index-lite.sh
-      - DEBUG 模式 (第二个数组) 保留全部独立文件以便排查
--->
 #{js(
 [
 "/assets/common/js/_vendor_lite.min.js",
@@ -81,13 +69,13 @@
 true,
 true
 )}
-<!--start::HOOK-->
+
 #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_BODY)}
 #{hook(\App\Consts\Hook::USER_VIEW_INDEX_BODY)}
-<!--end::HOOK-->
+
 </body>
-<!--start::HOOK-->
+
 #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_FOOTER)}
 #{hook(\App\Consts\Hook::USER_VIEW_INDEX_FOOTER)}
-<!--end::HOOK-->
+
 </html>

@@ -25,11 +25,7 @@ class Site extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $get = new Get(Model::class);
@@ -40,21 +36,18 @@ class Site extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Site::class, "type"]
     ])]
     public function save(): Response
     {
         $type = $this->request->post("type", Filter::INTEGER);
-        $domain = trim((string)$this->request->post("domain")); //域名后缀
-        $subdomain = trim((string)$this->request->post("subdomain")); //域名前缀
-        $privateDomain = trim((string)$this->request->post("private_domain")); //独立域名
-        $pem = trim((string)$this->request->post("pem")); //证书
-        $key = trim((string)$this->request->post("key")); //秘钥
+        $domain = trim((string)$this->request->post("domain")); 
+        $subdomain = trim((string)$this->request->post("subdomain")); 
+        $privateDomain = trim((string)$this->request->post("private_domain")); 
+        $pem = trim((string)$this->request->post("pem")); 
+        $key = trim((string)$this->request->post("key")); 
 
         if ($type == \App\Const\Site::TYPE_DOMAIN) {
             $domain = $privateDomain;
@@ -63,10 +56,7 @@ class Site extends Base
         return $this->json();
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Site::class, ["existsDomain", "pem", "key"]]
     ])]
@@ -79,10 +69,6 @@ class Site extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Site::class, "existsDomain"]
     ])]
@@ -92,11 +78,7 @@ class Site extends Base
         return $this->json(data: $this->site->getCertificate($domain));
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\User\Site::class, "existsDomain"]
     ])]
@@ -107,11 +89,7 @@ class Site extends Base
         return $this->json(message: "删除成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function getDnsRecord(): Response
     {
         $dnsValue = trim((string)$this->_config->getMainConfig("subdomain.dns_value"));

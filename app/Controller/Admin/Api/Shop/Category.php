@@ -28,11 +28,7 @@ class Category extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $map = $this->request->post();
@@ -55,10 +51,6 @@ class Category extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\Category::class, "name"]
     ])]
@@ -75,10 +67,7 @@ class Category extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
+    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

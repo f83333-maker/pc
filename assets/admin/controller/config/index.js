@@ -23,7 +23,7 @@
         editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
         editor.config.uploadImgMaxLength = 1;
         editor.config.uploadImgTimeout = 60 * 1000;
-        editor.config.uploadImgMaxSize = 50 * 1024 * 1024;  //50M
+        editor.config.uploadImgMaxSize = 50 * 1024 * 1024;  
         editor.config.uploadImgHooks = {
             customInsert: function (insertImgFn, result) {
                 if (result.code != 200) {
@@ -55,7 +55,6 @@
 
         editor.txt.html(_config?.notice);
         textarea.val(_config?.notice);
-
 
         $('.button-switch-notice').click(function () {
             let _obj = $(this);
@@ -90,7 +89,6 @@
         });
     }
 
-
     function _UploadLogoAndBackground() {
 
         util.bindButtonUpload(".upload-logo", "/admin/api/upload/send?mime=image", data => {
@@ -111,7 +109,6 @@
             $('input[name=background_mobile_url]').val(data.url);
         });
     }
-
 
     function _ThemeSetting() {
         let themes = {};
@@ -150,7 +147,6 @@
             });
         }
 
-
         $('.theme-setting').click(function () {
             let userTheme = $('select[name=user_theme]').val();
             modal(themes[userTheme]);
@@ -174,7 +170,6 @@
             modal(themes[userTheme]);
         });
     }
-
 
     function _Save() {
         $('.save-data').click(function () {

@@ -16,24 +16,16 @@ class Manager
 {
     use Singleton;
 
-    /**
-     * @return void
-     */
     public function create(): void
     {
         if (!App::$cli) {
             session_name(Session::NAME);
             session_start();
-            //return;
+            
         }
 
-        /**
-         * @var Response $response
-         */
         $response = Context::get(Response::class);
-        /**
-         * @var Request $request
-         */
+        
         $request = Context::get(Request::class);
 
         if (($response instanceof Response)) {
@@ -59,11 +51,7 @@ class Manager
         }
     }
 
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function gc(): void
     {
         $session = Di::instance()->get(Session::class);

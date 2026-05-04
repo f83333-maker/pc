@@ -19,7 +19,6 @@ class Console
 {
     use Singleton;
 
-
     public function isCommand(array $arg): bool
     {
         if (isset($arg[1]) && $arg[1] === "console") {
@@ -28,12 +27,7 @@ class Console
         return false;
     }
 
-
-    /**
-     * @param array $arg
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function execute(array $arg): void
     {
 
@@ -41,9 +35,7 @@ class Console
             $list = $this->list();
             if (count($list) > 0) {
                 echo "\033[1;32m已注册的命令列表：\033[0m\n";
-                /**
-                 * @var \Kernel\Context\Command $item
-                 */
+                
                 foreach ($list as $item) {
                     $desc = $item->getDesc();
                     echo "\033[1;32m[{$item->getCommand()}]\033[0m - \033[1;33m{$item->getName()}\033[0m" . ($desc ? "\033[0;36m「{$item->getDesc()}」\033[0m \n" : "\n");
@@ -53,7 +45,7 @@ class Console
             exit;
         }
 
-        $commandStr = $arg[2];  //参数
+        $commandStr = $arg[2];  
         unset($arg[0], $arg[1], $arg[2]);
         $arg = array_values($arg);
 
@@ -76,16 +68,7 @@ class Console
         });
     }
 
-
-    /**
-     * @param string $command
-     * @param array $callable $callable
-     * @param mixed|null $extend
-     * @param string|null $name
-     * @param string|null $desc
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function add(string $command, array $callable, mixed $extend = null, ?string $name = null, ?string $desc = null): void
     {
         try {
@@ -100,11 +83,6 @@ class Console
         }
     }
 
-    /**
-     * @param string $command
-     * @return void
-     * @throws RuntimeException
-     */
     public function del(string $command): void
     {
         File::writeForLock(BASE_PATH . "/runtime/command", function (string $contents) use ($command) {
@@ -114,11 +92,7 @@ class Console
         });
     }
 
-
-    /**
-     * @param string|null $command
-     * @return Command|array|null
-     */
+    
     public function get(?string $command = null): Command|array|null
     {
         $runtime = BASE_PATH . "/runtime/command";
@@ -138,9 +112,6 @@ class Console
         return null;
     }
 
-    /**
-     * @return array
-     */
     public function list(): array
     {
         $runtime = BASE_PATH . "/runtime/command";
@@ -150,12 +121,7 @@ class Console
         return unserialize(File::read($runtime)) ?: [];
     }
 
-
-    /**
-     * 注册MYSQL连接池
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     private function startMysql(): void
     {
         Coroutine\run(function () {
@@ -163,14 +129,7 @@ class Console
         });
     }
 
-
-    /**
-     * @param string $class
-     * @param string $method
-     * @param array $arg
-     * @return array
-     * @throws \ReflectionException
-     */
+    
     public function getMethodParameters(string $class, string $method, array $arg): array
     {
         $methodRef = new \ReflectionMethod($class, $method);
@@ -185,11 +144,7 @@ class Console
         return $parameters;
     }
 
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
+    
     public function generateCompletion(): void
     {
         if (!App::$cli) {
@@ -203,9 +158,6 @@ class Console
                 return;
             }
 
-            /**
-             * @var Command $command
-             */
             foreach ($commands as $command) {
                 $completionOptions .= $command->getCommand() . " ";
             }
@@ -215,12 +167,7 @@ class Console
         }
     }
 
-
-    /**
-     * @param string $options
-     * @return void
-     * @throws RuntimeException
-     */
+    
     private function updateBashCompletion(string $options): void
     {
         $escapedOptions = escapeshellarg($options);
@@ -231,13 +178,12 @@ class Console
         $file->lock();
         $bashrcContents = $file->contents();
 
-        // 检查是否已存在相应的 complete 命令
         $pattern = '/complete -W .* mcy/';
         if (preg_match($pattern, $bashrcContents)) {
-            // 如果存在，则替换
+            
             $newBashrcContents = preg_replace($pattern, $completionCommand, $bashrcContents);
         } else {
-            // 如果不存在，添加到文件末尾
+            
             $newBashrcContents = $bashrcContents . "\n" . $completionCommand;
         }
 

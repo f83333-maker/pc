@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Consts\Hook;
 use App\Model\Config;
 use App\Model\User;
@@ -15,11 +14,6 @@ use Kernel\Exception\RuntimeException;
 class UserSSO implements \App\Service\UserSSO
 {
 
-    /**
-     * @param User $user
-     * @param bool $remember
-     * @throws RuntimeException
-     */
     public function loginSuccess(User $user, bool $remember = false): void
     {
         $user->last_login_time = $user->login_time;

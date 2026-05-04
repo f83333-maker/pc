@@ -7,33 +7,17 @@ use Kernel\Exception\RuntimeException;
 
 class File
 {
-    /**
-     * @var mixed|bool
-     */
+    
     public mixed $resource = false;
 
-    /**
-     * @var string
-     */
     public string $path = "";
 
-
-    /**
-     * @var bool
-     */
+    
     private bool $lock = false;
 
-
-    /**
-     * @var int
-     */
+    
     public int $size = 0;
 
-    /**
-     * @param string $path
-     * @param string $mode
-     * @throws RuntimeException
-     */
     public function __construct(string $path, string $mode = "r")
     {
         if (!file_exists($path)) {
@@ -57,11 +41,7 @@ class File
         $this->path = $path;
     }
 
-
-    /**
-     * @return File
-     * @throws RuntimeException
-     */
+    
     public function shareLock(): self
     {
         if (!flock($this->resource, LOCK_SH)) {
@@ -72,10 +52,6 @@ class File
         return $this;
     }
 
-    /**
-     * @return File
-     * @throws RuntimeException
-     */
     public function lock(): self
     {
         if (!flock($this->resource, LOCK_EX)) {
@@ -86,9 +62,6 @@ class File
         return $this;
     }
 
-    /**
-     * @return File
-     */
     public function unlock(): self
     {
         if (!$this->lock) {
@@ -105,18 +78,12 @@ class File
         fclose($this->resource);
     }
 
-    /**
-     * @return int
-     */
     public function size(): int
     {
         $this->size = filesize($this->path);
         return $this->size;
     }
 
-    /**
-     * @return string
-     */
     public function contents(): string
     {
         if (!file_exists($this->path)) {
@@ -130,10 +97,7 @@ class File
         return (string)fread($this->resource, $this->size());
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
+    
     public function write(string $contents): void
     {
         if (fwrite($this->resource, $contents) === false) {
@@ -141,19 +105,13 @@ class File
         }
     }
 
-
-    /**
-     * @return void
-     */
+    
     public function rewind(): void
     {
         rewind($this->resource);
     }
 
-
-    /**
-     * @return void
-     */
+    
     public function autoTruncate(): void
     {
         ftruncate($this->resource, ftell($this->resource));

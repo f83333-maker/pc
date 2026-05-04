@@ -49,7 +49,6 @@
             submit = eval(assign.PLUGIN_SUBMIT);
         }
 
-
         component.popup({
             submit: '/admin/api/plugin/setConfig?id=' + assign.id,
             tab: submit,
@@ -204,7 +203,6 @@
                         });
                     }, `<b style="color: #1589e4;"><i class="fa-duotone fa-regular fa-sparkles"></i> ${row.NAME}</b> <span style="color: #0a84ff;font-size: 14px;">${row.VERSION}</span> <i class="fa-duotone fa-regular fa-right-long text-danger"></i> <span style="color: green;font-size: 14px;">${plugin.version}</span>`, "立即更新")
 
-
                 }
             }
         }
@@ -269,7 +267,6 @@
     });
     table.disablePagination();
     table.render();
-
 
     $('.plugin-start').click(() => {
         let plugins = table.getSelections();
@@ -359,7 +356,6 @@
             });
         }, 300, true);
     });
-
 
     $('.plugin-update-all').click(() => {
         const $updateIns = $('.plugin-update-all span');

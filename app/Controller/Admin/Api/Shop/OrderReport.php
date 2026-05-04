@@ -33,10 +33,6 @@ class OrderReport extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -90,10 +86,6 @@ class OrderReport extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, "reportId"]
     ])]
@@ -103,11 +95,7 @@ class OrderReport extends Base
         return $this->json(data: $message->toArray());
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, ["reportId", "handleType", "message", "treasure", "refundAmount"]]
     ])]
@@ -117,7 +105,6 @@ class OrderReport extends Base
         $refundAmount = $this->request->post("refund_amount");
         $refundMerchantAmount = $this->request->post("refund_merchant_amount");
         $imageUrl = $this->request->post("image_url");
-
 
         $handle = new Handle(
             reportId: $this->request->post("report_id", Filter::INTEGER),
@@ -135,10 +122,7 @@ class OrderReport extends Base
         return $this->json();
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
+    
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, "itemId"]
     ])]
@@ -149,10 +133,6 @@ class OrderReport extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, ["reportId"]]
     ])]

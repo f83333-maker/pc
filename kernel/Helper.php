@@ -1,9 +1,6 @@
 <?php
 declare (strict_types=1);
-# install symfony/var-dump to your project
-# composer require symfony/var-dumper
 
-// use namespace
 use App\Util\Opcache;
 use App\Util\Str;
 use Kernel\Util\Plugin;
@@ -12,16 +9,9 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper as SymfonyHtmlDumper;
 
-/**
- * Class HtmlDumper
- */
 class HtmlDumper extends SymfonyHtmlDumper
 {
-    /**
-     * Colour definitions for output.
-     *
-     * @var array
-     */
+    
     protected $styles = [
         'default' => 'background-color:#fff; color:#222; line-height:1.2em; font-weight:normal; font:12px Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:100000',
         'num' => 'color:#a71d5d',
@@ -39,17 +29,9 @@ class HtmlDumper extends SymfonyHtmlDumper
     ];
 }
 
-/**
- * Class Dumper
- */
 class Dumper
 {
-    /**
-     * Dump a value with elegance.
-     *
-     * @param mixed $value
-     * @return void
-     */
+    
     public function dump($value)
     {
         if (class_exists(CliDumper::class)) {
@@ -62,12 +44,7 @@ class Dumper
 }
 
 if (!function_exists('dd')) {
-    /**
-     * Dump the passed variables and end the script.
-     *
-     * @param mixed
-     * @return void
-     */
+    
     function dd(...$args)
     {
         foreach ($args as $x) {
@@ -78,12 +55,7 @@ if (!function_exists('dd')) {
 }
 
 if (!function_exists('dda')) {
-    /**
-     * Dump the passed array variables and end the script.
-     *
-     * @param mixed
-     * @return void
-     */
+    
     function dda(...$args)
     {
         foreach ($args as $x) {
@@ -93,12 +65,8 @@ if (!function_exists('dda')) {
     }
 }
 
-
 if (!function_exists("config")) {
-    /**
-     * @param string $name
-     * @return array
-     */
+    
     function config(string $name): array
     {
         $data = \Kernel\Util\Context::get("config_" . $name);
@@ -115,12 +83,7 @@ if (!function_exists("config")) {
     }
 }
 if (!function_exists("setConfig")) {
-    /**
-     * @param array $data
-     * @param string $file
-     * @param bool $reset
-     * @throws \Kernel\Exception\JSONException
-     */
+    
     function setConfig(array $data, string $file, bool $reset = false): void
     {
         $config = [];
@@ -152,10 +115,7 @@ PHP;
 }
 
 if (!function_exists("di")) {
-    /**
-     * @param $object
-     * @throws ReflectionException
-     */
+    
     function di(&$object)
     {
         $dependencies = config("dependencies");
@@ -173,7 +133,7 @@ if (!function_exists("di")) {
                 continue;
             }
             $reflectionProperty = new \ReflectionProperty($object, $property->getName());
-            #拿到对象类型
+            
             $type = $reflectionProperty->getType()->getName();
             $reflectionPropertiesAttributes = $reflectionProperty->getAttributes();
             foreach ($reflectionPropertiesAttributes as $propertiesAttribute) {
@@ -194,7 +154,6 @@ if (!function_exists("di")) {
         }
     }
 }
-
 
 if (!function_exists("dat")) {
     function dat(string $type, $value): float|object|int|bool|array|string
@@ -231,7 +190,6 @@ if (!function_exists("feedback")) {
     }
 }
 
-
 if (!function_exists("hook")) {
     function hook(int $point, mixed &...$args)
     {
@@ -249,7 +207,6 @@ if (!function_exists("getHookNum")) {
     }
 }
 
-
 if (!function_exists("debug")) {
     function debug(string $message): void
     {
@@ -257,7 +214,6 @@ if (!function_exists("debug")) {
         file_put_contents($path, "[" . date("Y-m-d H:i:s", time()) . "]:" . $message . PHP_EOL, FILE_APPEND);
     }
 }
-
 
 if (!function_exists("getPluginConfig")) {
     function getPluginConfig(string $name)
@@ -286,7 +242,6 @@ if (!function_exists("Plugin")) {
     }
 }
 
-
 if (!function_exists("css")) {
     function css(array|string $resource, array|string|null $backup = null, bool $cdn = true): string
     {
@@ -308,9 +263,7 @@ if (!function_exists("css")) {
 }
 
 if (!function_exists("css_async")) {
-    /**
-     * Non-render-blocking stylesheets (media=print → all after load).
-     */
+    
     function css_async(array $resource, bool $cdn = true): string
     {
         $res = '';
@@ -326,12 +279,7 @@ if (!function_exists("css_async")) {
 }
 
 if (!function_exists("js")) {
-    /**
-     * @param array|string      $resource 生产资源
-     * @param array|string|null $backup   DEBUG 模式回退资源
-     * @param bool              $cdn     是否输出 cdn-support class (默认 true)
-     * @param bool              $defer   是否给 <script> 添加 defer 属性 (默认 false, 向后兼容)
-     */
+    
     function js(array|string $resource, array|string|null $backup = null, bool $cdn = true, bool $defer = false): string
     {
         if (DEBUG && $backup !== null) {
@@ -352,30 +300,24 @@ if (!function_exists("js")) {
     }
 }
 
-
 if (!function_exists('ready_get_value')) {
 
-    /**
-     * @param mixed $value
-     * @return string|bool|null
-     */
     function _ready_get_value(mixed $value): string|bool|null
     {
         if (is_numeric($value) || is_bool($value)) {
-            // 对于数字和布尔值，不添加双引号
+            
             $value = var_export($value, true);
         } elseif (is_array($value)) {
-            // 如果是数组，转换为JSON
+            
             $value = json_encode($value);
         } else {
-            // 对于字符串，进行转义并添加双引号
+            
             $value = addslashes((string)$value);
             $value = "\"$value\"";
         }
         return $value;
     }
 }
-
 
 if (!function_exists("ready")) {
     function ready(string $resource, array $variable = []): string
@@ -387,7 +329,6 @@ if (!function_exists("ready")) {
         return '<script>' . $var . 'ready("' . $resource . (str_contains($resource, "?") ? "&" : "?") . 'v=' . APP_VERSION . (DEBUG ? "&debug=" . Str::generateRandStr(8) : '') . '");</script>';
     }
 }
-
 
 if (!function_exists("set_script_var")) {
     function set_script_var(array $vars): string

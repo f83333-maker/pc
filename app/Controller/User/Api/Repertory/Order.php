@@ -32,10 +32,6 @@ class Order extends Base
     #[Inject]
     private RepertoryOrder $repertoryOrder;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -66,18 +62,11 @@ class Order extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([[Common::class, "id"]])]
     public function detail(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        /**
-         * @var Model $order
-         */
+        
         $order = Model::query()->where("user_id", $this->getUser()->id)->find($id);
 
         if (!$order) {
@@ -92,6 +81,5 @@ class Order extends Base
 
         return $this->json(data: ["contents" => $ship->isCustomRender() ? $ship->render() : $order->contents]);
     }
-
 
 }

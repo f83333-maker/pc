@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\Admin\API\Shop;
 
-
 use App\Controller\Admin\Base;
 use App\Interceptor\Admin;
 use App\Interceptor\PostDecrypt;
@@ -22,11 +21,7 @@ class OrderSummary extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
+    
     public function get(): Response
     {
         $dateType = (int)$this->request->post("equal-date_type");
@@ -45,7 +40,6 @@ class OrderSummary extends Base
                 SUM(CASE WHEN type = 3 THEN `total_amount` ELSE 0 END) as level_amount,
                 SUM(CASE WHEN type = 49 THEN `total_amount` ELSE 0 END) as plugin_amount"
         )->groupBy(['date'])->where("status", 1)->orderBy("date", "desc");
-
 
         if ($userId > 0) {
             $order->where("user_id", $userId);

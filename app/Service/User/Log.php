@@ -9,10 +9,5 @@ use Kernel\Annotation\Bind;
 interface Log
 {
 
-    /**
-     * @param int $userId
-     * @param string $content
-     * @return void
-     */
     public function create(int $userId, string $content): void;
 }

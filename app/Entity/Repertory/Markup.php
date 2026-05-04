@@ -8,7 +8,7 @@ use Kernel\Util\Decimal;
 
 class Markup
 {
-    public string $percentage = "0"; //加价百分比
+    public string $percentage = "0"; 
     public bool $syncAmount = true;
     public bool $syncName = true;
     public bool $syncIntroduce = true;
@@ -37,7 +37,6 @@ class Markup
                 return;
             }
 
-
             switch ($itemMarkupTemplate->drift_model) {
                 case 0:
                     $this->setPercentage((string)$itemMarkupTemplate->drift_value);
@@ -55,18 +54,12 @@ class Markup
         }
     }
 
-
-    /**
-     * @param string $exchangeRate
-     */
+    
     public function setExchangeRate(string $exchangeRate): void
     {
         $this->exchangeRate = $exchangeRate;
     }
 
-    /**
-     * @param string $keepDecimals
-     */
     public function setKeepDecimals(string $keepDecimals): void
     {
         $this->keepDecimals = $keepDecimals;

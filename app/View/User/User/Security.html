@@ -1,6 +1,5 @@
 {{ include ("Common/Header.html") }}
 
-<!-- Hero -->
 <div class="bg-body-light">
     <div class="content content-full">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
@@ -26,8 +25,6 @@
     </div>
 </div>
 
-
-<!-- END Hero -->
 <div class="content">
     <div class="block block-rounded row block-security">
         <ul class="nav nav-tabs nav-tabs-block flex-md-column col-md-4 col-xxl-1" role="tablist">
@@ -120,7 +117,6 @@
                                         <label class="form-label" for="current-email">{{ i18n("当前邮箱")|raw }}</label>
                                     </div>
 
-
                                     <div class="row mb-4">
                                         <div class="col-sm-8 col-8">
                                             <div class="form-floating">
@@ -135,7 +131,6 @@
                                             </button>
                                         </div>
                                     </div>
-
 
                                 {% endif %}
 
@@ -158,7 +153,6 @@
                                         </button>
                                     </div>
                                 </div>
-
 
                                 <div class="mb-4">
                                     <button type="button" class="btn py-3 w-100 btn-alt-primary email-save-btn">
@@ -195,12 +189,10 @@
                                 <label class="form-label" for="new-password">{{ i18n("新密码")|raw }}</label>
                             </div>
 
-
                             <div class="form-floating mb-4">
                                 <input type="password" class="form-control" id="re-password" name="re_new_password" placeholder="{{ i18n("请再次输入新密码")|raw }}">
                                 <label class="form-label" for="re-password">{{ i18n("确认新密码")|raw }}</label>
                             </div>
-
 
                             <div class="mb-4">
                                 <button type="button" class="btn w-100 py-3 btn-alt-primary passwd-save-btn">
@@ -274,7 +266,6 @@
         </div>
     </div>
 </div>
-
 
 {{ ready("/assets/user/controller/user/security.js")|raw }}
 {{ include ("Common/Footer.html") }}

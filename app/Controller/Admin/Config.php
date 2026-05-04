@@ -23,19 +23,11 @@ class Config extends Manage
         ["name" => "🛡️ 其他设置", "url" => "/admin/config/other"],
     ];
 
-    /**
-     * Config constructor.
-     */
     public function __construct()
     {
         $this->TOOLBAR = array_merge($this->TOOLBAR, (array)hook(\App\Consts\Hook::ADMIN_VIEW_CONFIG_TOOLBAR));
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     * @throws JSONException
-     */
     public function index(): string
     {
 
@@ -83,32 +75,18 @@ class Config extends Manage
         ]);
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     * @throws RuntimeException
-     */
     public function sms(): string
     {
         $smsConfig = json_decode(\App\Model\Config::get("sms_config"), true);
         return $this->render("短信设置", "Config/Sms.html", ["toolbar" => $this->TOOLBAR, "sms" => $smsConfig]);
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     * @throws RuntimeException
-     */
     public function email(): string
     {
         $emailConfig = json_decode(\App\Model\Config::get("email_config"), true);
         return $this->render("邮箱设置", "Config/Email.html", ["toolbar" => $this->TOOLBAR, "email" => $emailConfig]);
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     */
     public function other(): string
     {
         $category = \App\Model\Category::query()->where("status", 1)->where("owner", 0)->get();

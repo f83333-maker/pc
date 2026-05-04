@@ -27,9 +27,6 @@ class RechargeOrder extends Manage
     #[Inject]
     private Recharge $recharge;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -54,11 +51,7 @@ class RechargeOrder extends Manage
         return $this->json(data: array_merge($raw, $data));
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
+    
     public function success(): array
     {
         $id = (int)$_POST['id'];
@@ -77,10 +70,7 @@ class RechargeOrder extends Manage
         return $this->json(200, "已手动确认");
     }
 
-
-    /**
-     * @return array
-     */
+    
     public function clear(): array
     {
         UserRecharge::query()
@@ -91,10 +81,7 @@ class RechargeOrder extends Manage
         return $this->json(200, '（＾∀＾）清理完成');
     }
 
-
-    /**
-     * @return void
-     */
+    
     public function export(): void
     {
         ignore_user_abort(true);
@@ -150,13 +137,11 @@ class RechargeOrder extends Manage
         foreach ($list as $d) {
             $ids[] = $d['id'];
 
-
             $statusText = match ((int)($d['status'] ?? 0)) {
                 0 => '未支付',
                 1 => '已支付',
                 default => '未知',
             };
-
 
             fputcsv($fp, [
                 (string)($d['trade_no'] ?? ''),

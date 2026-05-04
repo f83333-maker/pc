@@ -3,32 +3,19 @@ declare(strict_types=1);
 
 namespace App\Controller\Base\View;
 
-
 use App\Model\Config;
 use App\Util\Client;
 use Kernel\Exception\JSONException;
 use Kernel\Exception\ViewException;
 use Kernel\Util\View;
 
-/**
- * Class Manage
- * @package App\Controller\Base\View
- */
 abstract class Manage extends \App\Controller\Base\Manage
 {
-    /**
-     * @param string $title
-     * @param string $template
-     * @param array $data
-     * @return string
-     * @throws ViewException
-     * @throws JSONException
-     */
+    
     protected function render(string $title, string $template, array $data = []): string
     {
         try {
 
-            //加载helper
             require(BASE_PATH . "/app/View/Admin/Helper.php");
 
             $data['title'] = $title;

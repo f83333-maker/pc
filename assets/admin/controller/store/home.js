@@ -85,14 +85,12 @@
                                     });
                                 }
 
-
                                 dom.html(`<div><form class="form-store-register">
                   <div class="form-floating mb-4">
                     <input type="text" class="form-control" id="register-username"  placeholder="${i18n('用户名')}">
                     <label class="form-label" for="register-username">${i18n('用户名')}</label>
                   </div>
-           
-        
+
                   <div class="form-floating mb-4">
                     <input type="text" class="form-control" id="register-password"  placeholder="${i18n('请设置登录密码')}">
                     <label class="form-label" for="register-password">${i18n('登录密码')}</label>
@@ -149,7 +147,6 @@
             width: "480px"
         });
 
-
     }
 
     function _Bill(plugin = {}) {
@@ -182,8 +179,7 @@
                                 <div class="title"><i class="fa-duotone fa-regular fa-clock"></i> 订阅类型</div>
                                 <div class="subscription-list online-pay"><div class="subscription-item" data-amount="${plugin.price}"><span style="color: #496b93ab;"><span style="color: #D38200;font-size: 18px;font-weight: bold;">¥${plugin.price}</span></span><span style="color: #BDB8B8;font-size: 13px;text-decoration:line-through;">原价:${plugin.price * 2}</span><span style="color: #D38200;font-size:12px;">终身可用</span></div></div>
                         </div>
-                        
-                    
+
                      
                         
                         <div class="layout-box">
@@ -284,7 +280,6 @@
                 ]
             })
         }
-
 
         component.popup({
             submit: false,

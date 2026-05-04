@@ -34,10 +34,6 @@ class Order extends Base
     #[Inject]
     private OrderReport $orderReport;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -85,10 +81,6 @@ class Order extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, "reportId"]
     ])]
@@ -102,20 +94,13 @@ class Order extends Base
         return $this->json(data: $message->toArray());
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, ["reportId"]]
     ])]
     public function heartbeat(): Response
     {
         $reportId = $this->request->post("report_id", Filter::INTEGER);
-        /**
-         * @var Model $orderReport
-         */
+        
         $orderReport = Model::query()->find($reportId, ["id", "customer_id", "status", "handle_type"]);
         if ($orderReport?->customer_id != $this->getUser()->id) {
             throw new JSONException("订单不存在");
@@ -125,10 +110,6 @@ class Order extends Base
         return $this->json(data: ["latest" => $message?->id, "order" => $orderReport]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, ["reportId", "message"]]
     ])]
@@ -148,10 +129,6 @@ class Order extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, "id"],
         [Report::class, ["type", "expect", "message"]]

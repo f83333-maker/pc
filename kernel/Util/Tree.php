@@ -4,13 +4,7 @@ declare(strict_types=1);
 namespace Kernel\Util;
 class Tree
 {
-    /**
-     * @param array $array
-     * @param string $primaryKey
-     * @param string $parentKey
-     * @param string $childrenName
-     * @return array
-     */
+    
     public static function generate(array $array, string $primaryKey = 'id', string $parentKey = 'pid', string $childrenName = 'children'): array
     {
         $items = [];
@@ -29,11 +23,7 @@ class Tree
         return $tree;
     }
 
-
-    /**
-     * @param array $items
-     * @return array
-     */
+    
     public static function character(array $items): array
     {
         $handle = function (array $item, array &$result, int $level = 1, int $a = 0, int &$b = 0) use (&$handle): void {
@@ -61,10 +51,6 @@ class Tree
         return $result;
     }
 
-    /**
-     * @param array $item
-     * @return int
-     */
     public static function childrenNums(array $item): int
     {
         $count = 0;

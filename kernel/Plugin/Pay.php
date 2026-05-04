@@ -14,20 +14,6 @@ class Pay
 
     use Singleton;
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @param Order $order
-     * @param PayOrder $payOrder
-     * @param array $config
-     * @param string $code
-     * @param string $clientIp
-     * @param string|null $amount
-     * @param string|null $asyncUrl
-     * @param string|null $syncUrl
-     * @return Pay|null
-     * @throws \ReflectionException
-     */
     public function handle(string $name, string $env, Order $order, PayOrder $payOrder, array $config, string $code, string $clientIp, ?string $amount = null, ?string $asyncUrl = null, ?string $syncUrl = null): ?a
     {
         $plugin = Plugin::instance()->getPlugin($name, $env);

@@ -5,7 +5,6 @@ namespace App\Validator\Admin;
 
 use Kernel\Annotation\Required;
 
-
 class Item
 {
     #[Required("商品名称不能为空", \Kernel\Validator\Required::LOOSE)]

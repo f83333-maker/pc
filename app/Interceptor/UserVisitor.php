@@ -3,18 +3,12 @@ declare(strict_types=1);
 
 namespace App\Interceptor;
 
-
 use App\Consts\User;
 use App\Util\Context;
 use App\Util\JWT;
 use Firebase\JWT\Key;
 use Kernel\Annotation\InterceptorInterface;
 
-/**
- * 访客拦截器
- * Class UserVisitor
- * @package App\Interceptor
- */
 class UserVisitor implements InterceptorInterface
 {
     public function handle(int $type): void
@@ -40,7 +34,6 @@ class UserVisitor implements InterceptorInterface
 
         $user = \App\Model\User::query()->find($head['uid']);
 
-
         if (!$user) {
             return;
         }
@@ -51,12 +44,10 @@ class UserVisitor implements InterceptorInterface
             return;
         }
 
-
         if ($jwt->expire <= time() || $user->login_time != $jwt->loginTime || $user->status != 1) {
             return;
         }
 
-        //保存会话
         Context::set(User::SESSION, $user);
     }
 }

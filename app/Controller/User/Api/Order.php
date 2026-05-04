@@ -27,12 +27,6 @@ class Order extends User
     #[Inject]
     private \App\Service\Order $order;
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function trade(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -50,12 +44,7 @@ class Order extends User
         return $this->json(200, '下单成功', $trade);
     }
 
-
-    /**
-     * @param Request $request
-     * @return string
-     * @throws JSONException
-     */
+    
     public function callback(Request $request): string
     {
         $handle = $_GET['_PARAMETER'][0];
@@ -92,10 +81,6 @@ class Order extends User
         return $this->order->callback($handle, $data);
     }
 
-    /**
-     * @param string $tradeNo
-     * @return array
-     */
     public function state(#[Post] string $tradeNo): array
     {
         $tradeNo = trim($tradeNo);
@@ -103,7 +88,7 @@ class Order extends User
         if (!$order) {
             $order = UserRecharge::query()->where("trade_no", $tradeNo)->first(['id', 'trade_no', 'amount', 'status']);
         }
-        //回显订单信息
+        
         return $this->json(200, 'success', $order->toArray());
     }
 }

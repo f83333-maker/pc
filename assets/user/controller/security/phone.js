@@ -1,6 +1,5 @@
 !function () {
 
-
     $(`.send-captcha`).click(function () {
         message.prompt({
             title: '人机验证',
@@ -26,7 +25,6 @@
             }
         });
     });
-
 
     $('.save-data').click(function () {
         util.post("/user/api/security/phone", util.getFormData('.form-data'), res => {
