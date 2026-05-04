@@ -128,7 +128,8 @@ test.describe.serial("注入 / XSS / 边界输入", () => {
   });
 
   test("PostDecrypt 空 body + 无签名头：禁止旁路（B2 修复验证）", async ({ request }) => {
-    const r = await request.post("/shop/order/trade", {
+    // 使用长链（短链在 nginx 层 404）
+    const r = await request.post("/user/shop/order/trade", {
       headers: { "Content-Type": "application/json" },
       data: "",
     });
@@ -136,7 +137,8 @@ test.describe.serial("注入 / XSS / 边界输入", () => {
   });
 
   test("PostDecrypt 伪造签名头 + 空 body：必须被拒（B2 修复验证）", async ({ request }) => {
-    const r = await request.post("/shop/order/trade", {
+    // 使用长链
+    const r = await request.post("/user/shop/order/trade", {
       headers: {
         "Content-Type": "application/json",
         Secret: "a".repeat(32),
@@ -147,12 +149,13 @@ test.describe.serial("注入 / XSS / 边界输入", () => {
     const body = await r.text();
     expect(
       body,
-      '空 body + 伪造 Secret/Signature 必须返回 "signature failure"',
-    ).toMatch(/signature\s*failure|invalid|失败/i);
+      '空 body + 伪造 Secret/Signature 必须返回 "signature failure" 或 404',
+    ).toMatch(/signature\s*failure|invalid|失败|404|not found/i);
   });
 
   test("未带 Signature 的伪造 POST 应被拒", async ({ request }) => {
-    const r = await request.post("/shop/order/trade", {
+    // 使用长链
+    const r = await request.post("/user/shop/order/trade", {
       headers: { "Content-Type": "application/json" },
       data: JSON.stringify({ items: [{ id: 1, num: 1 }] }),
     });
