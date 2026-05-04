@@ -34,7 +34,7 @@
 | 文件 | 用途 |
 | --- | --- |
 | `robots.txt` | 站点根目录，主流爬虫策略（含 Google/Baidu/Bytespider 规则、屏蔽 Ahrefs/Semrush/MJ12/DotBot 等高频低价值爬虫，指向 sitemap.xml） |
-| `app/Controller/Sitemap.php` | 动态 `sitemap.xml` 控制器：拉取上架商品（最多 49997 条），按 Sitemap 0.9 协议输出 |
+| `tools/generate-sitemap.php` | 静态 `sitemap.xml` 生成脚本（CLI）。本项目使用约定式路由（`kernel/Kernel.php` 第 50-78 行），`Route::add` 不会被触发；改用静态文件 + `.htaccess !-f` 条件，让 Apache 直接返回，性能最佳。运行命令：`php tools/generate-sitemap.php` |
 | `app/View/User/Common/Seo.html` | 集中化 SEO 局部模板，可被所有 Twig 模板通过 `{% set seo = {...} %}` + `{{ include('Common/Seo.html') }}` 引用 |
 | `SEO_OPTIMIZATION_REPORT.md` | 本报告 |
 
@@ -89,7 +89,7 @@
 - `app/View/LegalTerms.html` — 真实标题 / description / noindex / theme-color
 
 #### 业务文件
-- `config/route.php` — 注册 `GET /sitemap.xml → App\Controller\Sitemap@index`
+- `config/route.php` — 仅添加注释说明 sitemap 与 robots 由静态文件方式提供（不再注册路由，原因见下文 sitemap 章节）
 
 ---
 
@@ -136,7 +136,7 @@
 **优化后**：每页通过 Smarty `#{$title}` / Twig `{% set seo = {...} %}` 注入独立标题与描述；商品页自动从 `$item.name` / `$item.description` 截取。
 
 ### ✓ 6. 优化页面加载速度，压缩冗余代码
-- 项目本身已具备完善的 `.htaccess` 缓存策略（Gzip / Cache-Control / 1 年长缓存），未做破坏性修改
+- 项目本身已具备完善的 `.htaccess` 缓存策略（Gzip / Cache-Control / 1 年长缓存），���做破坏性修改
 - 所有图片新增 `loading="lazy"` `decoding="async"`（首屏 logo 用 `loading="eager"`）+ 显式 `width`/`height`，明显提升 LCP 与 CLS
 - Header 装饰图标统一 `aria-hidden="true"`，减少屏幕阅读器无效遍历
 - 移除未使用 / 重复的 SEO meta 块（旧 Twig Header 内重复的 `og:` 块）
@@ -182,12 +182,36 @@ Disallow: /api/
 Sitemap: https://pcccc.cc/sitemap.xml
 ```
 
-### `sitemap.xml`（运行时动态）
-访问 `https://pcccc.cc/sitemap.xml` 由 `App\Controller\Sitemap` 实时生成：
+### `sitemap.xml`（静态文件，由 CLI 脚本生成）
+**为什么是静态？** 本项目使用基于 URL 路径段的约定式路由（`kernel/Kernel.php` 第 50-78 行），`Route::add` 形式的声明式路由不会被命中。同时 `.htaccess` 第 4 条规则的 `!-f` 条件意味着：只要根目录存在 `sitemap.xml` 物理文件，Apache 会直接返回它，**完全绕过 PHP**，速度最快、对搜索引擎最友好。
+
+**生成命令**（在项目根目录）：
+```bash
+php tools/generate-sitemap.php
+```
+
+**首次部署后建议加 cron 每日 04:00 刷新**：
+```bash
+crontab -e
+# 加入下面这行
+0 4 * * * cd /www/wwwroot/pcccc.cc && /usr/bin/php tools/generate-sitemap.php >/dev/null 2>&1
+```
+
+**生成内容**：
 - 首页（priority 1.0、changefreq daily）
-- 用户协议（priority 0.3）
-- 全部上架商品（priority 0.8、changefreq weekly、按 `id` 倒序）
-- HTTP 缓存：`Cache-Control: public, max-age=3600`
+- 订单查询页（priority 0.6）
+- 全部上架商品 `/item/{id}`（priority 0.8、changefreq weekly，自动取 `update_time` 作为 lastmod）
+- 全部启用分类 `/cat/{id}`（priority 0.7、changefreq weekly）
+- 协议：Sitemap 0.9，UTF-8 XML
+
+**验证命令**：
+```bash
+curl -I https://pcccc.cc/sitemap.xml
+# 期望: HTTP 200, content-type: text/xml (或 application/xml)
+
+curl -s https://pcccc.cc/sitemap.xml | head -10
+# 期望看到 <?xml ... 与多个 <url><loc>https://pcccc.cc/...</loc>
+```
 
 ### 商品详情 Schema.org JSON-LD（自动渲染于 Header）
 ```json
@@ -229,8 +253,8 @@ Sitemap: https://pcccc.cc/sitemap.xml
 5. **回归验证清单**  
    - 访问首页查看 `<title>` 是否为站点名  
    - 访问 `/item?mid=<某商品ID>` 查看 `<title>` 是否变为商品名  
-   - `curl https://pcccc.cc/robots.txt` 应返回 200  
-   - `curl https://pcccc.cc/sitemap.xml` 应返回 application/xml + 商品列表  
+   - `curl https://pcccc.cc/robots.txt` 应返回 200（静态文件）  
+   - 部署后**先运行一次** `php tools/generate-sitemap.php` 生成 sitemap，再用 `curl https://pcccc.cc/sitemap.xml` 验证返回 XML  
    - 用 Google Rich Results Test 测试商品页：应识别 Product Schema  
    - 用 Lighthouse 跑 Mobile：SEO 评分应达到 95+
 

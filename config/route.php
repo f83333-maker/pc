@@ -9,8 +9,9 @@ Route::add("/hello", [\App\Controller\Index::class, "hello"], "GET");
 Route::add("/wait/state", [\App\Controller\Index::class, "wait"], "POST");
 Route::add("/owner", [\App\Controller\Index::class, "owner"], "POST");
 
-# SEO：动态 sitemap.xml（robots.txt 由 Apache 直接静态返回）
-Route::add("/sitemap.xml", [\App\Controller\Sitemap::class, "index"], "GET");
+# SEO 说明：sitemap.xml 与 robots.txt 均为根目录静态文件，
+# 由 Apache 直接返回（.htaccess 的 !-f 条件会绕过 PHP）。
+# sitemap.xml 由 tools/generate-sitemap.php 脚本生成，建议加 cron 定时刷新。
 
 Route::add("/admin", [\App\Controller\Admin\Auth::class, "login"], "GET");
 Route::add("/admin", [\App\Controller\Admin\API\Auth::class, "login"], "POST");
