@@ -76,9 +76,8 @@ try {
     );
     while ($row = $stmt->fetch()) {
 
-        // 与 Header.html 中的 canonical 保持一致，使用线上真实可访问的 URL
-        // （短链 /item 在 nginx + index.php 的 fallback 中实际未生效，会落到 404 模板）
-        $loc     = $baseUrl . '/user/index/item?mid=' . (int)$row['id'];
+        // 使用短链 /item?mid=
+        $loc     = $baseUrl . '/item?mid=' . (int)$row['id'];
         $lastmod = !empty($row['create_time'])
             ? date('Y-m-d', is_numeric($row['create_time']) ? (int)$row['create_time'] : strtotime((string)$row['create_time']))
             : $today;

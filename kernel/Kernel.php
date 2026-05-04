@@ -178,6 +178,7 @@ try {
     }
 } catch (Throwable $e) {
     if ($e instanceof NotFoundException) {
+        http_response_code(404);
         exit(feedback("404 Not Found"));
     } elseif ($e instanceof \Kernel\Exception\ParameterMissException) {
         header('content-type:application/json;charset=utf-8');
