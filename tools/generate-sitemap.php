@@ -60,6 +60,7 @@ $baseUrl   = rtrim(SITE_URL, '/');
 $xml  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 $xml .= build_url_node($baseUrl . '/',                   $today, 'daily',   '1.0');
+// 订单查询页（订单可被搜索的入口）
 $xml .= build_url_node($baseUrl . '/user/index/query',   $today, 'monthly', '0.4');
 
 $itemCount = 0;
@@ -75,7 +76,8 @@ try {
     );
     while ($row = $stmt->fetch()) {
 
-        $loc     = $baseUrl . '/user/index/item?mid=' . (int)$row['id'];
+        // 与 Header.html 中的 canonical 保持一致，使用短链 /item?mid=
+        $loc     = $baseUrl . '/item?mid=' . (int)$row['id'];
         $lastmod = !empty($row['create_time'])
             ? date('Y-m-d', is_numeric($row['create_time']) ? (int)$row['create_time'] : strtotime((string)$row['create_time']))
             : $today;

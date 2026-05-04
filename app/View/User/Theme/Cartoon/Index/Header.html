@@ -15,8 +15,15 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#3d49a1">
 
+    #{*
+        canonical 规则说明：
+        框架同时存在两条路由指向商品详情：
+          1) /item?mid={id}            （config/route.php 显式注册的"美化"短链，公开页 SEO 入口）
+          2) /user/index/item?mid={id} （框架按命名空间惯例自动派发的内部 URL）
+        为避免重复内容（duplicate content）被收录，统一以"短链"为 canonical。
+    *}
     #{if isset($item) && $item}
-        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}"/>
+        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}"/>
     #{else}
         <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/"/>
     #{/if}
@@ -28,7 +35,7 @@
         <meta property="og:title" content="#{$item.name|strip_tags|escape:'html'} - #{$config.shop_name}">
         <meta property="og:description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}">
         <meta property="og:image" content="#{if !empty($item.picture_url)}#{$item.picture_url}#{else}/favicon.png#{/if}">
-        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}">
+        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}">
         <meta property="product:price:amount" content="#{$item.price|default:''}">
         <meta property="product:price:currency" content="CNY">
     #{else}
@@ -56,7 +63,7 @@
       "brand": { "@type": "Brand", "name": "#{$config.shop_name|escape:'javascript'}" },
       "offers": {
         "@type": "Offer",
-        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}",
+        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}",
         "priceCurrency": "CNY",
         "price": "#{$item.price|default:'0'}",
         "availability": "#{if $item.is_stock|default:false}https://schema.org/InStock#{else}https://schema.org/OutOfStock#{/if}"
@@ -135,7 +142,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link #{if $title == "2FA验证"}active#{/if}" href="/user/index/twofa">
+                    <a class="nav-link #{if $title == "2FA验��"}active#{/if}" href="/user/index/twofa">
                         <i class="fa-duotone fa-regular fa-shield-keyhole nav-icon"></i>2FA验证
                     </a>
                 </li>
