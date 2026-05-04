@@ -30,7 +30,9 @@ export const ROUTES = {
   query: "/user/index/query",
   twofa: "/user/index/twofa",
   admin: "/admin",
-  adminDashboard: "/admin/dashboard",
+  adminLogin: "/admin/authentication/login",
+  // 线上实测真实可达的后台首页（302 后落点，登录态校验通过后会渲染）
+  adminDashboard: "/admin/dashboard/index",
   userDashboard: "/user/dashboard/index",
 };
 
