@@ -120,8 +120,9 @@
             "/assets/common/css/toastr.min.css"
         ]
     )}
-    #{* defer 加载 ready.js，避免阻塞 HTML 解析（关键路径让位） *}
-    #{js("/assets/common/js/ready.js", null, true, true)}
+    #{* ready.js 必须同步加载：body 末尾有 inline <script>ready("...")</script> 同步执行，
+        若 ready.js 用 defer，inline script 触发时 ready 尚未定义，会抛 ReferenceError 导致业务 JS 不注入 *}
+    #{js("/assets/common/js/ready.js")}
     #{index_var()}
 
     #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_HEADER)}
