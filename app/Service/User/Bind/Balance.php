@@ -7,6 +7,7 @@ use App\Const\Balance as Bce;
 use App\Model\User;
 use App\Model\UserBill;
 use Kernel\Annotation\Inject;
+use Kernel\Database\Db;
 use Kernel\Exception\ServiceException;
 use Kernel\Util\Date;
 use Kernel\Util\Decimal;
@@ -203,10 +204,13 @@ class Balance implements \App\Service\User\Balance
 
     public function transfer(int $payer, int $payee, string $amount): void
     {
-        $transferNo = Str::generateTradeNo(); 
+        $transferNo = Str::generateTradeNo();
 
-        $this->deduct($payer, $amount, Bce::TYPE_TRANSFER, $transferNo);
-
-        $this->add($payee, $amount, Bce::TYPE_TRANSFER, false, Bce::STATUS_DIRECT, 0, $transferNo);
+        // 把 deduct + add 包进同一事务，避免 add 失败后 deduct 已落库导致的资金不一致（D2）。
+        // 使用 SERIALIZABLE 与现有订单/支付路径保持一致的隔离级别。
+        Db::transaction(function () use ($payer, $payee, $amount, $transferNo) {
+            $this->deduct($payer, $amount, Bce::TYPE_TRANSFER, $transferNo);
+            $this->add($payee, $amount, Bce::TYPE_TRANSFER, false, Bce::STATUS_DIRECT, 0, $transferNo);
+        }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE);
     }
 }

@@ -64,9 +64,22 @@ e2e/
     ├── 02-seo.spec.ts                 # canonical / OG / JSON-LD / alt / noindex
     ├── 03-admin-crud.spec.ts          # 后台分类增删改 + 余额调整回滚
     ├── 04-injection-xss.spec.ts       # SQL 注入 / XSS / 旁路签名
-    ├── 05-user-purchase-flow.spec.ts  # 加购 → 结算 → 订单
-    └── 06-authorization-concurrency.spec.ts  # 越权 / token 篡改 / 狂点 / 双 Tab
+    ├── 05-user-purchase-flow.spec.ts        # 加购 → 结算 → 订单
+    ├── 06-authorization-concurrency.spec.ts # 越权 / token 篡改 / 狂点 / 双 Tab
+    ├── 07-order-authorization-regression.spec.ts # 第二轮：B3/B4/cancel 越权回归
+    ├── 08-balance-transfer-atomicity.spec.ts     # 第二轮：余额转账原子性 / 并发
+    └── 09-deploy-hardening.spec.ts               # 第二轮：/install 锁 / 敏感文件 / SEO 修复落地
 ```
+
+## 第二轮安全修复回归（2026-05）
+
+代码层面修复对应的回归脚本（验证修复在线上真的生效）：
+
+| Spec | 对应修复 | 期望线上行为 |
+|---|---|---|
+| `07-order-authorization-regression` | `Order::getOrder/downloadOrder/cancel` 加 `assertOrderOwnership` | 用伪造 trade_no 调用必须返回"订单不存在"，绝不能吐 treasure |
+| `08-balance-transfer-atomicity` | `Balance::transfer` 包 `Db::transaction(SERIALIZABLE)` | 转账并发狂点不出现 5xx，余额永远 ≥ 0 |
+| `09-deploy-hardening` | `PostDecrypt` 空 body 旁路 + `/install` 锁 + canonical/sitemap 短链 | 旁路签名失败、敏感文件不外泄、SEO canonical 已切短链 |
 
 ## 注意事项
 
