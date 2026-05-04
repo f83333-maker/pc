@@ -14,6 +14,29 @@ export const USER = {
   password: process.env.USER_PASSWORD || "222222",
 };
 
+/**
+ * 线上真实生效的路由表（2026-05 实测，与 route.php 中的部分声明并不完全一致）：
+ *
+ * 短链 /login /register /reset /item /shop/cart /checkout /hello 在线上 nginx 的
+ * index.php fallback 下都会落到框架 404 模板（HTTP 200 + 404 Not Found 文案）。
+ * 因此 e2e 必须使用以下命名空间长链来访问真实页面。
+ */
+export const ROUTES = {
+  home: "/",
+  login: "/user/authentication/login",
+  register: "/user/authentication/register",
+  reset: "/user/authentication/reset", // 注意：线上仍可能 404，spec 内 soft-assert
+  itemDetail: (mid: number) => `/user/index/item?mid=${mid}`,
+  query: "/user/index/query",
+  twofa: "/user/index/twofa",
+  admin: "/admin",
+  adminDashboard: "/admin/dashboard",
+  userDashboard: "/user/dashboard/index",
+};
+
+/** 一个保证存在的商品 mid（首页/sitemap 抽到的真实商品；mid=1 在线上是空商品） */
+export const KNOWN_ITEM_MID = Number(process.env.E2E_ITEM_MID || 2);
+
 /** 当前测试运行的时间戳，用于生成唯一标识，避免污染 */
 export const TS = Date.now();
 
