@@ -16,7 +16,6 @@ use Kernel\Util\Date;
 class Query implements \App\Service\Query
 {
 
-    
     private function getTable(string $model): string
     {
         $instance = Di::instance()->make($model);
@@ -113,7 +112,6 @@ class Query implements \App\Service\Query
         return $result;
     }
 
-    
     public function save(Save $save): mixed
     {
         

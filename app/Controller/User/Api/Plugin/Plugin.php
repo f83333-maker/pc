@@ -45,7 +45,6 @@ class Plugin extends Base
         return $this->json(data: $data);
     }
 
-    
     public function icon(string $name): Response
     {
         $path = realpath(BASE_PATH . $this->getEnv() . "/" . $name . "/Icon.ico");
@@ -75,7 +74,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    
     public function setCfg(string $name): Response
     {
         $post = $this->request->post(flags: Filter::NORMAL);
@@ -91,7 +89,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    
     public function start(): Response
     {
         $name = $this->request->post("name");
@@ -106,7 +103,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    
     public function restart(): Response
     {
         $name = $this->request->post("name");

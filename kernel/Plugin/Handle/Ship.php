@@ -10,13 +10,10 @@ interface Ship
 
     public function stock(): int|string;
 
-    
     public function hasEnoughStock(int $quantity = 1): bool;
 
-    
     public function inspection(array $map): bool;
 
-    
     public function isCustomRender(): bool;
 
     public function render(): string;

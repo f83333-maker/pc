@@ -15,7 +15,6 @@ class Di
 
     private array $container = [];
 
-    
     public function set(string $id, mixed $object, ...$arg): void
     {
         $this->container[$id] = [$object, $arg];
@@ -62,7 +61,6 @@ class Di
         return isset($this->container[$id]);
     }
 
-    
     public function make(string $class, ...$arg): mixed
     {
         if ($this->has($class)) {
@@ -88,7 +86,6 @@ class Di
         return $obj;
     }
 
-    
     public function inject(&$object): void
     {
         Collector::instance()->propertiesParse($object, function (\ReflectionAttribute $attribute, \ReflectionProperty $property) use ($object) {

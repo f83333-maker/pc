@@ -35,7 +35,6 @@ class Site extends Base
     #[Inject]
     private \App\Service\User\Site $site;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -64,7 +63,6 @@ class Site extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-    
     public function save(): Response
     {
         $save = new Save(Model::class);
@@ -100,7 +98,6 @@ class Site extends Base
         return $this->json(data: $this->site->getCertificate($domain));
     }
 
-    
     #[Validator([
         [\App\Validator\User\Site::class, "domain"]
     ])]

@@ -18,7 +18,6 @@ class RepertoryItem
     public array $widget = [];
     public array $attr = [];
 
-    
     public array $skus = [];
 
     public bool $haveWholesale = false;
@@ -31,7 +30,6 @@ class RepertoryItem
         $this->pictureThumbUrl = $repertoryItem->picture_thumb_url;
     }
 
-    
     public function setWidget(array $widget): void
     {
         $this->widget = $widget;
@@ -42,7 +40,6 @@ class RepertoryItem
         $this->attr = $attr;
     }
 
-    
     public function setIntroduce(?string $introduce): void
     {
         $this->introduce = (string)$introduce;
@@ -53,7 +50,6 @@ class RepertoryItem
         $this->skus = $skus;
     }
 
-    
     public function setHaveWholesale(bool $haveWholesale): void
     {
         $this->haveWholesale = $haveWholesale;

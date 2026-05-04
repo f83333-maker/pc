@@ -12,11 +12,9 @@ interface Pay
 
     const RENDER_LOCAL_PLUGIN_VIEW = 2;
 
-    
     const RENDER_COMMON_ALIPAY_VIEW = 3;
 
     const RENDER_COMMON_WECHAT_VIEW = 4;
 
-    
     const RENDER_COMMON_QQ_VIEW = 5;
 }

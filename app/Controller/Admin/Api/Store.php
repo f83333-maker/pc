@@ -44,7 +44,6 @@ class Store extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function save(): array
     {
         $map = $_POST;
@@ -242,7 +241,6 @@ class Store extends Manage
         return $this->json(200, "拉取结束，总数量：{$count}，成功：{$success}，失败：{$error}");
     }
 
-    
     public function syncRemote(int $id): array
     {
         $list = \App\Model\Commodity::query()->where("shared_id", $id)->get();
@@ -270,7 +268,6 @@ class Store extends Manage
         return $this->json(data: ["log" => $log]);
     }
 
-    
     public function clearSyncRemoteLog(int $id): array
     {
         $logName = "sync_remote_item_{$id}";
@@ -278,7 +275,6 @@ class Store extends Manage
         return $this->json();
     }
 
-    
     public function del(): array
     {
         $deleteBatchEntity = new Delete(Shared::class, $_POST['list']);

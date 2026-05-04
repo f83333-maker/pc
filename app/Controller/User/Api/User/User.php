@@ -64,7 +64,6 @@ class User extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-    
     public function transfer(): Response
     {
         $id = $this->request->post('id', Filter::INTEGER);

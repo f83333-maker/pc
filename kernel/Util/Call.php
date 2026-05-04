@@ -18,7 +18,6 @@ class Call
         Coroutine::create($callable, ...$args);
     }
 
-    
     public static function defer(callable $callable): void
     {
         if (!App::$cli) {

@@ -29,7 +29,6 @@ class Config extends Base
     #[Inject]
     private Query $query;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -75,7 +74,6 @@ class Config extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

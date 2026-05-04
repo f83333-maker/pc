@@ -27,7 +27,6 @@ class Level extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(): Response
     {
         $map = $this->request->post();
@@ -80,7 +79,6 @@ class Level extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     private function getUpgradeRequirements(array $map): array
     {
         $requirements = [
@@ -101,7 +99,6 @@ class Level extends Base
         return $data;
     }
 
-    
     #[Validator([
         [\App\Validator\Common::class, "id"]
     ])]

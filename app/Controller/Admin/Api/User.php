@@ -178,7 +178,6 @@ class User extends Manage
         return $this->json(200, "success", $data);
     }
 
-    
     public function del(): array
     {
         $deleteBatchEntity = new Delete(\App\Model\User::class, $_POST['list']);

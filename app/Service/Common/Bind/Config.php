@@ -51,7 +51,6 @@ class Config implements \App\Service\Common\Config
         return Arr::get($cfg, Arr::getChainIgnoreFirst($key));
     }
 
-    
     public function getMainConfig(string $key): mixed
     {
         $column = Arr::getChainFirst($key);

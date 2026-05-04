@@ -10,6 +10,5 @@ interface ForeignShip
 
     public function getItems(): array;
 
-    
     public function getItem(string $uniqueId, array $options = []): ?Item;
 }

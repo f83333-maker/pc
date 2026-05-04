@@ -10,18 +10,15 @@ class Resolver
 
     use Make;
 
-    
     private \Throwable $exception;
 
     private array $errorCodeHandlers = [];
 
-    
     private array $dict = [
         'price' => "价格",
         'drift_value' => '浮动值'
     ];
 
-    
     public function __construct(\Throwable $exception)
     {
         $this->exception = $exception;

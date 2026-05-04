@@ -39,7 +39,6 @@ abstract class Base
         Di::instance()->make(Site::class);
     }
 
-    
     public function json(int $code = 200, string $message = "success", ?array $data = null, array $ext = []): Response
     {
         $secret = Str::generateRandStr(32);

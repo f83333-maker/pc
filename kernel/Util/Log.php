@@ -36,7 +36,6 @@ class Log
         file_put_contents($this->path . "/{$name}.log", "");
     }
 
-    
     public function debug(mixed $message): void
     {
         $this->write($message, "debug");
@@ -47,7 +46,6 @@ class Log
         $this->write($message, "error");
     }
 
-    
     public function get(string $name): string
     {
         return file_get_contents($this->path . "/{$name}.log") ?: "";

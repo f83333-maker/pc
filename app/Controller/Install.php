@@ -25,7 +25,6 @@ class Install extends User
         return $this->json(200, "success");
     }
 
-    
     public function step(): string
     {
         if (file_exists(BASE_PATH . '/kernel/Install/Lock')) {
@@ -58,7 +57,6 @@ class Install extends User
         return View::render("Install.html", $data);
     }
 
-    
     public function submit(): array
     {
         if (file_exists(BASE_PATH . '/kernel/Install/Lock')) {

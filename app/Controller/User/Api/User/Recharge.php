@@ -21,8 +21,6 @@ class Recharge extends Base
     #[Inject]
     private Order $order;
 
-    
-
     #[Validator([
         [\App\Validator\User\Recharge::class, "amount"]
     ])]

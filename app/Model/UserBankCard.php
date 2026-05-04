@@ -14,7 +14,6 @@ class UserBankCard extends Model
     public bool $timestamps = false;
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'bank_id' => 'integer', 'status' => 'integer'];
 
-    
     public function bank(): HasOne
     {
         return $this->hasOne(Bank::class, 'id', 'bank_id');
@@ -30,13 +29,11 @@ class UserBankCard extends Model
         return $this->hasMany(UserWithdraw::class, 'card_id', 'id');
     }
 
-    
     public function totalWithdraw(): HasMany
     {
         return $this->withdraw()->where("status", "=", 1);
     }
 
-    
     public function todayWithdraw(): HasMany
     {
         return $this->withdraw()->where("status", "=", 1)->whereBetween("create_time", [Date::calcDay(), Date::calcDay(1)]);

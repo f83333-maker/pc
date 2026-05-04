@@ -16,7 +16,6 @@ class Container implements ContainerInterface
         \Hyperf\Contract\LengthAwarePaginatorInterface::class => 'Hyperf\\Paginator\\LengthAwarePaginator'
     ];
 
-    
     public function get(string $id): mixed
     {
         return Di::instance()->get($id);
@@ -27,7 +26,6 @@ class Container implements ContainerInterface
         return Di::instance()->has($id);
     }
 
-    
     public function make(string $name, array $parameters = [])
     {
         $object = Di::instance()->get($name);

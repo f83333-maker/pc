@@ -25,7 +25,6 @@ class Pay extends Base
         return $this->json(data: $data['list'], ext: ["balance" => $data['balance']]);
     }
 
-    
     public function getPayOrder(): Response
     {
         $tradeNo = $this->request->post("trade_no") ?: "";

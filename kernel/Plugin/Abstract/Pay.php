@@ -23,7 +23,6 @@ abstract class Pay implements \Kernel\Plugin\Handle\Pay
     #[Inject]
     protected \App\Service\User\Order $orderService;
 
-    
     protected Order $order;
     
     protected PayOrder $payOrder;
@@ -42,7 +41,6 @@ abstract class Pay implements \Kernel\Plugin\Handle\Pay
     
     protected ?string $syncUrl;
 
-    
     public function __construct(Plugin $plugin, Order $order, PayOrder $payOrder, array $config, string $code, string $clientIp, ?string $amount = null, ?string $asyncUrl = null, ?string $syncUrl = null)
     {
         Di::inst()->inject($this);
@@ -65,7 +63,6 @@ abstract class Pay implements \Kernel\Plugin\Handle\Pay
         $this->payOrder->save();
     }
 
-    
     public function sync(): Response
     {
         return $this->response;

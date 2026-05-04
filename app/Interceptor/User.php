@@ -54,7 +54,6 @@ class User implements Interceptor
         return $response;
     }
 
-    
     private function login(Request $request, Response $response, int $type): Response
     {
         $response->withCookie(Cookie::USER_TOKEN, "", 0);

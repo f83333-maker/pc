@@ -107,7 +107,6 @@ class Date
         return 1;
     }
 
-    
     public static function timestamp(): int
     {
         return (int)(microtime(true) * 1000);

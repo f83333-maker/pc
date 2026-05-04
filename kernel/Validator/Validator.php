@@ -9,7 +9,6 @@ use SplFileObject;
 class Validator
 {
 
-    
     protected static array $type = [];
 
     protected array $alias = [

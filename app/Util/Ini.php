@@ -76,7 +76,6 @@ class Ini
         return $list;
     }
 
-    
     private static function parseContent(array $config, ?string $prefix = null): string
     {
         $cfg = "";

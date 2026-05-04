@@ -8,12 +8,9 @@ interface Command
     
     public function getCommand(): string;
 
-    
     public function getClass(): string;
 
-    
     public function getMethod(): string;
 
-    
     public function getExtend(): mixed;
 }

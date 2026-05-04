@@ -26,7 +26,6 @@ class Service
         $this->file = "/etc/systemd/system/{$this->name}.service";
     }
 
-    
     public function install(): void
     {
         $commands = <<<EOL
@@ -59,7 +58,6 @@ EOL;
         }
     }
 
-    
     public function start(): void
     {
         Log::inst()->stdout("Service starting...", Color::BLUE, true);
@@ -67,7 +65,6 @@ EOL;
         Log::inst()->stdout("Service started successfully.", Color::GREEN, true);
     }
 
-    
     public function stop(): void
     {
         Log::inst()->stdout("Service stopping...", Color::BLUE, true);
@@ -75,7 +72,6 @@ EOL;
         Log::inst()->stdout("Service stop successfully.", Color::GREEN, true);
     }
 
-    
     public function restart(): void
     {
         if (App::$mode === "dev") {

@@ -22,7 +22,6 @@ class Verify
         }
     }
 
-    
     public static function isValidUrl($url): bool
     {
         $pattern = '/^(http:\/\/|https:\/\/)[^\s\/]+(\/[^\s\/]+)*$/';
@@ -45,7 +44,6 @@ class Verify
         return false;
     }
 
-    
     public static function isEmail(string $email): bool
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -54,7 +52,6 @@ class Verify
         return false;
     }
 
-    
     public static function equals(mixed ...$value): bool
     {
         if (count($value) < 2) {

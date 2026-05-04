@@ -35,7 +35,6 @@ class Db
         return Connection::instance()->get();
     }
 
-    
     public static function transaction(callable $callback, string $level = \Kernel\Database\Const\Db::ISOLATION_REPEATABLE_READ, int $attempts = 1): mixed
     {
         $attempt = 0;

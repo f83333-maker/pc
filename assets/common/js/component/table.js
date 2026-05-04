@@ -68,7 +68,6 @@ class Table {
 
         this.cardView = false;
 
-        
         this.fn = {
             complete: [],
             response: []
@@ -247,8 +246,6 @@ class Table {
         this.cardView = true;
     }
 
-    
-
     setSearch(search, button = true) {
         const hackSearch = getVar("HACK_ROUTE_TABLE_SEARCH");
 
@@ -308,8 +305,6 @@ class Table {
     getSearchData() {
         return this.search.getData();
     }
-
-    
 
     setDeleteSelector(selector, urlOrCallback) {
         this.$deleteSelector = $(selector);
@@ -402,8 +397,6 @@ class Table {
     enableSingleSelect() {
         this.singleSelect = true;
     }
-
-    
 
     onResponse(callback) {
         this.fn.response.push(callback);
@@ -614,7 +607,6 @@ class Table {
             singleSelect: this.singleSelect,
 
             
-            
             sidePagination: 'server',
             contentType: "application/x-www-form-urlencoded",
             dataType: "json",
@@ -623,8 +615,6 @@ class Table {
             detailViewIcon: false,
             detailView: this.isShowDetail,
             columns: this.columns,
-
-            
 
             
             
@@ -700,7 +690,6 @@ class Table {
 
                 if (this.isFloatMessage) {
 
-                    
                     $(document).on('keydown', function (event) {
                         if (event.key === 'Control' && $(`.lock-hotkeys`).length > 0 && isCtrlPressed === false) {
                             isCtrlPressed = true;

@@ -13,7 +13,6 @@ use Kernel\Exception\ViewException;
 class Manage extends \App\Controller\Base\View\Manage
 {
 
-    
     public function clearHack(): string
     {
         

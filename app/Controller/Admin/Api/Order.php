@@ -66,7 +66,6 @@ class Order extends Manage
         return $this->json(data: array_merge($data, $raw));
     }
 
-    
     public function save(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -84,7 +83,6 @@ class Order extends Manage
         return $this->json(200, '（＾∀＾）发货成功');
     }
 
-    
     public function clear(): array
     {
         \App\Model\Order::query()
@@ -95,7 +93,6 @@ class Order extends Manage
         return $this->json(200, '（＾∀＾）清理完成');
     }
 
-    
     public function export(): void
     {
         ignore_user_abort(true);

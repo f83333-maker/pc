@@ -32,7 +32,6 @@ class Config extends Base
         return $this->render("Config/Config.html", "系统设置", ["configs" => $configs, "nginxConf" => BASE_PATH . "config/nginx/*.conf", "cli" => App::$cli]);
     }
 
-    
     public function language(): Response
     {
         return $this->render("Config/Language.html", "国际化管理");

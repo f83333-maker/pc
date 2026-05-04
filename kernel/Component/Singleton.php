@@ -16,7 +16,6 @@ trait Singleton
         return static::$instance;
     }
 
-    
     public static function inst(...$args): static
     {
         return self::instance(...$args);

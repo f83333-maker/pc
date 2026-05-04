@@ -21,7 +21,6 @@ class Session
         session_write_close();
     }
 
-    
     public static function get(?string $key = null): mixed
     {
         self::start();

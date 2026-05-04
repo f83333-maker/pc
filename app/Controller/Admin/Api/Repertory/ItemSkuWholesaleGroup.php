@@ -25,7 +25,6 @@ class ItemSkuWholesaleGroup extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(int $wholesaleId): Response
     {
         $columns = [

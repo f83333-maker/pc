@@ -29,7 +29,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
     protected string $uri;
     protected string $uriSuffix;
 
-    
     public function __construct()
     {
         $_POST = $this->post = Firewall::instance()->xssKiller($this->post);
@@ -48,7 +47,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return $this->method;
     }
 
-    
     public function all(int $flags = Filter::STRING_UNSIGNED): mixed
     {
         $all = array_merge($this->post, $this->get, $this->json);
@@ -90,7 +88,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return Arr::get($this->_unsafe_get, $key);
     }
 
-    
     public function header(?string $key = null): mixed
     {
         if ($key) {
@@ -115,13 +112,11 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return Firewall::instance()->filterContent($this->json, $flags);
     }
 
-    
     public function unsafeJson(?string $key = null): mixed
     {
         return Arr::get($this->_unsafe_json, $key);
     }
 
-    
     public function file(?string $key = null): mixed
     {
         if ($key) {
@@ -150,7 +145,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return $this->domain;
     }
 
-    
     public function url(): string
     {
         return $this->url;

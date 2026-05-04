@@ -52,7 +52,6 @@ class Item
         $this->attr = $attr;
     }
 
-    
     public function setOptions(array $options): void
     {
         $this->options = Firewall::inst()->xssKiller($options);

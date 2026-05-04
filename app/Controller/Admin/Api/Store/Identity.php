@@ -19,7 +19,6 @@ class Identity extends Base
     #[Inject]
     private \App\Service\Store\Identity $identity;
 
-    
     #[Validator([
         [\App\Validator\Store\Identity::class, "tradeNo"]
     ])]
@@ -28,7 +27,6 @@ class Identity extends Base
         return $this->json(data: $this->identity->status($this->getStoreAuth(), $tradeNo));
     }
 
-    
     #[Validator([
         [\App\Validator\Store\Identity::class, ["certName", "certNo"]]
     ])]

@@ -203,7 +203,6 @@ class Search {
             
             data: item.dict,
 
-            
             placeholder: item.title,
             
             search: true,

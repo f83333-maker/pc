@@ -62,13 +62,11 @@ class Plugin extends Manage
 本免责声明的解释权归开发者所有。本免责声明适用`中国大陆`法律。
 HTML;
 
-    
     public function index(): string
     {
         return $this->render("通用插件", "Config/Plugin.html");
     }
 
-    
     public function wiki(string $plugin): string
     {
         if (!preg_match('/^[A-Za-z0-9_]+$/', $plugin)) {

@@ -29,7 +29,6 @@ class Config extends Model
         return (int)$expire;
     }
 
-    
     public static function get(string $key): string
     {
         $cacheKey = "_DB_CONFIG_" . $key;
@@ -73,7 +72,6 @@ class Config extends Model
         return $list;
     }
 
-    
     public static function put(string $key, string|int $value): void
     {
         $cfg = Config::query()->where("key", $key)->first();

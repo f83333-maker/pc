@@ -24,7 +24,6 @@ class Task
         $this->server = CLI::instance()->getHttpServer();
     }
 
-    
     public function task(\Kernel\Task\Interface\Task $task, ?callable $finish = null): void
     {
         if (!App::$cli) {
@@ -40,7 +39,6 @@ class Task
         });
     }
 
-    
     public function taskGetResults(\Kernel\Task\Interface\Task $task): mixed
     {
         if (!App::$cli) {

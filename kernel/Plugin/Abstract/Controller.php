@@ -42,7 +42,6 @@ abstract class Controller
     
     protected a $plugin;
 
-    
     public function __construct()
     {
         $site = Di::instance()->make(Site::class);

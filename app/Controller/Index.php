@@ -24,14 +24,12 @@ class Index
         return $this->response->json();
     }
 
-    
     public function wait(): Response
     {
         $list = Sync::inst()->list();
         return $this->response->json(data: ["state" => empty($list)]);
     }
 
-    
     public function owner(): Response
     {
         $usr = Usr::inst()->getUsr();

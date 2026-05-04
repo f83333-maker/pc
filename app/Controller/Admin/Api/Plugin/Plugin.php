@@ -67,7 +67,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    
     public function setCfg(string $name): Response
     {
         $post = $this->request->post(flags: Filter::NORMAL);
@@ -83,7 +82,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    
     public function start(): Response
     {
         $name = $this->request->post("name");

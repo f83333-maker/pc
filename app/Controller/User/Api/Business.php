@@ -133,7 +133,6 @@ class Business extends User
         return $this->json(200, "保存成功");
     }
 
-    
     public function unbind(): array
     {
         $this->businessValidation();

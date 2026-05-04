@@ -16,7 +16,6 @@ class Connection
 
     private array $connections = [];
 
-    
     public function get(): ConnectionInterface
     {
         if (!App::$cli) {
@@ -35,7 +34,6 @@ class Connection
         $di = Di::instance()->get(ConnectionPool::class);
         $this->connections[$cid] = $di->get();
 
-        
         \Swoole\Coroutine\defer(function () use ($cid, $di) {
             $di->put($this->connections[$cid]);
             unset($this->connections[$cid]);
@@ -63,7 +61,6 @@ class Connection
         $this->connections[$cid] = $connection;
     }
 
-    
     public function usage(): int
     {
         return count($this->connections);

@@ -59,7 +59,6 @@ class PayOrder implements \App\Service\User\PayOrder
         return $payApi;
     }
 
-    
     public function pay(string $tradeNo, int $method, bool $balance, string $tradeIp, string $httpUrl, ?User $customer = null): Pay
     {
         return Db::transaction(function () use ($httpUrl, $balance, $tradeIp, $tradeNo, $method, $customer) {
@@ -102,7 +101,6 @@ class PayOrder implements \App\Service\User\PayOrder
             $pay->setCreateTime($payOrder->create_time);
             $pay->setStatus($payOrder->status);
 
-            
             if ($customer && $order->type != \App\Const\Order::ORDER_TYPE_RECHARGE) {
                 
                 $customer = User::query()->find($customer->id);
@@ -224,7 +222,6 @@ class PayOrder implements \App\Service\User\PayOrder
         }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE, 3);
     }
 
-    
     public function getPayOrder(string $tradeNo): \App\Entity\Pay\Order
     {
         $order = Order::query()->where("trade_no", $tradeNo)->first();
@@ -276,7 +273,6 @@ class PayOrder implements \App\Service\User\PayOrder
 
             $pay = $this->getPay($payOrder->pay_id);
 
-            
             $config = $pay->config;
 
             if (!$config) {

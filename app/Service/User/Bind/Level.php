@@ -19,7 +19,6 @@ class Level implements \App\Service\User\Level
     #[Inject]
     private \App\Service\User\Balance $balance;
 
-    
     public function getDefaultId(?User $merchant): int
     {
         if ($merchant) {
@@ -71,7 +70,6 @@ class Level implements \App\Service\User\Level
             throw new JSONException("该用户组无法通过付费升级");
         }
 
-        
         $orderService = Di::inst()->make(\App\Service\User\Order::class);
         $orderService->clearUnpaidOrder($user->id, \App\Const\Order::ORDER_TYPE_UPGRADE_LEVEL);
 

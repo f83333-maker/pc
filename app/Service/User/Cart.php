@@ -21,17 +21,13 @@ interface Cart
 
     public function add(?User $customer, string $clientId, int $quantity, int $skuId, array $option): bool;
 
-    
     public function changeQuantity(?User $customer, string $clientId, int $itemId, int $quantity): void;
 
     public function updateOption(?User $customer, string $clientId, int $itemId, array $option): void;
 
-    
     public function del(?User $customer, string $clientId, int $itemId): bool;
 
-    
     public function clear(?User $customer, string $clientId): void;
 
-    
     public function bindUser(User $customer, string $clientId): void;
 }

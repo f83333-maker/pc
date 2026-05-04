@@ -20,7 +20,6 @@ class RepertoryItemSkuWholesale extends Model
     #[Inject]
     protected \App\Service\User\Item $item;
 
-    
     public function sku(): HasOne
     {
         return $this->hasOne(RepertoryItemSku::class, "id", "sku_id");

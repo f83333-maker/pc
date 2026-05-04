@@ -86,7 +86,6 @@ class Validator
         }
     }
 
-    
     private function exception(mixed $result, int $renderType): void
     {
         if ($result !== true) {

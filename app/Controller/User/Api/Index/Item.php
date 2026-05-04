@@ -28,7 +28,6 @@ class Item extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-    
     public function list(): Response
     {
         $categoryId = $this->request->post("category_id", Filter::INTEGER) ?? null;
@@ -38,7 +37,6 @@ class Item extends Base
             )));
     }
 
-    
     #[Validator([
         [\App\Validator\User\Item::class, "itemId"]
     ])]
@@ -49,7 +47,6 @@ class Item extends Base
         return $this->json(200, "success ", $item->toArray());
     }
 
-    
     #[Validator([
         [\App\Validator\User\Item::class, ["skuId", "quantity"]]
     ])]

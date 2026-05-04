@@ -25,7 +25,6 @@ class ItemSku extends Model
         return $this->hasOne(RepertoryItemSku::class, "id", "repertory_item_sku_id");
     }
 
-    
     public function item(): HasOne
     {
         return $this->hasOne(Item::class, "id", "item_id");

@@ -16,13 +16,11 @@ class PayOrder extends Model
 
     protected array $casts = ['id' => 'integer', 'pay_id' => 'integer', 'order_id' => 'integer', 'status' => 'integer', 'render_mode' => 'integer', 'balance_status' => 'integer', 'user_id' => 'integer', 'customer_id' => 'integer'];
 
-    
     public function pay(): ?HasOne
     {
         return $this->hasOne(Pay::class, "id", "pay_id");
     }
 
-    
     public function option(): ?HasOne
     {
         return $this->hasOne(PayOrderOption::class, "pay_order_id", "id");

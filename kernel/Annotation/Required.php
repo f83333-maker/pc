@@ -9,7 +9,6 @@ class Required
     public int $mode;
     public string $message;
 
-    
     public function __construct(string $message, int $mode = \Kernel\Validator\Required::EXTREME)
     {
         $this->mode = $mode;

@@ -13,7 +13,6 @@ class Developer
 
     private string $path = BASE_PATH . "app/Plugin/";
 
-    
     public function getTmp(string $name): string
     {
         $file = BASE_PATH . "/kernel/Plugin/Developer/Template/{$name}.tmp";

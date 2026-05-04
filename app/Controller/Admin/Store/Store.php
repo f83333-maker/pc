@@ -22,7 +22,6 @@ class Store extends Base
         return $this->render("Store/Developer.html", "开发者中心");
     }
 
-    
     public function trade(): Response
     {
         return $this->render("Store/Trade.html", "盈利中心");

@@ -16,7 +16,6 @@ class UserGroup extends Model
 
     protected $casts = ['id' => 'integer', 'recharge' => 'float', 'discount_config' => 'json'];
 
-    
     public static function get(float $recharge, bool $next = false): ?UserGroup
     {
         if (!self::$userGroups) {

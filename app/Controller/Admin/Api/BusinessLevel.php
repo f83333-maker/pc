@@ -33,7 +33,6 @@ class BusinessLevel extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function save(): array
     {
         $save = new Save(\App\Model\BusinessLevel::class);
@@ -47,7 +46,6 @@ class BusinessLevel extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     public function del(): array
     {
         $delete = new Delete(\App\Model\BusinessLevel::class, $_POST['list']);

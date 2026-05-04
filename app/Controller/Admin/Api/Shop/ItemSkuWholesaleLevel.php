@@ -28,7 +28,6 @@ class ItemSkuWholesaleLevel extends Base
     #[Inject]
     private Query $query;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]

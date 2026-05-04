@@ -14,7 +14,6 @@ use Kernel\Util\Tree;
 class Dict extends User
 {
 
-    
     public function category(bool $tree = false): array
     {
         $data = \App\Model\Category::query()->where("owner", $this->getUser()->id)->get(["id", "name", "pid"])->toArray();
@@ -27,7 +26,6 @@ class Dict extends User
         return $this->json(data: $data);
     }
 
-    
     public function commodityLocal(): array
     {
         $data = \App\Model\Commodity::query()

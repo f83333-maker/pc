@@ -18,7 +18,6 @@ class Balance implements \App\Service\User\Balance
     #[Inject]
     private \App\Service\User\Lifetime $lifetime;
 
-    
     public function add(int $userId, string|float|int $amount, int $type, bool $isWithdraw, int $status = Bce::STATUS_DIRECT, int $freeze = 0, ?string $tradeNo = null, ?string $remark = null): int
     {
         if ($amount <= 0) {
@@ -167,7 +166,6 @@ class Balance implements \App\Service\User\Balance
         $bill->save();
     }
 
-    
     public function refund(int $id, bool $deductionWithdraw = false): bool
     {
         if ($id <= 0) {

@@ -35,7 +35,6 @@ class CommodityGroup extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -100,7 +99,6 @@ class CommodityGroup extends Manage
         return $this->json(data: ["list" => $result]);
     }
 
-    
     public function del(): array
     {
         $list = (array)$_POST['list'];

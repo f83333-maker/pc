@@ -35,7 +35,6 @@ class AgentMember extends User
         return $this->json(data: $data);
     }
 
-    
     public function transfer(): array
     {
         $to = $this->request->post("id");

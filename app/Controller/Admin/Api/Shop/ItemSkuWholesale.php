@@ -29,7 +29,6 @@ class ItemSkuWholesale extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(int $id): Response
     {
         $itemSku = \App\Model\ItemSku::with(['user'])->find($id);
@@ -43,7 +42,6 @@ class ItemSkuWholesale extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-    
     #[Validator([
         [\App\Validator\Admin\ItemSku::class, "price"]
     ])]

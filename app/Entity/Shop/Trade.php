@@ -11,16 +11,12 @@ class Trade
 
     public ?string $tradeNo;
 
-    
     public ?string $totalAmount;
 
-    
     public ?string $createTime;
 
-    
     public bool $isFree = false;
 
-    
     public function __construct(?string $tradeNo = null, ?string $totalAmount = null, ?string $createTime = null)
     {
         $this->tradeNo = $tradeNo;
@@ -28,7 +24,6 @@ class Trade
         $this->createTime = $createTime;
     }
 
-    
     public function setIsFree(bool $isFree): static
     {
         $this->isFree = $isFree;

@@ -29,7 +29,6 @@ class Ownership implements \App\Service\User\Ownership
         return ItemSku::query()->where("user_id", $userId)->where("id", $skuId)->exists();
     }
 
-    
     public function level(int $userId, int $levelId): bool
     {
         return UserLevel::query()->where("user_id", $userId)->where("id", $levelId)->exists();

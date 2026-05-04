@@ -19,7 +19,6 @@ class Sku
 
     public bool $marketControl = false;
 
-    
     public string $marketControlMinPrice = "0";
 
     public string $marketControlMaxPrice = "0";
@@ -40,7 +39,6 @@ class Sku
 
     public string $uniqueId;
 
-    
     public array $versions = [];
 
     public function __construct(string|int|float $uniqueId, string $name, string $pictureUrl, string|int|float $price)
@@ -60,7 +58,6 @@ class Sku
         $this->options = Firewall::inst()->xssKiller($options);
     }
 
-    
     public function setPrice(string $price): void
     {
         $this->price = $price;
@@ -77,7 +74,6 @@ class Sku
         $this->marketControlMinPrice = $marketControlMinPrice;
     }
 
-    
     public function setMarketControlMaxPrice(string $marketControlMaxPrice): void
     {
         $this->marketControlMaxPrice = $marketControlMaxPrice;
@@ -118,13 +114,11 @@ class Sku
         $this->marketControlOnlyNum = $marketControlOnlyNum;
     }
 
-    
     public function setMessage(?string $message): void
     {
         $this->message = $message;
     }
 
-    
     public function setCost(string|int|float|null $cost): void
     {
         if ($cost === null) {

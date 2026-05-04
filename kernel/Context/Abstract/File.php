@@ -20,18 +20,14 @@ abstract class File implements \Kernel\Context\Interface\File
 
     protected string $mime;
 
-    
     protected string $tmp;
 
-    
     protected int $error;
 
     protected int $size;
 
-    
     protected string $suffix;
 
-    
     protected string $name;
 
     public function __construct()
@@ -82,7 +78,6 @@ abstract class File implements \Kernel\Context\Interface\File
         return $this->suffix;
     }
 
-    
     public function save(string $path, array $ext = ['jpg', 'png', 'jpeg', 'bmp', 'webp', 'ico', 'gif', 'mp4', 'zip', 'woff', 'woff2', 'ttf', 'otf'], int $size = 10240, string $dir = BASE_PATH): string
     {
         if ($this->getError() > 0) {

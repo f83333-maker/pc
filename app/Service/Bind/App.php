@@ -356,7 +356,6 @@ class App implements \App\Service\App
         return $this->storeRequest("/developer/plugins", $data);
     }
 
-    
     public function developerCreatePlugin(array $data): array
     {
         return $this->storeRequest("/developer/create", $data);
@@ -377,7 +376,6 @@ class App implements \App\Service\App
         return $this->storeRequest("/developer/createKit", $data);
     }
 
-    
     public function developerDeletePlugin(array $data): array
     {
         return $this->storeRequest("/developer/deletePlugin", $data);
@@ -416,7 +414,6 @@ class App implements \App\Service\App
         return $this->storeRequest("/store/bindLevel", ["auth_id" => $authId]);
     }
 
-    
     public function levels(): array
     {
         return $this->storeRequest("/store/levels");
@@ -427,7 +424,6 @@ class App implements \App\Service\App
         return $this->storeRequest("/store/service");
     }
 
-    
     public function editPassword(array $data): array
     {
         return $this->storeRequest("/store/editPassword", $data);

@@ -25,7 +25,6 @@ class Site extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(): Response
     {
         $get = new Get(Model::class);
@@ -36,7 +35,6 @@ class Site extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    
     #[Validator([
         [\App\Validator\User\Site::class, "type"]
     ])]
@@ -56,7 +54,6 @@ class Site extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [\App\Validator\User\Site::class, ["existsDomain", "pem", "key"]]
     ])]
@@ -78,7 +75,6 @@ class Site extends Base
         return $this->json(data: $this->site->getCertificate($domain));
     }
 
-    
     #[Validator([
         [\App\Validator\User\Site::class, "existsDomain"]
     ])]
@@ -89,7 +85,6 @@ class Site extends Base
         return $this->json(message: "删除成功");
     }
 
-    
     public function getDnsRecord(): Response
     {
         $dnsValue = trim((string)$this->_config->getMainConfig("subdomain.dns_value"));

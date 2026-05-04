@@ -11,7 +11,6 @@ use Kernel\Waf\Firewall;
 class Waf implements InterceptorInterface
 {
 
-    
     public function handle(int $type): void
     {
         if (!file_exists(BASE_PATH . '/kernel/Install/Lock')) {

@@ -10,7 +10,6 @@ class Route implements \Kernel\Context\Interface\Route
     private string $method;
     private string $action;
 
-    
     public function route(): string
     {
         return $this->route;
@@ -35,7 +34,6 @@ class Route implements \Kernel\Context\Interface\Route
         return $this->action;
     }
 
-    
     public function setRoute(string $route): void
     {
         $this->route = $route;

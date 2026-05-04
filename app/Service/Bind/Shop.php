@@ -231,7 +231,6 @@ class Shop implements \App\Service\Shop
 
         $this->order->parseConfig($commodity, $group);
 
-        
         $this->substationPriceIncrease($commodity);
 
         $commodity->service_url = Config::get("service_url");
@@ -322,13 +321,11 @@ class Shop implements \App\Service\Shop
         return (string)$commodity->stock;
     }
 
-    
     public function getSharedStockHash(int $id, ?string $race = null, ?array $sku = []): string
     {
         return md5($id . $race . json_encode($sku ?: []));
     }
 
-    
     public function updateSharedStock(int|Commodity $commodity, ?string $race = null, ?array $sku = []): void
     {
         if (is_int($commodity)) {
@@ -360,7 +357,6 @@ class Shop implements \App\Service\Shop
         return $commodity->shared_stock[$hash];
     }
 
-    
     public function getDraft(Commodity|int|string $commodity, int $cardId): array
     {
         if (is_int($commodity)) {
@@ -384,7 +380,6 @@ class Shop implements \App\Service\Shop
         return ["draft_premium" => $card->draft_premium, "cost" => $card->cost];
     }
 
-    
     public function substationPriceIncrease(Commodity &$commodity): void
     {
         $business = Business::get();

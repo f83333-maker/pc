@@ -14,7 +14,6 @@ class Helper
 
     const TYPE_THEME = 2;
 
-    
     public static function themeUrl(string $path, bool $debug = false): string
     {
         $mobile = \App\Model\Config::get("user_mobile_theme");

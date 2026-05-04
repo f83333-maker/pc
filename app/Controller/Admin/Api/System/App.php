@@ -21,7 +21,6 @@ class App extends Base
         return $this->json();
     }
 
-    
     public function state(): Response
     {
         return $this->json();

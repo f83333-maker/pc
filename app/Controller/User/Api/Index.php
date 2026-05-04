@@ -42,7 +42,6 @@ class Index extends User
     #[Inject]
     private Shop $shop;
 
-    
     public function data(): array
     {
         $category = Tree::generate($this->shop->getCategory($this->getUserGroup()));
@@ -299,7 +298,6 @@ class Index extends User
         return $this->json(data: $data);
     }
 
-    
     public
     function valuation(): array
     {
@@ -316,7 +314,6 @@ class Index extends User
         return $this->json(data: ["price" => $price]);
     }
 
-    
     public
     function stock(): array
     {
@@ -335,7 +332,6 @@ class Index extends User
         return $this->json(data: $array);
     }
 
-    
     public
     function pay(): array
     {
@@ -362,7 +358,6 @@ class Index extends User
         return $this->json(200, 'success', $pay);
     }
 
-    
     public function query(string $keywords): array
     {
         $keywords = trim($keywords);

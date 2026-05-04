@@ -14,7 +14,6 @@ class Collector
 
     use Singleton;
 
-    
     private function getReflectionClass(mixed $object): \ReflectionClass
     {
         $class = gettype($object) == "string" ? $object : get_class($object);
@@ -24,7 +23,6 @@ class Collector
         return $this->collectors[$class];
     }
 
-    
     public function classParse(mixed $object, callable $callable): void
     {
         $ref = $this->getReflectionClass($object);
@@ -34,7 +32,6 @@ class Collector
         }
     }
 
-    
     public function propertiesParse(mixed $object, callable $callable): void
     {
         
@@ -49,7 +46,6 @@ class Collector
         }
     }
 
-    
     public function methodParse(mixed $object, string $method, callable $callable): void
     {
         $methodRef = new \ReflectionMethod($object, $method);
@@ -88,7 +84,6 @@ class Collector
         return $parameters;
     }
 
-    
     public function dat(string $type, mixed $value): mixed
     {
 

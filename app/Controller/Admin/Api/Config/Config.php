@@ -37,7 +37,6 @@ class Config extends Base
     #[Inject]
     private \App\Service\User\Site $site;
 
-    
     public function get(string $key): Response
     {
         $config = Model::query()->where("key", $key)->whereNull("user_id")->first();
@@ -69,7 +68,6 @@ class Config extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [Common::class, "phone"]
     ])]

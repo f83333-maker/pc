@@ -22,7 +22,6 @@ class Currency
         $this->name = $name;
     }
 
-    
     public function setRate(float|string $rate): void
     {
         $this->rate = (string)$rate;

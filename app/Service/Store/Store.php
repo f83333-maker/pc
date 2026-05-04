@@ -12,22 +12,16 @@ interface Store
 
     public function list(array $post, Authentication $authentication): array;
 
-    
     public function getGroup(int $gift, Authentication $authentication): array;
 
-    
     public function install(string $key, string $env, Authentication $authentication): void;
 
-    
     public function uninstall(string $key, string $env): void;
 
-    
     public function getPluginType(string $key, Authentication $authentication): int;
 
-    
     public function purchase(int $type, int $itemId, int $subscription, int $subscriptionId, int $payId, bool $balance, string $syncUrl, int $isGift, string $giftUsername, Authentication $authentication, int $device = 0): array;
 
-    
     public function recharge(string $amount, int $payId, string $syncUrl, Authentication $authentication, int $device = 0): array;
 
     public function powers(Authentication $authentication): array;
@@ -48,7 +42,6 @@ interface Store
 
     public function getPluginVersions(array $plugins, Authentication $authentication): array;
 
-    
     public function getPluginVersionList(string $key, Authentication $authentication): array;
 
     public function pluginVersionUpdate(string $key, string $env, Authentication $authentication): void;

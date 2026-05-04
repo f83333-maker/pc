@@ -20,10 +20,8 @@ class Handle
 
     public ?string $imageUrl = null;
 
-    
     public int $role;
 
-    
     public function __construct(int $reportId, int $type, string $message, int $role)
     {
         $this->reportId = $reportId;
@@ -32,7 +30,6 @@ class Handle
         $this->role = $role;
     }
 
-    
     public function setRefundAmount(string $refundAmount): void
     {
         $this->refundAmount = $refundAmount;
@@ -48,7 +45,6 @@ class Handle
         $this->imageUrl = $imageUrl;
     }
 
-    
     public function setTreasure(string $treasure): void
     {
         $this->treasure = $treasure;

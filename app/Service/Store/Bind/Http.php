@@ -64,7 +64,6 @@ class Http implements \App\Service\Store\Http
         }) ?: 0;
     }
 
-    
     private
     function getSenderIp(): string
     {
@@ -76,7 +75,6 @@ class Http implements \App\Service\Store\Http
         return $request->clientIp();
     }
 
-    
     public
     function request(string $url, array $data = [], ?Authentication $authentication = null): \App\Entity\Store\Http
     {
@@ -132,7 +130,6 @@ class Http implements \App\Service\Store\Http
         return new \App\Entity\Store\Http((int)$_data["code"], $_data["msg"], $_data["data"] ?? [], $_data);
     }
 
-    
     public
     function download(string $url, string $path, ?Authentication $authentication = null, string $method = "GET", array $data = []): bool
     {

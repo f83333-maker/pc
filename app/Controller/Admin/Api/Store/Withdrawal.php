@@ -19,14 +19,12 @@ class Withdrawal extends Base
     #[Inject]
     private Http $http;
 
-    
     public function get(): Response
     {
         $http = $this->http->request("/user/withdrawal/get", $this->request->post(), $this->getStoreAuth());
         return $this->json(data: $http->data);
     }
 
-    
     public function apply(): Response
     {
         $this->http->request("/user/withdrawal/apply", $this->request->post(), $this->getStoreAuth());

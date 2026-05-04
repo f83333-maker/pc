@@ -31,7 +31,6 @@ class SupplyOrder extends Base
     #[Inject]
     private RepertoryOrder $repertoryOrder;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]

@@ -44,7 +44,6 @@ class App extends Manage
         return $this->json(200, "ok", $this->app->ad());
     }
 
-    
     public function init(): array
     {
         $config = (array)config("store");
@@ -287,7 +286,6 @@ class App extends Manage
         return $json;
     }
 
-    
     public function developerCreatePlugin(): array
     {
         $file = $_POST['icon'];
@@ -351,7 +349,6 @@ class App extends Manage
         return $this->json(200, "新的定价已生效", $this->app->developerPluginPriceSet($_POST));
     }
 
-    
     public function purchaseRecords(): array
     {
         return $this->json(data: ["list" => $this->app->purchaseRecords((int)$_GET['plugin_id'])]);
@@ -390,7 +387,6 @@ class App extends Manage
         return $this->json(data: $this->app->service());
     }
 
-    
     public function editPassword(): array
     {
         $this->app->editPassword($_POST);

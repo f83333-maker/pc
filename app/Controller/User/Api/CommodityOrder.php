@@ -46,7 +46,6 @@ class CommodityOrder extends User
         return $this->json(data: $data);
     }
 
-    
     public function delivery(): array
     {
         $id = (int)$_POST['id'];

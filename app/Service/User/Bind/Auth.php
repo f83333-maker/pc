@@ -147,7 +147,6 @@ class Auth implements \App\Service\User\Auth
         return $user;
     }
 
-    
     public function login(array $map, string $ip, string $ua, string $clientId): string
     {
 
@@ -195,7 +194,6 @@ class Auth implements \App\Service\User\Auth
             head: ["uid" => $user->id]
         ));
 
-        
         
         Context::set(\App\Model\User::class, $user);
         

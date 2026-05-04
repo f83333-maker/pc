@@ -255,7 +255,6 @@ class Commodity extends Shared
         return $this->json(200, 'success', $this->order->trade($this->getUser(), $this->getUserGroup(), $map));
     }
 
-    
     public function draftCard(): array
     {
         $map = $this->request->post();
@@ -303,7 +302,6 @@ class Commodity extends Shared
         return $this->json(data: $data);
     }
 
-    
     public function query(string $tradeNo): array
     {
         
@@ -321,7 +319,6 @@ class Commodity extends Shared
         return $this->json(200, 'success', ['secret' => $order->secret, 'widget' => $widget, "status" => $order->status]);
     }
 
-    
     public function stock(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);

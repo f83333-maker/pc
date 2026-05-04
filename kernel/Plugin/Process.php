@@ -89,7 +89,6 @@ class Process
         });
     }
 
-    
     public function started(): void
     {
         if (!App::$cli) {

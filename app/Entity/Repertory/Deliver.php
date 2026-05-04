@@ -12,10 +12,8 @@ class Deliver
 
     public string $contents;
 
-    
     public string $tradeNo;
 
-    
     public string $amount;
 
     public int $status;
@@ -24,7 +22,6 @@ class Deliver
 
     public string $tradeTime;
 
-    
     public function __construct(RepertoryOrder $repertoryOrder)
     {
         $this->tradeNo = $repertoryOrder->trade_no;

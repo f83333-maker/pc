@@ -54,7 +54,6 @@ class ItemSku extends Base
         return $this->json(data: $data);
     }
 
-    
     public function save(): Response
     {
         $map = $this->request->post();

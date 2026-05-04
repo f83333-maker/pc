@@ -15,13 +15,11 @@ class RepertoryOrderCommission extends Model
 
     protected array $casts = ['id' => 'integer', 'order_id' => 'integer', 'user_id' => 'integer', 'pid' => 'integer'];
 
-    
     public function user(): HasOne
     {
         return $this->hasOne(User::class, "id", "user_id")->select(["id", "username", "avatar"]);
     }
 
-    
     public function parent(): HasOne
     {
         return $this->hasOne(User::class, "id", "pid")->select(["id", "username", "avatar"]);

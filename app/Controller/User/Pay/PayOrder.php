@@ -23,7 +23,6 @@ class PayOrder extends Base
     #[Inject]
     private \App\Service\User\PayOrder $payOrder;
 
-    
     public function pay(): Response
     {
         $tradeNo = $this->request->uriSuffix();

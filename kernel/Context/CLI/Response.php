@@ -21,14 +21,12 @@ class Response implements \Kernel\Context\Interface\Response
         $this->serverResponse = $response;
     }
 
-    
     public function withCookie(string $key, string $value, int $expire): static
     {
         $this->serverResponse->setCookie($key, $value, time() + $expire, "/");
         return $this;
     }
 
-    
     public function withHeader(string $key, string $value): static
     {
         if ($key == "Status") {
@@ -40,7 +38,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    
     public function redirect(string $url): static
     {
         $this->options['type'] = \Kernel\Context\Interface\Response::TYPE_REDIRECT;
@@ -48,7 +45,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    
     public function json(int $code = 200, string $message = "success", ?array $data = null, array $ext = []): static
     {
         $this->serverResponse->setHeader("Content-Type", "application/json; charset=utf-8");
@@ -84,7 +80,6 @@ class Response implements \Kernel\Context\Interface\Response
         return $this;
     }
 
-    
     public function draw(): void
     {
         switch ($this->options['type']) {
@@ -104,7 +99,6 @@ class Response implements \Kernel\Context\Interface\Response
         }
     }
 
-    
     public function getOptions(?string $key = null): mixed
     {
         if ($key) {

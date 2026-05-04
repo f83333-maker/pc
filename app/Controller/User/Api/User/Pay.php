@@ -19,7 +19,6 @@ class Pay extends Base
     #[Inject]
     private \App\Service\User\Pay $pay;
 
-    
     public function list(): Response
     {
         $equipment = UserAgent::isMobile((string)$this->request->header("UserAgent")) ? 1 : 2;

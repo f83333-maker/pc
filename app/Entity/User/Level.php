@@ -31,13 +31,11 @@ class Level
         $this->privilegeIntroduce = $level->privilege_introduce;
     }
 
-    
     public function setPrivilegeContent(string $privilegeContent): void
     {
         $this->privilegeContent = $privilegeContent;
     }
 
-    
     public function setUpgradePrice(string $upgradePrice): void
     {
         $this->upgradePrice = $upgradePrice;

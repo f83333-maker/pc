@@ -22,8 +22,6 @@ class OpenMerchant extends Base
     #[Inject]
     private \App\Service\User\OpenMerchant $openMerchant;
 
-    
-
     #[Validator([
         [\App\Validator\User\OpenMerchant::class, "groupId"]
     ])]

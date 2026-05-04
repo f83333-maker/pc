@@ -21,12 +21,10 @@ interface App
 
     public function upload(array $data): array;
 
-    
     public function ad(): array;
 
     public function install(): void;
 
-    
     public function captcha(string $type): array;
 
     public function register(string $username, string $password, string $captcha, array $cookie): array;
@@ -63,9 +61,7 @@ interface App
 
     public function developerPluginPriceSet(array $data): array;
 
-    
     public function service(): array;
 
-    
     public function editPassword(array $data): array;
 }

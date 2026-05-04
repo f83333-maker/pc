@@ -17,7 +17,6 @@ class Item extends Model
 
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'markup_template_id' => 'integer', 'markup_mode' => 'integer', 'repertory_item_id' => 'integer', 'category_id' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'recommend' => 'integer', 'markup' => 'json'];
 
-    
     public function category(): HasOne
     {
         return $this->hasOne(Category::class, "id", "category_id")->select();
@@ -33,19 +32,16 @@ class Item extends Model
         return $this->hasOne(User::class, "id", "user_id")->select(["id", "username", "avatar"]);
     }
 
-    
     public function repertoryItem(): HasOne
     {
         return $this->hasOne(RepertoryItem::class, "id", "repertory_item_id");
     }
 
-    
     public function order(): HasMany
     {
         return $this->hasMany(OrderItem::class, "item_id", "id");
     }
 
-    
     public function todayOrder(): HasMany
     {
         return $this->order()->where("status", "!=", 0)->whereBetween("create_time", [Date::calcDay(), Date::calcDay(1)]);

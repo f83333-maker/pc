@@ -250,7 +250,6 @@ class Order implements \App\Service\User\Order
         }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE);
     }
 
-    
     public function recharge(string $amount, string $clientId, string $createIp, string $createUa, ?User $customer = null): Trade
     {
         return Db::transaction(function () use ($amount, $customer, $createIp, $createUa, $clientId) {
@@ -284,7 +283,6 @@ class Order implements \App\Service\User\Order
         }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE);
     }
 
-    
     public
     function cancel(string $tradeNo): bool
     {
@@ -308,7 +306,6 @@ class Order implements \App\Service\User\Order
 
         $level = $customer?->level ?? null;
 
-        
         $itemSkuWholesale = ItemSkuWholesale::query()->where("sku_id", $itemSku->id)->where("quantity", "<=", $quantity)->orderBy("quantity", "desc")->first();
         if ($itemSkuWholesale) {
             $prices[] = $itemSkuWholesale->price;
@@ -347,7 +344,6 @@ class Order implements \App\Service\User\Order
         return (string)array_shift($prices);
     }
 
-    
     public function getDividendAmount(?User $invite, ItemSku $itemSku, int $quantity = 1): string
     {
         
@@ -377,7 +373,6 @@ class Order implements \App\Service\User\Order
             }
         }
 
-        
         if ($level) {
             $itemSkuLevel = ItemSkuLevel::query()->where("level_id", $level->id)->where("sku_id", $itemSku->id)->where("status", 1)->first();
             if ($itemSkuLevel) {
@@ -607,7 +602,6 @@ class Order implements \App\Service\User\Order
         $this->orderPaid($order->customer, $order->user, $payOrder, $order, $option);
     }
 
-    
     public function syncDeliver(string $tradeNo, ?string $treasure, int $status): void
     {
         
@@ -620,7 +614,6 @@ class Order implements \App\Service\User\Order
         $orderItem->save();
     }
 
-    
     public function itemRestock(int $orderItemId): void
     {
         Db::transaction(function () use ($orderItemId) {
@@ -666,7 +659,6 @@ class Order implements \App\Service\User\Order
         return (int)\App\Model\RepertoryOrder::query()->where("repertory_item_id", $repertoryItemId)->where("status", 1)->sum("quantity");
     }
 
-    
     public
     function getCheckoutOrder(string $tradeNo): \App\Entity\Shop\Order
     {
@@ -710,7 +702,6 @@ class Order implements \App\Service\User\Order
         return $orderEntity;
     }
 
-    
     public
     function getOrder(?User $customer, string $clientId, ?string $tradeNo): ?\App\Entity\Shop\Order
     {
@@ -765,7 +756,6 @@ class Order implements \App\Service\User\Order
         return $orderEntity;
     }
 
-    
     public function getOrderItem(int|OrderItem $idOrModel): ?\App\Entity\Shop\OrderItem
     {
         $item = $idOrModel;
@@ -824,7 +814,6 @@ class Order implements \App\Service\User\Order
         }
     }
 
-    
     public function autoReceipt(?int $userId = null): void
     {
 

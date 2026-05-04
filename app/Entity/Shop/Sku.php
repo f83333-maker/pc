@@ -25,7 +25,6 @@ class Sku
 
     public bool $haveWholesale = false;
 
-    
     public function __construct(ItemSku $sku)
     {
         $this->id = $sku->id;

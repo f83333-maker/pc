@@ -24,13 +24,11 @@ class Lifetime implements \App\Service\User\Lifetime
         $userLifetime->save();
     }
 
-    
     public function update(int $userId, string $column, int|float|string $value): void
     {
         UserLifetime::query()->where("user_id", $userId)->update([$column => $value]);
     }
 
-    
     public function increment(int $userId, string $column, string $amount = "1"): void
     {
         UserLifetime::query()->where("user_id", $userId)->increment($column, $amount);

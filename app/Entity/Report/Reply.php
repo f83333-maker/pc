@@ -14,7 +14,6 @@ class Reply
 
     public int $userId;
 
-    
     public function __construct(int $userId, int $reportId, string $message)
     {
         $this->userId = $userId;
@@ -22,7 +21,6 @@ class Reply
         $this->message = $message;
     }
 
-    
     public function setImageUrl(string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;

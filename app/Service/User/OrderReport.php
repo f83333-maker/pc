@@ -16,6 +16,5 @@ interface OrderReport
 
     public function handle(Handle $handle): void;
 
-    
     public function reply(Reply $reply): void;
 }

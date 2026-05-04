@@ -67,7 +67,6 @@ class ItemSkuUser extends Base
         return $this->json(data: $data);
     }
 
-    
     public function save(int $skuId): Response
     {
         $map = $this->request->post();

@@ -94,7 +94,6 @@ class Order extends Base
         return $this->json(data: $orderItem->toArray());
     }
 
-    
     #[Validator([[Common::class, "id"]])]
     public function receipt(): Response
     {

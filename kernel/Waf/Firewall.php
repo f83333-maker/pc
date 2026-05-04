@@ -14,7 +14,6 @@ class Firewall
 
     private array $rule = [];
 
-    
     private ?\HTMLPurifier $HTMLPurifier = null;
 
     private Cache $cache;
@@ -113,7 +112,6 @@ class Firewall
         $this->HTMLPurifier = new \HTMLPurifier($config);
     }
 
-    
     public function check(callable $callable): void
     {
         $path = BASE_PATH . "/kernel/Waf/Rule";
@@ -154,7 +152,6 @@ class Firewall
         }
     }
 
-    
     private function getCache(string $input): mixed
     {
 
@@ -186,7 +183,6 @@ class Firewall
         }
     }
 
-    
     public function filterContent(mixed $input, int $flags): mixed
     {
         if (is_null($input)) {
@@ -210,7 +206,6 @@ class Firewall
         }
     }
 
-    
     public function filter(mixed $content, int $flags): mixed
     {
         if (is_string($content)) {

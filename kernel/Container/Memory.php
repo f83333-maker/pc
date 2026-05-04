@@ -13,7 +13,6 @@ class Memory
 
     private array $memory = [];
 
-    
     public function set(string $key, mixed $value): void
     {
         if (!App::$cli) {
@@ -45,7 +44,6 @@ class Memory
         }
     }
 
-    
     public function del(string ...$key): void
     {
         if (!App::$cli) {

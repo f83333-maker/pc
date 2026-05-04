@@ -45,7 +45,6 @@ class Store implements \App\Service\Store\Store
             throw new JSONException("应用下载失败，请稍后再试");
         }
 
-        
         if (!Zip::state()) {
             File::remove($path);
             throw new ServiceException("zip解压不可用");
@@ -100,7 +99,6 @@ class Store implements \App\Service\Store\Store
         \Kernel\Plugin\Plugin::inst()->instantHook($key, $env, Point::APP_UNINSTALL_AFTER);
     }
 
-    
     public function getGroup(int $gift, Authentication $authentication): array
     {
         return $this->http->request(url: "/store/group?gift=" . $gift, authentication: $authentication)->data;
@@ -153,7 +151,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    
     public function powerDetail(int $itemId, bool $isGroup, Authentication $authentication): array
     {
         $http = $this->http->request(url: "/store/power/detail", data: [
@@ -244,7 +241,6 @@ class Store implements \App\Service\Store\Store
         }
     }
 
-    
     public function openSubFree(int $itemId, Authentication $authentication): bool
     {
         try {

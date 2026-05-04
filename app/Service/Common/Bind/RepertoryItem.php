@@ -60,8 +60,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         }
 
         
-
-        
         if ($checkRepeat && isset($item['unique_id']) && \App\Model\RepertoryItem::query()->where("unique_id", $item['unique_id'])->exists()) {
             
             throw new ServiceException("[{$item['name']}]->重复检测：已经存在此货源：{$item['unique_id']}");
@@ -130,8 +128,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $createItem->setPluginData($item['options'] ?: []);
 
         $repertoryItem = $this->create($createItem);
-
-        
 
         $this->syncRemoteItem(\App\Model\RepertoryItem::find($repertoryItem->id));
     }
@@ -240,7 +236,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         return $repertoryItemSku;
     }
 
-    
     public function getMarkup(\App\Model\RepertoryItem|int $item): Markup
     {
 
@@ -321,7 +316,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         return $markupEntity;
     }
 
-    
     public function syncRemoteItem(\App\Model\RepertoryItem $repertoryItem): void
     {
 
@@ -381,7 +375,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             $repertoryItem->picture_thumb_url = $pictureThumbUrl;
         }
 
-        
         if ($markup->syncIntroduce && $item->versions['introduce'] != $repertoryItem->version['introduce']) {
             $introduce = (string)$item->introduce;
 
@@ -455,7 +448,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                         $repertoryItemSku->picture_thumb_url = $skuPictureThumbUrl;
                     }
 
-                    
                     $repertoryItemSku->cost = $this->getPercentageAmount($sku->cost ?? $sku->price, $markup->exchangeRate, (int)$markup->keepDecimals, "0");
 
                     if ($markup->syncAmount) {
@@ -528,7 +520,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $this->repertoryItemSku->syncCacheForItem($repertoryItem->id);
     }
 
-    
     public function forceSyncRemoteItemPrice(\App\Model\RepertoryItem|int $repertoryItem): void
     {
         if (is_int($repertoryItem)) {

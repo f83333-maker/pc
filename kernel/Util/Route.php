@@ -46,7 +46,6 @@ class Route
         });
     }
 
-    
     private static function loadData(): void
     {
         self::$route = File::read(BASE_PATH . "/runtime/route", function (string $contents) {
@@ -54,7 +53,6 @@ class Route
         });
     }
 
-    
     private static function mergeRoutes(array $routes, array ...$arr): array
     {
         foreach ($arr as $any) {

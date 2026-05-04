@@ -48,7 +48,6 @@ class Cart implements \App\Service\User\Cart
         return $cart;
     }
 
-    
     public function getClientId(?User $customer, string $clientId): string
     {
         if (!$customer) {
@@ -138,7 +137,6 @@ class Cart implements \App\Service\User\Cart
         return true;
     }
 
-    
     public function inspectQuantityRestriction(int $quantity, int $skuId, RepertoryItemSku $repertoryItemSku, ?int $merchantId, string $clientId, ?User $customer = null): void
     {
         
@@ -186,7 +184,6 @@ class Cart implements \App\Service\User\Cart
             return;
         }
 
-        
         $repertoryItemSku = $cartItem?->sku?->repertoryItemSku;
 
         if (!$repertoryItemSku) {
@@ -239,7 +236,6 @@ class Cart implements \App\Service\User\Cart
         \App\Model\Order::query()->where("client_id", $clientId)->whereNull("customer_id")->update(['customer_id' => $customer->id]);
     }
 
-    
     public function getItem(?User $customer, string $clientId, int $itemId): \App\Entity\Shop\CartItem
     {
         $cart = $this->getCart($customer, $clientId);

@@ -12,7 +12,6 @@ class URISchemeFilter extends \HTMLPurifier_URIFilter
 
     public $name = 'URISchemeFilter';
 
-    
     public array $whitelist = [
     ];
 

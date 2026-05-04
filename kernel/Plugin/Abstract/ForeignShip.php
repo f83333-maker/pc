@@ -13,7 +13,6 @@ abstract class ForeignShip implements \Kernel\Plugin\Handle\ForeignShip
     
     protected array $config;
 
-    
     public function __construct(Plugin $plugin, array $config)
     {
         Di::inst()->inject($this);

@@ -60,7 +60,6 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
             throw new JSONException("SKU 不存在");
         }
 
-        
         $repertoryItem = $repertoryItemSku->repertoryItem;
         if (!$repertoryItem) {
             throw new JSONException("商品不存在");
@@ -70,7 +69,6 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
             throw new JSONException("商品未上架");
         }
 
-        
         $widget = [];
 
         $widgetList = (array)json_decode((string)$repertoryItem->widget, true) ?: [];
@@ -93,7 +91,6 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
 
         $widgetJson = json_encode($widget, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        
         $amount = $this->getAmount($customer, $repertoryItemSku, $trade->quantity);
         $totalAmount = (new Decimal($amount, 6))->mul((string)$trade->quantity)->getAmount(2);
 
@@ -242,7 +239,6 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
         }
     }
 
-    
     public function getAmount(?User $customer, RepertoryItemSku $repertoryItemSku, int $quantity = 1): string
     {
 

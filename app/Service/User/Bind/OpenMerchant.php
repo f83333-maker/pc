@@ -21,7 +21,6 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
     #[Inject]
     private \App\Service\User\Balance $balance;
 
-    
     public function trade(User $user, int $groupId, string $clientId, string $userAgent, string $clientIp): Trade
     {
         if ($user->group_id == $groupId) {
@@ -61,7 +60,6 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
 
     }
 
-    
     public function become(int $userId, int $groupId, bool $isDividend = false, ?string $tradeNo = null): bool
     {
         
@@ -95,7 +93,6 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
         return $user->save();
     }
 
-    
     public function firstInitialization(int $userId, UserGroup $group): void
     {
         

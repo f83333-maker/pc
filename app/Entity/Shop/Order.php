@@ -46,7 +46,6 @@ class Order
         $this->payOrder = $payOrder;
     }
 
-    
     public function setItems(array $items): void
     {
         $this->items = $items;

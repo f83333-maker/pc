@@ -16,7 +16,6 @@ interface Order
 
     const ORDER_TYPE_PLUGIN = 49;
 
-    
     const AUTO_RECEIPT_ROLE_MAIN = 0;
     
     const AUTO_RECEIPT_ROLE_MERCHANT = 1;

@@ -20,7 +20,6 @@ class Task extends Base
     #[Inject]
     private Order $order;
 
-    
     public function autoReceipt(): Response
     {
         Call::create(function () {

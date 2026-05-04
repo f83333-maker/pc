@@ -108,7 +108,6 @@ class Client
         exit;
     }
 
-    
     public static function isMobile(): bool
     {
         if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {

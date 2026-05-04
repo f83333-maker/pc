@@ -17,7 +17,6 @@ class Route
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/route";
 
-    
     public function add(array $router, string $name, string $prefix = "plugin", string $usr = "*"): void
     {
         foreach ($router as $item) {
@@ -44,7 +43,6 @@ class Route
         }
     }
 
-    
     private function remove(string $route, string $method, string $usr = "*"): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($usr, $route, $method) {

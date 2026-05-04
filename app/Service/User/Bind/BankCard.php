@@ -43,7 +43,6 @@ class BankCard implements \App\Service\User\BankCard
         $userBankCard->save();
     }
 
-    
     public function abnormality(int $cardId, int $status = 0): void
     {
         UserBankCard::query()->where("id", $cardId)->update(['status' => $status]);
@@ -54,7 +53,6 @@ class BankCard implements \App\Service\User\BankCard
         UserBankCard::query()->where("id", $cardId)->delete();
     }
 
-    
     public function list(int $userId): array
     {
         $cards = UserBankCard::with("bank")->where("user_id", $userId)->get();

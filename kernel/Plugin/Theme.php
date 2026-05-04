@@ -9,7 +9,6 @@ class Theme
 {
     use Singleton;
 
-    
     public function getTheme(string $name, string $env = "/app/Plugin"): ?\Kernel\Plugin\Entity\Theme
     {
         $plugin = Plugin::inst()->getPlugin($name, $env);

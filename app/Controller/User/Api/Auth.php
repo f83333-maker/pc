@@ -36,7 +36,6 @@ class Auth extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [\App\Validator\User\Auth::class, ["registerUsername", "email", "registerPassword"]]
     ])]
@@ -63,14 +62,12 @@ class Auth extends Base
             inviter: $this->getInviter()
         );
 
-        
         $config = $this->config->getMainConfig("site");
         $login = $this->auth->setLoginSuccess($user);
         $this->response->withCookie(Cookie::USER_TOKEN, $login, (int)$config['session_expire']);
         return $this->json(data: ["token" => $login]);
     }
 
-    
     #[Validator([
         [\App\Validator\User\Auth::class, ["loginUsername", "loginPassword"]]
     ])]

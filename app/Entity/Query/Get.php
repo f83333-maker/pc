@@ -8,7 +8,6 @@ class Get
     
     public string $model;
 
-    
     public ?array $paginate = null;
 
     public array $where = [];
@@ -17,7 +16,6 @@ class Get
 
     public array $columns = ['*'];
 
-    
     public array $leftJoinWhere = [];
 
     public function __construct(string $class)
@@ -49,7 +47,6 @@ class Get
         $this->orderBy = [$column, $rule];
     }
 
-    
     public function setColumn(string ...$columns): void
     {
         $this->columns = $columns;

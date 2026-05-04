@@ -172,7 +172,6 @@ class Card extends User
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     public function lock(): array
     {
         $list = (array)$_POST['list'];
@@ -194,7 +193,6 @@ class Card extends User
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    
     public function sell(): array
     {
         $list = (array)$_POST['list'];

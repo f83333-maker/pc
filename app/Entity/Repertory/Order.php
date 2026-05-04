@@ -11,18 +11,14 @@ class Order
     
     public User $customer;
 
-    
     public string $tradeNo;
 
-    
     public int $repertoryItemId;
 
     public int $repertoryItemSkuId;
 
-    
     public int $quantity;
 
-    
     public string $tradeIp;
 
     public function __construct(User $customer, int $repertoryItemId, int $repertoryItemSkuId, int $quantity, string $tradeIp, ?string $tradeNo = null)

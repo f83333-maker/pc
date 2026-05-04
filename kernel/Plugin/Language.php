@@ -60,7 +60,6 @@ class Language
         }
     }
 
-    
     public function del(string $name, string $env = "/app/Plugin"): void
     {
         $dir = self::CACHE_FILE . md5($env);
@@ -87,7 +86,6 @@ class Language
         return md5_file($path);
     }
 
-    
     public function packs(string $language, string $env = "/app/Plugin"): array
     {
         $language = strtolower($language);

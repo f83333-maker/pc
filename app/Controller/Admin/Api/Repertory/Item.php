@@ -219,7 +219,6 @@ class Item extends Base
                 ]);
             }
 
-            
             if ($directSale == 1 && !isset($map['id'])) {
                 $this->item->loadRepertoryItem((int)$directCategoryId, (int)$saved->id, [
                     "sync_amount" => 2,
@@ -240,7 +239,6 @@ class Item extends Base
         return $this->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));
@@ -248,7 +246,6 @@ class Item extends Base
         return $this->json(message: "删除成功");
     }
 
-    
     #[Validator([
         [Common::class, ["status", "id"]]
     ])]
@@ -262,7 +259,6 @@ class Item extends Base
         return $this->json();
     }
 
-    
     public function transferShop(): Response
     {
         $data = (array)$this->request->post("data");

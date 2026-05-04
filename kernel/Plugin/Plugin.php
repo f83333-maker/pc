@@ -24,17 +24,14 @@ class Plugin
 
     private array $runtime = [];
 
-    
     private array $startups = [];
 
     private array $languages = [];
 
-    
     private array $config = [];
 
     private array $systemConfig = [];
 
-    
     public function getHwId(): string
     {
         return @cd4d898edaf466b53198e8640e426c2f();
@@ -71,7 +68,6 @@ class Plugin
         );
     }
 
-    
     public function getPluginVersionKeys(string $env = "/app/Plugin"): array
     {
         $baseDir = BASE_PATH . $env;
@@ -107,7 +103,6 @@ class Plugin
         return file_exists(BASE_PATH . $env . "/{$name}/Config/Info.php");
     }
 
-    
     public function setStoreUser(int $id, string $key, string $env): void
     {
         File::write(BASE_PATH . "/config/store/" . md5($env), $this->encrypt(["id" => $id, "key" => $key]));
@@ -124,7 +119,6 @@ class Plugin
         return null;
     }
 
-    
     public function start(string $name, string $env): void
     {
         @f7b791fb1d06384599337402f8f9ae68($name, $env);
@@ -140,13 +134,11 @@ class Plugin
         @e3b4615fba4874ab133dfe6acb700890($name, $state, $env);
     }
 
-    
     public function getState(string $name, string $env): array
     {
         return @cfb6ad5dda2af960948a27546a092608($name, $env);
     }
 
-    
     public function hook(string $env, int $point, int $type = PGN::HOOK_TYPE_PAGE, ...$arg): array|string|bool|Response
     {
         return $this->unsafeHook($env, $point, $type, ...$arg);
@@ -185,7 +177,6 @@ class Plugin
         return $results;
     }
 
-    
     public function unsafeMultiHook(array $users, int $point, int $type = PGN::HOOK_TYPE_PAGE, &...$arg): array|string|bool|Response
     {
         $results = "";
@@ -215,7 +206,6 @@ class Plugin
         return $this->unsafeMultiHook($users, $point, $type, ...$arg);
     }
 
-    
     public function instantHook(string $name, string $env, int $point, &...$arg): void
     {
         Hook::inst()->scan($name, $env, function (int $p, HookInfo $runtime) use (&$arg, $point) {
@@ -227,7 +217,6 @@ class Plugin
         });
     }
 
-    
     public function setRuntime(): void
     {
         $runtime = BASE_PATH . "/runtime/plugin/hook";
@@ -288,7 +277,6 @@ class Plugin
         return @bd580eb07f5781f020e46ed277c0fe52($type, $env);
     }
 
-    
     public
     function getPayViewPath(string $name, string $env): ?string
     {
@@ -306,7 +294,6 @@ class Plugin
         return $path;
     }
 
-    
     public function getLogs(string $hash, string $name, string $env): ?UpdateLog
     {
         $plugin = Plugin::instance()->getPlugin($name, $env);
@@ -409,7 +396,6 @@ class Plugin
         });
     }
 
-    
     public
     function getSystemConfig(string $name, string $env): array
     {
@@ -425,7 +411,6 @@ class Plugin
         });
     }
 
-    
     public
     function encrypt(array $data): string
     {
@@ -433,7 +418,6 @@ class Plugin
         return @Aes::encrypt(serialize($data), $pass, $pass, false);
     }
 
-    
     public
     function decrypt(string $data): array
     {

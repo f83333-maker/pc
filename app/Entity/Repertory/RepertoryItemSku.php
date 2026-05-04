@@ -25,7 +25,6 @@ class RepertoryItemSku
 
     public bool $haveWholesale = false;
 
-    
     public function __construct(\App\Model\RepertoryItemSku $repertoryItemSku)
     {
         $this->id = $repertoryItemSku->id;
@@ -38,13 +37,11 @@ class RepertoryItemSku
         $this->marketControlMinPrice = (string)$repertoryItemSku->market_control_min_price;
     }
 
-    
     public function setRepertoryItem(RepertoryItem $repertoryItem): void
     {
         $this->repertoryItem = $repertoryItem;
     }
 
-    
     public function setWholesale(array $wholesale): void
     {
         if (!empty($wholesale)) {

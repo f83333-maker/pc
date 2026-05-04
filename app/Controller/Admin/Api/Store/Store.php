@@ -57,7 +57,6 @@ class Store extends Base
         return $this->json(data: $list);
     }
 
-    
     #[Validator([
         [Install::class, "key"]
     ])]
@@ -78,7 +77,6 @@ class Store extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [Purchase::class, ["type", "itemId", "subscription", "payId"]]
     ])]
@@ -145,7 +143,6 @@ class Store extends Base
         return $this->json(data: ["status" => $this->store->powerRenewal($type, $itemId, $subscription, $this->getStoreAuth())]);
     }
 
-    
     #[Validator([
         [Purchase::class, ["type", "itemId"]]
     ])]
@@ -165,7 +162,6 @@ class Store extends Base
         return $this->json(data: ["status" => $this->store->openSubFree($itemId, $this->getStoreAuth())]);
     }
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -206,7 +202,6 @@ class Store extends Base
         return $this->json(data: $data);
     }
 
-    
     public function setSubPower(): Response
     {
         $userId = $this->request->post("user_id", Filter::INTEGER);

@@ -8,6 +8,5 @@ interface Required
 
     public const EXTREME = 0;
 
-    
     public const LOOSE = 2;
 }

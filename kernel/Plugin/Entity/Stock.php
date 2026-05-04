@@ -13,13 +13,11 @@ class Stock
         $this->stock = (string)$stock;
     }
 
-    
     public function setStock(string|int $stock): void
     {
         $this->stock = (string)$stock;
     }
 
-    
     public function getStock(): string
     {
         return $this->stock;

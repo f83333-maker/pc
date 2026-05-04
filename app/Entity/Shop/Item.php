@@ -27,7 +27,6 @@ class Item
 
     public ?int $supplierId = null;
 
-    
     public function __construct(\App\Model\Item $item)
     {
         $this->id = $item->id;
@@ -41,7 +40,6 @@ class Item
         $this->supplierId = $supplierId;
     }
 
-    
     public function setStock(int|string $stock): void
     {
         $this->stock = $stock;

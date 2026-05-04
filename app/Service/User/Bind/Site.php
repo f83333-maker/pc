@@ -42,7 +42,6 @@ class Site implements \App\Service\User\Site
     #[Inject]
     private \App\Service\Common\Config $config;
 
-    
     public function getNginxInfo(string $host): NginxInfo
     {
         return new NginxInfo(
@@ -208,7 +207,6 @@ class Site implements \App\Service\User\Site
         }
     }
 
-    
     public function del(string $domain): void
     {
         
@@ -320,7 +318,6 @@ class Site implements \App\Service\User\Site
         }
     }
 
-    
     public function getDnsRecord(string $host): array
     {
         $cache = str_replace("*", "_", BASE_PATH . "/runtime/dns/{$host}");

@@ -28,7 +28,6 @@ class Signature implements \App\Pay\Signature
         return strtoupper(md5($signStr));
     }
 
-    
     public static function rsa(array $params, string $privateKey): string
     {
         unset($params['sign'], $params['sign_type']);
@@ -51,7 +50,6 @@ class Signature implements \App\Pay\Signature
         return base64_encode($signature);
     }
 
-    
     public static function rsaVerify(array $params, string $publicKey): bool
     {
         $sign = $params['sign'];
@@ -73,7 +71,6 @@ class Signature implements \App\Pay\Signature
         return openssl_verify($signStr, base64_decode($sign), $publicKey, OPENSSL_ALGO_SHA256) === 1;
     }
 
-    
     public function verification(array $data, array $config): bool
     {
         if ($config['version'] == 1) {

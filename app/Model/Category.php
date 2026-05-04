@@ -14,7 +14,6 @@ class Category extends Model
 
     protected $casts = ['id' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'owner' => 'integer'];
 
-    
     public function owner(): ?\Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(User::class, "id", "owner");
@@ -25,7 +24,6 @@ class Category extends Model
         return $this->hasMany(Commodity::class, "category_id", "id");
     }
 
-    
     public function getLevelConfig(?UserGroup $group): ?array
     {
         if (!$group) {

@@ -17,7 +17,6 @@ class System
         }
     }
 
-    
     public static function checkPortAvailable(int $port, string $host = "127.0.0.1"): bool
     {
         $connection = @fsockopen($host, $port);

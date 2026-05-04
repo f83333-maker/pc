@@ -223,7 +223,6 @@ class Authentication extends User
         return $this->phoneCaptcha("phoneForgetCaptcha", Sms::CAPTCHA_FORGET);
     }
 
-    
     public function login(): array
     {
         hook(Hook::USER_API_AUTH_LOGIN_BEGIN);

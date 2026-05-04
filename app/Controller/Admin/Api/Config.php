@@ -103,7 +103,6 @@ class Config extends Manage
         return $this->json(200, '保存成功');
     }
 
-    
     public function setSubstationDisplayList(): array
     {
         $userId = (int)$_POST['id'];

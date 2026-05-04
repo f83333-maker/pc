@@ -44,7 +44,6 @@ class Order extends User
         return $this->json(200, '下单成功', $trade);
     }
 
-    
     public function callback(Request $request): string
     {
         $handle = $_GET['_PARAMETER'][0];

@@ -12,10 +12,8 @@ class File
 
     public string $path = "";
 
-    
     private bool $lock = false;
 
-    
     public int $size = 0;
 
     public function __construct(string $path, string $mode = "r")
@@ -41,7 +39,6 @@ class File
         $this->path = $path;
     }
 
-    
     public function shareLock(): self
     {
         if (!flock($this->resource, LOCK_SH)) {
@@ -97,7 +94,6 @@ class File
         return (string)fread($this->resource, $this->size());
     }
 
-    
     public function write(string $contents): void
     {
         if (fwrite($this->resource, $contents) === false) {
@@ -105,13 +101,11 @@ class File
         }
     }
 
-    
     public function rewind(): void
     {
         rewind($this->resource);
     }
 
-    
     public function autoTruncate(): void
     {
         ftruncate($this->resource, ftell($this->resource));

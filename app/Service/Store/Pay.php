@@ -12,6 +12,5 @@ interface Pay
     
     public function getList(Authentication $authentication, int $equipment = 1): array;
 
-    
     public function getPayOrder(Authentication $authentication, string $tradeNo): array;
 }

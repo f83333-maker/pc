@@ -51,7 +51,6 @@ class Manager
         }
     }
 
-    
     public function gc(): void
     {
         $session = Di::instance()->get(Session::class);

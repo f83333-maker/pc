@@ -20,7 +20,6 @@ class Language extends Base
         return $this->response->withHeader("Content-Type", "application/json; charset=utf-8")->raw(json_encode($languagePack, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
-    
     public function record(string $t): Response
     {
         

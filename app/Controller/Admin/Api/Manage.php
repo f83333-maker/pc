@@ -37,7 +37,6 @@ class Manage extends \App\Controller\Base\API\Manage
         return $this->json(data: $data);
     }
 
-    
     #[Interceptor(Super::class, Interceptor::TYPE_API)]
     public function save(): array
     {
@@ -82,7 +81,6 @@ class Manage extends \App\Controller\Base\API\Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     #[Interceptor(Super::class, Interceptor::TYPE_API)]
     public function del(): array
     {

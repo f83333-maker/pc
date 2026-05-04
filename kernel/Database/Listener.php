@@ -11,10 +11,8 @@ class Listener
 
     use Singleton;
 
-    
     private ?Dispatcher $queryEvent = null;
 
-    
     public function query(): Dispatcher
     {
         if ($this->queryEvent) {

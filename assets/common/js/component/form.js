@@ -1223,7 +1223,6 @@ class Form {
             
             data: form.dict,
 
-            
             placeholder: form.placeholder,
             
             search: true,

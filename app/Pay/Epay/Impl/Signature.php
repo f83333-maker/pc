@@ -31,7 +31,6 @@ class Signature implements \App\Pay\Signature
         return md5($sign . $key);
     }
 
-    
     public static function getStr(array $param): string
     {
         ksort($param);
@@ -44,7 +43,6 @@ class Signature implements \App\Pay\Signature
         return substr($signstr, 1);
     }
 
-    
     public static function rsa(array $param, string $key): string
     {
         $data = self::getStr($param);
@@ -59,7 +57,6 @@ class Signature implements \App\Pay\Signature
         return base64_encode($sign);
     }
 
-    
     public static function rsaVerify(array $params, string $publicKey): bool
     {
         $key = "-----BEGIN PUBLIC KEY-----\n" .
@@ -74,7 +71,6 @@ class Signature implements \App\Pay\Signature
         return $result === 1;
     }
 
-    
     public function verification(array $data, array $config): bool
     {
         if ($config['version'] == 1) {

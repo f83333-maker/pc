@@ -176,7 +176,6 @@ class Recharge implements \App\Service\Recharge
         return $callback['success'];
     }
 
-    
     public function orderSuccess(UserRecharge $recharge): void
     {
         $recharge->status = 1;
@@ -199,7 +198,6 @@ class Recharge implements \App\Service\Recharge
         $recharge->save();
     }
 
-    
     public function calcAmount(float $amount): float
     {
         $price = 0;

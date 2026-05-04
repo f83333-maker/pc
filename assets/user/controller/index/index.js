@@ -127,7 +127,6 @@ function _RenderSubCategories(parentId, activeId = null) {
                 currentOpenSubCategoryParentId = parentCategoryData.id;
 
                 
-                
                 const $allTopChips = $topCategoryList.children('.switch-category.chip');
                 const clickedTop = clickedPrimaryChip.position().top;
                 let $lastChipInRow = clickedPrimaryChip;
@@ -220,7 +219,6 @@ function _RenderSubCategories(parentId, activeId = null) {
         _SwitchCategory(clickedId, true); 
     });
 
-    
     $('.item-search-input').on('keypress', function (e) {
         if (e.which === 13) {
             _Search($(this).val());

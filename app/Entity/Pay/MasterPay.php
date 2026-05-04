@@ -25,7 +25,6 @@ class MasterPay
         $this->scope = $scope;
     }
 
-    
     public function setFee(string|float|int $fee): void
     {
         $this->fee = (string)$fee;

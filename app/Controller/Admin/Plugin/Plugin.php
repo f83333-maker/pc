@@ -19,7 +19,6 @@ class Plugin extends Base
         return $this->render("Plugin/Plugin.html", "插件管理");
     }
 
-    
     public function wiki(string $name): Response
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, App::$mEnv);

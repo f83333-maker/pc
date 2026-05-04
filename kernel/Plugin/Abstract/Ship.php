@@ -37,19 +37,16 @@ abstract class Ship implements \Kernel\Plugin\Handle\Ship
         }
     }
 
-    
     public function inspection(array $map): bool
     {
         return true;
     }
 
-    
     public function isCustomRender(): bool
     {
         return $this->isCustomRender;
     }
 
-    
     public function render(): string
     {
         return "write your custom HTML code here";

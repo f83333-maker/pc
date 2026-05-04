@@ -89,7 +89,6 @@ class Email implements \App\Service\Email
         Session::set($key, ["time" => time(), "code" => $capthca]);
     }
 
-    
     public function checkCaptcha(string $email, int $type, int $code): bool
     {
         $key = match ($type) {

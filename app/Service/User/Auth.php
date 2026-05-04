@@ -16,9 +16,7 @@ interface Auth
 
     public function login(array $map, string $ip, string $ua, string $clientId): string;
 
-    
     public function setLoginSuccess(User $user): string;
 
-    
     public function reset(array $map): void;
 }

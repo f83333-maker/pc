@@ -198,7 +198,6 @@ class Security extends User
         return $this->json(200, "验证码发送成功");
     }
 
-    
     public function resetKey(): array
     {
         $user = \App\Model\User::query()->find($this->getUser()->id);

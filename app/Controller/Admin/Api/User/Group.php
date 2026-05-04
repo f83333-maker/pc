@@ -26,7 +26,6 @@ class Group extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(): Response
     {
         $map = $this->request->post();
@@ -58,7 +57,6 @@ class Group extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     #[Validator([
         [\App\Validator\Common::class, "id"]
     ])]

@@ -19,7 +19,6 @@ class Sync
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/sync";
 
-    
     public function add(int $state, string $name, string $env): void
     {
         if (!App::$cli) {

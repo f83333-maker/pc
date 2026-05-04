@@ -27,7 +27,6 @@ class Helper extends AbstractExtension
     #[Inject]
     private Config $config;
 
-    
     public function getFunctions(): array
     {
         return [
@@ -49,7 +48,6 @@ class Helper extends AbstractExtension
         ];
     }
 
-    
     public function getMainConfig(string $key): mixed
     {
         return $this->config->getMainConfig($key);
@@ -66,7 +64,6 @@ class Helper extends AbstractExtension
         return Di::instance()->make(Config::class)->getCurrency()->symbol;
     }
 
-    
     public function hook(string $env, int $point, int $type = PGN::HOOK_TYPE_PAGE, ...$arg): array|string|bool|Response
     {
         return Plugin::instance()->hook($env, $point, $type, ...$arg);
@@ -136,13 +133,11 @@ class Helper extends AbstractExtension
         return $res;
     }
 
-    
     public function loadIcon(string $icon, string ...$class): string
     {
         return '<svg class="mcy-icon ' . (implode(" ", $class)) . '" aria-hidden="true"><use xlink:href="#' . $icon . '"></use></svg>';
     }
 
-    
     public function ready(string $resource, array $variable = []): string
     {
         $var = '';

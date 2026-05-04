@@ -43,7 +43,6 @@ class Order implements \App\Service\Order
     #[Inject]
     private Email $email;
 
-    
     public function calcAmount(int $owner, int $num, Commodity $commodity, ?UserGroup $group, ?string $race = null, bool $disableSubstation = false): float
     {
         $premium = 0;
@@ -102,7 +101,6 @@ class Order implements \App\Service\Order
         return (int)(string)(($num * $price) * 100) / 100;
     }
 
-    
     public function valuation(Commodity|int $commodity, int $num = 1, ?string $race = null, ?array $sku = [], ?int $cardId = null, ?string $coupon = null, ?UserGroup $group = null): string
     {
         if (is_int($commodity)) {
@@ -123,7 +121,6 @@ class Order implements \App\Service\Order
 
         $this->parseConfig($commodity, $group);
 
-        
         if (!empty($race) && !empty($commodity->config['category'])) {
             $_race = $commodity->config['category'];
 
@@ -179,7 +176,6 @@ class Order implements \App\Service\Order
             }
         }
 
-        
         if (!empty($cardId) && $commodity->draft_status == 1 && $num == 1) {
 
             $shop = Di::inst()->make(\App\Service\Shop::class);
@@ -199,12 +195,10 @@ class Order implements \App\Service\Order
             }
         }
 
-        
         if ($commodity->level_disable == 1) {
             return $price->mul($num)->getAmount();
         }
 
-        
         if ($group && is_array($group->discount_config)) {
             $discountConfig = $group->discount_config;
             asort($discountConfig);
@@ -276,7 +270,6 @@ class Order implements \App\Service\Order
         return $price->mul($num)->getAmount();
     }
 
-    
     public function getCost(Commodity|int $commodity, int $num = 1, ?string $race = null, ?array $sku = [], ?int $cardId = null): string
     {
         if (is_int($commodity)) {
@@ -293,7 +286,6 @@ class Order implements \App\Service\Order
 
         $config = Ini::toArray($commodity->config ?: "") ?: [];
 
-        
         if (!empty($race) && !empty($config['category_cost'])) {
             $_race = $config['category_cost'];
             if (isset($_race[$race])) {
@@ -474,7 +466,6 @@ class Order implements \App\Service\Order
         $regx = ['/^1[3456789]\d{9}$/', '/.*(.{2}@.*)$/i', '/[1-9]{1}[0-9]{4,11}/'];
         $msg = ['手机', '邮箱', 'QQ号'];
 
-        
         $shopService = Di::inst()->make(\App\Service\Shop::class);
 
         if (!$user) {
@@ -629,7 +620,6 @@ class Order implements \App\Service\Order
             if ($from > 0) $order->from = $from;
             if ($divideAmount > 0) $order->divide_amount = $divideAmount;
 
-            
             if (!empty($coupon)) {
                 $voucher = Coupon::query()->where("code", $coupon)->first();
                 if (!$voucher) {
@@ -745,7 +735,6 @@ class Order implements \App\Service\Order
         return $result;
     }
 
-    
     public function callbackInitialize(string $handle, array $map): array
     {
         $payInfo = PayConfig::info($handle);
@@ -782,7 +771,6 @@ class Order implements \App\Service\Order
         return ["trade_no" => $map[$callback[\App\Consts\Pay::FIELD_ORDER_KEY]], "amount" => $map[$callback[\App\Consts\Pay::FIELD_AMOUNT_KEY]], "success" => $callback[\App\Consts\Pay::FIELD_RESPONSE]];
     }
 
-    
     public function getCallbackTradeNo(string $handle, array $map): ?string
     {
         $payInfo = PayConfig::info($handle);
@@ -797,7 +785,6 @@ class Order implements \App\Service\Order
         return $map[$callback[\App\Consts\Pay::FIELD_ORDER_KEY]] ?: null;
     }
 
-    
     public function orderSuccess(\App\Model\Order $order): string
     {
         
@@ -910,7 +897,6 @@ class Order implements \App\Service\Order
         return $secret;
     }
 
-    
     public function callback(string $handle, array $map): string
     {
         $handle = Firewall::inst()->xssKiller($handle);
@@ -1018,7 +1004,6 @@ class Order implements \App\Service\Order
 
         $data['card_count'] = $shopService->getItemStock($commodityId, $race, $sku);
 
-        
         if ($commodity->minimum != 0 && $num < $commodity->minimum) {
             throw new JSONException("本商品单次最少购买{$commodity->minimum}个");
         }
@@ -1081,7 +1066,6 @@ class Order implements \App\Service\Order
                 }
             }
 
-            
             if ($voucher->commodity_id == 0 && $voucher->category_id != 0 && $voucher->category_id != $commodity->category_id) {
                 throw new JSONException("该优惠券不能抵扣当前商品");
             }
@@ -1111,7 +1095,6 @@ class Order implements \App\Service\Order
         return $data;
     }
 
-    
     public function giftOrder(Commodity $commodity, string $race = "", int $num = 1, string $contact = "", string $password = "", ?int $cardId = null, int $userId = 0, string $widget = "[]"): array
     {
         return DB::transaction(function () use ($race, $widget, $contact, $password, $num, $cardId, $commodity, $userId) {

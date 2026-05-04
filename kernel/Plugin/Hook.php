@@ -18,7 +18,6 @@ class Hook
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/hook";
 
-    
     public function load(): void
     {
         $path = BASE_PATH . "/runtime/plugin/";
@@ -57,13 +56,11 @@ class Hook
         _plugin_hook_del($name);
     }
 
-    
     public function add(string $name): void
     {
         _plugin_hook_add($name);
     }
 
-    
     public function exist(string $name, int $point, string $namespace, string $method): bool
     {
         return _plugin_hook_exist($name, $point, $namespace, $method);

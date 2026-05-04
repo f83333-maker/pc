@@ -89,6 +89,10 @@ function clean_php(string $code): string
                 }
                 continue;
             }
+            if ($id === T_INLINE_HTML) {
+                $out .= clean_html($text);
+                continue;
+            }
             $out .= $text;
         } else {
             $out .= $tok;

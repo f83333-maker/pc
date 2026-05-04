@@ -8,7 +8,6 @@ class PayEntity
     
     private int $type;
 
-    
     private string $url;
 
     private array $option = [];

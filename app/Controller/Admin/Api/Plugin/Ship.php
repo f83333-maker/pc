@@ -25,7 +25,6 @@ class Ship extends Base
     #[Inject]
     private RepertoryItem $repertoryItem;
 
-    
     public function items(int $configId): Response
     {
         
@@ -63,7 +62,6 @@ class Ship extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    
     public function import(int $configId): Response
     {
         $categoryId = (int)$this->request->post("category_id", Filter::INTEGER);
@@ -86,7 +84,6 @@ class Ship extends Base
         return $this->json();
     }
 
-    
     public function getSyncRemoteItems(): Response
     {
         $syncRemoteItems = $this->repertoryItem->getSyncRemoteItems(true, null);

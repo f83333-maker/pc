@@ -37,7 +37,6 @@ class PayGroup extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-    
     public function save(string $payId, string $type): Response
     {
         $map = $this->request->post();

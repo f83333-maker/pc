@@ -24,7 +24,6 @@ interface Point
     public const APP_SAVE_PAY_CFG_BEFORE = 0x31; 
     public const APP_SAVE_PAY_CFG_AFTER = 0x32; 
 
-    
     public const KERNEL_INIT_BEFORE = 0x11;
     public const CLI_INIT_BEFORE = 0x12;
     public const CLI_INIT_AFTER = 0x13;
@@ -46,12 +45,10 @@ interface Point
     public const ADMIN_INTERCEPTOR_SESSION_OFFLINE = 0x104;
     public const ADMIN_INTERCEPTOR_NOT_PERMISSION = 0x105;
 
-    
     public const ADMIN_AUTH_HEADER = 0x2001;
     public const ADMIN_AUTH_FOOTER = 0x2002;
     public const ADMIN_AUTH_LOGIN_BODY = 0x2003;
 
-    
     public const ADMIN_REPERTORY_ITEM_POPUP = 0x2004;
 
     public const ADMIN_PAY_ORDER_TABLE_BUTTON = 0x9030;
@@ -60,7 +57,6 @@ interface Point
     public const ADMIN_ITEM_ORDER_TABLE_BUTTON = 0x9034;
     public const ADMIN_ITEM_ORDER_BODY = 0x9035;
 
-    
     public const HACK_ROUTE_TABLE_COLUMNS = 0x2005;
     public const HACK_SUBMIT_FORM = 0x9038;
     public const HACK_SUBMIT_TAB = 0x9039;
@@ -105,7 +101,6 @@ interface Point
     public const LANGUAGE_PROCESS_MATCH_SUCCESS = 0x7001;
     public const LANGUAGE_PROCESS_MATCH_FAILED = 0x7002;
 
-    
     public const INDEX_ITEM_TRADE_BUTTON_AFTER = 0x8000;
     public const INDEX_ITEM_TRADE_FORM = 0x9012;
     public const INDEX_ITEM_BODY = 0x8001;
@@ -154,7 +149,6 @@ interface Point
     public const USER_ITEM_ORDER_TABLE_BUTTON = 0x9036;
     public const USER_ITEM_ORDER_BODY = 0x9037;
 
-    
     public const SERVICE_SITE_ADD_BEFORE = 0x9040;
     public const SERVICE_SITE_ADD_AFTER = 0x9041;
     public const SERVICE_SITE_MODIFY_CERTIFICATE_BEFORE = 0x9042;
@@ -167,7 +161,6 @@ interface Point
 
     public const MODEL_REPERTORY_ORDER_SAVE = 0x9048;
 
-    
     public const USER_COMMON_HEADER = 0x9049;
     public const USER_COMMON_FOOTER = 0x9050;
 }

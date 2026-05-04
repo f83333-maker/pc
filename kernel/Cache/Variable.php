@@ -9,10 +9,8 @@ class Variable
 {
     use Singleton;
 
-    
     private array $caches = [];
 
-    
     public function set(string $key, mixed $value, int $expire = 60): void
     {
         $this->caches[$key] = [
@@ -34,7 +32,6 @@ class Variable
         return $cache['value'];
     }
 
-    
     public function getOrNotCallback(string $key, callable $callable, int $expire = 60): mixed
     {
         $value = $this->get($key);

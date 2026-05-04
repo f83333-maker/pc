@@ -26,7 +26,6 @@ class Personal extends Base
         return $this->theme(Theme::USER_PERSONAL, "User/Personal.html", "我的资料", ["lifetime" => $lifetime]);
     }
 
-    
     public function logout(): Response
     {
         $this->lifetime->update($this->getUser()->id, "login_status", 0);

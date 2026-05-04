@@ -76,7 +76,6 @@ class Order extends Base
         return $this->json(data: array_merge($data, $row));
     }
 
-    
     #[Validator([[Common::class, "id"]], Method::GET)]
     public function items(int $id): Response
     {

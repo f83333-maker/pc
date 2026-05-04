@@ -134,7 +134,6 @@ class Master extends User
         return $this->json(data: $data);
     }
 
-    
     public function setCommodity(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -179,7 +178,6 @@ class Master extends User
         return $this->json(200, "已生效");
     }
 
-    
     public function setCommodityAllStatus(): array
     {
         $status = (int)$_POST['status'] == 0 ? 0 : 1;

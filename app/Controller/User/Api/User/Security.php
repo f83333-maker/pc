@@ -62,7 +62,6 @@ class Security extends Base
         return $this->json();
     }
 
-    
     public function sendCurrentEmailCode(): Response
     {
         $config = $this->config->getMainConfig("register");
@@ -109,7 +108,6 @@ class Security extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [\App\Validator\User\Security::class, ["currentPassword", "newPassword", "reNewPassword"]]
     ])]
@@ -121,7 +119,6 @@ class Security extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [\App\Validator\User\Security::class, ["type", "name", "idCard"]]
     ])]
@@ -144,7 +141,6 @@ class Security extends Base
         return $this->json();
     }
 
-    
     public function resubmitIdentity(): Response
     {
         
@@ -161,7 +157,6 @@ class Security extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]

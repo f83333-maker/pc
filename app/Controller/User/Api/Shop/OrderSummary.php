@@ -23,7 +23,6 @@ class OrderSummary extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(): Response
     {
         $dateType = (int)$this->request->post("equal-date_type");

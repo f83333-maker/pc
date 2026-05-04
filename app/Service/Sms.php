@@ -14,11 +14,9 @@ interface Sms
 
     public function send(array $smsConfig, string $phone, string $templateCode, array $var = []): void;
 
-    
     public function sendCaptcha(string $phone, int $type): void;
 
     public function checkCaptcha(string $phone, int $type, int $code): bool;
 
-    
     public function destroyCaptcha(string $phone, int $type): void;
 }

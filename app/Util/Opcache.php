@@ -8,7 +8,6 @@ class Opcache
 
     public static array $invalidate = [];
 
-    
     public static function reset(): void
     {
         if (\Kernel\Util\Context::get(\Kernel\Consts\Base::OPCACHE)) {

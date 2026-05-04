@@ -27,7 +27,6 @@ class Console
         return false;
     }
 
-    
     public function execute(array $arg): void
     {
 
@@ -68,7 +67,6 @@ class Console
         });
     }
 
-    
     public function add(string $command, array $callable, mixed $extend = null, ?string $name = null, ?string $desc = null): void
     {
         try {
@@ -92,7 +90,6 @@ class Console
         });
     }
 
-    
     public function get(?string $command = null): Command|array|null
     {
         $runtime = BASE_PATH . "/runtime/command";
@@ -121,7 +118,6 @@ class Console
         return unserialize(File::read($runtime)) ?: [];
     }
 
-    
     private function startMysql(): void
     {
         Coroutine\run(function () {
@@ -129,7 +125,6 @@ class Console
         });
     }
 
-    
     public function getMethodParameters(string $class, string $method, array $arg): array
     {
         $methodRef = new \ReflectionMethod($class, $method);
@@ -144,7 +139,6 @@ class Console
         return $parameters;
     }
 
-    
     public function generateCompletion(): void
     {
         if (!App::$cli) {
@@ -167,7 +161,6 @@ class Console
         }
     }
 
-    
     private function updateBashCompletion(string $options): void
     {
         $escapedOptions = escapeshellarg($options);

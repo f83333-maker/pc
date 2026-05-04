@@ -27,7 +27,6 @@ class OrderReport implements \App\Service\User\OrderReport
     #[Inject]
     private Balance $balance;
 
-    
     public function apply(Order $order): void
     {
         Db::transaction(function () use ($order) {
@@ -104,14 +103,12 @@ class OrderReport implements \App\Service\User\OrderReport
                 throw new ServiceException("订单不存在#2");
             }
 
-            
             $repertoryOrder = RepertoryOrder::query()->where("item_trade_no", $orderItem->trade_no)->first();
 
             if (!$repertoryOrder) {
                 throw new ServiceException("上游订单不存在，该投诉请联系客户手动处理");
             }
 
-            
             $order = $orderItem->order;
 
             if (!$order) {
@@ -122,7 +119,6 @@ class OrderReport implements \App\Service\User\OrderReport
                 throw new ServiceException("订单无法被处理");
             }
 
-            
             $refundMode = $orderItem->refund_mode;
             $orderReport->status = 2;
 

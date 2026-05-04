@@ -20,15 +20,12 @@ interface RepertoryItem
 
     public function createSku(?int $userId, int $itemId, CreateSku $sku, Markup $markup): \App\Model\RepertoryItemSku;
 
-    
     public function getMarkup(int|\App\Model\RepertoryItem $item): Markup;
 
-    
     public function syncRemoteItem(\App\Model\RepertoryItem $repertoryItem): void;
 
     public function forceSyncRemoteItemPrice(\App\Model\RepertoryItem|int $repertoryItem): void;
 
-    
     public function checkForceSyncRemoteItemPrice(array $originMarkup, array $newMarkup): bool;
 
     public function getSyncRemoteItems(bool $isOnlyId = true, ?int $userId = null, int $second = 120): array|Collection;

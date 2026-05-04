@@ -147,7 +147,6 @@ class Pay implements \App\Service\User\Pay
         return $pays;
     }
 
-    
     public function getMasterPay(int $id, User $user, ?UserGroup $group): ?MasterPay
     {
         

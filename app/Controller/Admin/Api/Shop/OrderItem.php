@@ -26,7 +26,6 @@ class OrderItem extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]

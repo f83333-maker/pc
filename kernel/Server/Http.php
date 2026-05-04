@@ -24,7 +24,6 @@ class Http
 
     use Singleton;
 
-    
     public function call(Request $request): mixed
     {
         

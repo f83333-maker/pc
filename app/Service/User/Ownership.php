@@ -15,15 +15,12 @@ interface Ownership
 
     public function ownMember(int $userId, int $memberId): bool;
 
-    
     public function item(int $userId, int $itemId): bool;
 
-    
     public function wholesale(int $userId, int $wholesaleId): bool;
 
     public function markup(int $userId, int $markupId): bool;
 
-    
     public function orderItem(int $customerId, int $orderItemId): bool;
 
     public function throw(bool ...$state): void;

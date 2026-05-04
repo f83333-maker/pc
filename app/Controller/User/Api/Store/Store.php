@@ -28,7 +28,6 @@ class Store extends Base
     #[Inject]
     private \App\Service\Store\Store $store;
 
-    
     public function list(): Response
     {
         $list = $this->store->list($this->request->post(), $this->getStoreAuth());
@@ -44,7 +43,6 @@ class Store extends Base
         return $this->json(data: $list);
     }
 
-    
     #[Validator([
         [Install::class, "key"]
     ])]
@@ -65,7 +63,6 @@ class Store extends Base
         return $this->json();
     }
 
-    
     public function getPluginVersions(): Response
     {
         $pluginVersionKeys = Plugin::inst()->getPluginVersionKeys($this->getUserPath());
@@ -105,7 +102,6 @@ class Store extends Base
         return $this->json(data: $purchase);
     }
 
-    
     #[Validator([
         [Purchase::class, ["amount", "payId"]]
     ])]
@@ -155,7 +151,6 @@ class Store extends Base
         return $this->json(data: ["status" => $this->store->powerRenewal($type, $itemId, $subscription, $this->getStoreAuth())]);
     }
 
-    
     #[Validator([
         [Purchase::class, ["type", "itemId"]]
     ])]

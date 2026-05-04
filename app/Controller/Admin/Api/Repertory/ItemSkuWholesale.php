@@ -25,14 +25,12 @@ class ItemSkuWholesale extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(int $id): Response
     {
         $data = Model::query()->orderBy("quantity", "asc")->where("sku_id", $id)->get()->toArray();
         return $this->json(data: ['list' => $data]);
     }
 
-    
     #[Validator([
         ['key' => 'stock_price', 'rule' => 'notZero', 'message' => ['notZero' => '进货价，必须大于0']],
     ])]

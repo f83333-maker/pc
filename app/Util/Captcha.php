@@ -49,8 +49,6 @@ class Captcha
         imageline($im, 0, $y2, $w, $y4, IMG_COLOR_STYLED);
 
         
-
-        
         $strx = rand(3, 8);
         
         for ($i = 0; $i < $num; $i++) {
@@ -63,7 +61,6 @@ class Captcha
         imagedestroy($im);
     }
 
-    
     public static function check(int $code, string $sessionName): bool
     {
         if ($code == 0) {

@@ -12,6 +12,5 @@ interface Identity
 
     public function status(Authentication $authentication, string $tradeNo = ""): array;
 
-    
     public function certification(string $certName, string $certNo, Authentication $authentication): string;
 }

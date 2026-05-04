@@ -17,13 +17,11 @@ class User extends Base
         return $this->render("User/User.html", "会员管理");
     }
 
-    
     public function bill(): Response
     {
         return $this->render("User/Bill.html", "账单记录");
     }
 
-    
     public function level(): Response
     {
         return $this->render("User/Level.html", "会员等级");
@@ -34,7 +32,6 @@ class User extends Base
         return $this->render("User/Group.html", "商家权限");
     }
 
-    
     public function identity(): Response
     {
         return $this->render("User/Identity.html", "实名管理");

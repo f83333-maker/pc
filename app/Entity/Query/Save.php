@@ -14,22 +14,18 @@ class Save
 
     public array $forceMap = [];
 
-    
     public array $middle = [];
 
-    
     public bool $isModifiable = true;
 
     public bool $isAddable = true;
 
     public bool $isAddCreateTime = false;
 
-    
     public array $addWhitelist = [];
 
     public array $modifiableWhitelist = [];
 
-    
     public function __construct(string $model)
     {
         $this->model = $model;

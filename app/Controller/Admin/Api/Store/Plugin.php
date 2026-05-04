@@ -23,7 +23,6 @@ class Plugin extends Base
     #[Inject]
     private Http $http;
 
-    
     public function save(): Response
     {
         $data = $this->request->post();

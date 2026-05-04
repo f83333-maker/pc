@@ -195,7 +195,6 @@
                             if (value == 0) {
                                 obj.hide("markup_template_id");
 
-                                
                                 obj.show("markup.sync_name");
                                 obj.show("markup.sync_introduce");
                                 obj.show("markup.sync_picture");
@@ -795,7 +794,6 @@
         });
     }
 
-    
     table = new Table("/user/shop/item/get", "#shop-item-table");
     table.setDeleteSelector(".del-shop-item", "/user/shop/item/del");
     table.setUpdate("/user/shop/item/save");

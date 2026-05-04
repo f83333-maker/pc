@@ -42,7 +42,6 @@ class Coupon extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function save(): array
     {
         $prefix = $_POST['prefix']; 
@@ -120,7 +119,6 @@ class Coupon extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     public function lock(): array
     {
         $list = (array)$_POST['list'];
@@ -139,7 +137,6 @@ class Coupon extends Manage
         return $this->json(200, '解锁成功');
     }
 
-    
     public function del(): array
     {
         $delete = new Delete(\App\Model\Coupon::class, $_POST['list']);
@@ -152,7 +149,6 @@ class Coupon extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    
     public function export(): string
     {
         $map = $this->request->get(flags: Filter::NORMAL);

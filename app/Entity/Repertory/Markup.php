@@ -54,7 +54,6 @@ class Markup
         }
     }
 
-    
     public function setExchangeRate(string $exchangeRate): void
     {
         $this->exchangeRate = $exchangeRate;

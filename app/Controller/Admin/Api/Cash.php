@@ -81,7 +81,6 @@ class Cash extends Manage
 
     }
 
-    
     public function settlement(): array
     {
         $amount = (float)$_POST['amount'];

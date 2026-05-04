@@ -19,7 +19,6 @@ class Usr
     private const USR = "/usr/Plugin/M_%d";
     public const MAIN = "/app/Plugin";
 
-    
     public function getRoute(string $uri): ?Entity\Route
     {
         $rt = explode("/", trim($uri, "/"));
@@ -47,14 +46,12 @@ class Usr
         return count($arr) > 2 && str_contains($arr[2], "M_") ? str_replace("M_", "", $arr[2]) : "*";
     }
 
-    
     public function pathToNamespace(string $path): string
     {
         $namespace = str_replace('/', '\\', trim($path, "/"));
         return ucwords($namespace, '\\');
     }
 
-    
     public function pathToEnv(string $path): ?array
     {
         $path = trim($path, "/");
@@ -67,7 +64,6 @@ class Usr
         return ["name" => $name, "env" => $env];
     }
 
-    
     public function userToEnv(int|string|null $userId = null): string
     {
         if (!$userId || $userId == "*") {
@@ -76,7 +72,6 @@ class Usr
         return sprintf(self::USR, $userId);
     }
 
-    
     public function getType(string $env): string
     {
         $exp = explode("/", trim($env, "/"));
@@ -95,7 +90,6 @@ class Usr
         return App::usr($host);
     }
 
-    
     public function getEnv(): string
     {
         return App::env();

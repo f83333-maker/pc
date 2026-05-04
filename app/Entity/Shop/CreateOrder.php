@@ -18,7 +18,6 @@ class CreateOrder
     public ?User $invite = null;
     public ?array $option = null;
 
-    
     public function __construct(int $type, string $clientId, string $userAgent, string $clientIp)
     {
         $this->clientId = $clientId;
@@ -37,13 +36,11 @@ class CreateOrder
         $this->customer = $customer;
     }
 
-    
     public function setMerchant(?User $merchant): void
     {
         $this->merchant = $merchant;
     }
 
-    
     public function setInvite(?User $invite): void
     {
         $this->invite = $invite;
@@ -60,7 +57,6 @@ class CreateOrder
         ]);
     }
 
-    
     public function setOption(array $option): void
     {
         if (is_array($this->option)) {

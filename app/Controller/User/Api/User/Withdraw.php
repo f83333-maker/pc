@@ -30,7 +30,6 @@ class Withdraw extends Base
     #[Inject]
     private \App\Service\User\Withdraw $withdraw;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -47,7 +46,6 @@ class Withdraw extends Base
         return $this->json(data: $data);
     }
 
-    
     #[Validator([
         [\App\Validator\User\Withdraw::class, ["cardId", "amount"]]
     ])]

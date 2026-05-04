@@ -19,7 +19,6 @@ class Pay extends Base
         return $this->theme(Theme::USER_PAY, "Pay/Pay.html", "支付接口");
     }
 
-    
     public function order(): Response
     {
         return $this->theme(Theme::USER_PAY_ORDER, "Pay/Order.html", "收款记录");

@@ -15,7 +15,6 @@ class OrderItem extends Model
 
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'order_id' => 'integer', 'item_id' => 'integer', 'sku_id' => 'integer', 'quantity' => 'integer', 'status' => 'integer', 'refund_mode' => 'integer', 'widget' => 'json'];
 
-    
     public function sku(): ?HasOne
     {
         return $this->hasOne(ItemSku::class, "id", "sku_id");

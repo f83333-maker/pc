@@ -32,7 +32,6 @@ class OrderReport extends Base
     #[Inject]
     private \App\Service\User\OrderReport $orderReport;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -86,7 +85,6 @@ class OrderReport extends Base
         return $this->json(data: $message->toArray());
     }
 
-    
     #[Validator([
         [\App\Validator\Supply\OrderReport::class, ["reportId", "handleType", "message", "treasure", "refundAmount"]]
     ])]

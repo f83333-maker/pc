@@ -24,13 +24,10 @@ interface Order
 
     public function userDefinedPrice(Commodity $commodity, ?UserGroup $group): ?array;
 
-    
     public function trade(?User $user, ?UserGroup $userGroup, array $map): array;
 
-    
     public function getTradeAmount(?User $user, ?UserGroup $userGroup, int $cardId, int $num, string $coupon, int|Commodity|null $commodityId, ?string $race = null, ?array $sku = [], bool $disableShared = false): array;
 
-    
     public function callback(string $handle, array $map): string;
 
     public function getCallbackTradeNo(string $handle, array $map): ?string;

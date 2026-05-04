@@ -17,7 +17,6 @@ interface Email
 
     public function sendCaptcha(string $email, int $type): void;
 
-    
     public function checkCaptcha(string $email, int $type, int $code): bool;
 
     public function destroyCaptcha(string $email, int $type): void;

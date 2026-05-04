@@ -12,7 +12,6 @@ class OrderReportMessage extends Model
     public bool $timestamps = false;
     protected array $casts = ['id' => 'integer', 'order_report_id' => 'integer', 'role' => 'integer'];
 
-    
     public function orderReport(): HasOne
     {
         return $this->hasOne(OrderReport::class, "id", "order_report_id");

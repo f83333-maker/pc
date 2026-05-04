@@ -11,6 +11,5 @@ interface Bill
 
     public function unfreeze(string $tradeNo): void;
 
-    
     public function rollback(string $tradeNo): void;
 }

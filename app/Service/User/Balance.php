@@ -14,14 +14,11 @@ interface Balance
 
     public function unfreeze(int $id): void;
 
-    
     public function rollback(int $id): void;
 
-    
     public function refund(int $id, bool $deductionWithdraw = false): bool;
 
     public function deduct(int $userId, string|float|int $amount, int $type, ?string $tradeNo = null, ?string $remark = null, bool $deductionWithdraw = false): void;
 
-    
     public function transfer(int $payer, int $payee, string $amount): void;
 }

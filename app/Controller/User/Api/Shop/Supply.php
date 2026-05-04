@@ -117,7 +117,6 @@ class Supply extends Base
         return $this->json(data: ["list" => $arr['data'], "total" => $arr['total']]);
     }
 
-    
     #[Validator([
         [Common::class, "id"]
     ], Method::GET)]

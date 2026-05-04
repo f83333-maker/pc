@@ -26,7 +26,6 @@ class Cache
         $this->resolve = $resolve;
     }
 
-    
     public function set(string $name, mixed $value): void
     {
         $hashFile = $this->cacheDir . md5($name);
@@ -44,7 +43,6 @@ class Cache
         return file_exists($this->cacheDir . md5($name));
     }
 
-    
     public function del(string $name): void
     {
         if ($this->has($name)) {

@@ -46,7 +46,6 @@ class WebSocket
         return $obj;
     }
 
-    
     public function open(string $name, string $env, Server $server, Request $request, int $fd): void
     {
         $handle = $this->handle($server, $name, $env);
@@ -85,7 +84,6 @@ class WebSocket
         call_user_func_array([$handle, "close"], [$fd, $server]);
     }
 
-    
     public function message(Server $server, Frame $frame): void
     {
         $key = sprintf(WebSocketConst::FD_KEY, $frame->fd);
@@ -110,7 +108,6 @@ class WebSocket
         call_user_func_array([$handle, "message"], [$frame, $server]);
     }
 
-    
     public function deathCheck(int $workerId): void
     {
         Timer::tick(60000, function () use ($workerId) {

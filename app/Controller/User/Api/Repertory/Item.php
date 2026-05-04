@@ -50,7 +50,6 @@ class Item extends Base
     #[Inject]
     private \App\Service\User\Item $item;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -213,7 +212,6 @@ class Item extends Base
                 $this->repertoryItem->forceSyncRemoteItemPrice($origin->id);
             }
 
-            
             if ($directSale == 1 && !isset($map['id'])) {
                 if (!Category::where("user_id", $this->getUser()->id)->where("id", $directCategoryId)->exists()) {
                     throw new JSONException("直营店商品分类不存在");

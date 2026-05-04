@@ -12,7 +12,6 @@ class Tab
     public string $submit;
     public string $code;
 
-    
     public function __construct(string $submit, string $code)
     {
         $this->code = $code;

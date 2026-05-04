@@ -44,7 +44,6 @@ class Manage extends Base
         return $this->json(data: $data);
     }
 
-    
     #[Validator([
         [\App\Validator\Admin\Manage::class, ["id", "email", "nickname", "password"]]
     ])]

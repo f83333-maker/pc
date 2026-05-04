@@ -14,14 +14,12 @@ abstract class WebSocket implements \Kernel\Plugin\Handle\WebSocket
 
     protected Server $server;
 
-    
     public function __construct(PluginEntity $plugin, Server $server)
     {
         $this->plugin = $plugin;
         $this->server = $server;
     }
 
-    
     protected function push(int $fd, string $data): void
     {
         \Kernel\Plugin\WebSocket::inst()->push($fd, $data);
@@ -42,13 +40,11 @@ abstract class WebSocket implements \Kernel\Plugin\Handle\WebSocket
         return $this->server->isEstablished($fd);
     }
 
-    
     public function pack(Frame|string $data, int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT, int $flags = SWOOLE_WEBSOCKET_FLAG_FIN): string
     {
         return $this->server::pack($data, $opcode, $flags);
     }
 
-    
     public function unpack(string $data): Frame
     {
         return $this->server::unpack($data);

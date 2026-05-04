@@ -23,7 +23,6 @@ class Upload implements \App\Service\Upload
         $upload->save();
     }
 
-    
     public function get(string $hash): ?string
     {
         return (\App\Model\Upload::query()->where("hash", $hash)->first())?->path;

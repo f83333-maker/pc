@@ -42,10 +42,8 @@ class CLI
 
     public string $name;
 
-    
     private array $config;
 
-    
     private Server $httpServer;
 
     private int $workerId = 0;
@@ -67,7 +65,6 @@ class CLI
         return $key ? $this->config[$key] : $this->config;
     }
 
-    
     public function getWorkerId(): int
     {
         return $this->workerId;
@@ -102,7 +99,6 @@ class CLI
         });
     }
 
-    
     private function startProcess(): void
     {
         
@@ -137,7 +133,6 @@ class CLI
         $this->httpServer->start();
     }
 
-    
     public function httpRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response): void
     {
         try {
@@ -165,7 +160,6 @@ class CLI
         }
     }
 
-    
     public function webSocketOpen(Server $server, \Swoole\Http\Request $request): void
     {
         if (!isset($request->header['upgrade'])) {
@@ -214,7 +208,6 @@ class CLI
         }
     }
 
-    
     public function httpStart(Server $server): void
     {
         Manager::instance()->gc();  
@@ -236,7 +229,6 @@ class CLI
         }
     }
 
-    
     public function workerStart(Server $server, int $workerId): void
     {
         $this->workerId = $workerId;

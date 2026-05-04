@@ -76,7 +76,6 @@ class File
         }
     }
 
-    
     public static function codeLoad(string $path, bool $cli = false): mixed
     {
 

@@ -13,10 +13,8 @@ class QuantityRestriction
 
     public int $max = 0;
 
-    
     public int $total = 0;
 
-    
     public function __construct(int $min = 1, int $max = 0, int $total = 0)
     {
         $this->min = $min > 0 ? $min : 1;
@@ -24,7 +22,6 @@ class QuantityRestriction
         $this->total = $total;
     }
 
-    
     public function setMin(int $min): void
     {
         $this->min = $min > 0 ? $min : 1;

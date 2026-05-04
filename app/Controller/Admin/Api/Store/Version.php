@@ -23,20 +23,17 @@ class Version extends Base
         return $this->json(data: $this->project->getVersionLatest());
     }
 
-    
     public function list(): Response
     {
         return $this->json(data: $this->project->getVersionList());
     }
 
-    
     public function update(): Response
     {
         $this->project->update();
         return $this->json();
     }
 
-    
     public function getUpdateLog(string $hash): Response
     {
         return $this->json(data: $this->project->getUpdateLog($hash)->toArray());

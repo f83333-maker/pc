@@ -13,7 +13,6 @@ class Pay implements \App\Service\Store\Pay
     #[Inject]
     private \App\Service\Store\Http $http;
 
-    
     public function getList(Authentication $authentication, int $equipment = 1): array
     {
         $http = $this->http->request("/pay/list", [

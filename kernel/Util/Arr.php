@@ -42,14 +42,12 @@ class Arr
         return true;
     }
 
-    
     public static function getChainFirst(string $chain): string
     {
         $keys = explode('.', trim($chain));
         return (string)$keys[0];
     }
 
-    
     public static function getChainIgnoreFirst(string $chain): ?string
     {
         $keys = explode('.', trim($chain));
@@ -70,7 +68,6 @@ class Arr
         }, $list)));
     }
 
-    
     public static function xmlToArray(string $str): array
     {
         
@@ -82,7 +79,6 @@ class Arr
         return (array)json_decode(json_encode($xml), true) ?: [];
     }
 
-    
     public static function override(mixed $primary, mixed $fallback): array
     {
         $primary = is_array($primary) ? $primary : [];

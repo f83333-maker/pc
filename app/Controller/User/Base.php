@@ -74,7 +74,6 @@ abstract class Base
         return $this->response->render($bind['template'], $title, $bind['data'], $bind['templatePath']);
     }
 
-    
     public function getUser(): ?User
     {
         return Context::get(User::class);
@@ -90,7 +89,6 @@ abstract class Base
         return \App\Model\Site::getUser((string)$this->request->header("Host"));
     }
 
-    
     public function getStoreAuth(): Authentication
     {
         $store = Plugin::inst()->getStoreUser($this->getUserPath());
@@ -119,7 +117,6 @@ abstract class Base
                 return null;
             }
 
-            
             if (UserLoginLog::query()->where("ip", $ip)->exists()) {
                 return null;
             }

@@ -13,9 +13,7 @@ interface Upload
 
     public function add(string $path, string $type, ?int $userId = null): void;
 
-    
     public function get(string $hash): ?string;
 
-    
     public function remove(string $path): void;
 }

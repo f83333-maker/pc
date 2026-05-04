@@ -24,7 +24,6 @@ class Business implements InterceptorInterface
         }
     }
 
-    
     #[NoReturn] private function kick(string $message, int $type): void
     {
         if ($type == Interceptor::TYPE_VIEW) {

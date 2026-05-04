@@ -37,16 +37,12 @@ class App
     
     public static bool $cli = false;
 
-    
     public static array $database = [];
 
-    
     public static array $dependencies = [];
 
-    
     public static array $session = [];
 
-    
     public static bool $debug = false;
 
     public static string $version = "4.0.0";
@@ -55,7 +51,6 @@ class App
 
     public static string $lock = "";
 
-    
     public static array $language = [];
 
     public static bool $install = false;
@@ -68,7 +63,6 @@ class App
 
     public static bool $isCommand = false;
 
-    
     public static function container(): void
     {
         Di::instance()->set(ContainerInterface::class, Container::class);
@@ -103,7 +97,6 @@ class App
         return $message;
     }
 
-    
     public static function route(): void
     {
         if (!file_exists(BASE_PATH . "/runtime/updated") && file_exists(BASE_PATH . "/runtime/route") && !App::$cli) {
@@ -122,7 +115,6 @@ class App
         Config::get("command");
     }
 
-    
     public static function usr(string $host): string
     {
         $_usrKey = "init_usr_{$host}";

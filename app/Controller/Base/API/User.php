@@ -21,7 +21,6 @@ abstract class User extends \App\Controller\Base\User
         return $json;
     }
 
-    
     protected function businessValidation(): BusinessLevel
     {
         $level = $this->getUser()->businessLevel;

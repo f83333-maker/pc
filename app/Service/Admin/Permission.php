@@ -14,9 +14,7 @@ interface Permission
     public const TYPE_API = 2;
     public const TYPE_BUTTON = 3;
 
-    
     public function add(string $name, int $pid, string $route, int $type, ?string $icon = null, int $rank = 0, ?callable $callable = null): int;
 
-    
     public function authorization(int $permissionId, int $roleId): void;
 }

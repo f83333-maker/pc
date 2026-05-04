@@ -101,7 +101,6 @@ class Cash extends User
         return $this->json(200, "兑现成功");
     }
 
-    
     public function record(): array
     {
         $map = $this->request->post();

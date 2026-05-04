@@ -79,7 +79,6 @@ class User extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(\App\Model\User::class, (array)$this->request->post("list"));

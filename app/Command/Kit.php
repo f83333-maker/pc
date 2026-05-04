@@ -23,7 +23,6 @@ class Kit extends Command
         Di::inst()->make(Service::class)->restart();
     }
 
-    
     public function reset(string $password): void
     {
         

@@ -98,7 +98,6 @@ class Commodity extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -156,7 +155,6 @@ class Commodity extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     public function del(): array
     {
         $deleteBatchEntity = new Delete(\App\Model\Commodity::class, $_POST['list']);
@@ -178,7 +176,6 @@ class Commodity extends Manage
         return $this->json(200, '商品状态已经更新');
     }
 
-    
     public function fastEnable(): array
     {
         $map = $this->request->post();

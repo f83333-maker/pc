@@ -8,7 +8,6 @@ class Context
 
     private static array $context = [];
 
-    
     public static function set(string $name, $value): void
     {
         self::$context[$name] = $value;

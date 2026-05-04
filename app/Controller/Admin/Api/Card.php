@@ -61,7 +61,6 @@ class Card extends Manage
         return $this->json(data: $config);
     }
 
-    
     public function save(Request $request): array
     {
         $commodityId = $request->post("commodity_id", Filter::INTEGER);
@@ -205,7 +204,6 @@ class Card extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    
     public function export(): string
     {
         $map = $_GET;

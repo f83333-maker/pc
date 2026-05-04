@@ -31,7 +31,6 @@ class ItemSkuWholesale extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(int $id): Response
     {
         $itemSku = \App\Model\ItemSku::query()->where("user_id", $this->getUser()->id)->find($id);
@@ -52,7 +51,6 @@ class ItemSkuWholesale extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-    
     #[Validator([
         ['key' => 'price', 'rule' => 'notZero', 'message' => ['notZero' => '零售价，必须大于0']],
     ])]

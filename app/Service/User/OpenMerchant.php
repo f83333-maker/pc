@@ -13,6 +13,5 @@ interface OpenMerchant
 
     public function trade(User $user, int $groupId, string $clientId, string $userAgent, string $clientIp): Trade;
 
-    
     public function become(int $userId, int $groupId, bool $isDividend  = false, ?string $tradeNo = null): bool;
 }

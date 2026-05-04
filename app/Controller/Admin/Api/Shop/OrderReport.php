@@ -95,7 +95,6 @@ class OrderReport extends Base
         return $this->json(data: $message->toArray());
     }
 
-    
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, ["reportId", "handleType", "message", "treasure", "refundAmount"]]
     ])]
@@ -122,7 +121,6 @@ class OrderReport extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [\App\Validator\Admin\OrderReport::class, "itemId"]
     ])]

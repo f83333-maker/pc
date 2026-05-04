@@ -16,7 +16,6 @@ class ManageLog extends Model
 
     protected $casts = ['id' => 'integer', 'risk' => 'integer'];
 
-    
     public static function log(Manage $manage, string $content): void
     {
         $manageLog = new ManageLog();

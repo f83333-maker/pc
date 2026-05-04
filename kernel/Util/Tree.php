@@ -23,7 +23,6 @@ class Tree
         return $tree;
     }
 
-    
     public static function character(array $items): array
     {
         $handle = function (array $item, array &$result, int $level = 1, int $a = 0, int &$b = 0) use (&$handle): void {

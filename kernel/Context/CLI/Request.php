@@ -45,7 +45,6 @@ class Request extends \Kernel\Context\Abstract\Request
         parent::__construct();
     }
 
-    
     private function parseHeader(array $headers): array
     {
         $array = [];

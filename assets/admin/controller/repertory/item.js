@@ -368,7 +368,6 @@
                             if (value == 1) {
                                 obj.hide("markup_template_id");
 
-                                
                                 obj.show("markup.sync_name");
                                 obj.show("markup.sync_introduce");
                                 obj.show("markup.sync_picture");

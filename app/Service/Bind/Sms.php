@@ -15,7 +15,6 @@ class Sms implements \App\Service\Sms
     #[Inject]
     private AliSms $sms;
 
-    
     private function tencentSms(array $smsConfig, string $phone, string $templateCode, array $var = [])
     {
         $host = "sms.tencentcloudapi.com";
@@ -54,7 +53,6 @@ class Sms implements \App\Service\Sms
         }
     }
 
-    
     public function send(array $smsConfig, string $phone, string $templateCode, array $var = []): void
     {
         $platform = (int)$smsConfig['platform'];
@@ -81,7 +79,6 @@ class Sms implements \App\Service\Sms
         }
     }
 
-    
     public function sendCaptcha(string $phone, int $type): void
     {
         $capthca = mt_rand(100000, 999999);

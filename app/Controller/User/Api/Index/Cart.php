@@ -26,7 +26,6 @@ class Cart extends Base
     #[Inject]
     private \App\Service\User\Cart $cart;
 
-    
     private function getClientId(): string
     {
         $clientId = $this->cart->getClientId($this->getUser(), (string)$this->request->cookie("client_id"));
@@ -60,7 +59,6 @@ class Cart extends Base
         return $this->json(data: ['amount' => $this->cart->getAmount($this->getUser(), $this->getClientId())]);
     }
 
-    
     #[Validator([
         [\App\Validator\User\Cart::class, ["itemId", "quantity"]]
     ])]

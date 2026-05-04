@@ -27,7 +27,6 @@ class Developer extends Base
     #[Inject]
     private \App\Service\Store\Developer $developer;
 
-    
     public function pluginList(): Response
     {
         return $this->json(data: $this->developer->pluginList($this->request->post(), $this->getStoreAuth()));
@@ -47,14 +46,12 @@ class Developer extends Base
         return $this->json();
     }
 
-    
     public function publishPlugin(): Response
     {
         $this->developer->publishPlugin($this->request->post("key"), $this->getStoreAuth());
         return $this->json();
     }
 
-    
     public function getPluginTrackedFiles(): Response
     {
         $name = $this->request->post("key");
@@ -77,7 +74,6 @@ class Developer extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -87,7 +83,6 @@ class Developer extends Base
         return $this->json(data: $data);
     }
 
-    
     public function getPluginAuthorizationList(int $pluginId): Response
     {
         $post = $this->request->post();
@@ -95,7 +90,6 @@ class Developer extends Base
         return $this->json(data: $data);
     }
 
-    
     public function addPluginAuthorization(): Response
     {
         $this->developer->addPluginAuthorization($this->request->post(), $this->getStoreAuth());

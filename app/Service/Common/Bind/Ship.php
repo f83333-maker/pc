@@ -13,7 +13,6 @@ use Kernel\Plugin\Usr;
 class Ship implements \App\Service\Common\Ship
 {
 
-    
     private function getRepertoryItemSkuService(): \App\Service\Common\RepertoryItemSku
     {
         return Di::inst()->make(\App\Service\Common\RepertoryItemSku::class);
@@ -22,7 +21,6 @@ class Ship implements \App\Service\Common\Ship
     public function getShip(int $repertoryItemSkuId, ?RepertoryOrder $order = null): ?\Kernel\Plugin\Handle\Ship
     {
 
-        
         $repertoryItemSku = RepertoryItemSku::with(["repertoryItem"])->find($repertoryItemSkuId);
         if (!$repertoryItemSku) {
             return null;
@@ -35,7 +33,6 @@ class Ship implements \App\Service\Common\Ship
 
         $env = Usr::instance()->userToEnv($repertoryItem->user_id);
 
-        
         return \Kernel\Plugin\Ship::instance()->getShipHandle($repertoryItem->plugin, $env, $repertoryItem, $repertoryItemSku, $order);
     }
 
@@ -58,7 +55,6 @@ class Ship implements \App\Service\Common\Ship
         return $stock;
     }
 
-    
     public function inspection(int $repertoryItemSkuId, array $map = []): bool
     {
         $ship = $this->getShip($repertoryItemSkuId);

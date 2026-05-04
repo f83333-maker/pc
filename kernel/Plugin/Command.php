@@ -13,7 +13,6 @@ class Command
 
     use Singleton;
 
-    
     public function add(string $name, string $env): void
     {
         if ($env != App::$mEnv) {

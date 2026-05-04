@@ -15,7 +15,6 @@ class RepertoryCategory extends Model
 
     protected array $casts = ['id' => 'integer', 'sort' => 'integer', 'status' => 'integer'];
 
-    
     public function repertoryItem(): HasMany
     {
         return $this->hasMany(RepertoryItem::class, 'repertory_category_id', 'id');

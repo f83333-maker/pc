@@ -20,6 +20,5 @@ interface Query
 
     public function delete(Delete $delete): int;
 
-    
     public function getOrderBy(array $map, string $field, string $rule = 'desc'): array;
 }

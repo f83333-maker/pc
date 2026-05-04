@@ -21,10 +21,8 @@ class Language
 
     public string $languagePackPath = BASE_PATH . "/config/language";
 
-    
     private ?array $languages = null;
 
-    
     private array $cache = [];
 
     public function output(string $text): string
@@ -45,7 +43,6 @@ class Language
                 return $text;
             }
 
-            
             $language = Context::get(Entity\Language::class);
             if (!$language) {
                 return $text;
@@ -126,7 +123,6 @@ class Language
         });
     }
 
-    
     public function recordSource(string $text): void
     {
         if (!$text) {
@@ -165,7 +161,6 @@ class Language
         }
     }
 
-    
     public function getSources(?string $keywords = null, int $limit = 10, int $page = 1): array
     {
         $list = File::read($this->languagePackPath . "/zh-cn.json", function (string $contents) {
@@ -239,7 +234,6 @@ class Language
         return false;
     }
 
-    
     public function getLanguagePack(string $language, string $basePath = BASE_PATH . "/config/language"): array
     {
         $language = strtolower($language);
@@ -260,7 +254,6 @@ class Language
         }) ?: [];
     }
 
-    
     public function getHash(string $language, string $basePath = BASE_PATH . "/config/language"): string
     {
         $language = strtolower($language);

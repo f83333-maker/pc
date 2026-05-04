@@ -28,7 +28,6 @@ class Ip
         return null;
     }
 
-    
     public static function setMode(string $header): void
     {
         File::write(self::MODE_FILE, $header);

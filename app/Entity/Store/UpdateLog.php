@@ -12,7 +12,6 @@ class UpdateLog
     public string $hash;
     public string $log;
 
-    
     public function __construct(string $hash, string $log)
     {
         $this->hash = $hash;

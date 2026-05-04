@@ -30,16 +30,12 @@ interface Item
 
     public function syncRepertoryItems(int $itemId): void;
 
-    
     public function syncRepertoryItemForMarkupTemplate(int $markupTemplateId): void;
 
-    
     public function getMarkup(int|\App\Model\Item $item): Markup;
 
-    
     public function getSku(int $skuId): ItemSku;
 
-    
     public function getWholesale(?User $customer, int $skuId): array;
 
     public function getQuantityRestriction(?int $userId, ?RepertoryItemSku $itemSku): QuantityRestriction;

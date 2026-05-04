@@ -13,7 +13,6 @@ class Code implements \App\Service\Common\Code
     #[Inject]
     private Session $session;
 
-    
     public function create(string $key, int $expire = 60): int
     {
 
@@ -37,7 +36,6 @@ class Code implements \App\Service\Common\Code
         return $code;
     }
 
-    
     public function verify(string $key, int $code, int $expire = 300): bool
     {
         if ($code == 0) {

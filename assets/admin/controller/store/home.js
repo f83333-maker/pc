@@ -180,7 +180,6 @@
                                 <div class="subscription-list online-pay"><div class="subscription-item" data-amount="${plugin.price}"><span style="color: #496b93ab;"><span style="color: #D38200;font-size: 18px;font-weight: bold;">¥${plugin.price}</span></span><span style="color: #BDB8B8;font-size: 13px;text-decoration:line-through;">原价:${plugin.price * 2}</span><span style="color: #D38200;font-size:12px;">终身可用</span></div></div>
                         </div>
 
-                     
                         
                         <div class="layout-box">
                                         <div class="title"><i class="fa-duotone fa-regular fa-star-shooting"></i> 付款购买 ${plugin.group > 0 ? `<span style="color: #3fa24a;"> 此插件企业版免费用，开通企业版更省钱更超值！<a href="javascript:void(0);" class="text-primary open-group-enterprise-click">点我开企业版</a></span>` : ""}</div>

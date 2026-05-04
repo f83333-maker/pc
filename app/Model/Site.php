@@ -23,7 +23,6 @@ class Site extends Model
         return $this->hasOne(User::class, "id", "user_id");
     }
 
-    
     public static function getUser(string $host): ?User
     {
         $key = "site_host_find_sql_" . $host;

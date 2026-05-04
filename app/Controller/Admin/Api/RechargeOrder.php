@@ -51,7 +51,6 @@ class RechargeOrder extends Manage
         return $this->json(data: array_merge($raw, $data));
     }
 
-    
     public function success(): array
     {
         $id = (int)$_POST['id'];
@@ -70,7 +69,6 @@ class RechargeOrder extends Manage
         return $this->json(200, "已手动确认");
     }
 
-    
     public function clear(): array
     {
         UserRecharge::query()
@@ -81,7 +79,6 @@ class RechargeOrder extends Manage
         return $this->json(200, '（＾∀＾）清理完成');
     }
 
-    
     public function export(): void
     {
         ignore_user_abort(true);

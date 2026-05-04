@@ -33,7 +33,6 @@ class PayManager extends Base
     #[Inject]
     private Query $query;
 
-    
     public function code(string $plugin): Response
     {
         $plg = Plugin::instance()->getPlugin($plugin, Usr::inst()->userToEnv($this->getUser()->id));
@@ -131,7 +130,6 @@ class PayManager extends Base
         return $this->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

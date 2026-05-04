@@ -28,7 +28,6 @@ class BankCard extends Base
     #[Inject]
     private \App\Service\User\BankCard $bankCard;
 
-    
     public function get(): Response
     {
         $map = $this->request->post();

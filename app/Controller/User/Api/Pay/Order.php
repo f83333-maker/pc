@@ -36,7 +36,6 @@ class Order extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -72,7 +71,6 @@ class Order extends Base
         return $this->json(data: array_merge($data, $row));
     }
 
-    
     public function getLatestOrderId(): Response
     {
         $p = PayOrder::query()->where("user_id", $this->getUser()->id)->orderBy("id", "desc")->first();
@@ -98,7 +96,6 @@ class Order extends Base
         return $this->json(data: ["status" => false]);
     }
 
-    
     #[Validator([
         [Common::class, "id"]
     ])]
@@ -135,7 +132,6 @@ class Order extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [Common::class, "id"]
     ])]

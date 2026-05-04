@@ -59,7 +59,6 @@ class ItemSkuLevel extends Base
         return $this->json(data: $data);
     }
 
-    
     public function save(int $skuId, int $userId): Response
     {
         $map = $this->request->post();

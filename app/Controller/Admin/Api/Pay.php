@@ -38,7 +38,6 @@ class Pay extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -57,7 +56,6 @@ class Pay extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     public function del(): array
     {
         if (in_array("1", $_POST['list'])) {

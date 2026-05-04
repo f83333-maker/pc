@@ -30,7 +30,6 @@ interface Balance
 
     public const TYPE_WITHDRAW = 11;
 
-    
     public const TYPE_WITHDRAW_REJECT = 12;
 
     public const TYPE_DEPOSIT = 13;
@@ -43,14 +42,12 @@ interface Balance
 
     public const TYPE_APPROPRIATION = 17;
 
-    
     public const STATUS_DIRECT = 0;
 
     public const STATUS_DELAYED = 1;
 
     public const STATUS_ROLLBACK = 2;
 
-    
     public const ACTION_ADD = 1;
 
     public const ACTION_DEDUCT = 0;

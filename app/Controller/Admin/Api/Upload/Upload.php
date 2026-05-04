@@ -68,7 +68,6 @@ class Upload extends Base
         return $this->json(data: $data);
     }
 
-    
     public function del(): Response
     {
         $list = (array)$this->request->post("list");

@@ -14,7 +14,6 @@ class UserCommodity extends Model
 
     protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'commodity_id' => 'integer', 'status' => 'integer', 'premium' => 'integer'];
 
-    
     public static function getCustom(?int $userId, int $commodityId): ?UserCommodity
     {
         if ($userId == 0 || !$userId) {

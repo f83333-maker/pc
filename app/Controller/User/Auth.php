@@ -45,7 +45,6 @@ class Auth extends Base
         return $this->theme(Theme::LOGIN, "Auth/Login.html", "登录账号", ["option" => $config]);
     }
 
-    
     public function reset(): Response
     {
         if ($this->request->cookie(Cookie::USER_TOKEN)) {
@@ -61,7 +60,6 @@ class Auth extends Base
         return $this->theme(Theme::LOGIN, "Auth/Reset.html", "重置密码");
     }
 
-    
     public function terms(int $type): Response
     {
         $titles = [

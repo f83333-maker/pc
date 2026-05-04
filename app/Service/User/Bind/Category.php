@@ -27,7 +27,6 @@ class Category implements \App\Service\User\Category
         return $this->updateItemCount(Tree::generate($category));
     }
 
-    
     private function updateItemCount(array $category): array
     {
         $updateItemCount = function (&$node) use (&$updateItemCount) {

@@ -29,7 +29,6 @@ class BankCard extends Base
     #[Inject]
     private \App\Service\User\BankCard $bankCard;
 
-    
     public function get(): Response
     {
         $get = new Get(Model::class);

@@ -26,7 +26,6 @@ class Project implements \App\Service\Store\Project
     #[Inject]
     private \App\Service\Store\Http $http;
 
-    
     private function getStoreAuth(): ?Authentication
     {
         return Plugin::inst()->getStoreUser("main");
@@ -37,7 +36,6 @@ class Project implements \App\Service\Store\Project
         return $this->http->request(url: "/store/notice/list", authentication: $this->getStoreAuth())->data;
     }
 
-    
     public function getVersionLatest(): array
     {
         return $this->http->request(url: "/store/version/latest", data: [
@@ -45,7 +43,6 @@ class Project implements \App\Service\Store\Project
         ], authentication: $this->getStoreAuth())->data;
     }
 
-    
     public function getVersionList(): array
     {
         return $this->http->request(url: "/store/version/list", data: [

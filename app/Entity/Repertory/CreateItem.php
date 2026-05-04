@@ -29,7 +29,6 @@ class CreateItem
 
     public array $versions = [];
 
-    
     public array $pluginData = [];
 
     public int $markupTemplateId;

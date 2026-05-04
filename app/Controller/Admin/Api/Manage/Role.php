@@ -26,7 +26,6 @@ class Role extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(): Response
     {
         $get = new Get(RoleModel::class);
@@ -54,7 +53,6 @@ class Role extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $list = (array)$this->request->post("list");

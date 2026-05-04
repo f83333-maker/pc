@@ -94,7 +94,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return new Sku($skuModel->id, $skuModel->name, $this->order->getAmount($user, $skuModel), $sku);
     }
 
-    
     public function isDisplay(int|\App\Model\RepertoryItemSku $skuModel, int|User $userModel): bool
     {
         if (is_int($userModel)) {
@@ -162,7 +161,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-    
     public function setCache(int $repertoryItemSkuId, int $type, string $value): void
     {
         try {
@@ -173,7 +171,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
     }
 
-    
     public function getWholesale(?User $user, int $skuId): array
     {
         $list = RepertoryItemSkuWholesale::query()->where("sku_id", $skuId)->orderBy("quantity", "asc")->get();
@@ -200,7 +197,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return $data;
     }
 
-    
     public function getCache(int $repertoryItemSkuId, int $type): ?string
     {
         
@@ -215,7 +211,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         return $a && $b;
     }
 
-    
     public function delCache(int $repertoryItemSkuId, bool $force = false): void
     {
         $a = RepertoryItemSkuCache::query()->where("sku_id", $repertoryItemSkuId);

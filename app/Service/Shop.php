@@ -30,9 +30,7 @@ interface Shop
 
     public function getDraft(int|Commodity|string $commodity, int $cardId): array;
 
-    
     public function substationPriceIncrease(Commodity &$commodity): void;
 
-    
     public function getSubstationPrice(Commodity|int $commodity, int|string|float $amount): string;
 }

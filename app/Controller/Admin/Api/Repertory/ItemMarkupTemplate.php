@@ -93,7 +93,6 @@ class ItemMarkupTemplate extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

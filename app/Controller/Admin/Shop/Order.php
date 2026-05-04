@@ -22,7 +22,6 @@ class Order extends Base
         return $this->render("Shop/OrderSummary.html", "订单汇总");
     }
 
-    
     public function item(): Response
     {
         return $this->render("Shop/OrderItem.html", "物品订单");

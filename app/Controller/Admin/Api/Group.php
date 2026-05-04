@@ -59,7 +59,6 @@ class Group extends Manage
         return $this->json(200, data: $data);
     }
 
-    
     public function save(): array
     {
         $map = $_POST;
@@ -101,7 +100,6 @@ class Group extends Manage
         return $this->json();
     }
 
-    
     public function del(): array
     {
         $delete = new Delete(UserGroup::class, [$_POST['id']]);

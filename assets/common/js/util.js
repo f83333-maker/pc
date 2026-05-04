@@ -624,8 +624,6 @@ const util = new class Util {
         });
     }
 
-    
-
     async timer(call, millisecond, immediately = false) {
         if (immediately) {
             const state = await call();

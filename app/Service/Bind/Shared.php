@@ -49,7 +49,6 @@ class Shared implements \App\Service\Shared
         }
     }
 
-    
     private function post(string $url, string $appId, string $appKey, array $data = []): array
     {
         $data = array_merge($data, ["app_id" => $appId, "app_key" => $appKey]);
@@ -212,7 +211,6 @@ class Shared implements \App\Service\Shared
         ]);
     }
 
-    
     public function inventoryState(\App\Model\Shared $shared, Commodity $commodity, int $cardId, int $num, string $race): bool
     {
 
@@ -288,7 +286,6 @@ class Shared implements \App\Service\Shared
         return (array)$card;
     }
 
-    
     public function getDraft(\App\Model\Shared $shared, string $code, int $cardId): array
     {
         return $this->post($shared->domain . "/shared/commodity/draft", $shared->app_id, $shared->app_key, [
@@ -393,7 +390,6 @@ class Shared implements \App\Service\Shared
         }
     }
 
-    
     public function AdjustmentPrice(string $config, string $price, string $userPrice, int $type, float $premium): array
     {
         $_config = Ini::toArray($config);
@@ -441,14 +437,12 @@ class Shared implements \App\Service\Shared
         return ["config" => $_config, "price" => $price, "user_price" => $userPrice];
     }
 
-    
     public function AdjustmentAmount(int $type, float $premium, float|int|string $amount): string
     {
         $_tmp = new Decimal($amount, 2);
         return $type == 0 ? $_tmp->add($premium)->getAmount() : $_tmp->add((new Decimal($premium, 3))->mul($amount)->getAmount())->getAmount();
     }
 
-    
     public function syncRemoteItem(Commodity|int $commodity): bool
     {
         if (is_int($commodity)) {

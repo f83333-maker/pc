@@ -19,7 +19,6 @@ class Ship
         return Plugin::inst()->getHandle($name, $env, a::class, $item, $sku, $order);
     }
 
-    
     public function getForeignShipHandle(string $name, string $env, array $config): ?b
     {
         return Plugin::inst()->getHandle($name, $env, b::class, $config);

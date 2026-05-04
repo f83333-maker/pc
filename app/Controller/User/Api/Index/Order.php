@@ -58,7 +58,6 @@ class Order extends Base
         return $this->json();
     }
 
-    
     #[Validator([
         [\App\Validator\User\Order::class, ["itemId", "tradeNo"]]
     ], Method::POST)]
@@ -85,7 +84,6 @@ class Order extends Base
         return $this->json(200, "success", $orderItem->toArray());
     }
 
-    
     #[Validator([
         [\App\Validator\User\Order::class, ["itemId", "tradeNo"]]
     ], Method::GET)]

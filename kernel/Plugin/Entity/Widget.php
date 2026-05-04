@@ -25,7 +25,6 @@ class Widget
         $this->type = strip_tags($type);
     }
 
-    
     public function setRegex(string $regex): void
     {
         $this->regex = strip_tags($regex);

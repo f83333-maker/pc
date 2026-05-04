@@ -12,16 +12,12 @@ class Sku
 
     public int $repertoryItemSkuId;
 
-    
     public string $name;
 
-    
     public string $stockPrice;
 
-    
     public bool $marketControl;
 
-    
     public string $marketControlMinPrice;
 
     public string $marketControlMaxPrice;

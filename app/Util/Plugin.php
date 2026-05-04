@@ -95,7 +95,6 @@ class Plugin
         unlink($path);
     }
 
-    
     public static function getConfig(string $pluginName, bool $cache = true): array
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Config/Config.php';
@@ -119,7 +118,6 @@ class Plugin
         setConfig($config, BASE_PATH . '/app/Plugin/' . $pluginName . '/Config/Config.php');
     }
 
-    
     public static function getPluginLog(string $pluginName): string
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/runtime.log';

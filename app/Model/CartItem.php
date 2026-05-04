@@ -12,7 +12,6 @@ class CartItem extends Model
     public bool $timestamps = false;
     protected array $casts = ['id' => 'integer', 'cart_id' => 'integer', 'quantity' => 'integer', 'sku_id' => 'integer', 'option' => 'json'];
 
-    
     public function sku(): HasOne
     {
         return $this->hasOne(ItemSku::class, "id", "sku_id");

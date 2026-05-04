@@ -28,7 +28,6 @@ class Upload extends Manage
 
     const MIME = ['image', 'video', 'doc', 'other'];
 
-    
     public function send(Request $request): array
     {
         $type = strtolower((string)$request->get("mime"));
@@ -89,7 +88,6 @@ class Upload extends Manage
         return $this->json(data: $data);
     }
 
-    
     public function handle(): array
     {
         if (!isset($_FILES['file'])) {
@@ -104,7 +102,6 @@ class Upload extends Manage
         return $this->json(200, '上传成功', ['path' => '/assets/cache/images/' . $handle['new_name']]);
     }
 
-    
     public function images(): array
     {
         $page = (int)$_POST['page'];

@@ -32,7 +32,6 @@ class View
         return $result;
     }
 
-    
     public static function isSafeDir(string $dir): bool
     {
         $dirReal = realpath($dir);
@@ -55,7 +54,6 @@ class View
         return false;
     }
 
-    
     public static function isSafeTemplate(string $file): bool
     {
         $allowedExt = ['html', 'hook', 'tpl'];

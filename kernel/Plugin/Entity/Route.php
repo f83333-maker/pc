@@ -8,10 +8,8 @@ class Route
     
     public string $usr;
 
-    
     public string $name;
 
-    
     public function __construct(string $name, string $usr)
     {
         $this->usr = $usr;

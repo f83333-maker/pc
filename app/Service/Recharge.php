@@ -14,7 +14,6 @@ interface Recharge
 
     public function callback(string $handle, array $map): string;
 
-    
     public function orderSuccess(UserRecharge $recharge): void;
 
     public function calcAmount(float $amount): float;

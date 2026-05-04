@@ -16,7 +16,6 @@ class UserLevel extends Model
 
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'is_upgradable' => 'integer', 'sort' => 'integer'];
 
-    
     public function itemSkuLevel(): hasOne
     {
         return $this->hasOne(ItemSkuLevel::class, "level_id", "id");

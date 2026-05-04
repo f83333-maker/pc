@@ -20,9 +20,7 @@ interface PayOrder
 
     public function getSyncUrl(string $tradeNo): string;
 
-    
     public function getPayOrder(string $tradeNo): \App\Entity\Pay\Order;
 
-    
     public function findPayOrder(int $orderId): \App\Model\PayOrder;
 }

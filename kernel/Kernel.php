@@ -137,7 +137,6 @@ try {
         hook(\App\Consts\Hook::KERNEL_INIT);
     }
 
-    
     RequestLogger::logCurrentRequest(Context::get(\Kernel\Context\Interface\Request::class));
 
     if (!class_exists($controller)) {
@@ -160,7 +159,6 @@ try {
 
     Di::instance()->inject($controllerInstance);
 
-    
     $parameters = Collector::instance()->getMethodParameters($controllerInstance, $action, $_REQUEST);
     hook(\App\Consts\Hook::CONTROLLER_CALL_BEFORE, $controllerInstance, $action);
     $result = call_user_func_array([$controllerInstance, $action], $parameters);

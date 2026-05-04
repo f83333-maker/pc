@@ -113,7 +113,6 @@ class Image implements \App\Service\Common\Image
         return $thumbPath;
     }
 
-    
     public function isRealImage(string $filePath): bool
     {
         $imageInfo = getimagesize($filePath);

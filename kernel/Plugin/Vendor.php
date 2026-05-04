@@ -31,7 +31,6 @@ class Vendor
         });
     }
 
-    
     public function del(string $name, string $env): void
     {
         $autoload = BASE_PATH . $env . "/{$name}/Vendor/autoload.php";

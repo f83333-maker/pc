@@ -20,7 +20,6 @@ class Composer extends Command
         Log::inst()->stdout("Composer dependencies completed.", Color::GREEN, true);
     }
 
-    
     public function remove(string $package): void
     {
         Log::inst()->stdout("Composer is removing dependency: {$package}, please wait patiently", Color::YELLOW, true);

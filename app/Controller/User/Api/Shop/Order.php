@@ -90,7 +90,6 @@ class Order extends Base
         return $this->json(data: $data, ext: $row);
     }
 
-    
     public function items(int $id): Response
     {
         $items = OrderItem::with([
@@ -108,7 +107,6 @@ class Order extends Base
         return $this->json(data: ["list" => $arr]);
     }
 
-    
     #[Validator([[\App\Validator\Shop\OrderItem::class, "id"]])]
     public function item(): Response
     {
@@ -120,7 +118,6 @@ class Order extends Base
         return $this->json(data: $orderItem->toArray());
     }
 
-    
     #[Validator([
         [\App\Validator\User\Order::class, "orderId"]
     ], Method::GET)]

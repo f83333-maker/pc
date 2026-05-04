@@ -59,5 +59,4 @@ class Pay extends Base implements \App\Pay\Pay
         return $payEntity;
     }
 
-    
 }

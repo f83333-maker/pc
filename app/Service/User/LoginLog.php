@@ -9,9 +9,7 @@ use Kernel\Annotation\Bind;
 interface LoginLog
 {
 
-    
     public function create(int $userId, string $ip, string $ua): void;
 
-    
     public function isSame(int $userId, int $targetId): bool;
 }

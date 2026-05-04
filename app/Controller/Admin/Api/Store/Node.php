@@ -18,7 +18,6 @@ class Node extends Base
     #[Inject]
     private Http $http;
 
-    
     public function ping(): Response
     {
         return $this->json(data: $this->http->ping(), ext: ["index" => $this->http->getNode()]);

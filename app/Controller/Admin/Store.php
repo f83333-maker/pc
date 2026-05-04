@@ -24,7 +24,6 @@ class Store extends Manage
         return $this->render("店铺共享", "Shared/Store.html");
     }
 
-    
     public function home(): string
     {
 
@@ -35,7 +34,6 @@ class Store extends Manage
         return $this->render("应用商店", "Store/Store.html", ["toolbar" => $this->TOOLBAR]);
     }
 
-    
     public function developer(): string
     {
         if (!file_exists(BASE_PATH . "/kernel/Plugin.php")) {

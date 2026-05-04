@@ -16,7 +16,6 @@ class Sms implements \App\Service\Common\Sms
     #[Inject]
     private AliSms $aliSms;
 
-    
     private function sendAli(array $config, string $phone, string $templateCode, array $var = []): void
     {
         if (Verify::isInternationalMobile($phone)) {

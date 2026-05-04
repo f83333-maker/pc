@@ -73,7 +73,6 @@ class Commodity extends User
         return $this->json(data: $data);
     }
 
-    
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -140,7 +139,6 @@ class Commodity extends User
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    
     public function del(): array
     {
 

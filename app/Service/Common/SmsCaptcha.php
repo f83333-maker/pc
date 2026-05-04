@@ -13,6 +13,5 @@ interface SmsCaptcha
 
     public function checkCaptcha(string $key, string $phone, int $code): bool;
 
-    
     public function destroyCaptcha(string $key, string $phone): void;
 }

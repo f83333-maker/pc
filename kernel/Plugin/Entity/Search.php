@@ -14,7 +14,6 @@ class Search
     public string $name;
     public string $direction = "after";
 
-    
     public function __construct(string $route, string $code, string $name, string $direction = "after")
     {
         $this->code = $code;

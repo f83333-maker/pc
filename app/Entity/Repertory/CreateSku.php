@@ -17,7 +17,6 @@ class CreateSku
 
     public bool $marketControl = false;
 
-    
     public string $marketControlMinPrice = "0";
 
     public string $marketControlMaxPrice = "0";
@@ -66,7 +65,6 @@ class CreateSku
         $this->marketControlMinPrice = $marketControlMinPrice;
     }
 
-    
     public function setMarketControlMaxPrice(string $marketControlMaxPrice): void
     {
         $this->marketControlMaxPrice = $marketControlMaxPrice;
@@ -117,7 +115,6 @@ class CreateSku
         $this->message = $message;
     }
 
-    
     public function setCost(?string $cost): void
     {
         $this->cost = $cost;

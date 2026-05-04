@@ -11,8 +11,6 @@ class Broadcast {
         });
     }
 
-    
-
     getPackage() {
         const c = localStorage.getItem(this.path);
         if (c != "" && typeof c == "string") {
@@ -20,8 +18,6 @@ class Broadcast {
         }
         return false;
     }
-
-    
 
     play(name) {
         const pack = this.getPackage();

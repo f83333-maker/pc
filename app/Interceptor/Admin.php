@@ -99,7 +99,6 @@ class Admin implements Interceptor
         }
     }
 
-    
     private function notPermission(Request $request, Response $response, int $type): Response
     {
         $hook = Plugin::instance()->hook(App::env(), Point::ADMIN_INTERCEPTOR_NOT_PERMISSION, PGI::HOOK_TYPE_HTTP, $request, $response, $type);

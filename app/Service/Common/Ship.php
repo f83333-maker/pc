@@ -15,7 +15,6 @@ interface Ship
 
     public function stock(int $repertoryItemSkuId, int $action = RepertoryItemSkuCache::ACTION_READ_CACHE): string;
 
-    
     public function inspection(int $repertoryItemSkuId, array $map): bool;
 
     public function hasEnoughStock(int $repertoryItemSkuId, int $quantity = 1, int $action = RepertoryItemSkuCache::ACTION_READ_CACHE): bool;

@@ -68,7 +68,6 @@ class Str
         return $a === "" ? "0.00" : $a;
     }
 
-    
     public static function camelToSnake(string $input, string $symbol = "-"): string
     {
         $pattern = '/(?<=\\w)(?=[A-Z])/';

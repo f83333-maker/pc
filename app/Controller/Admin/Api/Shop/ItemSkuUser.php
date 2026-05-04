@@ -28,7 +28,6 @@ class ItemSkuUser extends Base
     #[Inject]
     private Query $query;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -55,7 +54,6 @@ class ItemSkuUser extends Base
         return $this->json(data: $data);
     }
 
-    
     public function save(int $skuId, int $userId): Response
     {
         $map = $this->request->post();

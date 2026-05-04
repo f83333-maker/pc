@@ -31,7 +31,6 @@ class Config extends Base
     #[Inject]
     private Smtp $smtp;
 
-    
     public function get(string $key): Response
     {
         $config = Model::query()->where("key", $key)->where("user_id", $this->getUser()->id)->first();
@@ -42,7 +41,6 @@ class Config extends Base
         return $this->json(data: $data);
     }
 
-    
     #[Validator([
         [Common::class, "phone"]
     ])]

@@ -12,15 +12,11 @@ interface Project
     
     public function getNotice(): array;
 
-    
     public function getVersionLatest(): array;
 
-    
     public function getVersionList(): array;
 
-    
     public function update(): void;
 
-    
     public function getUpdateLog(string $hash): UpdateLog;
 }

@@ -10,6 +10,5 @@ interface Pay
 
     public function create(): \Kernel\Plugin\Entity\Pay;
 
-    
     public function async(): Response;
 }

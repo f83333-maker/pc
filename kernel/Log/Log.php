@@ -24,7 +24,6 @@ class Log
         $this->config = array_merge($this->config, Config::get('log'));
     }
 
-    
     public function stdout(string $message, int $color = Color::BLUE, bool $bold = false): void
     {
         $time = "[" . date("H:i:s", time()) . "]:";
@@ -52,7 +51,6 @@ class Log
         $this->write($message, $this->config['update']);
     }
 
-    
     public function info(string $message): void
     {
         if (App::$debug) {
@@ -61,7 +59,6 @@ class Log
         $this->write($message, $this->config['info']);
     }
 
-    
     public function debug(mixed $message): void
     {
         $text = "";
@@ -78,7 +75,6 @@ class Log
         $this->write($text, $this->config['debug']);
     }
 
-    
     private function write(string $message, string $file): void
     {
         file_put_contents($file, "[" . date("Y-m-d H:i:s", time()) . "]:" . $message . PHP_EOL, FILE_APPEND);

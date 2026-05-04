@@ -10,7 +10,6 @@ class Install
 {
     use Singleton;
 
-    
     public function getSandbox(string $name, string $env = "/app/Plugin"): ?array
     {
         $path = BASE_PATH . $env . "/{$name}/Config/Sandbox.php";
@@ -20,7 +19,6 @@ class Install
         return null;
     }
 
-    
     public function createEnvironment(int $userId, string $name): void
     {
         $env = Usr::inst()->userToEnv($userId);

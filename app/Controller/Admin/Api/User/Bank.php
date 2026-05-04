@@ -24,7 +24,6 @@ class Bank extends Base
     #[Inject]
     private Query $query;
 
-    
     public function get(): Response
     {
         $get = new Get(Model::class);
@@ -48,7 +47,6 @@ class Bank extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

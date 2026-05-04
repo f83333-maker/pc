@@ -28,7 +28,6 @@ class ItemSkuWholesaleUser extends Base
     #[Inject]
     private Query $query;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -62,7 +61,6 @@ class ItemSkuWholesaleUser extends Base
         return $this->json(data: $data);
     }
 
-    
     #[Validator([
         [\App\Validator\Admin\ItemSku::class, "stockPrice"]
     ])]

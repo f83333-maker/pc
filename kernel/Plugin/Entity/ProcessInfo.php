@@ -11,7 +11,6 @@ class ProcessInfo
     public Plugin $plugin;
     public string $env;
 
-    
     public function __construct(string $name, string $namespace, Plugin $plugin, int $num, string $env)
     {
         $this->name = $name;

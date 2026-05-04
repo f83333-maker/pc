@@ -9,6 +9,5 @@ use Kernel\Annotation\Bind;
 interface LoginLog
 {
 
-    
     public function create(int $manageId, string $ip, string $ua): void;
 }

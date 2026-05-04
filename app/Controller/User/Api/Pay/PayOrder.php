@@ -20,7 +20,6 @@ class PayOrder extends Base
     #[Inject]
     protected \App\Service\User\PayOrder $payOrder;
 
-    
     #[Interceptor(class: [PostDecrypt::class, Waf::class, Visitor::class], type: Interceptor::API)]
     #[Validator([
         [\App\Validator\User\Order::class, "tradeNo"]
@@ -45,7 +44,6 @@ class PayOrder extends Base
         return $this->json(data: $order->toArray());
     }
 
-    
     public function async(): Response
     {
         $tradeNo = $this->request->uriSuffix();

@@ -33,7 +33,6 @@ class User extends Manage
         ]);
     }
 
-    
     public function group(): string
     {
         return $this->render("会员等级", "User/Group.html");

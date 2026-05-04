@@ -12,7 +12,6 @@ class UserIdentity extends Model
     public bool $timestamps = false;
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'type' => 'integer', 'status' => 'integer'];
 
-    
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');

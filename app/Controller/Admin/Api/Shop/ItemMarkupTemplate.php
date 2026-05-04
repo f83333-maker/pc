@@ -35,7 +35,6 @@ class ItemMarkupTemplate extends Base
     #[Inject]
     private \App\Service\User\Item $item;
 
-    
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -84,7 +83,6 @@ class ItemMarkupTemplate extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

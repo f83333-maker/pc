@@ -59,7 +59,6 @@ class Auth implements \App\Service\Store\Auth
         return new Login($http->data);
     }
 
-    
     public function sendSms(string $type, string $phone, string $captcha): void
     {
         $http = $this->http->request("/auth/phone/code?type={$type}", ["captcha" => $captcha, "phone" => $phone]);

@@ -12,9 +12,7 @@ interface WebSocket
 
     public function message(Frame $frame, Server $server): void;
 
-    
     public function open(Request $request, int $fd, Server $server): void;
 
-    
     public function close(int $fd, Server $server): void;
 }

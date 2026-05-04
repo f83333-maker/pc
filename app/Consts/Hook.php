@@ -24,21 +24,18 @@ interface Hook
     
     const ADMIN_VIEW_USER_TABLE = 0x8;
 
-    
     const ADMIN_VIEW_COMMODITY_TABLE = 0x5;
     
     const ADMIN_VIEW_COMMODITY_FOOTER = 0x6;
     
     const ADMIN_VIEW_COMMODITY_TOOLBAR = 0x7;
 
-    
     const ADMIN_VIEW_CATEGORY_TOOLBAR = 0x701;
     
     const ADMIN_VIEW_CATEGORY_TABLE = 0x702;
     
     const ADMIN_VIEW_CATEGORY_POST = 0x703;
 
-    
     const ADMIN_VIEW_ORDER_TABLE = 0x11;
     
     const ADMIN_VIEW_ORDER_FOOTER = 0x12;
@@ -47,10 +44,8 @@ interface Hook
 
     const ADMIN_VIEW_CONFIG_TOOLBAR = 0x14;
 
-    
     const ADMIN_API_PLUGIN_SAVE_CONFIG = 0x15;
 
-    
     const USER_API_ORDER_TRADE_BEGIN = 0x16;
     
     const USER_API_ORDER_TRADE_AFTER = 0x17;
@@ -59,10 +54,8 @@ interface Hook
     
     const USER_API_ORDER_TRADE_PAY_BEGIN = 0x171;
 
-    
     const USER_API_RECHARGE_AFTER = 0x18191;
 
-    
     const USER_API_AUTH_REGISTER_BEGIN = 0x19;
     
     const USER_API_AUTH_REGISTER_AFTER = 0x20;
@@ -71,7 +64,6 @@ interface Hook
     
     const USER_API_AUTH_LOGIN_AFTER = 0x22;
 
-    
     const KERNEL_INIT = 0x30;
 
     const CONTROLLER_CALL_BEFORE = 0x31;
@@ -116,10 +108,8 @@ interface Hook
     
     const USER_API_PURCHASE_RECORD_LIST = 0x56;
 
-    
     const USER_VIEW_MENU = 0x57;
 
-    
     const USER_VIEW_HEADER_NAV = 0x88;
 
     const USER_VIEW_QUERY_TRADE_NO = 0x89;
@@ -138,19 +128,16 @@ interface Hook
 
     const WAF_INTERCEPT = 0x289;
 
-    
     const SERVICE_SMTP_SEND_BEFORE = 0x3000;
     
     const SERVICE_SMTP_SEND_SUCCESS = 0x3001;
     
     const SERVICE_SMTP_SEND_ERROR = 0x3002;
 
-    
     public const HACK_ROUTE_TABLE_COLUMNS = 0x2005;
     public const HACK_ROUTE_TABLE_SEARCH = 0x2006;
     public const HACK_SUBMIT_FORM = 0x9038;
     public const HACK_SUBMIT_TAB = 0x9039;
 
-    
     public const SERVICE_SHOP_GET_ITEM_STOCK = 0x8000;
 }

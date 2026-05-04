@@ -30,7 +30,6 @@ class Developer implements \App\Service\Store\Developer
         return $http->data;
     }
 
-    
     public function createOrUpdatePlugin(array $post, Authentication $authentication): void
     {
         $http = $this->http->request("/store/plugin/save", $post, $authentication);
@@ -39,7 +38,6 @@ class Developer implements \App\Service\Store\Developer
         }
     }
 
-    
     public function getPluginTrackedFiles(string $name): array
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, Usr::MAIN);

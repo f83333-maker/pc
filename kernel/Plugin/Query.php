@@ -18,13 +18,11 @@ class Query
 
     private ?string $keyword = null;
 
-    
     public function __construct(string $env = "/app/Plugin")
     {
         $this->env = $env;
     }
 
-    
     public function setPaginate(int $page, int $limit): void
     {
         $this->page = $page;
@@ -36,7 +34,6 @@ class Query
         $this->state = $state;
     }
 
-    
     public function setKeyword(string $keyword): void
     {
         $this->keyword = trim(strtoupper(urldecode($keyword)));
@@ -47,7 +44,6 @@ class Query
         $this->type = $type;
     }
 
-    
     private function isKeywordMatch(Plugin $plugin): bool
     {
         if (!$this->keyword) {
@@ -75,7 +71,6 @@ class Query
         return false;
     }
 
-    
     private function isTypeMatch(Plugin $plugin): bool
     {
         

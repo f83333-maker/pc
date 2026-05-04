@@ -22,6 +22,5 @@ interface Http
 
     public function download(string $url, string $path, ?Authentication $authentication = null, string $method = "GET", array $data = []): bool;
 
-    
     public function upload(string $mime, string $file, ?Authentication $authentication = null): \App\Entity\Store\Http;
 }

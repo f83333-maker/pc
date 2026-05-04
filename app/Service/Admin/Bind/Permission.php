@@ -26,7 +26,6 @@ class Permission implements \App\Service\Admin\Permission
         return $permission->id;
     }
 
-    
     public function authorization(int $permissionId, int $roleId): void
     {
         if (RolePermission::query()->where("role_id", $roleId)->where("permission_id", $permissionId)->exists()) {

@@ -15,7 +15,6 @@ class Compress extends Command
         $this->mergeJs();
     }
 
-    
     public function mergeJs(): void
     {
         
@@ -85,7 +84,6 @@ class Compress extends Command
         $this->success(sprintf("[JS]压缩结束，总耗时：%d秒", (Date::timestamp() - $startTime) / 1000));
     }
 
-    
     public function mergeCss(): void
     {
         $startTime = Date::timestamp();

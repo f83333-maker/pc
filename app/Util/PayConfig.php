@@ -27,7 +27,6 @@ class PayConfig
         return require($path);
     }
 
-    
     public static function log(string $handle, string $type, string $message): void
     {
         $path = BASE_PATH . "/app/Pay/{$handle}/runtime.log";

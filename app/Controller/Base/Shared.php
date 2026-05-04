@@ -14,7 +14,6 @@ abstract class Shared
         return Context::get(\App\Consts\Shared::SESSION);
     }
 
-    
     protected function getUserGroup(): ?UserGroup
     {
         $user = $this->getUser();

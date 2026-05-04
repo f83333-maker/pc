@@ -17,7 +17,6 @@ class Composer
 
     private array $loaded = [];
 
-    
     public function register(): void
     {
         try {

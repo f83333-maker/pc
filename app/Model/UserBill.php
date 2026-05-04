@@ -15,7 +15,6 @@ class UserBill extends Model
 
     protected array $casts = ['id' => 'integer', 'status' => 'integer', 'action' => 'integer', 'user_id' => 'integer', 'type' => 'integer', 'is_withdraw' => 'integer'];
 
-    
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id')->select(['id', 'username', 'avatar']);

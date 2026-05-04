@@ -53,7 +53,6 @@ class Item implements \App\Service\User\Item
     #[Inject]
     protected \App\Service\Common\RepertoryItemSku $repertoryItemSku;
 
-    
     public function list(?User $customer, ?int $categoryId, ?User $merchant, ?string $keywords = null, ?int $page = null, ?int $size = null): array
     {
         $query = Model::query()
@@ -102,7 +101,6 @@ class Item implements \App\Service\User\Item
         return $list;
     }
 
-    
     public function getItemEntity(?User $customer, Model $item, Collection $itemSku, bool $source = false): ?\App\Entity\Shop\Item
     {
         $stock = 0;
@@ -215,7 +213,6 @@ class Item implements \App\Service\User\Item
 
             $now = Date::current();
 
-            
             $item = new Model();
             if ($user) {
                 $item->user_id = $user->id;
@@ -261,7 +258,6 @@ class Item implements \App\Service\User\Item
                 }
                 $itemSku->save();
 
-                
                 $repertoryItemSkuWholesales = RepertoryItemSkuWholesale::query()->where("sku_id", $repertoryItemSku->id)->get();
 
                 foreach ($repertoryItemSkuWholesales as $repertoryItemSkuWholesale) {
@@ -324,7 +320,6 @@ class Item implements \App\Service\User\Item
 
         $keepDecimals = (int)$markup->keepDecimals;
 
-        
         foreach ($repertoryItem->sku as $sku) {
             $itemSku = ItemSku::query()->where("repertory_item_sku_id", $sku->id)->where("item_id", $item->id)->first();
             
@@ -433,7 +428,6 @@ class Item implements \App\Service\User\Item
             }
         ])->find($itemId);
 
-        
         $items = Model::query()->where("repertory_item_id", $itemId)->get();
         
         foreach ($items as $item) {
@@ -541,7 +535,6 @@ class Item implements \App\Service\User\Item
         }
     }
 
-    
     public function getWholesale(?User $customer, int $skuId): array
     {
         $list = ItemSkuWholesale::query()->where("sku_id", $skuId)->orderBy("quantity", "asc")->get();

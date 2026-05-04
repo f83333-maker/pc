@@ -65,7 +65,6 @@ class File
         return self::$files[$path]['data'];
     }
 
-    
     public static function remove(string ...$path): void
     {
         foreach ($path as $p) {
@@ -75,7 +74,6 @@ class File
         }
     }
 
-    
     public static function copy(string $src, string $dst): bool
     {
         if (!is_file($src)) {

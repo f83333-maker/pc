@@ -28,7 +28,6 @@ class RepertoryItem extends Model
         $this->id && $this->item->syncRepertoryItems($this->id);
     }
 
-    
     public function sku(): HasMany
     {
         return $this->hasMany(RepertoryItemSku::class, "repertory_item_id", "id");

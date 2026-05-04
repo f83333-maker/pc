@@ -29,7 +29,6 @@ class Str
         return $sign === '';
     }
 
-    
     public static function generateSignature(array $data, $appKey): string
     {
         unset($data['sign']);
@@ -53,7 +52,6 @@ class Str
         return $amount + (mt_rand($min, $max) / 100);
     }
 
-    
     public static function generateContact(int $type): string|int
     {
         return match ($type) {
@@ -69,7 +67,6 @@ class Str
         return (bool)preg_match('/^[A-Za-z0-9]+$/', $str);
     }
 
-    
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {

@@ -25,7 +25,6 @@ var KTUtil = function() {
 
     return {
 
-        
         init: function(settings) {
             _windowResizeHandler();
         },
@@ -167,12 +166,10 @@ var KTUtil = function() {
 
             while (el && el !== document) {
 
-                
                 position = KTUtil.css(el, 'position');
 
                 if (position === "absolute" || position === "relative" || position === "fixed") {
 
-                    
                     
                     value = parseInt(KTUtil.css(el, 'z-index'));
 
@@ -357,7 +354,6 @@ var KTUtil = function() {
                 
                 var eventClass = "";
 
-                
                 
                 switch (eventName) {
                     case "click": 
@@ -568,8 +564,6 @@ var KTUtil = function() {
                 return;
             }
 
-            
-
             if ( !el.getClientRects().length ) {
                 return { top: 0, left: 0 };
             }
@@ -694,7 +688,6 @@ var KTUtil = function() {
             if (!el.getAttribute('kt-hidden-' + prop) || cache === false) {
                 var value;
 
-                
                 css = el.style.cssText;
                 el.style.cssText = 'position: absolute; visibility: hidden; display: block;';
 
@@ -1171,7 +1164,6 @@ var KTUtil = function() {
             timer  =  setTimeout(function () {
                 func();
 
-                
                 timer  =  undefined;
             }, delay);
         },
@@ -1315,10 +1307,8 @@ var KTUtil = function() {
 
 var KTEventHandler = function() {
 
-    
     var _handlers = {};
 
-    
     
     var _triggerEvent = function(element, name, target, e) {
         if ( KTUtil.data(element).has(name) === true ) {
@@ -1370,7 +1360,6 @@ var KTEventHandler = function() {
     }
 
     
-    
     return {
         trigger: function(element, name, target, e) {
             return _triggerEvent(element, name, target, e);
@@ -1398,7 +1387,6 @@ var KTEventHandler = function() {
 
 var KTMenu = function (element, options) {
 
-    
     var the = this;
 
     if (typeof element === "undefined" || element === null) {
@@ -1416,8 +1404,6 @@ var KTMenu = function (element, options) {
             expand: false
         }
     };
-
-    
 
     var _construct = function () {
         if (KTUtil.data(element).has('menu') === true) {
@@ -1445,7 +1431,6 @@ var KTMenu = function (element, options) {
 
     }
 
-    
     var _click = function (element, e) {
         e.preventDefault();
 
@@ -2033,8 +2018,6 @@ var KTMenu = function (element, options) {
     _construct();
 
     
-
-    
     the.click = function (element, e) {
         return _click(element, e);
     }
@@ -2313,7 +2296,6 @@ if (document.readyState === 'loading') {
 
 var KTToggle = function(element, options) {
 
-    
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -2324,8 +2306,6 @@ var KTToggle = function(element, options) {
     var defaultOptions = {
         saveState: true
     };
-
-    
 
     var _construct = function() {
         if ( KTUtil.data(element).has('toggle') === true ) {
@@ -2427,8 +2407,6 @@ var KTToggle = function(element, options) {
     }
 
     _construct();
-
-    
 
     
     the.toggle = function() {
@@ -2541,7 +2519,6 @@ KTUtil.onDOMContentLoaded(function () {
 
 var KTScroll = function(element, options) {
 
-    
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -2552,8 +2529,6 @@ var KTScroll = function(element, options) {
     var defaultOptions = {
         saveState: true
     };
-
-    
 
     var _construct = function() {
         if ( KTUtil.data(element).has('scroll') ) {
@@ -2763,8 +2738,6 @@ var KTScroll = function(element, options) {
 
     _construct();
 
-    
-
     the.update = function() {
         return _update();
     }
@@ -2833,7 +2806,6 @@ if (document.readyState === 'loading') {
 
 var KTScrolltop = function(element, options) {
 
-    
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -2845,8 +2817,6 @@ var KTScrolltop = function(element, options) {
         offset: 300,
         speed: 600
     };
-
-    
 
     var _construct = function() {
         if (KTUtil.data(element).has('scrolltop')) {
@@ -2937,8 +2907,6 @@ var KTScrolltop = function(element, options) {
     _construct();
 
     
-
-    
     the.go = function() {
         return _go();
     }
@@ -2985,7 +2953,6 @@ if (document.readyState === 'loading') {
 
 var KTDrawer = function (element, options) {
 
-    
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -2999,8 +2966,6 @@ var KTDrawer = function (element, options) {
         baseClass: 'drawer',
         overlayClass: 'drawer-overlay'
     };
-
-    
 
     var _construct = function () {
         if (KTUtil.data(element).has('drawer')) {
@@ -3195,8 +3160,6 @@ var KTDrawer = function (element, options) {
     }
 
     _construct();
-
-    
 
     
     the.toggle = function () {

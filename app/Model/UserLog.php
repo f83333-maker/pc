@@ -18,13 +18,11 @@ class UserLog extends Model
 
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer'];
 
-    
     public function user(): HasOne
     {
         return $this->hasOne(User::class, "id", "user_id");
     }
 
-    
     public static function add(string $content): void
     {
 

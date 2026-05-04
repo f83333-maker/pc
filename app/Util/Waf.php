@@ -79,7 +79,6 @@ class Waf
         }
     }
 
-    
     private function listToString(array $array): array|string
     {
         if (is_array($array)) {
@@ -117,7 +116,6 @@ class Waf
         }
     }
 
-    
     public static function instance(): self
     {
         if (!self::$instance) {

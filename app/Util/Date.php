@@ -25,7 +25,6 @@ class Date
         }
     }
 
-    
     public static function isNight(): bool
     {
         $h = date('H');

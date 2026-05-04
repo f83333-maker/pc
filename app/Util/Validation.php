@@ -38,7 +38,6 @@ class Validation
         return true;
     }
 
-    
     public static function domain(string $domain): bool
     {
         if (preg_match("/^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/", $domain)) {

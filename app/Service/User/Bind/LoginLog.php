@@ -15,7 +15,6 @@ class LoginLog implements \App\Service\User\LoginLog
     #[Inject]
     private Lifetime $lifetime;
 
-    
     public function create(int $userId, string $ip, string $ua): void
     {
         $ipCount = UserLoginLog::query()->where("user_id", $userId)->where("ip", $ip)->count();

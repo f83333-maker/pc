@@ -53,7 +53,6 @@ class Identity extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-    
     #[Validator([
         [\App\Validator\Admin\Level::class, "name"]
     ])]
@@ -72,7 +71,6 @@ class Identity extends Base
         return $this->json();
     }
 
-    
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

@@ -28,7 +28,6 @@ class File implements Session
         return $this->path . $this->id();
     }
 
-    
     public function get(?string $key = null): mixed
     {
         if (!App::$cli) {
