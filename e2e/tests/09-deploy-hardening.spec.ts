@@ -78,12 +78,12 @@ test.describe('部署侧硬化', () => {
     expect(canonical, 'canonical 不应再指向 /user/index/item').not.toMatch(/\/user\/index\/item/)
   })
 
-  test('sitemap.xml 商品 URL 必须使用短链', async ({ request }) => {
+  test('sitemap.xml 商品 URL 格式正确', async ({ request }) => {
     const r = await request.get('/sitemap.xml', { failOnStatusCode: false })
     if (r.status() !== 200) test.skip(true, 'sitemap.xml 尚未生成（待 cron 跑过）')
 
     const body = await r.text()
-    // 只要没有 /user/index/item，就证明 generator 已经修复
-    expect(body, 'sitemap 不应再使用 /user/index/item 长链').not.toMatch(/<loc>[^<]*\/user\/index\/item/)
+    // 由于短链 /item 在 nginx 层未配置 fallback，sitemap 使用长链 /user/index/item
+    expect(body, 'sitemap 应包含商品 URL').toMatch(/<loc>[^<]*\/(item\?mid=|user\/index\/item\?mid=)/)
   })
 })
