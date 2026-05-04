@@ -1,0 +1,21 @@
+{
+  "name": "pcccc-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-link E2E tests for pcccc.cc (Playwright)",
+  "scripts": {
+    "install:browsers": "playwright install chromium",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:smoke": "playwright test 01-connectivity 02-seo",
+    "test:destructive": "playwright test 03-admin-crud 04-injection-xss",
+    "test:flow": "playwright test 05-user-purchase-flow 06-authorization-concurrency"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}

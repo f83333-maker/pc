@@ -2,18 +2,21 @@
 # 允许搜索引擎抓取首页、商品详情页、分类页等所有 SEO 公开页面
 # 禁止抓取后台、用户中心私有页、API 与支付结算等隐私/无 SEO 价值的路径
 #
-# 关于 /user/ 路径的说明：
-#   本项目框架（mcy-shop）的所有面向用户路由都挂在 /user/ 命名空间下，
-#   其中只有 /user/index/item（商品详情）是公开页面，其他都是登录后才能访问的私有页面。
-#   按 robots.txt 协议"最具体规则胜出"原则，Allow: /user/index/item
-#   会覆盖父目录的 Disallow: /user/，从而使商品详情页被允许抓取。
+# 关于商品详情页路径的说明：
+#   框架同时存在两条等价路由：
+#     /item?mid={id}            （短链，SEO canonical 入口）
+#     /user/index/item?mid={id} （框架内部默认派发，已在 canonical 上做收敛）
+#   robots.txt 同时显式 Allow 两者，避免历史 URL 解收录失败；canonical 会把权重统一到短链。
+#   /user/ 命名空间下其他路径默认 Disallow。
 
 User-agent: *
 Allow: /
+Allow: /item
 
-# /user/ 命名空间默认禁止，仅放行公开商品详情
+# /user/ 命名空间默认禁止，仅放行公开商品详情（兼容历史索引）
 Disallow: /user/
 Allow: /user/index/item
+Allow: /user/index/query
 
 # 后台管理
 Disallow: /admin
