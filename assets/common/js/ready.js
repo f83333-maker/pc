@@ -30,43 +30,37 @@ function _waitForLayui(maxWaitMs) {
 
 function ready(call) {
     documentReady(() => {
-        const run = () => {
-            _waitForLayui(8000).then(() => {
-                const exec = () => {
-                    if (typeof call === "function") {
-                        call();
-                        return;
-                    }
-                    if (!call) return;
-
-                    document.querySelectorAll('script[ready]').forEach(s => s.remove());
-
-                    const s = document.createElement('script');
-                    s.src = call;
-                    s.async = true;
-                    s.setAttribute('ready', 'true');
-                    document.body.appendChild(s);
-
-                    if (typeof util !== "undefined" && util && typeof util.debug === "function") {
-                        util.debug(`RELOAD -> ${call}`, "#10d18f");
-                    }
-                };
-
-                if (typeof window.layui !== "undefined" && typeof window.layui.use === "function") {
-                    window.layui.use('form', exec);
-                } else {
-                    // layui 不可用时直接执行，避免页面交互被锁死
-                    exec();
+        // layui 现在通过 defer 加载，DOMContentLoaded 触发时可能还未就绪，
+        // 所以必须等 layui 真正可用，再注入业务脚本/绑定事件。
+        // 这是交互关键路径，绝不能用 requestIdleCallback 延后，否则用户点击会丢失。
+        _waitForLayui(8000).then(() => {
+            const exec = () => {
+                if (typeof call === "function") {
+                    call();
+                    return;
                 }
-            });
-        };
+                if (!call) return;
 
-        // 浏览器空闲时再触发，避免抢占首屏关键路径
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(run, { timeout: 1500 });
-        } else {
-            setTimeout(run, 200);
-        }
+                document.querySelectorAll('script[ready]').forEach(s => s.remove());
+
+                const s = document.createElement('script');
+                s.src = call;
+                s.async = true;
+                s.setAttribute('ready', 'true');
+                document.body.appendChild(s);
+
+                if (typeof util !== "undefined" && util && typeof util.debug === "function") {
+                    util.debug(`RELOAD -> ${call}`, "#10d18f");
+                }
+            };
+
+            if (typeof window.layui !== "undefined" && typeof window.layui.use === "function") {
+                window.layui.use('form', exec);
+            } else {
+                // layui 8 秒内仍不可用时直接执行，至少保证业务脚本能跑、点击能响应
+                exec();
+            }
+        });
     });
 }
 
