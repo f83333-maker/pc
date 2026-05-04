@@ -30617,7 +30617,7 @@ a.text-smooth-lighter:focus, a.text-smooth-lighter:hover {
     font-family: "Font Awesome 6 Free";
     font-style: normal;
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
     src: url(../fonts/fontawesome/fa-regular-400.woff2) format("woff2"), url(../fonts/fontawesome/fa-regular-400.ttf) format("truetype")
 }
 
@@ -30634,7 +30634,7 @@ a.text-smooth-lighter:focus, a.text-smooth-lighter:hover {
     font-family: "Font Awesome 6 Free";
     font-style: normal;
     font-weight: 900;
-    font-display: block;
+    font-display: swap;
     src: url(../fonts/fontawesome/fa-solid-900.woff2) format("woff2"), url(../fonts/fontawesome/fa-solid-900.ttf) format("truetype")
 }
 
@@ -30651,7 +30651,7 @@ a.text-smooth-lighter:focus, a.text-smooth-lighter:hover {
     font-family: "Font Awesome 6 Brands";
     font-style: normal;
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
     src: url(../fonts/fontawesome/fa-brands-400.woff2) format("woff2"), url(../fonts/fontawesome/fa-brands-400.ttf) format("truetype")
 }
 

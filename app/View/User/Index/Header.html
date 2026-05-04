@@ -8,6 +8,28 @@
 
     <link rel="shortcut icon" href="{{ site.logo }}">
 
+    {# 关键字体预加载：避免首屏图标/文字延迟出现 #}
+    <link rel="preload" as="font" type="font/woff2"
+          href="/assets/common/fonts/custom_font/fonts/webfonts/OakSans-Regular.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2"
+          href="/assets/common/fonts/font.woff2" crossorigin>
+
+    {# 首屏背景图预加载（来自站点配置） #}
+    {% if site.bg_image %}
+        <link rel="preload" as="image" href="{{ site.bg_image }}" fetchpriority="high">
+    {% endif %}
+
+    {# 首屏关键内联 CSS：消除渲染阻塞导致的白屏 #}
+    <style>
+        html { background-color: #d9e8e6; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column;
+               font-family: 'Oak Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.5; color: #1d1d1f;
+               -webkit-font-smoothing: antialiased; overflow-x: clip;
+               {% if site.bg_image %}background: url('{{ site.bg_image }}') center/cover fixed no-repeat;{% endif %} }
+        .net-loading, .chahuo-ring-overlay { display: none !important; }
+    </style>
+
     {{ css( [
         "/assets/user/css/index.min.css",
     ] , [
@@ -21,14 +43,14 @@
         "/assets/common/js/layer/theme/default/layer.css"
     ])|raw }}
 
-    {{ js(["/assets/common/js/ready.js"])|raw }}
+    {{ js(["/assets/common/js/ready.js"], null, true, true)|raw }}
 
     {{ index_var()|raw }}
 
     {{ hook(env() , point("INDEX_HEADER") , 1)|raw }}
 </head>
 
-<body style="background: url('{{ site.bg_image }}') fixed no-repeat;background-size: cover;">
+<body>
 
 <div id="page-container" class="page-header-dark main-content-boxed">
 

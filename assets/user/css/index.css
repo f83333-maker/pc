@@ -1668,9 +1668,9 @@ i.fa-headset {
   mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3'/%3E%3C/svg%3E");
 }
 
-@font-face { font-family: "Font Awesome 6 Pro"; src: local("___nope___"); font-display: block; }
-@font-face { font-family: "Font Awesome 6 Duotone"; src: local("___nope___"); font-display: block; }
-@font-face { font-family: "Font Awesome 6 Brands"; src: local("___nope___"); font-display: block; }
+@font-face { font-family: "Font Awesome 6 Pro"; src: local("___nope___"); font-display: swap; }
+@font-face { font-family: "Font Awesome 6 Duotone"; src: local("___nope___"); font-display: swap; }
+@font-face { font-family: "Font Awesome 6 Brands"; src: local("___nope___"); font-display: swap; }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .panel,
@@ -2112,3 +2112,40 @@ i.fa-headset {
     }
 }
 
+/* ============================================================
+   性能优化：content-visibility / contain-intrinsic-size
+   --------------------------------------------------
+   - .cv-auto       : 视口外的区块跳过渲染/布局，长列表大幅省 CPU。
+   - .cv-card       : 商品/分类卡片专用，预估 360px 高度避免滚动条跳动。
+   - .cv-section    : 大区块（楼层、页脚区）专用，预估 600px 高度。
+   仅在支持 content-visibility 的浏览器（Chromium 85+/Safari 18+）生效，
+   不支持的浏览器会自动忽略这些规则，不影响功能。
+   ============================================================ */
+@supports (content-visibility: auto) {
+    .cv-auto {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 500px;
+    }
+
+    .cv-card {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 360px;
+    }
+
+    .cv-section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 600px;
+    }
+}
+
+/* 减少动画偏好：尊重系统设置，关闭非关键动画（兼顾性能与无障碍） */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
