@@ -45,12 +45,7 @@
             "@id": request.url ~ "/#website",
             "url": request.url ~ "/",
             "name": site.title|striptags,
-            "description": site.description|striptags,
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": request.url ~ "/?keywords={search_term_string}",
-                "query-input": "required name=search_term_string"
-            }
+            "description": site.description|striptags
         },
         {
             "@type": "ItemList",
