@@ -72,12 +72,7 @@
       "@type": "WebSite",
       "name": "#{$config.shop_name|escape:'javascript'}",
       "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/",
-      "description": "#{$config.description|escape:'javascript'}",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/search?keyword={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+      "description": "#{$config.description|escape:'javascript'}"
     }
     </script>
     #{/if}
