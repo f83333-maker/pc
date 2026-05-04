@@ -18,7 +18,7 @@
 
     <!-- ================== Canonical（避免重复内容降权） ================== -->
     #{if isset($item) && $item}
-        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}"/>
+        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}"/>
     #{else}
         <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/"/>
     #{/if}
@@ -31,17 +31,19 @@
         <meta property="og:title" content="#{$item.name|strip_tags|escape:'html'} - #{$config.shop_name}">
         <meta property="og:description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}">
         <meta property="og:image" content="#{if !empty($item.picture_url)}#{$item.picture_url}#{else}/favicon.png#{/if}">
-        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}">
+        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}">
         <meta property="product:price:amount" content="#{$item.price|default:''}">
         <meta property="product:price:currency" content="CNY">
     #{else}
         <meta property="og:title" content="#{$title} - #{$config.shop_name}">
         <meta property="og:description" content="#{$config.description}">
         <meta property="og:image" content="/favicon.png">
+        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/">
     #{/if}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="#{if isset($item) && $item}#{$item.name|strip_tags|escape:'html'}#{else}#{$title}#{/if} - #{$config.shop_name}">
     <meta name="twitter:description" content="#{if isset($item) && $item}#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}#{else}#{$config.description}#{/if}">
+    <meta name="twitter:image" content="#{if isset($item) && $item}#{if !empty($item.picture_url)}#{$item.picture_url}#{else}/favicon.png#{/if}#{else}/favicon.png#{/if}">
 
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
 
@@ -58,7 +60,7 @@
       "brand": { "@type": "Brand", "name": "#{$config.shop_name|escape:'javascript'}" },
       "offers": {
         "@type": "Offer",
-        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}",
+        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}",
         "priceCurrency": "CNY",
         "price": "#{$item.price|default:'0'}",
         "availability": "#{if $item.is_stock|default:false}https://schema.org/InStock#{else}https://schema.org/OutOfStock#{/if}"
