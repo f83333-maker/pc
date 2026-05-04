@@ -2112,3 +2112,40 @@ i.fa-headset {
     }
 }
 
+/* ============================================================
+   性能优化：content-visibility / contain-intrinsic-size
+   --------------------------------------------------
+   - .cv-auto       : 视口外的区块跳过渲染/布局，长列表大幅省 CPU。
+   - .cv-card       : 商品/分类卡片专用，预估 360px 高度避免滚动条跳动。
+   - .cv-section    : 大区块（楼层、页脚区）专用，预估 600px 高度。
+   仅在支持 content-visibility 的浏览器（Chromium 85+/Safari 18+）生效，
+   不支持的浏览器会自动忽略这些规则，不影响功能。
+   ============================================================ */
+@supports (content-visibility: auto) {
+    .cv-auto {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 500px;
+    }
+
+    .cv-card {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 360px;
+    }
+
+    .cv-section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 600px;
+    }
+}
+
+/* 减少动画偏好：尊重系统设置，关闭非关键动画（兼顾性能与无障碍） */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
