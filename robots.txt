@@ -2,18 +2,16 @@
 # 允许搜索引擎抓取首页、商品详情页、分类页等所有 SEO 公开页面
 # 禁止抓取后台、用户中心私有页、API 与支付结算等隐私/无 SEO 价值的路径
 #
-# 关于商品详情页路径的说明：
-#   框架同时存在两条等价路由：
-#     /item?mid={id}            （短链，SEO canonical 入口）
-#     /user/index/item?mid={id} （框架内部默认派发，已在 canonical 上做收敛）
-#   robots.txt 同时显式 Allow 两者，避免历史 URL 解收录失败；canonical 会把权重统一到短链。
-#   /user/ 命名空间下其他路径默认 Disallow。
+# 关于商品详情页路径的说明（2026-05 修正）：
+#   route.php 中虽然声明了短链 /item，但线上实测 nginx 的 index.php fallback
+#   并未把 /item 路由到 Index::item，会落到 404 模板。
+#   线上唯一真正可渲染的商品详情 URL 是 /user/index/item?mid={id}，
+#   故 canonical / sitemap / robots Allow 全部以这条为准。
 
 User-agent: *
 Allow: /
-Allow: /item
 
-# /user/ 命名空间默认禁止，仅放行公开商品详情（兼容历史索引）
+# /user/ 命名空间默认禁止，仅放行公开页面
 Disallow: /user/
 Allow: /user/index/item
 Allow: /user/index/query

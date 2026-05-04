@@ -16,14 +16,15 @@
     <meta name="theme-color" content="#3d49a1">
 
     #{*
-        canonical 规则说明：
-        框架同时存在两条路由指向商品详情：
-          1) /item?mid={id}            （config/route.php 显式注册的"美化"短链，公开页 SEO 入口）
-          2) /user/index/item?mid={id} （框架按命名空间惯例自动派发的内部 URL）
-        为避免重复内容（duplicate content）被收录，统一以"短链"为 canonical。
+        canonical 规则说明（2026-05 修正）：
+        线上经实测发现：route.php 中虽然声明了短链 /item，但 nginx + index.php 的 fallback
+        实际并不会把 /item 路由到 \App\Controller\User\Index::item，会落到框架 404 页面。
+        线上唯一真正能渲染商品详情的 URL 是 /user/index/item?mid={id}。
+        因此 canonical / og:url / JSON-LD url 必须使用这个真实 URL，
+        否则 Google 抓取后看到 200 + 404 模板会判定为 soft-404，对 SEO 是灾难。
     *}
     #{if isset($item) && $item}
-        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}"/>
+        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}"/>
     #{else}
         <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/"/>
     #{/if}
@@ -35,7 +36,7 @@
         <meta property="og:title" content="#{$item.name|strip_tags|escape:'html'} - #{$config.shop_name}">
         <meta property="og:description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}">
         <meta property="og:image" content="#{if !empty($item.picture_url)}#{$item.picture_url}#{else}/favicon.png#{/if}">
-        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}">
+        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}">
         <meta property="product:price:amount" content="#{$item.price|default:''}">
         <meta property="product:price:currency" content="CNY">
     #{else}
@@ -63,7 +64,7 @@
       "brand": { "@type": "Brand", "name": "#{$config.shop_name|escape:'javascript'}" },
       "offers": {
         "@type": "Offer",
-        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}",
+        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}",
         "priceCurrency": "CNY",
         "price": "#{$item.price|default:'0'}",
         "availability": "#{if $item.is_stock|default:false}https://schema.org/InStock#{else}https://schema.org/OutOfStock#{/if}"

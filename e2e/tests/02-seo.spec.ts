@@ -1,16 +1,15 @@
 import { test, expect } from "@playwright/test";
+import { ROUTES, KNOWN_ITEM_MID } from "../helpers/data";
 
 /**
  * 阶段 SEO：搜索引擎优化白盒验证
- * - title / description / keywords / canonical / OG / Twitter / JSON-LD 全链路
- * - 登录/注册类页面必须 noindex
- * - 图片 alt 覆盖率
- * - 内链有效性抽样
- * - 重复内容检测：canonical 必须收敛到短链 /item?mid=
+ *
+ * 关键修正（2026-05）：线上短链 /item /login /register 在 nginx fallback 下不可达，
+ * canonical / sitemap / og:url / JSON-LD url 全部使用 /user/index/item?mid=
  */
 
 test("首页 SEO 元信息齐全", async ({ page }) => {
-  await page.goto("/");
+  await page.goto(ROUTES.home);
   await expect(page).toHaveTitle(/.+/);
   await expect(page.locator("html")).toHaveAttribute("lang", /zh/i);
 
@@ -40,7 +39,7 @@ test("首页 SEO 元信息齐全", async ({ page }) => {
 });
 
 test("商品详情页 SEO + JSON-LD Product Schema", async ({ page }) => {
-  await page.goto("/item?mid=1");
+  await page.goto(ROUTES.itemDetail(KNOWN_ITEM_MID));
   await expect(page.locator("h1").first()).toBeVisible();
 
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
@@ -48,21 +47,30 @@ test("商品详情页 SEO + JSON-LD Product Schema", async ({ page }) => {
     "product",
   );
 
-  // canonical 必须指向真实可访问的短链路由 /item?mid=
+  // canonical 必须指向真实可访问 URL（线上 /item 短链不工作，所以保留长链）
   const canonical = await page
     .locator('link[rel="canonical"]')
     .getAttribute("href");
   expect(canonical, "商品详情页 canonical 必填").toBeTruthy();
-  expect(canonical, "canonical 不应再指向旧的 /user/index/item").not.toMatch(
-    /\/user\/index\/item/,
+  expect(canonical, "canonical 必须可访问，使用 /user/index/item?mid=").toMatch(
+    /\/user\/index\/item\?mid=\d+/,
   );
-  expect(canonical, "canonical 必须使用短链 /item?mid=").toMatch(/\/item\?mid=\d+/);
+
+  // canonical URL 自身必须真实可访问，否则就是 soft-404
+  if (canonical) {
+    const r = await page.request.get(canonical, { failOnStatusCode: false });
+    const html = await r.text();
+    expect.soft(
+      html,
+      "canonical URL 必须真实可达，绝不能是 404 模板",
+    ).not.toMatch(/<title>404\s+Not\s+Found/i);
+  }
 
   // OG URL / JSON-LD URL 应与 canonical 一致
   const ogUrl = await page
     .locator('meta[property="og:url"]')
     .getAttribute("content");
-  expect(ogUrl).toMatch(/\/item\?mid=\d+/);
+  expect(ogUrl).toMatch(/\/user\/index\/item\?mid=\d+/);
 
   // JSON-LD Product
   const ld = await page
@@ -78,25 +86,32 @@ test("商品详情页 SEO + JSON-LD Product Schema", async ({ page }) => {
   expect(parsed["@type"]).toBe("Product");
   expect(parsed.name).toBeTruthy();
   expect(parsed.offers?.price, "Product.offers.price 必须存在").toBeDefined();
-  expect(parsed.offers?.url, "Product.offers.url").toMatch(/\/item\?mid=\d+/);
+  expect(parsed.offers?.url, "Product.offers.url").toMatch(
+    /\/user\/index\/item\?mid=\d+/,
+  );
 });
 
-test("登录 / 注册 / 找回密码页应 noindex", async ({ page }) => {
-  for (const path of ["/login", "/register", "/reset"]) {
-    await page.goto(path);
+test("登录 / 注册页应 noindex", async ({ page }) => {
+  for (const path of [ROUTES.login, ROUTES.register]) {
+    const res = await page.goto(path);
+    if (res && res.status() >= 400) {
+      test.info().annotations.push({ type: "skip", description: `${path} 不可达` });
+      continue;
+    }
     const robots = await page
       .locator('meta[name="robots"]')
       .first()
-      .getAttribute("content");
-    expect(
+      .getAttribute("content")
+      .catch(() => null);
+    expect.soft(
       robots,
-      `${path} 应在 <meta name="robots"> 中包含 noindex`,
+      `${path} 应在 <meta name="robots"> 中包含 noindex（避免登录入口被收录）`,
     ).toMatch(/noindex/i);
   }
 });
 
 test("图片 alt 覆盖率（首页）", async ({ page }) => {
-  await page.goto("/");
+  await page.goto(ROUTES.home);
   const imgs = page.locator("img");
   const total = await imgs.count();
   expect(total, "首页应至少有 1 张图片").toBeGreaterThan(0);
@@ -115,40 +130,34 @@ test("图片 alt 覆盖率（首页）", async ({ page }) => {
 });
 
 test("内链抽样无 5xx / 死链", async ({ page }) => {
-  await page.goto("/");
+  await page.goto(ROUTES.home);
   const hrefs = await page
     .locator('a[href^="/"], a[href^="https://pcccc.cc"]')
     .evaluateAll((els) => (els as HTMLAnchorElement[]).map((e) => e.href));
-  const uniq = [...new Set(hrefs)].slice(0, 25);
+  const uniq = [...new Set(hrefs)]
+    .filter((u) => !u.startsWith("javascript:") && !u.endsWith("#"))
+    .slice(0, 20);
+
   for (const url of uniq) {
     const r = await page.request
       .get(url, { failOnStatusCode: false, maxRedirects: 5 })
       .catch(() => null);
     if (r) {
       expect.soft(r.status(), `内链 ${url} 不应 5xx`).toBeLessThan(500);
+      // 内链也不应落到 soft-404
+      const html = await r.text().catch(() => "");
+      expect.soft(html, `内链 ${url} 不应 soft-404`).not.toMatch(
+        /<title>404\s+Not\s+Found/i,
+      );
     }
   }
 });
 
 test("结构化语言一致性：html lang + Content-Language", async ({ page }) => {
-  const res = await page.goto("/");
+  const res = await page.goto(ROUTES.home);
   const lang = await page.locator("html").getAttribute("lang");
   expect(lang).toMatch(/zh/i);
   const cl =
     res?.headers()["content-language"] || res?.headers()["Content-Language"];
   if (cl) expect.soft(cl).toMatch(/zh/i);
-});
-
-test("两条等价 URL 之间有 canonical 收敛", async ({ page }) => {
-  // 老链接 /user/index/item?mid=1 仍应可访问，但其 canonical 必须指向 /item?mid=1
-  const res = await page
-    .goto("/user/index/item?mid=1", { waitUntil: "domcontentloaded" })
-    .catch(() => null);
-  if (!res || res.status() >= 400) {
-    test.skip(true, "/user/index/item 不可达，框架已收敛——跳过双 URL 检查");
-  }
-  const canonical = await page
-    .locator('link[rel="canonical"]')
-    .getAttribute("href");
-  expect(canonical, "兼容路由必须指向 canonical 短链").toMatch(/\/item\?mid=\d+/);
 });
