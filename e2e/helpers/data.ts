@@ -34,6 +34,10 @@ export const ROUTES = {
   // 线上实测真实可达的后台首页（302 后落点，登录态校验通过后会渲染）
   adminDashboard: "/admin/dashboard/index",
   userDashboard: "/user/dashboard/index",
+  // API 路由（使用长链，短链在 nginx 层 404）
+  apiGetOrder: "/user/shop/order/getOrder",
+  apiCancelOrder: "/user/shop/order/cancel",
+  apiDownloadOrder: "/user/shop/order/download",
 };
 
 /** 一个保证存在的商品 mid（首页/sitemap 抽到的真实商品；mid=1 在线上是空商品） */

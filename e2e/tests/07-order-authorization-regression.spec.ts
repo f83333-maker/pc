@@ -67,7 +67,8 @@ test.describe('订单越权回归（B3 / B4 / cancel）', () => {
 
   test('getOrder 用伪造 trade_no 必须返回订单不存在', async ({ page }) => {
     const fakeTradeNo = 'FAKE_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8)
-    const resp = await jqueryPost(page, '/shop/order/getOrder', {
+    // 使用长链 API（短链在 nginx 层 404）
+    const resp = await jqueryPost(page, '/user/shop/order/getOrder', {
       trade_no: fakeTradeNo,
       item_id: 1,
     })
@@ -85,7 +86,8 @@ test.describe('订单越权回归（B3 / B4 / cancel）', () => {
 
   test('cancel 用伪造 trade_no 必须返回订单不存在（防 DoS 干扰）', async ({ page }) => {
     const fakeTradeNo = 'FAKE_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8)
-    const resp = await jqueryPost(page, '/shop/order/cancel', { trade_no: fakeTradeNo })
+    // 使用长链 API
+    const resp = await jqueryPost(page, '/user/shop/order/cancel', { trade_no: fakeTradeNo })
     expect(resp.status).toBeLessThan(500)
     if (resp.parsed) {
       expect([200, 0, 400, 404]).toContain(resp.parsed.code ?? 0)
@@ -103,7 +105,8 @@ test.describe('订单越权回归（B3 / B4 / cancel）', () => {
     const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join('; ')
 
     const fakeTradeNo = 'FAKE_' + Date.now()
-    const r = await request.get(`/shop/order/downloadOrder?itemId=1&tradeNo=${fakeTradeNo}`, {
+    // 使用长链 API
+    const r = await request.get(`/user/shop/order/downloadOrder?itemId=1&tradeNo=${fakeTradeNo}`, {
       headers: { Cookie: cookieHeader },
       failOnStatusCode: false,
     })
@@ -123,7 +126,8 @@ test.describe('订单越权回归（B3 / B4 / cancel）', () => {
     const ctx = await browser.newContext()
     const fresh = await ctx.newPage()
     await fresh.goto('/')
-    const resp = await jqueryPost(fresh, '/shop/order/getOrder', {
+    // 使用长链 API
+    const resp = await jqueryPost(fresh, '/user/shop/order/getOrder', {
       trade_no: 'ANY_' + Date.now(),
       item_id: 1,
     })
@@ -138,7 +142,8 @@ test.describe('PostDecrypt 旁路回归', () => {
   test('空 body + 伪造 Secret/Signature 必须 signature failure', async ({ request }) => {
     // 修复前：Secret/Signature 都给非空、body 为空 → 直接 return $response 跳过校验
     // 修复后：必须显式 throw
-    const r = await request.post('/shop/order/cancel', {
+    // 使用长链 API
+    const r = await request.post('/user/shop/order/cancel', {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Secret: 'a'.repeat(32),
