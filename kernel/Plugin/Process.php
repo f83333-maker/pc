@@ -25,10 +25,6 @@ class Process
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/process";
 
-    /**
-     * @param ProcessInfo $processInfo
-     * @return bool
-     */
     public function exist(ProcessInfo $processInfo): bool
     {
         $runtime = self::CACHE_FILE;
@@ -48,12 +44,6 @@ class Process
         return false;
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
     public function add(string $name, string $env): void
     {
         $path = BASE_PATH . $env . "/{$name}";
@@ -84,19 +74,11 @@ class Process
         });
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
     public function del(string $name, string $env): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($env, $name) {
             $items = Plugin::inst()->decrypt($contents);
-            /**
-             * @var ProcessInfo $item
-             */
+
             foreach ($items as $index => $item) {
                 if ($item->plugin->name == $name && $item->env == $env) {
                     unset($items[$index]);
@@ -107,10 +89,6 @@ class Process
         });
     }
 
-
-    /**
-     * @return void
-     */
     public function started(): void
     {
         if (!App::$cli) {
@@ -128,9 +106,7 @@ class Process
             \Kernel\Util\Process::setName($processName . ".plugin.main");
             $pm = new Manager();
             if (count($processItems) > 0) {
-                /**
-                 * @var ProcessInfo $processInfo
-                 */
+
                 foreach ($processItems as $processInfo) {
                     for ($i = 0; $i < $processInfo->num; $i++) {
                         $pm->add(function (Pool $pool, int $workerId) use ($processName, $i, $processInfo, $config) {

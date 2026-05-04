@@ -5,32 +5,15 @@ namespace App\Util;
 
 use Kernel\Exception\JSONException;
 
-/**
- * 助手
- */
 class Helper
 {
-    /**
-     * 通用插件
-     */
+
     const TYPE_GENERAL = 0;
 
-    /**
-     * 支付扩展
-     */
     const TYPE_PAY = 1;
 
-    /**
-     * 网站模板
-     */
     const TYPE_THEME = 2;
 
-
-    /**
-     * 获取主题目录所在的URL地址
-     * @throws \ReflectionException
-     * @throws JSONException
-     */
     public static function themeUrl(string $path, bool $debug = false): string
     {
         $mobile = \App\Model\Config::get("user_mobile_theme");
@@ -42,11 +25,6 @@ class Helper
         return "/app/View/User/Theme/" . $theme . "/{$path}?v=" . Theme::getConfig($theme)["info"]["VERSION"] . (!$debug ? "" : "&debug=" . Str::generateRandStr(16));
     }
 
-    /**
-     * @param string $key
-     * @param int $type
-     * @return bool|array
-     */
     public static function isInstall(string $key, int $type): bool|array
     {
 

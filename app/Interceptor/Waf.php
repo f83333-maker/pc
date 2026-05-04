@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Interceptor;
 
-
 use Kernel\Annotation\InterceptorInterface;
 use Kernel\Exception\JSONException;
 use Kernel\Util\View;
@@ -12,13 +11,6 @@ use Kernel\Waf\Firewall;
 class Waf implements InterceptorInterface
 {
 
-
-    /**
-     * @param int $type
-     * @return void
-     * @throws JSONException
-     * @throws \SmartyException
-     */
     public function handle(int $type): void
     {
         if (!file_exists(BASE_PATH . '/kernel/Install/Lock')) {

@@ -34,17 +34,12 @@ class Shop implements \App\Service\Shop
     #[Inject]
     private \App\Service\Order $order;
 
-    /**
-     * @param UserGroup|null $group
-     * @return array
-     * @throws RuntimeException
-     */
     public function getCategory(?UserGroup $group): array
     {
         $bus = Business::get();
         $cache = null;
         $cacheKey = '';
-        // 主站首页分类树：短时文件缓存，降低首页 TTFB（分站/商家上下文不参与缓存）
+
         if (!$bus) {
             $cacheKey = 'shop_category_master_v1_' . md5(
                 (string)($group?->id ?? 0) . "\0"
@@ -67,18 +62,18 @@ class Shop implements \App\Service\Shop
             $builder->where("status", 1);
         }])->where("status", 1)->orderBy("sort", "asc");
 
-        $userCategoryMap = []; //自定义名称的MAP
+        $userCategoryMap = []; 
         $master = true;
 
         if ($bus) {
             $master = false;
-            //商家
+
             if ($bus->master_display == 0) {
                 $category = $category->where("owner", $bus->user_id);
             } else {
-                //查询出所有不显示的ID
+
                 $userCategory = UserCategory::query()->where("user_id", $bus->user_id)->get();
-                //隐藏的分类ID
+
                 $hideCategory = [];
 
                 foreach ($userCategory as $userCate) {
@@ -92,9 +87,9 @@ class Shop implements \App\Service\Shop
                 $category = $category->whereNotIn("id", $hideCategory)->whereRaw("(`owner`=0 or `owner`={$bus->user_id})");
             }
         } else {
-            //主站
+
             if (Config::get("substation_display") == 1) {
-                //显示商家
+
                 $list = (array)json_decode(Config::get("substation_display_list"), true);
                 $let = "(`owner`=0 or ";
                 foreach ($list as $userId) {
@@ -106,7 +101,7 @@ class Shop implements \App\Service\Shop
                 $category = $category->where("owner", 0);
             }
         }
-        //拿到最终的分类数据
+
         $category = $category->get();
 
         foreach ($category as $index => $item) {
@@ -155,14 +150,6 @@ class Shop implements \App\Service\Shop
         return $array;
     }
 
-    /**
-     * @param int|string $commodityId
-     * @param User|null $user
-     * @param UserGroup|null $group
-     * @return array
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function getItem(int|string $commodityId, ?User $user = null, ?UserGroup $group = null): array
     {
 
@@ -193,17 +180,12 @@ class Shop implements \App\Service\Shop
             throw new JSONException("该商品暂未上架");
         }
 
-        /**
-         * @var Shared $shared
-         */
         $shared = \App\Model\Shared::query()->find($commodity->shared_id);
 
         if ($shared) {
-            //远端同步
+
             if ($commodity->shared_sync == 1) {
-                /**
-                 * @var Commodity $new
-                 */
+
                 $new = Commodity::query()->find($commodity->id);
 
                 $remoteItem = $this->shared->item($shared, $new->shared_code);
@@ -224,7 +206,6 @@ class Shop implements \App\Service\Shop
                     $commodity->price = $new->price = $base['price'];
                     $commodity->user_price = $new->user_price = $base['user_price'];
                 }
-
 
                 if ($commodity->shared_config_sync === 1) {
                     $commodity->config = $new->config = Ini::toConfig($base['config']);
@@ -248,11 +229,8 @@ class Shop implements \App\Service\Shop
 
         }
 
-        //解析商品配置
         $this->order->parseConfig($commodity, $group);
 
-
-        //处理分站
         $this->substationPriceIncrease($commodity);
 
         $commodity->service_url = Config::get("service_url");
@@ -282,7 +260,6 @@ class Shop implements \App\Service\Shop
             $array['share_url'] .= "?from={$user->id}";
         }
 
-        //获取网站是否需要验证码
         $array['trade_captcha'] = (int)Config::get("trade_verification");
 
         if ($commodity->widget) {
@@ -292,10 +269,6 @@ class Shop implements \App\Service\Shop
         return $array;
     }
 
-    /**
-     * @param int|string|null $stock
-     * @return string
-     */
     public function getHideStock(int|string|null $stock): string
     {
         $stock = (int)$stock;
@@ -308,10 +281,6 @@ class Shop implements \App\Service\Shop
         };
     }
 
-    /**
-     * @param int|string|null $stock
-     * @return int
-     */
     public function getStockState(int|string|null $stock): int
     {
         $stock = (int)$stock;
@@ -324,13 +293,6 @@ class Shop implements \App\Service\Shop
         };
     }
 
-    /**
-     * @param int|Commodity|string $commodity
-     * @param string|null $race
-     * @param array|null $sku
-     * @return string
-     * @throws JSONException
-     */
     public function getItemStock(int|Commodity|string $commodity, ?string $race = null, ?array $sku = []): string
     {
         if (is_int($commodity)) {
@@ -343,11 +305,10 @@ class Shop implements \App\Service\Shop
 
         if (($hook = \hook(Hook::SERVICE_SHOP_GET_ITEM_STOCK, $commodity, $race, $sku)) instanceof Stock) return $hook->getStock();
 
-        //对接商品
         if ($commodity->shared) {
             return $this->getSharedStock($commodity, $race, $sku);
         } else if ($commodity->delivery_way == 0) {
-            //库存
+
             $card = Card::query()->where("commodity_id", $commodity->id)->where("status", 0);
             if ($race) $card = $card->where("race", $race);
             if (!empty($sku)) {
@@ -360,26 +321,11 @@ class Shop implements \App\Service\Shop
         return (string)$commodity->stock;
     }
 
-
-    /**
-     * @param int $id
-     * @param string|null $race
-     * @param array|null $sku
-     * @return string
-     */
     public function getSharedStockHash(int $id, ?string $race = null, ?array $sku = []): string
     {
         return md5($id . $race . json_encode($sku ?: []));
     }
 
-
-    /**
-     * @param int|Commodity $commodity
-     * @param string|null $race
-     * @param array|null $sku
-     * @return void
-     * @throws JSONException
-     */
     public function updateSharedStock(int|Commodity $commodity, ?string $race = null, ?array $sku = []): void
     {
         if (is_int($commodity)) {
@@ -392,13 +338,6 @@ class Shop implements \App\Service\Shop
         Commodity::query()->where("id", $commodity->id)->update(["shared_stock" => $stock]);
     }
 
-    /**
-     * @param int|Commodity $commodity
-     * @param string|null $race
-     * @param array|null $sku
-     * @return string|null
-     * @throws JSONException
-     */
     public function getSharedStock(int|Commodity $commodity, ?string $race = null, ?array $sku = []): string|null
     {
         if (is_int($commodity)) {
@@ -418,20 +357,12 @@ class Shop implements \App\Service\Shop
         return $commodity->shared_stock[$hash];
     }
 
-
-    /**
-     * @param Commodity|int|string $commodity
-     * @param int $cardId
-     * @return array
-     * @throws JSONException
-     */
     public function getDraft(Commodity|int|string $commodity, int $cardId): array
     {
         if (is_int($commodity)) {
             $commodity = Commodity::query()->find($commodity);
         }
         if (!$commodity) throw new JSONException("商品不存在");
-
 
         $card = Card::query()->where("commodity_id", $commodity->id)->where("id", $cardId)->first();
         if (!$card) {
@@ -449,11 +380,6 @@ class Shop implements \App\Service\Shop
         return ["draft_premium" => $card->draft_premium, "cost" => $card->cost];
     }
 
-
-    /**
-     * @param Commodity $commodity
-     * @return void
-     */
     public function substationPriceIncrease(Commodity &$commodity): void
     {
         $business = Business::get();
@@ -462,9 +388,6 @@ class Shop implements \App\Service\Shop
             return;
         }
 
-        /**
-         * @var UserCommodity $userCommodity
-         */
         $userCommodity = UserCommodity::query()->where("user_id", $business->user_id)->where("commodity_id", $commodity->id)->first();
 
         if (!$userCommodity) {
@@ -492,7 +415,6 @@ class Shop implements \App\Service\Shop
                 }
             }
 
-
             if (is_array($config['wholesale'])) {
                 foreach ($config['wholesale'] as &$price) {
                     $price = (new Decimal($price))->mul($userCommodity->premium / 100)->add($price)->getAmount();
@@ -519,12 +441,6 @@ class Shop implements \App\Service\Shop
         $commodity->config = $config;
     }
 
-    /**
-     * @param Commodity|int $commodity
-     * @param int|string|float $amount
-     * @return string
-     * @throws JSONException
-     */
     public function getSubstationPrice(Commodity|int $commodity, int|string|float $amount): string
     {
         if (is_int($commodity)) {
@@ -541,9 +457,6 @@ class Shop implements \App\Service\Shop
             return (string)$amount;
         }
 
-        /**
-         * @var UserCommodity $userCommodity
-         */
         $userCommodity = UserCommodity::query()->where("user_id", $business->user_id)->where("commodity_id", $commodity->id)->first();
 
         if (!$userCommodity) {

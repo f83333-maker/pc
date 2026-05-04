@@ -17,9 +17,6 @@ class OpenMerchant extends Base
     #[Inject]
     private Group $group;
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->theme(Theme::USER_OPEN_MERCHANT, "User/OpenMerchant.html", "开通商家", ["group_list" => $this->group->list($this->getUser()->group_id)]);

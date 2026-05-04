@@ -5,13 +5,9 @@ window.KTUtilDelegatedEventHandlers = {};
 var KTUtil = function() {
     var resizeHandlers = [];
 
-    /**
-     * Handle window resize event with some
-     * delay to attach event handlers upon resize complete
-     */
     var _windowResizeHandler = function() {
         var _runResizeHandlers = function() {
-            // reinitialize other subscribed elements
+
             for (var i = 0; i < resizeHandlers.length; i++) {
                 var each = resizeHandlers[i];
                 each.call();
@@ -28,28 +24,15 @@ var KTUtil = function() {
     };
 
     return {
-        /**
-         * Class main initializer.
-         * @param {object} settings.
-         * @returns null
-         */
-        //main function to initiate the theme
+
         init: function(settings) {
             _windowResizeHandler();
         },
 
-        /**
-         * Adds window resize event handler.
-         * @param {function} callback function.
-         */
         addResizeHandler: function(callback) {
             resizeHandlers.push(callback);
         },
 
-        /**
-         * Removes window resize event handler.
-         * @param {function} callback function.
-         */
         removeResizeHandler: function(callback) {
             for (var i = 0; i < resizeHandlers.length; i++) {
                 if (callback === resizeHandlers[i]) {
@@ -58,31 +41,22 @@ var KTUtil = function() {
             }
         },
 
-        /**
-         * Trigger window resize handlers.
-         */
         runResizeHandlers: function() {
             _runResizeHandlers();
         },
 
         resize: function() {
             if (typeof(Event) === 'function') {
-                // modern browsers
+
                 window.dispatchEvent(new Event('resize'));
             } else {
-                // for IE and other old browsers
-                // causes deprecation warning on modern browsers
+
                 var evt = window.document.createEvent('UIEvents');
                 evt.initUIEvent('resize', true, false, window, 0);
                 window.dispatchEvent(evt);
             }
         },
 
-        /**
-         * Get GET parameter value from URL.
-         * @param {string} paramName Parameter name.
-         * @returns {string}
-         */
         getURLParam: function(paramName) {
             var searchString = window.location.search.substring(1),
                 i, val, params = searchString.split("&");
@@ -97,34 +71,21 @@ var KTUtil = function() {
             return null;
         },
 
-        /**
-         * Checks whether current device is mobile touch.
-         * @returns {boolean}
-         */
         isMobileDevice: function() {
             var test = (this.getViewPort().width < this.getBreakpoint('lg') ? true : false);
 
             if (test === false) {
-                // For use within normal web clients
+
                 test = navigator.userAgent.match(/iPad/i) != null;
             }
 
             return test;
         },
 
-        /**
-         * Checks whether current device is desktop.
-         * @returns {boolean}
-         */
         isDesktopDevice: function() {
             return KTUtil.isMobileDevice() ? false : true;
         },
 
-        /**
-         * Gets browser window viewport size. Ref:
-         * http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
-         * @returns {object}
-         */
         getViewPort: function() {
             var e = window,
                 a = 'inner';
@@ -139,12 +100,6 @@ var KTUtil = function() {
             };
         },
 
-        /**
-         * Checks whether given device mode is currently activated.
-         * @param {string} mode Responsive mode name(e.g: desktop,
-         *     desktop-and-tablet, tablet, tablet-and-mobile, mobile)
-         * @returns {boolean}
-         */
         isBreakpointUp: function(mode) {
             var width = this.getViewPort().width;
             var breakpoint = this.getBreakpoint(mode);
@@ -163,20 +118,10 @@ var KTUtil = function() {
             return this.getViewPort().width;
         },
 
-        /**
-         * Generates unique ID for give prefix.
-         * @param {string} prefix Prefix for generated ID
-         * @returns {boolean}
-         */
         getUniqueId: function(prefix) {
             return prefix + Math.floor(Math.random() * (new Date()).getTime());
         },
 
-        /**
-         * Gets window width for give breakpoint mode.
-         * @param {string} mode Responsive mode name(e.g: xl, lg, md, sm)
-         * @returns {number}
-         */
         getBreakpoint: function(breakpoint) {
             var value = this.getCssVariableValue('--bs-' + breakpoint);
 
@@ -187,12 +132,6 @@ var KTUtil = function() {
             return value;
         },
 
-        /**
-         * Checks whether object has property matchs given key path.
-         * @param {object} obj Object contains values paired with given key path
-         * @param {string} keys Keys path seperated with dots
-         * @returns {object}
-         */
         isset: function(obj, keys) {
             var stone;
 
@@ -222,25 +161,15 @@ var KTUtil = function() {
             return true;
         },
 
-        /**
-         * Gets highest z-index of the given element parents
-         * @param {object} el jQuery element object
-         * @returns {number}
-         */
         getHighestZindex: function(el) {
             var position, value;
 
             while (el && el !== document) {
-                // Ignore z-index if position is set to a value where z-index is ignored by the browser
-                // This makes behavior of this function consistent across browsers
-                // WebKit always returns auto if the element is positioned
+
                 position = KTUtil.css(el, 'position');
 
                 if (position === "absolute" || position === "relative" || position === "fixed") {
-                    // IE returns 0 when zIndex is not specified
-                    // other browsers return a string
-                    // we ignore the case of nested elements with an explicit value of 0
-                    // <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
+
                     value = parseInt(KTUtil.css(el, 'z-index'));
 
                     if (!isNaN(value) && value !== 0) {
@@ -254,11 +183,6 @@ var KTUtil = function() {
             return 1;
         },
 
-        /**
-         * Checks whether the element has any parent with fixed positionfreg
-         * @param {object} el jQuery element object
-         * @returns {boolean}
-         */
         hasFixedPositionedParent: function(el) {
             var position;
 
@@ -275,9 +199,6 @@ var KTUtil = function() {
             return false;
         },
 
-        /**
-         * Simulates delay
-         */
         sleep: function(milliseconds) {
             var start = new Date().getTime();
             for (var i = 0; i < 1e7; i++) {
@@ -287,25 +208,14 @@ var KTUtil = function() {
             }
         },
 
-        /**
-         * Gets randomly generated integer value within given min and max range
-         * @param {number} min Range start value
-         * @param {number} max Range end value
-         * @returns {number}
-         */
         getRandomInt: function(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
-        /**
-         * Checks whether Angular library is included
-         * @returns {boolean}
-         */
         isAngularVersion: function() {
             return window.Zone !== undefined ? true : false;
         },
 
-        // Deep extend:  $.extend(true, {}, objA, objB);
         deepExtend: function(out) {
             out = out || {};
 
@@ -318,7 +228,6 @@ var KTUtil = function() {
                         continue;
                     }
 
-                    // based on https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
                     if ( Object.prototype.toString.call(obj[key]) === '[object Object]' ) {
                         out[key] = KTUtil.deepExtend(out[key], obj[key]);
                         continue;
@@ -331,7 +240,6 @@ var KTUtil = function() {
             return out;
         },
 
-        // extend:  $.extend({}, objA, objB);
         extend: function(out) {
             out = out || {};
 
@@ -352,12 +260,6 @@ var KTUtil = function() {
             return document.getElementsByTagName('body')[0];
         },
 
-        /**
-         * Checks whether the element has given classes
-         * @param {object} el jQuery element object
-         * @param {string} Classes string
-         * @returns {boolean}
-         */
         hasClasses: function(el, classes) {
             if (!el) {
                 return;
@@ -435,27 +337,24 @@ var KTUtil = function() {
         },
 
         triggerEvent: function(node, eventName) {
-            // Make sure we use the ownerDocument from the provided node to avoid cross-window problems
+
             var doc;
 
             if (node.ownerDocument) {
                 doc = node.ownerDocument;
             } else if (node.nodeType == 9) {
-                // the node may be the document itself, nodeType 9 = DOCUMENT_NODE
+
                 doc = node;
             } else {
                 throw new Error("Invalid node passed to fireEvent: " + node.id);
             }
 
             if (node.dispatchEvent) {
-                // Gecko-style approach (now the standard) takes more work
+
                 var eventClass = "";
 
-                // Different events have different event classes.
-                // If this switch statement can't map an eventName to an eventClass,
-                // the event firing is going to fail.
                 switch (eventName) {
-                    case "click": // Dispatching of 'click' appears to not work correctly in Safari. Use 'mousedown' or 'mouseup' instead.
+                    case "click": 
                     case "mouseenter":
                     case "mouseleave":
                     case "mousedown":
@@ -477,15 +376,15 @@ var KTUtil = function() {
                 var event = doc.createEvent(eventClass);
 
                 var bubbles = eventName == "change" ? false : true;
-                event.initEvent(eventName, bubbles, true); // All events created as bubbling and cancelable.
+                event.initEvent(eventName, bubbles, true); 
 
-                event.synthetic = true; // allow detection of synthetic events
-                // The second parameter says go ahead with the default action
+                event.synthetic = true; 
+
                 node.dispatchEvent(event, true);
             } else if (node.fireEvent) {
-                // IE-old school style
+
                 var event = doc.createEventObject();
-                event.synthetic = true; // allow detection of synthetic events
+                event.synthetic = true; 
                 node.fireEvent("on" + eventName, event);
             }
         },
@@ -537,10 +436,9 @@ var KTUtil = function() {
         },
 
         parents: function(elem, selector) {
-            // Set up a parent array
+
             var parents = [];
 
-            // Push each parent element to the array
             for ( ; elem && elem !== document; elem = elem.parentNode ) {
                 if (selector) {
                     if (elem.matches(selector)) {
@@ -551,7 +449,6 @@ var KTUtil = function() {
                 parents.push(elem);
             }
 
-            // Return our parent array
             return parents;
         },
 
@@ -665,16 +562,10 @@ var KTUtil = function() {
                 return;
             }
 
-            // Return zeros for disconnected and hidden (display: none) elements (gh-2310)
-            // Support: IE <=11 only
-            // Running getBoundingClientRect on a
-            // disconnected node in IE throws an error
-
             if ( !el.getClientRects().length ) {
                 return { top: 0, left: 0 };
             }
 
-            // Get document-relative position by adding viewport scroll to viewport-relative gBCR
             rect = el.getBoundingClientRect();
             win = el.ownerDocument.defaultView;
 
@@ -736,10 +627,7 @@ var KTUtil = function() {
         },
 
         animate: function(from, to, duration, update, easing, done) {
-            /**
-             * TinyAnimate.easings
-             *  Adapted from jQuery Easing
-             */
+
             var easings = {};
             var easing;
 
@@ -749,7 +637,6 @@ var KTUtil = function() {
 
             easing = easings.linear;
 
-            // Early bail out if called incorrectly
             if (typeof from !== 'number' ||
                 typeof to !== 'number' ||
                 typeof duration !== 'number' ||
@@ -757,17 +644,14 @@ var KTUtil = function() {
                 return;
             }
 
-            // Create mock done() function if necessary
             if (typeof done !== 'function') {
                 done = function() {};
             }
 
-            // Pick implementation (requestAnimationFrame | setTimeout)
             var rAF = window.requestAnimationFrame || function(callback) {
                 window.setTimeout(callback, 1000 / 50);
             };
 
-            // Animation loop
             var canceled = false;
             var change = to - from;
 
@@ -787,7 +671,6 @@ var KTUtil = function() {
 
             update(from);
 
-            // Start animation loop
             var start = window.performance && window.performance.now ? window.performance.now() : +new Date();
 
             rAF(loop);
@@ -803,8 +686,6 @@ var KTUtil = function() {
             if (!el.getAttribute('kt-hidden-' + prop) || cache === false) {
                 var value;
 
-                // the element is hidden so:
-                // making the el block so we can meassure its height but still be hidden
                 css = el.style.cssText;
                 el.style.cssText = 'position: absolute; visibility: hidden; display: block;';
 
@@ -816,12 +697,11 @@ var KTUtil = function() {
 
                 el.style.cssText = css;
 
-                // store it in cache
                 el.setAttribute('kt-hidden-' + prop, value);
 
                 return parseFloat(value);
             } else {
-                // store it in cache
+
                 return parseFloat(el.getAttribute('kt-hidden-' + prop));
             }
         },
@@ -835,7 +715,7 @@ var KTUtil = function() {
         },
 
         getScroll: function(element, method) {
-            // The passed in `method` value should be 'Top' or 'Left'
+
             method = 'scroll' + method;
             return (element == window || element == document) ? (
                 self[(method == 'scrollTop') ? 'pageYOffset' : 'pageXOffset'] ||
@@ -858,22 +738,19 @@ var KTUtil = function() {
             } else {
                 var defaultView = (el.ownerDocument || document).defaultView;
 
-                // W3C standard way:
                 if (defaultView && defaultView.getComputedStyle) {
-                    // sanitize property name to css notation
-                    // (hyphen separated words eg. font-Size)
+
                     styleProp = styleProp.replace(/([A-Z])/g, "-$1").toLowerCase();
 
                     return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
-                } else if (el.currentStyle) { // IE
-                    // sanitize property name to camelCase
+                } else if (el.currentStyle) { 
+
                     styleProp = styleProp.replace(/\-(\w)/g, function(str, letter) {
                         return letter.toUpperCase();
                     });
 
                     value = el.currentStyle[styleProp];
 
-                    // convert other units to pixels on IE
                     if (/^\d+(em|pt|%|ex)?$/i.test(value)) {
                         return (function(value) {
                             var oldLeft = el.style.left, oldRsLeft = el.runtimeStyle.left;
@@ -919,7 +796,7 @@ var KTUtil = function() {
                 calcPaddingBottom = parseInt(KTUtil.data(el).get('slide-padding-bottom'));
             }
 
-            if (dir == 'up') { // up
+            if (dir == 'up') { 
                 el.style.cssText = 'display: block; overflow: hidden;';
 
                 if (calcPaddingTop) {
@@ -945,12 +822,11 @@ var KTUtil = function() {
                     }
                 });
 
-
-            } else if (dir == 'down') { // down
+            } else if (dir == 'down') { 
                 el.style.cssText = 'display: block; overflow: hidden;';
 
                 if (calcPaddingTop) {
-                    KTUtil.animate(0, calcPaddingTop, speed, function(value) {//
+                    KTUtil.animate(0, calcPaddingTop, speed, function(value) {
                         el.style.paddingTop = value + 'px';
                     }, 'linear', function() {
                         el.style.paddingTop = '';
@@ -1050,17 +926,15 @@ var KTUtil = function() {
 
         one: function onetime(el, type, callback) {
             el.addEventListener(type, function callee(e) {
-                // remove event
+
                 if (e.target && e.target.removeEventListener) {
                     e.target.removeEventListener(e.type, callee);
                 }
 
-                // need to verify from https://themeforest.net/author_dashboard#comment_23615588
                 if (el && el.removeEventListener) {
                     e.currentTarget.removeEventListener(e.type, callee);
                 }
 
-                // call handler
                 return callback(e);
             });
         },
@@ -1073,7 +947,7 @@ var KTUtil = function() {
             for (i = 0; i < str.length; i++) {
                 chr = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
+                hash |= 0; 
             }
 
             return hash;
@@ -1175,7 +1049,7 @@ var KTUtil = function() {
                 document.documentElement.scrollTop = value;
                 document.body.parentNode.scrollTop = value;
                 document.body.scrollTop = value;
-            }); //, easing, done
+            }); 
         },
 
         scrollTop: function(offset, duration) {
@@ -1217,7 +1091,7 @@ var KTUtil = function() {
         },
 
         filterBoolean: function(val) {
-            // Convert string boolean
+
             if (val === true || val === 'true') {
                 return true;
             }
@@ -1279,29 +1153,23 @@ var KTUtil = function() {
             return color = `#${subtractLight(color.substring(0,2), amount)}${subtractLight(color.substring(2,4), amount)}${subtractLight(color.substring(4,6), amount)}`;
         },
 
-        // Throttle function: Input as function which needs to be throttled and delay is the time interval in milliseconds
         throttle:  function (timer, func, delay) {
-            // If setTimeout is already scheduled, no need to do anything
+
             if (timer) {
                 return;
             }
 
-            // Schedule a setTimeout after delay seconds
             timer  =  setTimeout(function () {
                 func();
 
-                // Once setTimeout function execution is finished, timerId = undefined so that in <br>
-                // the next scroll event function execution can be scheduled by the setTimeout
                 timer  =  undefined;
             }, delay);
         },
 
-        // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
         debounce: function (timer, func, delay) {
-            // Cancels the setTimeout method execution
+
             clearTimeout(timer)
 
-            // Executes the func after delay time.
             timer  =  setTimeout(func, delay);
         },
 
@@ -1366,7 +1234,7 @@ var KTUtil = function() {
             value = KTUtil.parseJson(value);
 
             if ( typeof value === 'object' ) {
-                // Match condition
+
                 if ( value['match'] !== undefined ) {
                     var selector = Object.keys(value['match'])[0];
                     value = Object.values(value['match'])[0];
@@ -1436,14 +1304,9 @@ var KTUtil = function() {
 }();
 
 var KTEventHandler = function() {
-    ////////////////////////////
-    // ** Private Variables  ** //
-    ////////////////////////////
+
     var _handlers = {};
 
-    ////////////////////////////
-    // ** Private Methods  ** //
-    ////////////////////////////
     var _triggerEvent = function(element, name, target, e) {
         if ( KTUtil.data(element).has(name) === true ) {
             var handlerId = KTUtil.data(element).get(name);
@@ -1493,9 +1356,6 @@ var KTEventHandler = function() {
         }
     }
 
-    ////////////////////////////
-    // ** Public Methods  ** //
-    ////////////////////////////
     return {
         trigger: function(element, name, target, e) {
             return _triggerEvent(element, name, target, e);
@@ -1521,19 +1381,14 @@ var KTEventHandler = function() {
     }
 }();
 
-
-// Class definition
 var KTMenu = function (element, options) {
-    ////////////////////////////
-    // ** Private Variables  ** //
-    ////////////////////////////
+
     var the = this;
 
     if (typeof element === "undefined" || element === null) {
         return;
     }
 
-    // Default Options
     var defaultOptions = {
         dropdown: {
             hoverTimeout: 200,
@@ -1545,10 +1400,6 @@ var KTMenu = function (element, options) {
             expand: false
         }
     };
-
-    ////////////////////////////
-    // ** Private Methods  ** //
-    ////////////////////////////
 
     var _construct = function () {
         if (KTUtil.data(element).has('menu') === true) {
@@ -1564,7 +1415,6 @@ var KTMenu = function (element, options) {
         the.element = element;
         the.triggerElement;
 
-        // Set initialized
         the.element.setAttribute('data-kt-menu', 'true');
 
         _setTriggerElement();
@@ -1573,12 +1423,10 @@ var KTMenu = function (element, options) {
         KTUtil.data(the.element).set('menu', the);
     }
 
-    var _destroy = function () {  // todo
+    var _destroy = function () {  
 
     }
 
-    // Event Handlers
-    // Toggle handler
     var _click = function (element, e) {
         e.preventDefault();
 
@@ -1595,26 +1443,22 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Link handler
     var _link = function (element, e) {
         if (KTEventHandler.trigger(the.element, 'kt.menu.link.click', the) === false) {
             return;
         }
 
-        // Dismiss all shown dropdowns
         KTMenu.hideDropdowns();
 
         KTEventHandler.trigger(the.element, 'kt.menu.link.clicked', the);
     }
 
-    // Dismiss handler
     var _dismiss = function (element, e) {
         var item = _getItemElement(element);
         var items = _getItemChildElements(item);
 
         if (item !== null && _getItemSubType(item) === 'dropdown') {
-            _hide(item); // hide items dropdown
-            // Hide all child elements as well
+            _hide(item); 
 
             if (items.length > 0) {
                 for (var i = 0, len = items.length; i < len; i++) {
@@ -1626,7 +1470,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Mouseover handle
     var _mouseover = function (element, e) {
         var item = _getItemElement(element);
 
@@ -1647,7 +1490,6 @@ var KTMenu = function (element, options) {
         _show(item);
     }
 
-    // Mouseout handle
     var _mouseout = function (element, e) {
         var item = _getItemElement(element);
 
@@ -1669,7 +1511,6 @@ var KTMenu = function (element, options) {
         KTUtil.data(item).set('timeout', timeout);
     }
 
-    // Toggle item sub
     var _toggle = function (item) {
         if (!item) {
             item = the.triggerElement;
@@ -1682,7 +1523,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Show item sub
     var _show = function (item) {
         if (!item) {
             item = the.triggerElement;
@@ -1693,16 +1533,14 @@ var KTMenu = function (element, options) {
         }
 
         if (_getItemSubType(item) === 'dropdown') {
-            _showDropdown(item); // // show current dropdown
+            _showDropdown(item); 
         } else if (_getItemSubType(item) === 'accordion') {
             _showAccordion(item);
         }
 
-        // Remember last submenu type
-        KTUtil.data(item).set('type', _getItemSubType(item));  // updated
+        KTUtil.data(item).set('type', _getItemSubType(item));  
     }
 
-    // Hide item sub
     var _hide = function (item) {
         if (!item) {
             item = the.triggerElement;
@@ -1719,7 +1557,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Reset item state classes if item sub type changed
     var _reset = function (item) {
         if (_hasItemSub(item) === false) {
             return;
@@ -1727,15 +1564,13 @@ var KTMenu = function (element, options) {
 
         var sub = _getItemSubElement(item);
 
-        // Reset sub state if sub type is changed during the window resize
-        if (KTUtil.data(item).has('type') && KTUtil.data(item).get('type') !== _getItemSubType(item)) {  // updated
+        if (KTUtil.data(item).has('type') && KTUtil.data(item).get('type') !== _getItemSubType(item)) {  
             KTUtil.removeClass(item, 'hover');
             KTUtil.removeClass(item, 'show');
             KTUtil.removeClass(sub, 'show');
-        }  // updated
+        }  
     }
 
-    // Update all item state classes if item sub type changed
     var _update = function () {
         var items = the.element.querySelectorAll('.menu-item[data-kt-menu-trigger]');
 
@@ -1746,7 +1581,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Set external trigger element
     var _setTriggerElement = function () {
         var target = document.querySelector('[data-kt-menu-target="# ' + the.element.getAttribute('id') + '"]');
 
@@ -1763,12 +1597,10 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Test if menu has external trigger element
     var _isTriggerElement = function (item) {
         return (the.triggerElement === item) ? true : false;
     }
 
-    // Test if item's sub is shown
     var _isItemSubShown = function (item) {
         var sub = _getItemSubElement(item);
 
@@ -1787,32 +1619,26 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Test if item dropdown is permanent
     var _isItemDropdownPermanent = function (item) {
         return _getItemOption(item, 'permanent') === true ? true : false;
     }
 
-    // Test if item's parent is shown
     var _isItemParentShown = function (item) {
         return KTUtil.parents(item, '.menu-item.show').length > 0;
     }
 
-    // Test of it is item sub element
     var _isItemSubElement = function (item) {
         return KTUtil.hasClass(item, 'menu-sub');
     }
 
-    // Test if item has sub
     var _hasItemSub = function (item) {
         return (KTUtil.hasClass(item, 'menu-item') && item.hasAttribute('data-kt-menu-trigger'));
     }
 
-    // Get link element
     var _getItemLinkElement = function (item) {
         return KTUtil.child(item, '.menu-link');
     }
 
-    // Get toggle element
     var _getItemToggleElement = function (item) {
         if (the.triggerElement) {
             return the.triggerElement;
@@ -1821,7 +1647,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Get item sub element
     var _getItemSubElement = function (item) {
         if (_isTriggerElement(item) === true) {
             return the.element;
@@ -1835,7 +1660,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Get item sub type
     var _getItemSubType = function (element) {
         var sub = _getItemSubElement(element);
 
@@ -1846,31 +1670,25 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Get item element
     var _getItemElement = function (element) {
         var item, sub;
 
-        // Element is the external trigger element
         if (_isTriggerElement(element)) {
             return element;
         }
 
-        // Element has item toggler attribute
         if (element.hasAttribute('data-kt-menu-trigger')) {
             return element;
         }
 
-        // Element has item DOM reference in it's data storage
         if (KTUtil.data(element).has('item')) {
             return KTUtil.data(element).get('item');
         }
 
-        // Item is parent of element
         if ((item = element.closest('.menu-item[data-kt-menu-trigger]'))) {
             return item;
         }
 
-        // Element's parent has item DOM reference in it's data storage
         if ((sub = element.closest('.menu-sub'))) {
             if (KTUtil.data(sub).has('item') === true) {
                 return KTUtil.data(sub).get('item')
@@ -1878,7 +1696,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Get item parent element
     var _getItemParentElement = function (item) {
         var sub = item.closest('.menu-sub');
         var parentItem;
@@ -1894,7 +1711,6 @@ var KTMenu = function (element, options) {
         return null;
     }
 
-    // Get item parent elements
     var _getItemParentElements = function (item) {
         var parents = [];
         var parent;
@@ -1918,7 +1734,6 @@ var KTMenu = function (element, options) {
         return parents;
     }
 
-    // Get item child element
     var _getItemChildElement = function (item) {
         var selector = item;
         var element;
@@ -1928,7 +1743,7 @@ var KTMenu = function (element, options) {
         }
 
         if (selector !== null) {
-            //element = selector.querySelector('.show.menu-item[data-kt-menu-trigger]');
+
             element = selector.querySelector('.menu-item[data-kt-menu-trigger]');
 
             if (element) {
@@ -1941,7 +1756,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Get item child elements
     var _getItemChildElements = function (item) {
         var children = [];
         var child;
@@ -1961,14 +1775,12 @@ var KTMenu = function (element, options) {
         return children;
     }
 
-    // Show item dropdown
     var _showDropdown = function (item) {
-        // Handle dropdown show event
+
         if (KTEventHandler.trigger(the.element, 'kt.menu.dropdown.show', item) === false) {
             return;
         }
 
-        // Hide all currently shown dropdowns except current one
         KTMenu.hideDropdowns(item);
 
         var toggle = _isTriggerElement(item) ? item : _getItemLinkElement(item);
@@ -1977,10 +1789,9 @@ var KTMenu = function (element, options) {
         var width = _getItemOption(item, 'width');
         var height = _getItemOption(item, 'height');
 
-        var zindex = the.options.dropdown.zindex; // update
-        var parentZindex = KTUtil.getHighestZindex(item); // update
+        var zindex = the.options.dropdown.zindex; 
+        var parentZindex = KTUtil.getHighestZindex(item); 
 
-        // Apply a new z-index if dropdown's toggle element or it's parent has greater z-index // update
         if (parentZindex !== null && parentZindex >= zindex) {
             zindex = parentZindex + 1;
         }
@@ -2000,14 +1811,12 @@ var KTMenu = function (element, options) {
         KTUtil.css(sub, 'display', '');
         KTUtil.css(sub, 'overflow', '');
 
-        // Init popper(new)
         _initDropdownPopper(item, sub);
 
         KTUtil.addClass(item, 'show');
         KTUtil.addClass(item, 'menu-dropdown');
         KTUtil.addClass(sub, 'show');
 
-        // Append the sub the the root of the menu
         if (_getItemOption(item, 'overflow') === true) {
             document.body.appendChild(sub);
             KTUtil.data(item).set('sub', sub);
@@ -2017,13 +1826,11 @@ var KTMenu = function (element, options) {
             KTUtil.data(sub).set('item', item);
         }
 
-        // Handle dropdown shown event
         KTEventHandler.trigger(the.element, 'kt.menu.dropdown.shown', item);
     }
 
-    // Hide item dropdown
     var _hideDropdown = function (item) {
-        // Handle dropdown hide event
+
         if (KTEventHandler.trigger(the.element, 'kt.menu.dropdown.hide', item) === false) {
             return;
         }
@@ -2038,7 +1845,6 @@ var KTMenu = function (element, options) {
         KTUtil.removeClass(item, 'menu-dropdown');
         KTUtil.removeClass(sub, 'show');
 
-        // Append the sub back to it's parent
         if (_getItemOption(item, 'overflow') === true) {
             if (item.classList.contains('menu-item')) {
                 item.appendChild(sub);
@@ -2051,16 +1857,13 @@ var KTMenu = function (element, options) {
             KTUtil.data(sub).remove('menu');
         }
 
-        // Destroy popper(new)
         _destroyDropdownPopper(item);
 
-        // Handle dropdown hidden event
         KTEventHandler.trigger(the.element, 'kt.menu.dropdown.hidden', item);
     }
 
-    // Init dropdown popper(new)
     var _initDropdownPopper = function (item, sub) {
-        // Setup popper instance
+
         var reference;
         var attach = _getItemOption(item, 'attach');
 
@@ -2078,7 +1881,6 @@ var KTMenu = function (element, options) {
         KTUtil.data(item).set('popper', popper);
     }
 
-    // Destroy dropdown popper(new)
     var _destroyDropdownPopper = function (item) {
         if (KTUtil.data(item).has('popper') === true) {
             KTUtil.data(item).get('popper').destroy();
@@ -2086,19 +1888,16 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Prepare popper config for dropdown(see: https://popper.js.org/docs/v2/)
     var _getDropdownPopperConfig = function (item) {
-        // Placement
+
         var placement = _getItemOption(item, 'placement');
         if (!placement) {
             placement = 'right';
         }
 
-        // Offset
         var offsetValue = _getItemOption(item, 'offset');
         var offset = offsetValue ? offsetValue.split(",") : [];
 
-        // Strategy
         var strategy = _getItemOption(item, 'overflow') === true ? 'absolute' : 'fixed';
 
         var altAxis = _getItemOption(item, 'flip') !== false ? true : false;
@@ -2127,7 +1926,6 @@ var KTMenu = function (element, options) {
         return popperConfig;
     }
 
-    // Show item accordion
     var _showAccordion = function (item) {
         if (KTEventHandler.trigger(the.element, 'kt.menu.accordion.show', item) === false) {
             return;
@@ -2143,7 +1941,7 @@ var KTMenu = function (element, options) {
             _hideDropdown(item);
         }
 
-        KTUtil.addClass(item, 'hover'); // updateWW
+        KTUtil.addClass(item, 'hover'); 
 
         KTUtil.addClass(item, 'showing');
 
@@ -2156,7 +1954,6 @@ var KTMenu = function (element, options) {
         });
     }
 
-    // Hide item accordion
     var _hideAccordion = function (item) {
         if (KTEventHandler.trigger(the.element, 'kt.menu.accordion.hide', item) === false) {
             return;
@@ -2171,13 +1968,12 @@ var KTMenu = function (element, options) {
             KTUtil.removeClass(item, 'show');
             KTUtil.removeClass(sub, 'show');
 
-            KTUtil.removeClass(item, 'hover'); // update
+            KTUtil.removeClass(item, 'hover'); 
 
             KTEventHandler.trigger(the.element, 'kt.menu.accordion.hidden', item);
         });
     }
 
-    // Hide all shown accordions of item
     var _hideAccordions = function (item) {
         var itemsToHide = KTUtil.findAll(the.element, '.show[data-kt-menu-trigger]');
         var itemToHide;
@@ -2193,7 +1989,6 @@ var KTMenu = function (element, options) {
         }
     }
 
-    // Get item option(through html attributes)
     var _getItemOption = function (item, name) {
         var attr;
         var value = null;
@@ -2216,14 +2011,8 @@ var KTMenu = function (element, options) {
         KTUtil.data(the.element).remove('menu');
     }
 
-    // Construct Class
     _construct();
 
-    ///////////////////////
-    // ** Public API  ** //
-    ///////////////////////
-
-    // Event Handlers
     the.click = function (element, e) {
         return _click(element, e);
     }
@@ -2244,7 +2033,6 @@ var KTMenu = function (element, options) {
         return _mouseout(element, e);
     }
 
-    // General Methods
     the.getItemTriggerType = function (item) {
         return _getItemOption(item, 'trigger');
     }
@@ -2309,12 +2097,10 @@ var KTMenu = function (element, options) {
         return _destroy();
     }
 
-    // Accordion Mode Methods
     the.hideAccordions = function (item) {
         return _hideAccordions(item);
     }
 
-    // Event API
     the.on = function (name, handler) {
         return KTEventHandler.on(the.element, name, handler);
     }
@@ -2328,24 +2114,20 @@ var KTMenu = function (element, options) {
     }
 };
 
-// Get KTMenu instance by element
 KTMenu.getInstance = function (element) {
     var menu;
     var item;
 
-    // Element has menu DOM reference in it's DATA storage
     if (KTUtil.data(element).has('menu')) {
         return KTUtil.data(element).get('menu');
     }
 
-    // Element has .menu parent
     if (menu = element.closest('.menu')) {
         if (KTUtil.data(menu).has('menu')) {
             return KTUtil.data(menu).get('menu');
         }
     }
 
-    // Element has a parent with DOM reference to .menu in it's DATA storage
     if (KTUtil.hasClass(element, 'menu-link')) {
         var sub = element.closest('.menu-sub');
 
@@ -2357,7 +2139,6 @@ KTMenu.getInstance = function (element) {
     return null;
 }
 
-// Hide all dropdowns and skip one if provided
 KTMenu.hideDropdowns = function (skip) {
     var items = document.querySelectorAll('.show.menu-dropdown[data-kt-menu-trigger]');
 
@@ -2379,7 +2160,6 @@ KTMenu.hideDropdowns = function (skip) {
     }
 }
 
-// Update all dropdowns popover instances
 KTMenu.updateDropdowns = function () {
     var items = document.querySelectorAll('.show.menu-dropdown[data-kt-menu-trigger]');
 
@@ -2394,9 +2174,8 @@ KTMenu.updateDropdowns = function () {
     }
 }
 
-// Global handlers
 KTMenu.initGlobalHandlers = function () {
-    // Dropdown handler
+
     document.addEventListener("click", function (e) {
         var items = document.querySelectorAll('.show.menu-dropdown[data-kt-menu-trigger]');
         var menu;
@@ -2427,7 +2206,6 @@ KTMenu.initGlobalHandlers = function () {
         }
     });
 
-    // Sub toggle handler(updated)
     KTUtil.on(document.body, '.menu-item[data-kt-menu-trigger] > .menu-link, [data-kt-menu-trigger]:not(.menu-item):not([data-kt-menu-trigger="auto"])', 'click', function (e) {
         var menu = KTMenu.getInstance(this);
 
@@ -2436,7 +2214,6 @@ KTMenu.initGlobalHandlers = function () {
         }
     });
 
-    // Link handler
     KTUtil.on(document.body, '.menu-item:not([data-kt-menu-trigger]) > .menu-link', 'click', function (e) {
         var menu = KTMenu.getInstance(this);
 
@@ -2445,7 +2222,6 @@ KTMenu.initGlobalHandlers = function () {
         }
     });
 
-    // Dismiss handler
     KTUtil.on(document.body, '[data-kt-menu-dismiss="true"]', 'click', function (e) {
         var menu = KTMenu.getInstance(this);
 
@@ -2454,7 +2230,6 @@ KTMenu.initGlobalHandlers = function () {
         }
     });
 
-    // Mouseover handler
     KTUtil.on(document.body, '[data-kt-menu-trigger], .menu-sub', 'mouseover', function (e) {
         var menu = KTMenu.getInstance(this);
 
@@ -2463,7 +2238,6 @@ KTMenu.initGlobalHandlers = function () {
         }
     });
 
-    // Mouseout handler
     KTUtil.on(document.body, '[data-kt-menu-trigger], .menu-sub', 'mouseout', function (e) {
         var menu = KTMenu.getInstance(this);
 
@@ -2472,13 +2246,12 @@ KTMenu.initGlobalHandlers = function () {
         }
     });
 
-    // Resize handler
     window.addEventListener('resize', function () {
         var menu;
         var timer;
 
         KTUtil.throttle(timer, function () {
-            // Locate and update Offcanvas instances on window resize
+
             var elements = document.querySelectorAll('[data-kt-menu="true"]');
 
             if (elements && elements.length > 0) {
@@ -2493,9 +2266,8 @@ KTMenu.initGlobalHandlers = function () {
     });
 }
 
-// Global instances
 KTMenu.createInstances = function (selector = '[data-kt-menu="true"]') {
-    // Initialize menus
+
     var elements = document.querySelectorAll(selector);
     if (elements && elements.length > 0) {
         for (var i = 0, len = elements.length; i < len; i++) {
@@ -2504,29 +2276,21 @@ KTMenu.createInstances = function (selector = '[data-kt-menu="true"]') {
     }
 }
 
-// Global initialization
 KTMenu.init = function () {
-    // Global Event Handlers
+
     KTMenu.initGlobalHandlers();
 
-    // Lazy Initialization
     KTMenu.createInstances();
 };
 
-// On document ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', KTMenu.init);
 } else {
     KTMenu.init();
 }
 
-
-
-// Class definition
 var KTToggle = function(element, options) {
-    ////////////////////////////
-    // ** Private variables  ** //
-    ////////////////////////////
+
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -2534,14 +2298,9 @@ var KTToggle = function(element, options) {
         return;
     }
 
-    // Default Options
     var defaultOptions = {
         saveState: true
     };
-
-    ////////////////////////////
-    // ** Private methods  ** //
-    ////////////////////////////
 
     var _construct = function() {
         if ( KTUtil.data(element).has('toggle') === true ) {
@@ -2552,21 +2311,18 @@ var KTToggle = function(element, options) {
     }
 
     var _init = function() {
-        // Variables
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
         the.uid = KTUtil.getUniqueId('toggle');
 
-        // Elements
         the.element = element;
 
         the.target = document.querySelector(the.element.getAttribute('data-kt-toggle-target')) ? document.querySelector(the.element.getAttribute('data-kt-toggle-target')) : the.element;
         the.state = the.element.hasAttribute('data-kt-toggle-state') ? the.element.getAttribute('data-kt-toggle-state') : '';
         the.attribute = 'data-kt-' + the.element.getAttribute('data-kt-toggle-name');
 
-        // Event Handlers
         _handlers();
 
-        // Bind Instance
         KTUtil.data(the.element).set('toggle', the);
     }
 
@@ -2578,9 +2334,8 @@ var KTToggle = function(element, options) {
         });
     }
 
-    // Event handlers
     var _toggle = function() {
-        // Trigger "after.toggle" event
+
         KTEventHandler.trigger(the.element, 'kt.toggle.change', the);
 
         if ( _isEnabled() ) {
@@ -2589,7 +2344,6 @@ var KTToggle = function(element, options) {
             _enable();
         }
 
-        // Trigger "before.toggle" event
         KTEventHandler.trigger(the.element, 'kt.toggle.changed', the);
 
         return the;
@@ -2647,14 +2401,8 @@ var KTToggle = function(element, options) {
         KTUtil.data(the.element).remove('toggle');
     }
 
-    // Construct class
     _construct();
 
-    ///////////////////////
-    // ** Public API  ** //
-    ///////////////////////
-
-    // Plugin API
     the.toggle = function() {
         return _toggle();
     }
@@ -2679,7 +2427,6 @@ var KTToggle = function(element, options) {
         return _destroy();
     }
 
-    // Event API
     the.on = function(name, handler) {
         return KTEventHandler.on(the.element, name, handler);
     }
@@ -2697,7 +2444,6 @@ var KTToggle = function(element, options) {
     }
 };
 
-// Static methods
 KTToggle.getInstance = function(element) {
     if ( element !== null && KTUtil.data(element).has('toggle') ) {
         return KTUtil.data(element).get('toggle');
@@ -2706,45 +2452,37 @@ KTToggle.getInstance = function(element) {
     }
 }
 
-// Create instances
 KTToggle.createInstances = function(selector = '[data-kt-toggle]') {
     var body = document.getElementsByTagName("BODY")[0];
 
-    // Get instances
     var elements = body.querySelectorAll(selector);
 
     if ( elements && elements.length > 0 ) {
         for (var i = 0, len = elements.length; i < len; i++) {
-            // Initialize instances
+
             new KTToggle(elements[i]);
         }
     }
 }
 
-// Global initialization
 KTToggle.init = function() {
     KTToggle.createInstances();
 };
 
-// On document ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', KTToggle.init);
 } else {
     KTToggle.init();
 }
 
-
-// Class definition
 var KTLayoutAside = function () {
-    // Private variables
+
     var toggle;
     var aside;
 
-    // Private functions
     var handleToggle = function () {
         var toggleObj = KTToggle.getInstance(toggle);
 
-        // Add a class to prevent aside hover effect after toggle click
         toggleObj.on('kt.toggle.change', function() {
             aside.classList.add('animating');
 
@@ -2754,10 +2492,9 @@ var KTLayoutAside = function () {
         })
     }
 
-    // Public methods
     return {
         init: function () {
-            // Elements
+
             aside = document.querySelector('#kt_aside');
             toggle = document.querySelector('#kt_aside_toggle');
 
@@ -2770,19 +2507,12 @@ var KTLayoutAside = function () {
     };
 }();
 
-// On document ready
 KTUtil.onDOMContentLoaded(function () {
     KTLayoutAside.init();
 });
 
-
-
-
-// Class definition
 var KTScroll = function(element, options) {
-    ////////////////////////////
-    // ** Private Variables  ** //
-    ////////////////////////////
+
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -2790,14 +2520,9 @@ var KTScroll = function(element, options) {
         return;
     }
 
-    // Default options
     var defaultOptions = {
         saveState: true
     };
-
-    ////////////////////////////
-    // ** Private Methods  ** //
-    ////////////////////////////
 
     var _construct = function() {
         if ( KTUtil.data(element).has('scroll') ) {
@@ -2808,20 +2533,16 @@ var KTScroll = function(element, options) {
     }
 
     var _init = function() {
-        // Variables
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
 
-        // Elements
         the.element = element;
         the.id = the.element.getAttribute('id');
 
-        // Set initialized
         the.element.setAttribute('data-kt-scroll', 'true');
 
-        // Update
         _update();
 
-        // Bind Instance
         KTUtil.data(the.element).set('scroll', the);
     }
 
@@ -2829,7 +2550,6 @@ var KTScroll = function(element, options) {
         var heightType = _getHeightType();
         var height = _getHeight();
 
-        // Set height
         if ( height !== null && height.length > 0 ) {
             KTUtil.css(the.element, heightType, height);
         } else {
@@ -2870,7 +2590,7 @@ var KTScroll = function(element, options) {
     }
 
     var _update = function() {
-        // Activate/deactivate
+
         if ( _getOption('activate') === true || the.element.hasAttribute('data-kt-scroll-activate') === false ) {
             _setupHeight();
             _setupScrollHandler();
@@ -2900,7 +2620,6 @@ var KTScroll = function(element, options) {
         var wrappers = _getOption('wrappers');
         var offset = _getOption('offset');
 
-        // Height dependencies
         if ( dependencies !== null ) {
             var elements = document.querySelectorAll(dependencies);
 
@@ -2927,7 +2646,6 @@ var KTScroll = function(element, options) {
             }
         }
 
-        // Wrappers
         if ( wrappers !== null ) {
             var elements = document.querySelectorAll(wrappers);
             if ( elements && elements.length > 0 ) {
@@ -2954,7 +2672,6 @@ var KTScroll = function(element, options) {
             }
         }
 
-        // Custom offset
         if ( offset !== null ) {
             height = height - parseInt(offset);
         }
@@ -3013,12 +2730,7 @@ var KTScroll = function(element, options) {
         KTUtil.data(the.element).remove('scroll');
     }
 
-    // Construct Class
     _construct();
-
-    ///////////////////////
-    // ** Public API  ** //
-    ///////////////////////
 
     the.update = function() {
         return _update();
@@ -3037,7 +2749,6 @@ var KTScroll = function(element, options) {
     }
 };
 
-// Static methods
 KTScroll.getInstance = function(element) {
     if ( element !== null && KTUtil.data(element).has('scroll') ) {
         return KTUtil.data(element).get('scroll');
@@ -3046,11 +2757,9 @@ KTScroll.getInstance = function(element) {
     }
 }
 
-// Create instances
 KTScroll.createInstances = function(selector = '[data-kt-scroll="true"]') {
     var body = document.getElementsByTagName("BODY")[0];
 
-    // Initialize Menus
     var elements = body.querySelectorAll(selector);
 
     if ( elements && elements.length > 0 ) {
@@ -3060,13 +2769,12 @@ KTScroll.createInstances = function(selector = '[data-kt-scroll="true"]') {
     }
 }
 
-// Window resize handling
 window.addEventListener('resize', function() {
     var timer;
     var body = document.getElementsByTagName("BODY")[0];
 
     KTUtil.throttle(timer, function() {
-        // Locate and update Offcanvas instances on window resize
+
         var elements = body.querySelectorAll('[data-kt-scroll="true"]');
 
         if ( elements && elements.length > 0 ) {
@@ -3080,24 +2788,18 @@ window.addEventListener('resize', function() {
     }, 200);
 });
 
-// Global initialization
 KTScroll.init = function() {
     KTScroll.createInstances();
 };
 
-// On document ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', KTScroll.init);
 } else {
     KTScroll.init();
 }
 
-
-// Class definition
 var KTScrolltop = function(element, options) {
-    ////////////////////////////
-    // ** Private variables  ** //
-    ////////////////////////////
+
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -3105,15 +2807,10 @@ var KTScrolltop = function(element, options) {
         return;
     }
 
-    // Default options
     var defaultOptions = {
         offset: 300,
         speed: 600
     };
-
-    ////////////////////////////
-    // ** Private methods  ** //
-    ////////////////////////////
 
     var _construct = function() {
         if (KTUtil.data(element).has('scrolltop')) {
@@ -3124,18 +2821,15 @@ var KTScrolltop = function(element, options) {
     }
 
     var _init = function() {
-        // Variables
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
         the.uid = KTUtil.getUniqueId('scrolltop');
         the.element = element;
 
-        // Set initialized
         the.element.setAttribute('data-kt-scrolltop', 'true');
 
-        // Event Handlers
         _handlers();
 
-        // Bind Instance
         KTUtil.data(the.element).set('scrolltop', the);
     }
 
@@ -3158,7 +2852,7 @@ var KTScrolltop = function(element, options) {
     var _scroll = function() {
         var offset = parseInt(_getOption('offset'));
 
-        var pos = KTUtil.getScrollTop(); // current vertical position
+        var pos = KTUtil.getScrollTop(); 
 
         if ( pos > offset ) {
             if ( body.hasAttribute('data-kt-scrolltop') === false ) {
@@ -3204,14 +2898,8 @@ var KTScrolltop = function(element, options) {
         KTUtil.data(the.element).remove('scrolltop');
     }
 
-    // Construct class
     _construct();
 
-    ///////////////////////
-    // ** Public API  ** //
-    ///////////////////////
-
-    // Plugin API
     the.go = function() {
         return _go();
     }
@@ -3225,7 +2913,6 @@ var KTScrolltop = function(element, options) {
     }
 };
 
-// Static methods
 KTScrolltop.getInstance = function(element) {
     if (element && KTUtil.data(element).has('scrolltop')) {
         return KTUtil.data(element).get('scrolltop');
@@ -3234,11 +2921,9 @@ KTScrolltop.getInstance = function(element) {
     }
 }
 
-// Create instances
 KTScrolltop.createInstances = function(selector = '[data-kt-scrolltop="true"]') {
     var body = document.getElementsByTagName("BODY")[0];
 
-    // Initialize Menus
     var elements = body.querySelectorAll(selector);
     var scrolltop;
 
@@ -3249,25 +2934,18 @@ KTScrolltop.createInstances = function(selector = '[data-kt-scrolltop="true"]') 
     }
 }
 
-// Global initialization
 KTScrolltop.init = function() {
     KTScrolltop.createInstances();
 };
 
-// On document ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', KTScrolltop.init);
 } else {
     KTScrolltop.init();
 }
 
-
-
-// Class definition
 var KTDrawer = function (element, options) {
-    //////////////////////////////
-    // ** Private variables  ** //
-    //////////////////////////////
+
     var the = this;
     var body = document.getElementsByTagName("BODY")[0];
 
@@ -3275,17 +2953,12 @@ var KTDrawer = function (element, options) {
         return;
     }
 
-    // Default options
     var defaultOptions = {
         overlay: true,
         direction: 'end',
         baseClass: 'drawer',
         overlayClass: 'drawer-overlay'
     };
-
-    ////////////////////////////
-    // ** Private methods  ** //
-    ////////////////////////////
 
     var _construct = function () {
         if (KTUtil.data(element).has('drawer')) {
@@ -3296,7 +2969,7 @@ var KTDrawer = function (element, options) {
     }
 
     var _init = function () {
-        // Variables
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
         the.uid = KTUtil.getUniqueId('drawer');
         the.element = element;
@@ -3306,16 +2979,12 @@ var KTDrawer = function (element, options) {
         the.lastWidth;
         the.toggleElement = null;
 
-        // Set initialized
         the.element.setAttribute('data-kt-drawer', 'true');
 
-        // Event Handlers
         _handlers();
 
-        // Update Instance
         _update();
 
-        // Bind Instance
         KTUtil.data(the.element).set('drawer', the);
     }
 
@@ -3401,14 +3070,12 @@ var KTDrawer = function (element, options) {
         var width = _getWidth();
         var direction = _getOption('direction');
 
-        // Reset state
         if (KTUtil.hasClass(the.element, the.options.baseClass + '-on') === true && String(body.getAttribute('data-kt-drawer-' + the.name + '-')) === 'on') {
             the.shown = true;
         } else {
             the.shown = false;
         }
 
-        // Activate/deactivate
         if (_getOption('activate') === true) {
             KTUtil.addClass(the.element, the.options.baseClass);
             KTUtil.addClass(the.element, the.options.baseClass + '-' + direction);
@@ -3429,7 +3096,7 @@ var KTDrawer = function (element, options) {
         if (_getOption('overlay') === true) {
             the.overlayElement = document.createElement('DIV');
 
-            KTUtil.css(the.overlayElement, 'z-index', KTUtil.css(the.element, 'z-index') - 1); // update
+            KTUtil.css(the.overlayElement, 'z-index', KTUtil.css(the.element, 'z-index') - 1); 
 
             body.append(the.overlayElement);
 
@@ -3485,14 +3152,8 @@ var KTDrawer = function (element, options) {
         KTUtil.data(the.element).remove('drawer');
     }
 
-    // Construct class
     _construct();
 
-    ///////////////////////
-    // ** Public API  ** //
-    ///////////////////////
-
-    // Plugin API
     the.toggle = function () {
         return _toggle();
     }
@@ -3521,7 +3182,6 @@ var KTDrawer = function (element, options) {
         return _destroy();
     }
 
-    // Event API
     the.on = function (name, handler) {
         return KTEventHandler.on(the.element, name, handler);
     }
@@ -3539,7 +3199,6 @@ var KTDrawer = function (element, options) {
     }
 };
 
-// Static methods
 KTDrawer.getInstance = function (element) {
     if (element !== null && KTUtil.data(element).has('drawer')) {
         return KTUtil.data(element).get('drawer');
@@ -3548,7 +3207,6 @@ KTDrawer.getInstance = function (element) {
     }
 }
 
-// Hide all drawers and skip one if provided
 KTDrawer.hideAll = function (skip = null, selector = '[data-kt-drawer="true"]') {
     var items = document.querySelectorAll(selector);
 
@@ -3572,7 +3230,6 @@ KTDrawer.hideAll = function (skip = null, selector = '[data-kt-drawer="true"]') 
     }
 }
 
-// Update all drawers
 KTDrawer.updateAll = function (selector = '[data-kt-drawer="true"]') {
     var items = document.querySelectorAll(selector);
 
@@ -3589,11 +3246,9 @@ KTDrawer.updateAll = function (selector = '[data-kt-drawer="true"]') {
     }
 }
 
-// Create instances
 KTDrawer.createInstances = function (selector = '[data-kt-drawer="true"]') {
     var body = document.getElementsByTagName("BODY")[0];
 
-    // Initialize Menus
     var elements = body.querySelectorAll(selector);
     var drawer;
 
@@ -3604,9 +3259,8 @@ KTDrawer.createInstances = function (selector = '[data-kt-drawer="true"]') {
     }
 }
 
-// Toggle instances
 KTDrawer.handleShow = function () {
-    // External drawer toggle handler
+
     KTUtil.on(document.body, '[data-kt-drawer-show="true"][data-kt-drawer-target]', 'click', function (e) {
         var element = document.querySelector(this.getAttribute('data-kt-drawer-target'));
 
@@ -3616,9 +3270,8 @@ KTDrawer.handleShow = function () {
     });
 }
 
-// Dismiss instances
 KTDrawer.handleDismiss = function () {
-    // External drawer toggle handler
+
     KTUtil.on(document.body, '[data-kt-drawer-dismiss="true"]', 'click', function (e) {
         var element = this.closest('[data-kt-drawer="true"]');
 
@@ -3631,13 +3284,12 @@ KTDrawer.handleDismiss = function () {
     });
 }
 
-// Window resize Handling
 window.addEventListener('resize', function () {
     var timer;
     var body = document.getElementsByTagName("BODY")[0];
 
     KTUtil.throttle(timer, function () {
-        // Locate and update drawer instances on window resize
+
         var elements = body.querySelectorAll('[data-kt-drawer="true"]');
 
         if (elements && elements.length > 0) {
@@ -3651,14 +3303,12 @@ window.addEventListener('resize', function () {
     }, 200);
 });
 
-// Global initialization
 KTDrawer.init = function () {
     KTDrawer.createInstances();
     KTDrawer.handleShow();
     KTDrawer.handleDismiss();
 };
 
-// On document ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', KTDrawer.init);
 } else {

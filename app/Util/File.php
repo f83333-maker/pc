@@ -5,23 +5,11 @@ namespace App\Util;
 
 use Kernel\Exception\JSONException;
 
-/**
- * Class File
- * @package App\Util
- */
 class File
 {
-    /**
-     * @var array
-     */
+
     private static array $cache = [];
 
-    /**
-     * 拷贝目录
-     * @param string $src 源目录
-     * @param string $dst 目标目录
-     * @throws \Exception
-     */
     public static function copyDirectory(string $src, string $dst): void
     {
         if (!is_dir($src)) {
@@ -71,10 +59,6 @@ class File
         }
     }
 
-    /**
-     * 删除目录
-     * @param string $path
-     */
     public static function delDirectory(string $path): void
     {
         if ($handle = opendir($path)) {
@@ -92,13 +76,6 @@ class File
         }
     }
 
-
-    /**
-     * 缓存文件
-     * @param string $path
-     * @param bool $cli
-     * @return mixed
-     */
     public static function codeLoad(string $path, bool $cli = false): mixed
     {
 
@@ -114,10 +91,6 @@ class File
         return self::$cache[$path];
     }
 
-    /**
-     * @param string $path
-     * @return bool
-     */
     public static function exists(string $path): bool
     {
         if (!file_exists($path)) {

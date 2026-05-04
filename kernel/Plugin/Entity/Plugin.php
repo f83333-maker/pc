@@ -38,24 +38,6 @@ class Plugin
     public string $uid;
     public array $theme;
 
-    /**
-     * @param string $name
-     * @param array $info
-     * @param string $submit
-     * @param array $route
-     * @param array $command
-     * @param array $state
-     * @param string $path
-     * @param string $staticPath
-     * @param array $menu
-     * @param array $handle
-     * @param string $env
-     * @param string $handleSubmit
-     * @param array $payCode
-     * @param array $languages
-     * @param array $theme
-     * @throws \ReflectionException
-     */
     public function __construct(string $name, array $info, string $submit, array $route, array $command, array $state, string $path, string $staticPath, array $menu, array $handle, string $env, string $handleSubmit, array $payCode, array $languages, array $theme)
     {
         $this->id = $name;
@@ -81,12 +63,6 @@ class Plugin
         $this->theme = $theme;
     }
 
-    /**
-     * @param string|null $key
-     * @param bool $physical
-     * @return mixed
-     * @throws \ReflectionException
-     */
     public function getConfig(?string $key = null, bool $physical = false): mixed
     {
         $cacheKey = "plugin_config_" . md5($this->env . $this->name);
@@ -99,12 +75,6 @@ class Plugin
         return Arr::get($config, $key);
     }
 
-    /**
-     * @param string|null $key
-     * @param bool $physical
-     * @return mixed
-     * @throws \ReflectionException
-     */
     public function getSystemConfig(?string $key = null, bool $physical = false): mixed
     {
         $cacheKey = "plugin_sys_config_" . md5($this->env . $this->name);
@@ -116,11 +86,6 @@ class Plugin
         return Arr::get($config, $key);
     }
 
-    /**
-     * @param string $handle
-     * @param bool $isGetConfig
-     * @return array
-     */
     public function getHandleConfigList(string $handle, bool $isGetConfig = false): array
     {
         $columns = ["id", "name"];
@@ -140,29 +105,11 @@ class Plugin
         return $list;
     }
 
-    /**
-     * 加载模板
-     * @param string $template
-     * @param array $data
-     * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function view(string $template, array $data = []): string
     {
         return Template::instance()->load($template, $data, $this->path . "/View/", true);
     }
 
-    /**
-     * @param string $message
-     * @param bool $important
-     * @param bool $physical
-     * @return void
-     * @throws \ReflectionException
-     */
     public function log(mixed $message, bool $important = false, bool $physical = false): void
     {
         if ($this->getSystemConfig("log", $physical) != 1 && !$important) {

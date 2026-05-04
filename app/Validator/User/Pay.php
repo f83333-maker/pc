@@ -30,9 +30,7 @@ class Pay extends Base
         if ($value === null) {
             return true;
         }
-        /**
-         * @var PluginConfig $payConfig
-         */
+
         $payConfig = PluginConfig::query()->find($value);
         if (!$payConfig || $payConfig->user_id !== $this->getUser()->id) {
             return "支付配置不存在";
@@ -47,9 +45,7 @@ class Pay extends Base
         if ($value === null) {
             return true;
         }
-        /**
-         * @var \App\Model\Pay $pay
-         */
+
         $pay = \App\Model\Pay::query()->find($value);
         if (!$pay || $pay->user_id !== null) {
             return "上级支付接口不存在";
@@ -65,9 +61,6 @@ class Pay extends Base
             return true;
         }
 
-        /**
-         * @var \App\Model\Pay $pay
-         */
         $pay = \App\Model\Pay::query()->find($value);
         if ($pay->user_id != $this->getUser()->id) {
             return "支付通道不存在";

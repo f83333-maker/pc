@@ -27,26 +27,11 @@ class Store implements \App\Service\Store\Store
     #[Inject]
     private \App\Service\Store\Http $http;
 
-    /**
-     * @param array $post
-     * @param Authentication $authentication
-     * @return array
-     */
     public function list(array $post, Authentication $authentication): array
     {
         return $this->http->request("/store/list", $post, $authentication)->data;
     }
 
-    /**
-     * @param string $key
-     * @param string $env
-     * @param Authentication $authentication
-     * @return void
-     * @throws JSONException
-     * @throws ServiceException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function install(string $key, string $env, Authentication $authentication): void
     {
         $path = BASE_PATH . "runtime/download/store/{$key}.zip";
@@ -60,8 +45,6 @@ class Store implements \App\Service\Store\Store
             throw new JSONException("应用下载失败，请稍后再试");
         }
 
-
-        //下载完成，解压插件
         if (!Zip::state()) {
             File::remove($path);
             throw new ServiceException("zip解压不可用");
@@ -81,16 +64,9 @@ class Store implements \App\Service\Store\Store
         \Kernel\Plugin\Plugin::inst()->database("install", $key, $env);
         Assets::inst()->add("{$env}/{$key}/Wiki");
 
-
         \Kernel\Plugin\Plugin::inst()->instantHook($key, $env, Point::APP_INSTALL);
     }
 
-    /**
-     * @param string $key
-     * @param Authentication $authentication
-     * @return int
-     * @throws ServiceException
-     */
     public function getPluginType(string $key, Authentication $authentication): int
     {
         $http = $this->http->request("/store/plugin/type", ["plugin_key" => $key], $authentication);
@@ -100,15 +76,6 @@ class Store implements \App\Service\Store\Store
         return (int)$http->data["type"];
     }
 
-    /**
-     * @param string $key
-     * @param string $env
-     * @return void
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function uninstall(string $key, string $env): void
     {
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($key, $env);
@@ -122,9 +89,9 @@ class Store implements \App\Service\Store\Store
         if ($state['run'] != 0) {
             \Kernel\Plugin\Plugin::inst()->stop($key, $env);
         }
-        //删除依赖
+
         Composer::inst()->uninstall($key, $env);
-        //删除插件
+
         \Kernel\Plugin\Plugin::inst()->database("uninstall", $key, $env);
         Assets::inst()->del("{$plugin->path}/Wiki");
         Directory::delete($plugin->path);
@@ -132,32 +99,11 @@ class Store implements \App\Service\Store\Store
         \Kernel\Plugin\Plugin::inst()->instantHook($key, $env, Point::APP_UNINSTALL_AFTER);
     }
 
-
-    /**
-     * @param int $gift
-     * @param Authentication $authentication
-     * @return array
-     */
     public function getGroup(int $gift, Authentication $authentication): array
     {
         return $this->http->request(url: "/store/group?gift=" . $gift, authentication: $authentication)->data;
     }
 
-    /**
-     * @param int $type
-     * @param int $itemId
-     * @param int $subscription
-     * @param int $subscriptionId
-     * @param int $payId
-     * @param bool $balance
-     * @param string $syncUrl
-     * @param int $isGift
-     * @param string $giftUsername
-     * @param Authentication $authentication
-     * @param int $device
-     * @return array
-     * @throws ServiceException
-     */
     public function purchase(int $type, int $itemId, int $subscription, int $subscriptionId, int $payId, bool $balance, string $syncUrl, int $isGift, string $giftUsername, Authentication $authentication, int $device = 0): array
     {
         $http = $this->http->request("/store/purchase", [
@@ -180,15 +126,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    /**
-     * @param string $amount
-     * @param int $payId
-     * @param string $syncUrl
-     * @param Authentication $authentication
-     * @param int $device
-     * @return array
-     * @throws ServiceException
-     */
     public function recharge(string $amount, int $payId, string $syncUrl, Authentication $authentication, int $device = 0): array
     {
         $http = $this->http->request("/store/recharge", [
@@ -205,11 +142,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    /**
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function powers(Authentication $authentication): array
     {
         $http = $this->http->request(url: "/store/powers", authentication: $authentication);
@@ -219,14 +151,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-
-    /**
-     * @param int $itemId
-     * @param bool $isGroup
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function powerDetail(int $itemId, bool $isGroup, Authentication $authentication): array
     {
         $http = $this->http->request(url: "/store/power/detail", data: [
@@ -239,13 +163,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    /**
-     * @param int $type
-     * @param int $itemId
-     * @param int $subscription
-     * @param Authentication $authentication
-     * @return bool
-     */
     public function powerRenewal(int $type, int $itemId, int $subscription, Authentication $authentication): bool
     {
         try {
@@ -264,12 +181,6 @@ class Store implements \App\Service\Store\Store
         }
     }
 
-    /**
-     * @param int $type
-     * @param int $itemId
-     * @param Authentication $authentication
-     * @return bool
-     */
     public function powerBind(int $type, int $itemId, Authentication $authentication): bool
     {
         try {
@@ -286,12 +197,6 @@ class Store implements \App\Service\Store\Store
         }
     }
 
-    /**
-     * @param int $type
-     * @param int $itemId
-     * @param Authentication $authentication
-     * @return bool
-     */
     public function openPowerAutoRenewal(int $type, int $itemId, Authentication $authentication): bool
     {
         try {
@@ -308,12 +213,6 @@ class Store implements \App\Service\Store\Store
         }
     }
 
-    /**
-     * @param array $users
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function getSubPowers(array $users, Authentication $authentication): array
     {
         $http = $this->http->request(url: "/store/power/sub/powers", data: [
@@ -325,13 +224,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    /**
-     * @param int $userId
-     * @param string $expireTime
-     * @param int $status
-     * @param Authentication $authentication
-     * @return bool
-     */
     public function setSubPower(int $userId, string $expireTime, int $status, Authentication $authentication): bool
     {
         try {
@@ -349,12 +241,6 @@ class Store implements \App\Service\Store\Store
         }
     }
 
-
-    /**
-     * @param int $itemId
-     * @param Authentication $authentication
-     * @return bool
-     */
     public function openSubFree(int $itemId, Authentication $authentication): bool
     {
         try {
@@ -370,12 +256,6 @@ class Store implements \App\Service\Store\Store
         }
     }
 
-    /**
-     * @param array $plugins
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function getPluginVersions(array $plugins, Authentication $authentication): array
     {
         $http = $this->http->request(url: "/store/plugin/versions", data: [
@@ -387,12 +267,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    /**
-     * @param string $key
-     * @param Authentication $authentication
-     * @return array
-     * @throws ServiceException
-     */
     public function getPluginVersionList(string $key, Authentication $authentication): array
     {
         $http = $this->http->request(url: "/store/plugin/version/updates", data: [
@@ -404,16 +278,6 @@ class Store implements \App\Service\Store\Store
         return $http->data;
     }
 
-    /**
-     * @param string $key
-     * @param string $env
-     * @param Authentication $authentication
-     * @return void
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function pluginVersionUpdate(string $key, string $env, Authentication $authentication): void
     {
         if (Sync::inst()->has($key, $env)) {
@@ -446,7 +310,7 @@ class Store implements \App\Service\Store\Store
         try {
             foreach ($versionList as $v) {
                 $cloudVersion = $v["version"];
-                //如果云端版本大于本地版本则开始更新
+
                 if (version_compare($cloudVersion, $localVersion, '>')) {
                     $versionPath = $basePath . "/Download/Update/{$cloudVersion}";
                     $plugin->log("检查到新版本：{$cloudVersion}，开始下载..", true);
@@ -457,7 +321,6 @@ class Store implements \App\Service\Store\Store
                     }
                     $plugin->log("下载完成，开始解压：{$versionPath}.zip -> {$versionPath}", true);
 
-                    //解压压缩包
                     if (!Zip::state()) {
                         $plugin->log("缺少php扩展：zip，请安装此扩展后再尝试更新", true);
                         throw new ServiceException("zip解压不可用");
@@ -470,7 +333,6 @@ class Store implements \App\Service\Store\Store
 
                     $plugin->log("解压完成，开始升级..", true);
 
-                    //升级数据库
                     $database = $versionPath . "/Database.php";
                     if (file_exists($database)) {
                         $plugin->log("检测到数据库升级文件，开始升级..", true);
@@ -485,7 +347,7 @@ class Store implements \App\Service\Store\Store
                         $obj = new $class();
 
                         if ($obj instanceof Database) {
-                            Di::inst()->inject($obj); //升级数据库文件支持依赖注入
+                            Di::inst()->inject($obj); 
                             $obj->handle();
                             $plugin->log("数据库升级完成", true);
                         } else {
@@ -509,7 +371,6 @@ class Store implements \App\Service\Store\Store
                             }
                         }
 
-                        //升级主程序文件
                         if (File::copy($file->getRealPath(), $srcFile)) {
                             $plugin->log($srcFile . " 升级成功", true);
                         } else {

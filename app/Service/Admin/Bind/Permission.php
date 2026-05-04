@@ -8,16 +8,6 @@ use App\Model\RolePermission;
 class Permission implements \App\Service\Admin\Permission
 {
 
-    /**
-     * @param string $name
-     * @param int $pid
-     * @param string $route
-     * @param int $type
-     * @param string|null $icon
-     * @param int $rank
-     * @param callable|null $callable
-     * @return int
-     */
     public function add(string $name, int $pid, string $route, int $type, ?string $icon = null, int $rank = 0, ?callable $callable = null): int
     {
         $permission = \App\Model\Permission::query()->where("route", $route)->first();
@@ -36,12 +26,6 @@ class Permission implements \App\Service\Admin\Permission
         return $permission->id;
     }
 
-
-    /**
-     * @param int $permissionId
-     * @param int $roleId
-     * @return void
-     */
     public function authorization(int $permissionId, int $roleId): void
     {
         if (RolePermission::query()->where("role_id", $roleId)->where("permission_id", $permissionId)->exists()) {

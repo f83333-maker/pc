@@ -3,14 +3,14 @@
         const card = document.querySelector('.ay-card');
         if (!card) return;
         const enable = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-        if (!enable) return; // 只在桌面等精细指针设备启用
+        if (!enable) return; 
 
         let raf;
         const clamp = (v, a, b) => Math.max(a, Math.min(v, b));
 
         function onMove(e) {
             const r = card.getBoundingClientRect();
-            const x = (e.clientX - r.left) / r.width; // 0..1
+            const x = (e.clientX - r.left) / r.width; 
             const y = (e.clientY - r.top) / r.height;
             card.style.setProperty('--mx', (x * 100) + '%');
             card.style.setProperty('--my', (y * 100) + '%');

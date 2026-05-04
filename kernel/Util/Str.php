@@ -3,15 +3,9 @@ declare(strict_types=1);
 
 namespace Kernel\Util;
 
-
 class Str
 {
 
-    /**
-     * @param int $scale
-     * @param string|int|float ...$amount
-     * @return bool
-     */
     public static function equalAmount(int $scale, string|int|float ...$amount): bool
     {
         if (count($amount) < 2) {
@@ -26,22 +20,11 @@ class Str
         return count(array_unique($normalized)) === 1;
     }
 
-    /**
-     * 生成密码
-     * @param string $pass
-     * @param string $salt
-     * @return string
-     */
     public static function generatePassword(string $pass, string $salt): string
     {
         return sha1(md5(md5($pass) . md5($salt)));
     }
 
-    /**
-     * 生成随机字符串
-     * @param int $length
-     * @return string
-     */
     public static function generateRandStr(int $length = 32): string
     {
         mt_srand();
@@ -49,20 +32,11 @@ class Str
         return substr($md5, 0, $length);
     }
 
-    /**
-     * 生成24位订单号
-     * @return string
-     */
     public static function generateTradeNo(): string
     {
         return date("ymd", time()) . substr((string)\Kernel\Util\Date::timestamp(), -5) . self::generateRandNum(13);
     }
 
-    /**
-     * 生成随机数字字符串
-     * @param int $length
-     * @return string
-     */
     public static function generateRandNum(int $length = 24): string
     {
         $result = '';
@@ -76,12 +50,6 @@ class Str
         return $result;
     }
 
-    /**
-     * 获取数据签名
-     * @param array $data
-     * @param string $secret
-     * @return string
-     */
     public static function generateSignature(array $data, string $secret): string
     {
         unset($data['sign']);
@@ -94,23 +62,12 @@ class Str
         return md5(urldecode(http_build_query($data) . "&key=" . (string)$secret));
     }
 
-    /**
-     * @param string|float|int $amount
-     * @return string
-     */
     public static function getAmountStr(string|float|int $amount): string
     {
         $a = rtrim(rtrim((string)$amount, "0"), ".");
         return $a === "" ? "0.00" : $a;
     }
 
-
-    /**
-     * 驼峰转横杠
-     * @param string $input
-     * @param string $symbol
-     * @return string
-     */
     public static function camelToSnake(string $input, string $symbol = "-"): string
     {
         $pattern = '/(?<=\\w)(?=[A-Z])/';
@@ -118,30 +75,16 @@ class Str
         return strtolower($snakeCase);
     }
 
-    /**
-     * 横杠转大写驼峰
-     * @param string $input
-     * @return string
-     */
     public static function snakeToPascal(string $input): string
     {
         return str_replace('-', '', ucwords($input, '-'));
     }
 
-    /**
-     * 横杠转小写驼峰
-     * @param string $input
-     * @return string
-     */
     public static function snakeToCamel(string $input): string
     {
         return lcfirst(str_replace('-', '', ucwords($input, '-')));
     }
 
-    /**
-     * @param int|float|string|null $number
-     * @return string
-     */
     public static function amountRemoveTrailingZeros(int|float|string|null $number): string
     {
         if (!$number || !is_numeric($number)) {

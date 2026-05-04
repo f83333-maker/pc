@@ -27,14 +27,6 @@ class Admin implements Interceptor
     #[Inject]
     private \App\Service\Admin\Manage $manage;
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
 
@@ -77,7 +69,6 @@ class Admin implements Interceptor
         $hook = Plugin::instance()->hook(App::env(), Point::ADMIN_INTERCEPTOR_SESSION_ONLINE, PGI::HOOK_TYPE_HTTP, $request, $response, $type, $manage);
         if ($hook instanceof Response) return $hook;
 
-
         if (!file_exists(BASE_PATH . "/config/terms")) {
             if ($router === "admin/dashboard@GET" && $request->get("agree") == 1) {
                 file_put_contents(BASE_PATH . "/config/terms", "用户同意协议，时间：" . Date::current());
@@ -90,14 +81,6 @@ class Admin implements Interceptor
         return $response;
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     private function login(Request $request, Response $response, int $type): Response
     {
         $response->withCookie(Cookie::MANAGE_TOKEN, "", 0);
@@ -116,15 +99,6 @@ class Admin implements Interceptor
         }
     }
 
-
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     private function notPermission(Request $request, Response $response, int $type): Response
     {
         $hook = Plugin::instance()->hook(App::env(), Point::ADMIN_INTERCEPTOR_NOT_PERMISSION, PGI::HOOK_TYPE_HTTP, $request, $response, $type);

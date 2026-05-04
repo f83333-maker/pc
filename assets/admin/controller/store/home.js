@@ -23,18 +23,18 @@
                     <i class="fa-duotone fa-regular fa-circle-exclamation"></i> 访问我们的应用商店需要先登录应用商店账号。应用商店内提供大量插件、模板和主题等资源供您安装。
                     </p>
                   </div>
-          
+
                 <form class="form-store-login">
                   <div class="form-floating mb-4">
                              <input type="text" class="form-control" id="login-username" name="username" placeholder="${i18n('用户名')}">
                             <label class="form-label" for="login-username">${i18n('用户名')}</label>
                   </div>
-                  
+
                   <div class="form-floating mb-4">
                     <input type="password" class="form-control" id="login-password" name="password" placeholder="${i18n('请输入密码')}">
                     <label class="form-label" for="login-password">${i18n('密码')}</label>
                   </div>
-          
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-sm btn-light-primary btn-login">
                         <i class="fa-duotone fa-regular fa-right-to-bracket"></i> ${i18n('确认登入')}
@@ -85,14 +85,12 @@
                                     });
                                 }
 
-
                                 dom.html(`<div><form class="form-store-register">
                   <div class="form-floating mb-4">
                     <input type="text" class="form-control" id="register-username"  placeholder="${i18n('用户名')}">
                     <label class="form-label" for="register-username">${i18n('用户名')}</label>
                   </div>
-           
-        
+
                   <div class="form-floating mb-4">
                     <input type="text" class="form-control" id="register-password"  placeholder="${i18n('请设置登录密码')}">
                     <label class="form-label" for="register-password">${i18n('登录密码')}</label>
@@ -108,7 +106,7 @@
                            <img style="cursor:pointer;height: 47px;border-radius: 0.475rem;" class="img-captcha-register" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-sm btn-light-success btn-register">
                         <i class="fa-duotone fa-regular fa-user-plus"></i> ${i18n('确认注册')}
@@ -149,7 +147,6 @@
             width: "480px"
         });
 
-
     }
 
     function _Bill(plugin = {}) {
@@ -172,20 +169,17 @@
                       您所购买的插件，将统一归属于您的应用商店账户名下。无论您更换服务器或重新安装程序，只需登录购买时所使用的应用商店账户，即可迅速将产品绑定至新的网站上。
                     </p>
                   </div>          
-            
+
                     <div class="mb-3 store-introduce">
                       ${i18n(plugin.description)}
                     </div>
-                    
+
                     <div class="subscription-container">
                         <div class="layout-box">
                                 <div class="title"><i class="fa-duotone fa-regular fa-clock"></i> 订阅类型</div>
                                 <div class="subscription-list online-pay"><div class="subscription-item" data-amount="${plugin.price}"><span style="color: #496b93ab;"><span style="color: #D38200;font-size: 18px;font-weight: bold;">¥${plugin.price}</span></span><span style="color: #BDB8B8;font-size: 13px;text-decoration:line-through;">原价:${plugin.price * 2}</span><span style="color: #D38200;font-size:12px;">终身可用</span></div></div>
                         </div>
-                        
-                    
-                     
-                        
+
                         <div class="layout-box">
                                         <div class="title"><i class="fa-duotone fa-regular fa-star-shooting"></i> 付款购买 ${plugin.group > 0 ? `<span style="color: #3fa24a;"> 此插件企业版免费用，开通企业版更省钱更超值！<a href="javascript:void(0);" class="text-primary open-group-enterprise-click">点我开企业版</a></span>` : ""}</div>
                                             <div class="pay-list online-pay">
@@ -193,7 +187,7 @@
                                                 <div data-id="${plugin.id}"  data-type="0" data-pay="1" class="pay-item online-pay-click"><img class="item-icon" src="/assets/common/images/wx.png"><span>微信支付</span></div>
                                                 <div data-id="${plugin.id}"  data-type="0" data-pay="2" class="pay-item online-pay-click"><img class="item-icon" src="/assets/common/images/usdt.png"><span>USDT(TRC20)</span></div>
                                             </div>
-   
+
                         </div> 
                     </div>
               </div>`);
@@ -239,7 +233,7 @@
                       您所购买的企业版，将统一归属于您的应用商店账户名下。无论您更换服务器或重新安装程序，只需登录购买时所使用的应用商店账户，即可迅速将产品绑定至新的网站上。
                     </p>
                   </div>          
-            
+
                     <div class="mb-3 store-introduce" style="color: green;">
                      <p style="color: red;">1.全部官方插件/主题免费使用，包括后期会继续上架数百上千种插件/主题</p>
                      <p>2.技术支持</p>
@@ -247,7 +241,7 @@
                      <p>4.内侧版、预览版抢先体验</p>
                      <p>5.企业版专用功能建议通道，可有效提交新功能需求</p>
                     </div>
-                    
+
                     <div class="subscription-container">
                         <div class="layout-box">
                                 <div class="title">订阅类型</div>
@@ -260,7 +254,7 @@
                                                 <div data-id="0" data-type="2" data-pay="1" class="pay-item online-pay-click"><img class="item-icon" src="/assets/common/images/wx.png"><span>微信支付</span></div>
                                                 <div data-id="0" data-type="2" data-pay="2" class="pay-item online-pay-click"><img class="item-icon" src="/assets/common/images/usdt.png"><span>USDT(TRC20)</span></div>
                                             </div>
-   
+
                         </div>
                     </div>
               </div>`);
@@ -284,7 +278,6 @@
                 ]
             })
         }
-
 
         component.popup({
             submit: false,

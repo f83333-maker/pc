@@ -3,23 +3,15 @@ declare(strict_types=1);
 
 namespace App\Interceptor;
 
-
 use App\Util\Client;
 use App\Util\Context;
 use JetBrains\PhpStorm\NoReturn;
 use Kernel\Annotation\Interceptor;
 use Kernel\Annotation\InterceptorInterface;
 
-/**
- * Class Super
- * @package App\Interceptor
- */
 class Super implements InterceptorInterface
 {
 
-    /**
-     * @param int $type
-     */
     public function handle(int $type): void
     {
         $var = Context::get(\App\Consts\Manage::SESSION);
@@ -29,10 +21,6 @@ class Super implements InterceptorInterface
         }
     }
 
-    /**
-     * @param string $message
-     * @param int $type
-     */
     #[NoReturn] private function kick(string $message, int $type): void
     {
         if ($type == Interceptor::TYPE_VIEW) {

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Util\Http;
 use Kernel\Annotation\Inject;
 use Kernel\Exception\JSONException;
@@ -16,16 +15,6 @@ class Sms implements \App\Service\Sms
     #[Inject]
     private AliSms $sms;
 
-
-    /**
-     * 腾讯云短信发送V1接口
-     * @param array $smsConfig
-     * @param string $phone
-     * @param string $templateCode
-     * @param array $var
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Kernel\Exception\JSONException
-     */
     private function tencentSms(array $smsConfig, string $phone, string $templateCode, array $var = [])
     {
         $host = "sms.tencentcloudapi.com";
@@ -64,21 +53,11 @@ class Sms implements \App\Service\Sms
         }
     }
 
-
-    /**
-     * 发送短信
-     * @param array $smsConfig
-     * @param string $phone
-     * @param string $templateCode
-     * @param array $var
-     * @throws \Kernel\Exception\JSONException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     public function send(array $smsConfig, string $phone, string $templateCode, array $var = []): void
     {
         $platform = (int)$smsConfig['platform'];
         if ($platform == 0) {
-            //阿里云
+
             $config = [
                 'access_key' => $smsConfig['accessKeyId'],
                 'access_secret' => $smsConfig['accessKeySecret'],
@@ -88,7 +67,7 @@ class Sms implements \App\Service\Sms
             if ($response->Message != "OK") {
                 throw new JSONException($response->Message);
             }
-            //发送成功
+
         } elseif ($platform == 1) {
             $this->tencentSms($smsConfig, $phone, $templateCode, $var);
         } elseif ($platform == 2) {
@@ -100,12 +79,6 @@ class Sms implements \App\Service\Sms
         }
     }
 
-
-    /**
-     * @param string $phone
-     * @param int $type
-     * @throws \Kernel\Exception\JSONException
-     */
     public function sendCaptcha(string $phone, int $type): void
     {
         $capthca = mt_rand(100000, 999999);
@@ -121,34 +94,26 @@ class Sms implements \App\Service\Sms
             }
         }
 
-        //验证码发送嘎嘎
         $smsConfig = (array)json_decode(\App\Model\Config::get("sms_config"), true);
         $platform = (int)$smsConfig['platform'];
 
         $templateCode = match ($platform) {
-            0 => $smsConfig['templateCode'], //阿里云
-            1 => $smsConfig['tencentTemplateId'], //腾讯云
-            2 => str_replace("{code}", (string)$capthca, $smsConfig['dxbao_template'])//短信宝
+            0 => $smsConfig['templateCode'], 
+            1 => $smsConfig['tencentTemplateId'], 
+            2 => str_replace("{code}", (string)$capthca, $smsConfig['dxbao_template'])
         };
 
         $var = match ($platform) {
-            0 => ['code' => $capthca], //阿里云
-            1 => [(string)$capthca], //腾讯云
-            2 => [], //短信宝
+            0 => ['code' => $capthca], 
+            1 => [(string)$capthca], 
+            2 => [], 
         };
 
-        //统一短信发送接口
         $this->send($smsConfig, $phone, $templateCode, $var);
 
         Session::set($key, ["time" => time(), "code" => $capthca]);
     }
 
-    /**
-     * @param string $phone
-     * @param int $type
-     * @param int $code
-     * @return bool
-     */
     public function checkCaptcha(string $phone, int $type, int $code): bool
     {
         $key = match ($type) {
@@ -172,10 +137,6 @@ class Sms implements \App\Service\Sms
         return true;
     }
 
-    /**
-     * @param string $phone
-     * @param int $type
-     */
     public function destroyCaptcha(string $phone, int $type): void
     {
         $key = match ($type) {
@@ -185,6 +146,5 @@ class Sms implements \App\Service\Sms
         };
         Session::remove($key);
     }
-
 
 }

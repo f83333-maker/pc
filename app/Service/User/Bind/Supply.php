@@ -25,17 +25,9 @@ class Supply implements \App\Service\User\Supply
     #[Inject]
     private Ship $ship;
 
-    /**
-     * @param User|null $customer
-     * @param int $itemId
-     * @return \App\Entity\Repertory\RepertoryItem
-     * @throws JSONException
-     */
     public function getItem(?User $customer, int $itemId): \App\Entity\Repertory\RepertoryItem
     {
-        /**
-         * @var RepertoryItem $item
-         */
+
         $item = RepertoryItem::with(["sku" => function (HasMany $hasMany) {
             $hasMany->orderBy("sort", "asc");
         }])->find($itemId);
@@ -52,7 +44,6 @@ class Supply implements \App\Service\User\Supply
         $repertoryItem->setWidget(json_decode($item->widget, true));
         $repertoryItem->setAttr(json_decode($item->attr, true));
         $repertoryItem->setIntroduce($item->introduce);
-
 
         $skus = [];
         foreach ($item->sku as $a => $b) {

@@ -18,53 +18,25 @@ use Kernel\Util\Aes;
 use Kernel\Util\File;
 use Symfony\Component\Finder\Finder;
 
-
 class Plugin
 {
     use Singleton;
 
-    /**
-     * @var array
-     */
     private array $runtime = [];
 
-
-    /**
-     * @var array
-     */
     private array $startups = [];
 
-    /**
-     * @var array
-     */
     private array $languages = [];
 
-
-    /**
-     * @var array
-     */
     private array $config = [];
 
-    /**
-     * @var array
-     */
     private array $systemConfig = [];
 
-
-    /**
-     * @return string
-     */
     public function getHwId(): string
     {
         return @cd4d898edaf466b53198e8640e426c2f();
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return Entity|null
-     * @throws \ReflectionException
-     */
     public function getPlugin(string $name, string $env = "/app/Plugin"): ?Entity
     {
         $path = BASE_PATH . $env . "/{$name}";
@@ -77,7 +49,6 @@ class Plugin
         $state = $this->getState($name, $env);
         $languages = Language::inst()->list($name, $env);
 
-        //插件信息
         return new Entity(
             $name,
             (array)require($info),
@@ -97,11 +68,6 @@ class Plugin
         );
     }
 
-
-    /**
-     * @param string $env
-     * @return array
-     */
     public function getPluginVersionKeys(string $env = "/app/Plugin"): array
     {
         $baseDir = BASE_PATH . $env;
@@ -127,43 +93,21 @@ class Plugin
         return $plugins;
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return bool
-     */
     public function isRunning(string $name, string $env = "/app/Plugin"): bool
     {
         return $this->getState($name, $env)['run'] == 1;
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return bool
-     */
     public function exist(string $name, string $env = "/app/Plugin"): bool
     {
         return file_exists(BASE_PATH . $env . "/{$name}/Config/Info.php");
     }
 
-
-    /**
-     * @param string $env
-     * @param int $id
-     * @param string $key
-     * @return void
-     * @throws RuntimeException
-     */
     public function setStoreUser(int $id, string $key, string $env): void
     {
         File::write(BASE_PATH . "/config/store/" . md5($env), $this->encrypt(["id" => $id, "key" => $key]));
     }
 
-    /**
-     * @param string $env
-     * @return Authentication|null
-     */
     public function getStoreUser(string $env): Authentication|null
     {
         $store = File::read(BASE_PATH . "/config/store/" . md5($env), function (string $contents) {
@@ -175,72 +119,31 @@ class Plugin
         return null;
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws JSONException
-     */
     public function start(string $name, string $env): void
     {
         @f7b791fb1d06384599337402f8f9ae68($name, $env);
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @throws JSONException
-     */
     public function stop(string $name, string $env): void
     {
         @e0363b4507cc5b1891d3775c32f04bde($name, $env);
     }
 
-    /**
-     * @param string $name
-     * @param int $state
-     * @param string $env
-     * @return void
-     */
     public function setState(string $name, int $state, string $env): void
     {
         @e3b4615fba4874ab133dfe6acb700890($name, $state, $env);
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @return array
-     */
     public function getState(string $name, string $env): array
     {
         return @cfb6ad5dda2af960948a27546a092608($name, $env);
     }
 
-
-    /**
-     * @param string $env
-     * @param int $point
-     * @param int $type
-     * @param ...$arg
-     * @return array|string|bool|Response
-     * @throws \ReflectionException
-     */
     public function hook(string $env, int $point, int $type = PGN::HOOK_TYPE_PAGE, ...$arg): array|string|bool|Response
     {
         return $this->unsafeHook($env, $point, $type, ...$arg);
     }
 
-    /**
-     * @param string $env
-     * @param int $point
-     * @param int $type
-     * @param ...$arg
-     * @return array|string|bool|Response
-     * @throws \ReflectionException
-     */
     public function unsafeHook(string $env, int $point, int $type = PGN::HOOK_TYPE_PAGE, &...$arg): array|string|bool|Response
     {
         $this->setRuntime();
@@ -252,9 +155,7 @@ class Plugin
         }
 
         $results = "";
-        /**
-         * @var HookInfo $runtime
-         */
+
         foreach ($var as $runtime) {
             $class = Di::instance()->make($runtime->namespace, $runtime->plugin);
             Di::instance()->inject($class);
@@ -276,15 +177,6 @@ class Plugin
         return $results;
     }
 
-
-    /**
-     * @param array $users
-     * @param int $point
-     * @param int $type
-     * @param ...$arg
-     * @return array|string|bool|Response
-     * @throws \ReflectionException
-     */
     public function unsafeMultiHook(array $users, int $point, int $type = PGN::HOOK_TYPE_PAGE, &...$arg): array|string|bool|Response
     {
         $results = "";
@@ -309,28 +201,11 @@ class Plugin
         return $results;
     }
 
-    /**
-     * @param array $users
-     * @param int $point
-     * @param int $type
-     * @param ...$arg
-     * @return array|string|bool|Response
-     * @throws \ReflectionException
-     */
     public function multiHook(array $users, int $point, int $type = PGN::HOOK_TYPE_PAGE, ...$arg): array|string|bool|Response
     {
         return $this->unsafeMultiHook($users, $point, $type, ...$arg);
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @param int $point
-     * @param ...$arg
-     * @return void
-     * @throws \ReflectionException
-     */
     public function instantHook(string $name, string $env, int $point, &...$arg): void
     {
         Hook::inst()->scan($name, $env, function (int $p, HookInfo $runtime) use (&$arg, $point) {
@@ -342,10 +217,6 @@ class Plugin
         });
     }
 
-
-    /**
-     * @return void
-     */
     public function setRuntime(): void
     {
         $runtime = BASE_PATH . "/runtime/plugin/hook";
@@ -357,13 +228,6 @@ class Plugin
         }) ?: [];
     }
 
-    /**
-     * @param string $action
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws \ReflectionException
-     */
     public function database(string $action, string $name, string $env): void
     {
         $plugin = Plugin::instance()->getPlugin($name, $env);
@@ -384,14 +248,6 @@ class Plugin
         call_user_func([$obj, $action]);
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @param string $interface
-     * @param mixed ...$args
-     * @return mixed
-     * @throws \ReflectionException
-     */
     public function getHandle(string $name, string $env, string $interface, mixed &...$args): mixed
     {
         $plugin = Plugin::instance()->getPlugin($name, $env);
@@ -415,24 +271,12 @@ class Plugin
         return $obj;
     }
 
-    /**
-     * @param int $type
-     * @param string $env
-     * @return Entity[]
-     */
     public
     function getStartups(int $type = PGN::TYPE_GENERAL, string $env = "/app/Plugin"): array
     {
         return @bd580eb07f5781f020e46ed277c0fe52($type, $env);
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @return string|null
-     * @throws \ReflectionException
-     */
     public
     function getPayViewPath(string $name, string $env): ?string
     {
@@ -450,14 +294,6 @@ class Plugin
         return $path;
     }
 
-
-    /**
-     * @param string $hash
-     * @param string $name
-     * @param string $env
-     * @return UpdateLog|null
-     * @throws \ReflectionException
-     */
     public function getLogs(string $hash, string $name, string $env): ?UpdateLog
     {
         $plugin = Plugin::instance()->getPlugin($name, $env);
@@ -472,7 +308,6 @@ class Plugin
 
         $timeout = 0;
 
-        //3秒超时
         while ($timeout <= 60) {
             clearstatcache();
             $md5 = md5_file($file);
@@ -485,7 +320,6 @@ class Plugin
 
             $timeout++;
         }
-
 
         $maxSize = 1024 * 128;
         $fileSize = filesize($file);
@@ -505,12 +339,6 @@ class Plugin
         return new UpdateLog($hash, $data);
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws \ReflectionException
-     */
     public
     function clearLog(string $name, string $env): void
     {
@@ -527,14 +355,6 @@ class Plugin
         file_put_contents($file, "");
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @param array $config
-     * @return void
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public
     function setConfig(string $name, string $env, array $config): void
     {
@@ -546,11 +366,6 @@ class Plugin
         File::write($plugin->path . "/Config/Config", Aes::encrypt(serialize($config), $pass, $pass, false));
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return array
-     */
     public
     function getConfig(string $name, string $env): array
     {
@@ -564,14 +379,6 @@ class Plugin
         });
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @param array $config
-     * @return void
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public
     function setSystemConfig(string $name, string $env, array $config): void
     {
@@ -589,12 +396,6 @@ class Plugin
         });
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @return array
-     */
     public
     function getSystemConfig(string $name, string $env): array
     {
@@ -610,10 +411,6 @@ class Plugin
         });
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
     public
     function encrypt(array $data): string
     {
@@ -621,11 +418,6 @@ class Plugin
         return @Aes::encrypt(serialize($data), $pass, $pass, false);
     }
 
-
-    /**
-     * @param string $data
-     * @return mixed
-     */
     public
     function decrypt(string $data): array
     {

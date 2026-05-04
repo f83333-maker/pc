@@ -39,31 +39,12 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
     #[Inject]
     private \App\Service\Common\RepertoryItemSku $repertoryItemSku;
 
-    /**
-     * @param int|null $userId
-     * @param int $markupTemplateId
-     * @param int $categoryId
-     * @param int $configId
-     * @param int $refundMode
-     * @param int $autoReceiptTime
-     * @param array $item
-     * @param bool $imageDownloadLocal
-     * @param bool $checkRepeat
-     * @return void
-     * @throws JSONException
-     * @throws ServiceException
-     * @throws \ReflectionException
-     * @throws \Throwable
-     */
     public function import(?int $userId, int $markupTemplateId, int $categoryId, int $configId, int $refundMode, int $autoReceiptTime, array $item, bool $imageDownloadLocal, bool $checkRepeat = false): void
     {
         if (!RepertoryCategory::where("id", $categoryId)->exists()) {
             throw new JSONException("仓库不存在");
         }
 
-        /**
-         * @var PluginConfig $config
-         */
         $config = PluginConfig::find($configId);
         if (!$config || $config->user_id != $userId) {
             throw new ServiceException("配置不存在");
@@ -78,14 +59,8 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             throw new ServiceException("插件未启动");
         }
 
-        //$count = count($items);
-        //$success = 0;
-
-        // foreach ($items as $item) {
-        // try {
         if ($checkRepeat && isset($item['unique_id']) && \App\Model\RepertoryItem::query()->where("unique_id", $item['unique_id'])->exists()) {
-            /*    $plugin->log("[{$item['name']}]->重复检测：已经存在此货源：{$item['unique_id']}", true);
-                continue;*/
+
             throw new ServiceException("[{$item['name']}]->重复检测：已经存在此货源：{$item['unique_id']}");
         }
 
@@ -96,7 +71,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         }
 
         $skus = [];
-        //sku
+
         foreach ($item['skus'] as $sku) {
             $skuPictureUrl = $sku['picture_url'];
             $skuPictureThumbUrl = $skuPictureUrl;
@@ -135,7 +110,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                 if (!preg_match('/^(http:\/\/|https:\/\/)/i', $originalSrc)) {
                     return $matches[0];
                 }
-                //下载
+
                 $downloadRemoteImage = $this->image->downloadRemoteImage($originalSrc, false, $userId);
                 return str_replace($originalSrc, $downloadRemoteImage[0], $matches[0]);
             }, $introduce);
@@ -151,33 +126,17 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $createItem->setUserId($userId);
         $createItem->setPluginData($item['options'] ?: []);
 
-        //导入
         $repertoryItem = $this->create($createItem);
-        // $plugin->log("[{$item['name']}]->成功!", true);
-        // $success++;
-        /*            } catch (\Throwable $e) {
-                        $plugin->log("[{$item['name']}]->" . $e->getMessage(), true);
-                    }*/
-        //  }
 
         $this->syncRemoteItem(\App\Model\RepertoryItem::find($repertoryItem->id));
     }
 
-    /**
-     * @param CreateItem $createItem
-     * @return \App\Entity\Repertory\RepertoryItem
-     * @throws ServiceException
-     * @throws \Throwable
-     */
     public function create(CreateItem $createItem): \App\Entity\Repertory\RepertoryItem
     {
         if (count($createItem->skus) == 0) {
             throw new ServiceException("最少需要提供1个SKU，否则无法导入");
         }
 
-        /**
-         * @var RepertoryItemMarkupTemplate $repertoryItemMarkupTemplate
-         */
         $repertoryItemMarkupTemplate = RepertoryItemMarkupTemplate::query()->find($createItem->markupTemplateId);
 
         if (!$repertoryItemMarkupTemplate) {
@@ -185,7 +144,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         }
 
         $markup = new Markup($repertoryItemMarkupTemplate);
-
 
         return Db::transaction(function () use ($markup, $createItem) {
             $repertoryItem = new \App\Model\RepertoryItem();
@@ -226,13 +184,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         });
     }
 
-    /**
-     * @param string $amount
-     * @param string $exchangeRate
-     * @param int $keepDecimals
-     * @param string $percentage
-     * @return string
-     */
     public function getPercentageAmount(string $amount, string $exchangeRate, int $keepDecimals, string $percentage): string
     {
         $currency = $this->config->getCurrency();
@@ -252,13 +203,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         return $src;
     }
 
-    /**
-     * @param int|null $userId
-     * @param int $itemId
-     * @param CreateSku $sku
-     * @param Markup $markup
-     * @return RepertoryItemSku
-     */
     public function createSku(?int $userId, int $itemId, CreateSku $sku, Markup $markup): RepertoryItemSku
     {
         $price = $this->getPercentageAmount($sku->price, $markup->exchangeRate, (int)$markup->keepDecimals, $markup->percentage);
@@ -291,18 +235,11 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         return $repertoryItemSku;
     }
 
-
-    /**
-     * @param \App\Model\RepertoryItem|int $item
-     * @return Markup
-     */
     public function getMarkup(\App\Model\RepertoryItem|int $item): Markup
     {
 
         if (is_int($item)) {
-            /**
-             * @var \App\Model\RepertoryItem $item
-             */
+
             $item = \App\Model\RepertoryItem::query()->find($item);
         }
 
@@ -310,9 +247,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $markupEntity = new Markup();
 
         if ($item->markup_mode == 2) {
-            /**
-             * @var RepertoryItemMarkupTemplate $template
-             */
+
             $template = RepertoryItemMarkupTemplate::query()->find($item->markup_template_id);
             if ($template) {
                 $markupEntity->setSyncAmount((bool)$template->sync_amount);
@@ -380,13 +315,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         return $markupEntity;
     }
 
-
-    /**
-     * @param \App\Model\RepertoryItem $repertoryItem
-     * @return void
-     * @throws \ReflectionException
-     * @throws \Exception
-     */
     public function syncRemoteItem(\App\Model\RepertoryItem $repertoryItem): void
     {
 
@@ -395,14 +323,10 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             return;
         }
 
-        /**
-         * @var PluginConfig $config
-         */
         $config = PluginConfig::find($repertoryItem->ship_config_id);
 
-        //同步模版
         $markup = $this->getMarkup($repertoryItem);
-        //调用发货插件远程拉取数据
+
         $foreignShip = \Kernel\Plugin\Ship::inst()->getForeignShipHandle($repertoryItem->plugin, Usr::inst()->userToEnv($repertoryItem->user_id), is_array($config?->config) ? $config->config : []);
 
         if (!$foreignShip) {
@@ -412,11 +336,9 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
 
         $item = $foreignShip->getItem($repertoryItem->unique_id, json_decode((string)$repertoryItem->plugin_data, true) ?: []);
 
-        //如果对方不存在当前商品
         if (!$item) {
             $repertoryItem->exception_total = $repertoryItem->exception_total + 1;
 
-            //异常总数大于 6 次，将商品拉入审核中
             if ($repertoryItem->exception_total > 6) {
                 $repertoryItem->status = 0;
                 $repertoryItem->exception_total = 0;
@@ -431,12 +353,10 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             return;
         }
 
-        #1 商品名称同步
         if ($markup->syncName && $item->versions['name'] != $repertoryItem->version['name']) {
             $repertoryItem->name = $item->name;
         }
 
-        #2 商品图片同步
         if ($markup->syncPicture && $item->versions['picture_url'] != $repertoryItem->version['picture_url']) {
             $pictureUrl = $item->pictureUrl;
             $pictureThumbUrl = $pictureUrl;
@@ -454,13 +374,11 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             $repertoryItem->picture_thumb_url = $pictureThumbUrl;
         }
 
-
-        #3 商品说明同步
         if ($markup->syncIntroduce && $item->versions['introduce'] != $repertoryItem->version['introduce']) {
             $introduce = (string)$item->introduce;
 
             if ($markup->syncRemoteDownload) {
-                //将介绍中的图片进行本地化
+
                 $introduce = preg_replace_callback('/<img[^>]+src=["\']?([^"\'>]+)["\']?[^>]*>/i', function ($matches) use ($repertoryItem) {
                     $originalSrc = $matches[1];
                     if (!preg_match('/^(http:\/\/|https:\/\/)/i', $originalSrc)) {
@@ -479,13 +397,9 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $repertoryItem->exception_total = 0;
         $repertoryItem->save();
 
-        #4 SKU同步
         try {
             $skus = RepertoryItemSku::query()->where("repertory_item_id", $repertoryItem->id)->get();
 
-            /**
-             * @var RepertoryItemSku $sk
-             */
             foreach ($skus as $sk) {
                 foreach ($item->skus as $sku) {
                     if ($sku->uniqueId == $sk->unique_id) {
@@ -496,11 +410,8 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             }
 
             foreach ($item->skus as $sku) {
-                /**
-                 * @var RepertoryItemSku $repertoryItemSku
-                 */
-                $repertoryItemSku = RepertoryItemSku::query()->where("unique_id", $sku->uniqueId)->where("repertory_item_id", $repertoryItem->id)->first();
 
+                $repertoryItemSku = RepertoryItemSku::query()->where("unique_id", $sku->uniqueId)->where("repertory_item_id", $repertoryItem->id)->first();
 
                 if (!$repertoryItemSku) {
                     $skuPictureUrl = $sku->pictureUrl;
@@ -508,7 +419,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                     if ($markup->syncRemoteDownload) {
                         list($skuPictureUrl, $skuPictureThumbUrl) = $this->image->downloadRemoteImage($skuPictureUrl, true, $repertoryItem->user_id);
                     }
-                    //创建新的SKU
+
                     $createSku = new CreateSku($sku->versions, $sku->name, $skuPictureUrl, $skuPictureThumbUrl, $sku->price);
                     $sku->marketControlOnlyNum > 0 && $createSku->setMarketControlOnlyNum($sku->marketControlOnlyNum);
                     $sku->marketControlMaxNum > 0 && $createSku->setMarketControlMaxNum($sku->marketControlMaxNum);
@@ -518,15 +429,13 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                     $sku->cost && $createSku->setCost($sku->cost);
                     $this->createSku($repertoryItem->user_id, $repertoryItem->id, $createSku, $markup);
                 } else {
-                    //保留小数
+
                     $keepDecimals = (int)$markup->keepDecimals;
 
-                    ##1 SKU名称同步
                     if ($markup->syncSkuName && $sku->versions['name'] != $repertoryItemSku->version['name']) {
                         $repertoryItemSku->name = $sku->name;
                     }
 
-                    ##2 SKU图片同步
                     if ($markup->syncSkuPicture && $sku->versions['picture_url'] != $repertoryItemSku->version['picture_url']) {
                         $skuPictureUrl = $sku->pictureUrl;
                         $skuPictureThumbUrl = $skuPictureUrl;
@@ -538,11 +447,8 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                         $repertoryItemSku->picture_thumb_url = $skuPictureThumbUrl;
                     }
 
-
-                    ## 成本实时同步
                     $repertoryItemSku->cost = $this->getPercentageAmount($sku->cost ?? $sku->price, $markup->exchangeRate, (int)$markup->keepDecimals, "0");
 
-                    ##3 SKU价格同步
                     if ($markup->syncAmount) {
                         $repertoryItemSku->market_control_min_num = $sku->marketControlMinNum;
                         $repertoryItemSku->market_control_max_num = $sku->marketControlMaxNum;
@@ -557,12 +463,12 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                         if ($sku->versions['price'] != $repertoryItemSku->version['price'] || $repertoryItemSku->market_control_status != (int)$sku->marketControl) {
                             $repertoryItemSku->market_control_status = (int)$sku->marketControl;
 
-                            $price = $this->getPercentageAmount($sku->price, $markup->exchangeRate, (int)$markup->keepDecimals, $markup->percentage); //新的价格
+                            $price = $this->getPercentageAmount($sku->price, $markup->exchangeRate, (int)$markup->keepDecimals, $markup->percentage); 
 
                             if ($repertoryItem->user_id > 0) {
                                 $originalSupplyPrice = $repertoryItemSku->supply_price;
                                 $repertoryItemSku->supply_price = $price;
-                                $repertoryItemSku->stock_price = (new Decimal($repertoryItemSku->supply_price, 6))->div($originalSupplyPrice)->mul($repertoryItemSku->stock_price)->getAmount($keepDecimals); //增加进货价格
+                                $repertoryItemSku->stock_price = (new Decimal($repertoryItemSku->supply_price, 6))->div($originalSupplyPrice)->mul($repertoryItemSku->stock_price)->getAmount($keepDecimals); 
                                 $profitRatio = (new Decimal($repertoryItemSku->supply_price, 6))->div($originalSupplyPrice);
                             } else {
                                 $originalStockPrice = $repertoryItemSku->stock_price;
@@ -570,30 +476,18 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                                 $profitRatio = (new Decimal($repertoryItemSku->stock_price, 6))->div($originalStockPrice);
                             }
 
-                            /**
-                             * 同步用户组进货价
-                             * @var RepertoryItemSkuGroup[] $repertoryItemSkuGroups
-                             */
                             $repertoryItemSkuGroups = RepertoryItemSkuGroup::query()->where("sku_id", $repertoryItemSku->id)->get();
                             foreach ($repertoryItemSkuGroups as $repertoryItemSkuGroup) {
                                 $repertoryItemSkuGroup->stock_price = (clone $profitRatio)->mul($repertoryItemSkuGroup->stock_price)->getAmount($keepDecimals);
                                 $repertoryItemSkuGroup->save();
                             }
 
-                            /**
-                             * 同步商家私密进货价
-                             * @var RepertoryItemSkuUser[] $repertoryItemSkuUsers
-                             */
                             $repertoryItemSkuUsers = RepertoryItemSkuUser::query()->where("sku_id", $repertoryItemSku->id)->get();
                             foreach ($repertoryItemSkuUsers as $repertoryItemSkuUser) {
                                 $repertoryItemSkuUser->stock_price = (clone $profitRatio)->mul($repertoryItemSkuUser->stock_price)->getAmount($keepDecimals);
                                 $repertoryItemSkuUser->save();
                             }
 
-                            /**
-                             * 同步批发进货价
-                             * @var RepertoryItemSkuWholesale[] $repertoryItemSkuWholesales
-                             */
                             $repertoryItemSkuWholesales = RepertoryItemSkuWholesale::query()->where("sku_id", $repertoryItemSku->id)->get();
                             foreach ($repertoryItemSkuWholesales as $repertoryItemSkuWholesale) {
                                 $repertoryItemSkuWholesale->stock_price = (clone $profitRatio)->mul($repertoryItemSkuWholesale->stock_price)->getAmount($keepDecimals);
@@ -614,7 +508,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                         }
                     }
 
-                    //同步结束
                     $repertoryItemSku->version = $sku->versions;
                     $repertoryItemSku->save();
                 }
@@ -623,15 +516,9 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             $plugin->log("[{$repertoryItem->name}]SKU同步失败：{$e->getMessage()}", true);
         }
 
-        #5 强制缓存库存同步
         $this->repertoryItemSku->syncCacheForItem($repertoryItem->id);
     }
 
-
-    /**
-     * @param \App\Model\RepertoryItem|int $repertoryItem
-     * @return void
-     */
     public function forceSyncRemoteItemPrice(\App\Model\RepertoryItem|int $repertoryItem): void
     {
         if (is_int($repertoryItem)) {
@@ -643,9 +530,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         }
 
         $list = RepertoryItemSku::query()->where("repertory_item_id", $repertoryItem->id)->get();
-        /**
-         * @var RepertoryItemSku $sku
-         */
+
         foreach ($list as $sku) {
             if (is_array($sku->version) && isset($sku->version['price'])) {
                 $version = $sku->version;
@@ -658,12 +543,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $repertoryItem->save();
     }
 
-    /**
-     * @param bool $isOnlyId
-     * @param int|null $userId
-     * @param int $second
-     * @return array|Collection
-     */
     public function getSyncRemoteItems(bool $isOnlyId = true, ?int $userId = null, int $second = 120): array|Collection
     {
         $items = \App\Model\RepertoryItem::query()
@@ -684,11 +563,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         return $items->get();
     }
 
-    /**
-     * @param array $originMarkup
-     * @param array $newMarkup
-     * @return bool
-     */
     public function checkForceSyncRemoteItemPrice(array $originMarkup, array $newMarkup): bool
     {
         if ($originMarkup["sync_amount"] != $newMarkup["sync_amount"]) {
@@ -707,7 +581,6 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             return true;
         }
 
-        //兼容店铺同步模版
         if (isset($originMarkup["exchange_rate"]) && $originMarkup["exchange_rate"] != $newMarkup["exchange_rate"]) {
             return true;
         }

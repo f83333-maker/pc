@@ -9,21 +9,11 @@ use Kernel\Plugin\Usr;
 class Plugin extends Command
 {
 
-    /**
-     * @param string $name
-     * @param int $userId
-     * @return void
-     * @throws JSONException
-     */
     public function stop(string $name, int $userId): void
     {
         \Kernel\Plugin\Plugin::instance()->stop($name, Usr::inst()->userToEnv($userId));
     }
 
-    /**
-     * @param int $userId
-     * @return void
-     */
     public function list(int $userId): void
     {
         $plugins = \Kernel\Plugin\Plugin::instance()->getStartups(\Kernel\Plugin\Const\Plugin::TYPE_ANY, Usr::inst()->userToEnv($userId));

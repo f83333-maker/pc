@@ -3,29 +3,14 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-/**
- * Class Str
- * @package App\Util
- */
 class Str
 {
 
-    /**
-     * 生成密码
-     * @param string $pass
-     * @param string $salt
-     * @return string
-     */
     public static function generatePassword(string $pass, string $salt): string
     {
         return sha1(md5(md5($pass) . md5($salt)));
     }
 
-    /**
-     * 生成随机字符串
-     * @param int $length
-     * @return string
-     */
     public static function generateRandStr(int $length = 32): string
     {
         mt_srand();
@@ -33,10 +18,6 @@ class Str
         return substr($md5, 0, $length);
     }
 
-    /**
-     * @param mixed $sign
-     * @return bool
-     */
     public static function isInvalidSign(mixed $sign): bool
     {
         if (!is_string($sign)) {
@@ -48,13 +29,6 @@ class Str
         return $sign === '';
     }
 
-
-    /**
-     * 获取数据签名
-     * @param array $data
-     * @param string $appKey
-     * @return string
-     */
     public static function generateSignature(array $data, $appKey): string
     {
         unset($data['sign']);
@@ -67,33 +41,17 @@ class Str
         return md5(urldecode(http_build_query($data) . "&key=" . (string)$appKey));
     }
 
-    /**
-     * 生成订单号
-     * @return string
-     */
     public static function generateTradeNo()
     {
         return mt_rand(100, 999) . date("ymdHis", time()) . mt_rand(100, 999);
     }
 
-    /**
-     * 随机生成浮动金额
-     * @param float $amount
-     * @param int $min
-     * @param int $max
-     * @return float
-     */
     public static function generateRandAmount(float $amount, int $min, int $max): float
     {
         mt_srand();
         return $amount + (mt_rand($min, $max) / 100);
     }
 
-
-    /**
-     * @param int $type
-     * @return string|int
-     */
     public static function generateContact(int $type): string|int
     {
         return match ($type) {
@@ -104,21 +62,11 @@ class Str
         };
     }
 
-    /**
-     * @param string $str
-     * @return bool
-     */
     public static function isValid(string $str): bool
     {
         return (bool)preg_match('/^[A-Za-z0-9]+$/', $str);
     }
 
-
-    /**
-     * @param mixed $str
-     * @param string $local
-     * @return bool
-     */
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {

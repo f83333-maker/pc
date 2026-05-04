@@ -14,33 +14,19 @@ use Kernel\Util\Context;
 class Identity implements Interceptor
 {
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
-        /**
-         * @var User $user
-         */
+
         $user = Context::get(User::class);
         $identity = UserIdentity::query()->where("user_id", $user->id)->first();
 
         if (!$identity || $identity->status != 1) {
             return $this->notIdentity($request, $response, $type);
         }
-        
+
         return $response;
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     */
     private function notIdentity(Request $request, Response $response, int $type): Response
     {
         if ($type == \Kernel\Annotation\Interceptor::API) {

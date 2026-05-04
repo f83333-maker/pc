@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Base\View;
 
-
 use App\Model\Business;
 use App\Model\Config;
 use App\Util\Client;
@@ -12,22 +11,9 @@ use Kernel\Exception\JSONException;
 use Kernel\Exception\ViewException;
 use Kernel\Util\View;
 
-/**
- * Class UserPlugin
- * @package App\Controller\Base\View
- */
 abstract class UserPlugin extends \App\Controller\Base\User
 {
-    /**
-     * @param string|null $title
-     * @param string $template
-     * @param array $data
-     * @param bool $controller
-     * @return string
-     * @throws ViewException
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
+
     protected function render(?string $title, string $template, array $data = [], bool $controller = false): string
     {
         try {

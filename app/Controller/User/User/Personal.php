@@ -19,9 +19,6 @@ class Personal extends Base
     #[Inject]
     private Lifetime $lifetime;
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         $lifetime = $this->lifetime->get($this->getUser()->id);
@@ -29,10 +26,6 @@ class Personal extends Base
         return $this->theme(Theme::USER_PERSONAL, "User/Personal.html", "我的资料", ["lifetime" => $lifetime]);
     }
 
-
-    /**
-     * @return Response
-     */
     public function logout(): Response
     {
         $this->lifetime->update($this->getUser()->id, "login_status", 0);

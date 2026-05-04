@@ -13,9 +13,7 @@ use Kernel\Plugin\Const\Theme;
 #[Interceptor(class: [User::class, Supplier::class])]
 class ItemMarkupTemplate extends Base
 {
-    /**
-     * @return Response
-     */
+
     public function index(): Response
     {
         return $this->theme(Theme::USER_REPERTORY_ITEM_MARKUP_TEMPLATE, "Repertory/ItemMarkupTemplate.html", "同步模板");

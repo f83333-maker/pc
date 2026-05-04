@@ -21,14 +21,12 @@ class Auth
         return true;
     }
 
-
     #[Name("password")]
     #[Required("登录密码不能为空")]
     public function loginPassword(): bool
     {
         return true;
     }
-
 
     #[Name("username")]
     #[Required("用户名不能为空")]
@@ -37,7 +35,6 @@ class Auth
     {
         return true;
     }
-
 
     #[Name("password")]
     #[Required("请设置你的登录密码")]
@@ -57,14 +54,12 @@ class Auth
         return true;
     }
 
-
     #[Required("图形验证码不能为空")]
     #[Regex("/^.{4}$/", "图形验证码错误")]
     public function captcha(): bool
     {
         return true;
     }
-
 
     #[Name("phone")]
     #[Required("手机号不能为空")]
@@ -76,14 +71,12 @@ class Auth
         return true;
     }
 
-
     #[Required("短信类型不能为空")]
     #[Regex("/^(register|reset)$/", "短信类型错误")]
     public function type(): bool
     {
         return true;
     }
-
 
     #[Required("手机验证码不能为空")]
     #[Regex("/^\d{6}$/", "手机验证码错误")]

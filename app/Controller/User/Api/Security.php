@@ -26,10 +26,6 @@ class Security extends User
     #[Inject]
     private Sms $sms;
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function personal(): array
     {
         $user = $this->getUser();
@@ -117,10 +113,6 @@ class Security extends User
         return $this->json(200, "修改成功");
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function email(): array
     {
         if (!$this->email->checkCaptcha($_POST['email'], Email::CAPTCHA_BIND_NEW, (int)$_POST['email_captcha'])) {
@@ -134,10 +126,6 @@ class Security extends User
         return $this->json(200, "修改成功");
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function phone(): array
     {
         if (!$this->sms->checkCaptcha($_POST['phone'], Sms::CAPTCHA_BIND_NEW, (int)$_POST['phone_captcha'])) {
@@ -151,9 +139,6 @@ class Security extends User
         return $this->json(200, "修改成功");
     }
 
-    /**
-     * @throws JSONException
-     */
     public function password(): array
     {
         $oldPassword = (string)$_POST['old_password'];
@@ -176,9 +161,6 @@ class Security extends User
         return $this->json(200, "修改成功");
     }
 
-    /**
-     * @throws JSONException
-     */
     public function emailBindNew(): array
     {
         if (!isset($_POST['captcha']) || !Captcha::check((int)$_POST['captcha'], "emailBindNew")) {
@@ -197,9 +179,6 @@ class Security extends User
         return $this->json(200, "验证码发送成功");
     }
 
-    /**
-     * @throws JSONException
-     */
     public function phoneBindNew(): array
     {
         if (!isset($_POST['captcha']) || !Captcha::check((int)$_POST['captcha'], "phoneBindNew")) {
@@ -219,10 +198,6 @@ class Security extends User
         return $this->json(200, "验证码发送成功");
     }
 
-
-    /**
-     * @return array
-     */
     public function resetKey(): array
     {
         $user = \App\Model\User::query()->find($this->getUser()->id);
@@ -230,6 +205,5 @@ class Security extends User
         $user->save();
         return $this->json(200, "重置成功", ["app_key" => $user->app_key]);
     }
-
 
 }

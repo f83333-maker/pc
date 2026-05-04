@@ -14,56 +14,22 @@ use Kernel\Util\Str;
 abstract class File implements \Kernel\Context\Interface\File
 {
 
-    /**
-     * @var array
-     */
     protected array $files = [];
 
-    /**
-     * 文件名称
-     * @var string
-     */
     protected string $fileName;
 
-    /**
-     * 文件类型
-     * @var string
-     */
     protected string $mime;
 
-
-    /**
-     * 缓存地址
-     * @var string
-     */
     protected string $tmp;
 
-
-    /**
-     * @var int
-     */
     protected int $error;
 
-    /**
-     * @var int
-     */
     protected int $size;
 
-
-    /**
-     * @var string
-     */
     protected string $suffix;
 
-
-    /**
-     * @var string
-     */
     protected string $name;
 
-    /**
-     * @throws JSONException
-     */
     public function __construct()
     {
         if (!isset($this->files[$this->name])) {
@@ -82,65 +48,36 @@ abstract class File implements \Kernel\Context\Interface\File
         $this->suffix = end($ext);
     }
 
-    /**
-     * @return string
-     */
     public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    /**
-     * @return string
-     */
     public function getMime(): string
     {
         return $this->mime;
     }
 
-    /**
-     * @return string
-     */
     public function getTmp(): string
     {
         return $this->tmp;
     }
 
-    /**
-     * @return int
-     */
     public function getError(): int
     {
         return $this->error;
     }
 
-    /**
-     * @return int
-     */
     public function getSize(): int
     {
         return $this->size;
     }
 
-    /**
-     * @return string
-     */
     public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-
-    /**
-     * @param string $path
-     * @param array $ext
-     * @param int $size 单位KB
-     * @param string $dir
-     * @return string
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function save(string $path, array $ext = ['jpg', 'png', 'jpeg', 'bmp', 'webp', 'ico', 'gif', 'mp4', 'zip', 'woff', 'woff2', 'ttf', 'otf'], int $size = 10240, string $dir = BASE_PATH): string
     {
         if ($this->getError() > 0) {
@@ -153,7 +90,6 @@ abstract class File implements \Kernel\Context\Interface\File
         if ($size < $this->getSize() / 1024) {
             throw new JSONException("您的文件过大，当前上传限制：" . $size . "KB");
         }
-
 
         $_tmpDir = $dir . $path . date("Y-m-d/", time());
         $unique = $path . date("Y-m-d/") . Str::generateRandStr(32) . "." . $this->getSuffix();

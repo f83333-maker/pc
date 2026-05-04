@@ -21,18 +21,12 @@ use Kernel\Validator\Method;
 class Auth extends Base
 {
 
-
     #[Inject]
     private \App\Service\User\Auth $auth;
 
     #[Inject]
     private \App\Service\Common\Config $config;
 
-    /**
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Auth::class, "sendEmail"]
     ])]
@@ -42,13 +36,6 @@ class Auth extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws NotFoundException
-     */
     #[Validator([
         [\App\Validator\User\Auth::class, ["registerUsername", "email", "registerPassword"]]
     ])]
@@ -57,7 +44,6 @@ class Auth extends Base
         $password = $this->request->post("password");
         $re = $this->request->post("password_re");
         $terms = $this->request->post("terms");
-
 
         if ($password != $re) {
             throw new JSONException("两次密码输入不一致");
@@ -76,18 +62,12 @@ class Auth extends Base
             inviter: $this->getInviter()
         );
 
-
-        //自动登录
         $config = $this->config->getMainConfig("site");
         $login = $this->auth->setLoginSuccess($user);
         $this->response->withCookie(Cookie::USER_TOKEN, $login, (int)$config['session_expire']);
         return $this->json(data: ["token" => $login]);
     }
 
-
-    /**
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Auth::class, ["loginUsername", "loginPassword"]]
     ])]
@@ -99,9 +79,6 @@ class Auth extends Base
         return $this->json(data: ["token" => $login]);
     }
 
-    /**
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Auth::class, ["sendEmail", "resetEmailCode", "registerPassword"]]
     ])]

@@ -12,12 +12,6 @@ class Identity implements \App\Service\Store\Identity
     #[Inject]
     private \App\Service\Store\Http $http;
 
-    /**
-     * @param Authentication $authentication
-     * @param string $tradeNo
-     * @return array
-     * @throws ServiceException
-     */
     public function status(Authentication $authentication, string $tradeNo = ""): array
     {
         $data = [];
@@ -31,13 +25,6 @@ class Identity implements \App\Service\Store\Identity
         return $http->data;
     }
 
-    /**
-     * @param string $certName
-     * @param string $certNo
-     * @param Authentication $authentication
-     * @return string
-     * @throws ServiceException
-     */
     public function certification(string $certName, string $certNo, Authentication $authentication): string
     {
         $http = $this->http->request("/user/identity/certification", [

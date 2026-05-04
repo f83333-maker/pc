@@ -96,7 +96,6 @@
         });
     }
 
-
     util.post({
         url: "/admin/api/app/service",
         loader: false,

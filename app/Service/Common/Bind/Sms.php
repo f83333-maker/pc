@@ -16,21 +16,12 @@ class Sms implements \App\Service\Common\Sms
     #[Inject]
     private AliSms $aliSms;
 
-
-    /**
-     * @param array $config
-     * @param string $phone
-     * @param string $templateCode
-     * @param array $var
-     * @return void
-     * @throws RuntimeException
-     */
     private function sendAli(array $config, string $phone, string $templateCode, array $var = []): void
     {
         if (Verify::isInternationalMobile($phone)) {
             $phone = ltrim($phone, "+");
         }
-        //阿里云
+
         $cfg = [
             'access_key' => $config['ali_access_key_id'],
             'access_secret' => $config['ali_access_key_secret'],
@@ -42,15 +33,6 @@ class Sms implements \App\Service\Common\Sms
         }
     }
 
-    /**
-     * @param array $config
-     * @param string $phone
-     * @param string $templateCode
-     * @param array $var
-     * @return void
-     * @throws GuzzleException
-     * @throws RuntimeException
-     */
     private function sendTencent(array $config, string $phone, string $templateCode, array $var = []): void
     {
         if (Verify::isChinaMobile($phone)) {
@@ -92,14 +74,6 @@ class Sms implements \App\Service\Common\Sms
         }
     }
 
-    /**
-     * @param array $config
-     * @param string $phone
-     * @param string $templateCode
-     * @return void
-     * @throws GuzzleException
-     * @throws RuntimeException
-     */
     public function sendDxb(array $config, string $phone, string $templateCode): void
     {
         $pass = md5((string)$config['dxb_password']);
@@ -117,15 +91,6 @@ class Sms implements \App\Service\Common\Sms
         }
     }
 
-    /**
-     * @param array $config
-     * @param string $phone
-     * @param string $templateCode
-     * @param array $var
-     * @return void
-     * @throws GuzzleException
-     * @throws RuntimeException
-     */
     public function send(array $config, string $phone, string $templateCode, array $var = []): void
     {
         if (!Verify::isInternationalMobile($phone) && !Verify::isChinaMobile($phone)) {

@@ -7,15 +7,8 @@ namespace Kernel\Annotation;
 class Hook
 {
 
-    /**
-     * @var int
-     */
     public int $point;
 
-    /**
-     * Hook constructor.
-     * @param int $point
-     */
     public function __construct(int $point)
     {
     }

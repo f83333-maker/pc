@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Consts\Hook;
 use App\Entity\PayEntity;
 use App\Model\Bill;
@@ -29,16 +28,10 @@ class Recharge implements \App\Service\Recharge
     #[Inject]
     private Order $order;
 
-    /**
-     * @param User $user
-     * @return array
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function trade(User $user): array
     {
-        $payId = (int)$_POST['pay_id'];//支付方式id
-        $amount = (float)$_POST['amount'];//充值金额
+        $payId = (int)$_POST['pay_id'];
+        $amount = (float)$_POST['amount'];
 
         $rechargeMin = (float)Config::get("recharge_min");
         $rechargeMin = $rechargeMin == 0 ? 10 : $rechargeMin;
@@ -62,7 +55,6 @@ class Recharge implements \App\Service\Recharge
             throw new JSONException("当前支付方式已停用");
         }
 
-        //回调地址
         $callbackDomain = trim(Config::get("callback_domain"), "/");
         $clientDomain = Client::getUrl();
 
@@ -88,7 +80,7 @@ class Recharge implements \App\Service\Recharge
             if (file_exists($autoload)) {
                 require($autoload);
             }
-            //增加接口手续费：0.9.6-beta
+
             $order->amount = $order->amount + ($pay->cost_type == 0 ? $pay->cost : $order->amount * $pay->cost);
             $order->amount = (float)sprintf("%.2f", (int)(string)($order->amount * 100) / 100);
 
@@ -134,15 +126,6 @@ class Recharge implements \App\Service\Recharge
         });
     }
 
-    /**
-     * @param string $handle
-     * @param array $map
-     * @return string
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \HTMLPurifier_Exception
-     * @throws \ReflectionException
-     */
     public function callback(string $handle, array $map): string
     {
         $handle = Firewall::inst()->xssKiller($handle);
@@ -169,7 +152,7 @@ class Recharge implements \App\Service\Recharge
         $callback = $this->order->callbackInitialize($handle, $map);
 
         DB::transaction(function () use ($handle, $map, $callback) {
-            //获取订单
+
             $order = UserRecharge::query()->where("trade_no", $callback['trade_no'])->first();
 
             if (!$order) {
@@ -187,33 +170,25 @@ class Recharge implements \App\Service\Recharge
                 throw new JSONException("amount error");
             }
 
-            //订单更新
             $this->orderSuccess($order);
         });
 
         return $callback['success'];
     }
 
-
-    /**
-     * @param UserRecharge $recharge
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function orderSuccess(UserRecharge $recharge): void
     {
         $recharge->status = 1;
         $recharge->pay_time = Date::current();
         $recharge->option = null;
 
-        //充值
         $user = $recharge->user;
 
         if ($user) {
             $rechargeWelfareAmount = $this->calcAmount($recharge->amount);
-            Bill::create($user, $recharge->amount, Bill::TYPE_ADD, "充值", 0); //用户余额
+            Bill::create($user, $recharge->amount, Bill::TYPE_ADD, "充值", 0); 
             if ($rechargeWelfareAmount > 0) {
-                Bill::create($user, $rechargeWelfareAmount, Bill::TYPE_ADD, "充值赠送", 0); //用户余额
+                Bill::create($user, $rechargeWelfareAmount, Bill::TYPE_ADD, "充值赠送", 0); 
             }
         }
 
@@ -223,12 +198,6 @@ class Recharge implements \App\Service\Recharge
         $recharge->save();
     }
 
-
-    /**
-     * @param float $amount
-     * @return float
-     * @throws RuntimeException
-     */
     public function calcAmount(float $amount): float
     {
         $price = 0;
@@ -252,6 +221,5 @@ class Recharge implements \App\Service\Recharge
         }
         return (float)$price;
     }
-
 
 }

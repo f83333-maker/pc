@@ -36,28 +36,16 @@ class Order
         $this->payTime = $order->pay_time;
     }
 
-    /**
-     * @param Product $product
-     */
     public function setProduct(Product $product): void
     {
         $this->product = $product;
     }
 
-    /**
-     * @param PayOrder $payOrder
-     * @return void
-     */
     public function setPayOrder(PayOrder $payOrder): void
     {
         $this->payOrder = $payOrder;
     }
 
-
-    /**
-     * @param array $items
-     * @return void
-     */
     public function setItems(array $items): void
     {
         $this->items = $items;

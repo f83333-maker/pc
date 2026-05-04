@@ -3,19 +3,12 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-
 use Kernel\Exception\JSONException;
 use Rah\Danpu\Exception;
 
 class Zip
 {
 
-    /**
-     * @param $filePath
-     * @param $path
-     * @return bool
-     * @throws \Kernel\Exception\JSONException
-     */
     public static function unzip($filePath, $path): bool
     {
         try {

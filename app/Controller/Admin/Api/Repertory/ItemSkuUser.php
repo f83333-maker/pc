@@ -27,13 +27,6 @@ class ItemSkuUser extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $id
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -77,13 +70,6 @@ class ItemSkuUser extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param string $skuId
-     * @param string $type
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\ItemSku::class, "stockPrice"]
     ])]

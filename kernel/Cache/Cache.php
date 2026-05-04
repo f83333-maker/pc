@@ -26,13 +26,6 @@ class Cache
         $this->resolve = $resolve;
     }
 
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     * @return void
-     * @throws RuntimeException
-     */
     public function set(string $name, mixed $value): void
     {
         $hashFile = $this->cacheDir . md5($name);
@@ -45,20 +38,11 @@ class Cache
         });
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
     public function has(string $name): bool
     {
         return file_exists($this->cacheDir . md5($name));
     }
 
-
-    /**
-     * @param string $name
-     * @return void
-     */
     public function del(string $name): void
     {
         if ($this->has($name)) {
@@ -66,10 +50,6 @@ class Cache
         }
     }
 
-    /**
-     * @param string $name
-     * @return mixed
-     */
     public function get(string $name): mixed
     {
         return File::read($this->cacheDir . md5($name), function (string $contents) {

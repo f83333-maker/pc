@@ -26,7 +26,6 @@ class WidgetUtil {
         return html + "";
     }
 
-
     static widgetToPopup(widget) {
         let option = {
             title: widget.title,
@@ -71,7 +70,6 @@ class WidgetUtil {
         return option;
     }
 
-
     static getDataToDict(widget) {
         if (!widget?.data) {
             return [];
@@ -106,10 +104,6 @@ class WidgetUtil {
         return {dict: list, default: defaults};
     }
 
-    /**
-     * 创建下拉框
-     * @param widget
-     */
     static createSelect(widget) {
         const map = this.getDataToDict(widget);
 
@@ -119,7 +113,6 @@ class WidgetUtil {
 
         let option = "";
 
-
         map.dict.forEach(item => {
             option += `<option value="${item.id}" ${item.id === map.default ? "selected" : ""}>${item.name}</option>`;
         });
@@ -128,11 +121,6 @@ class WidgetUtil {
 
     }
 
-    /**
-     * 创建单选框
-     * @param widget
-     * @returns {string}
-     */
     static createRadio(widget) {
         const map = this.getDataToDict(widget);
 
@@ -152,11 +140,6 @@ class WidgetUtil {
         return `<tr class="item-widget"><td class="sku-cate-td"><span class="cate-name">${widget.title}:</span></td><td>${option}</td></tr>`;
     }
 
-    /**
-     * 创建文本框，支持：text、password、number、textarea
-     * @param widget
-     * @returns {string}
-     */
     static createTextBox(widget) {
         let text = `<input type="${widget.type}" class="form-control" name="${widget.name}" placeholder="${widget.placeholder}">`;
         if (widget.type === 'textarea') {
@@ -165,11 +148,6 @@ class WidgetUtil {
         return `<tr class="item-widget"><td class="sku-cate-td"><span class="cate-name">${widget.title}:</span></td><td>${text}</td></tr>`;
     }
 
-    /**
-     * 创建多选框
-     * @param widget
-     * @returns {string}
-     */
     static createCheckbox(widget) {
         const map = this.getDataToDict(widget);
 

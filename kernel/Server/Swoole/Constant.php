@@ -57,11 +57,8 @@ interface Constant
 
     public const EVENT_DISCONNECT = 'disconnect';
 
-    /* }}} EVENT */
-
     public const EVENT_ERROR = 'error';
 
-    /* {{{ OPTION */
     public const OPTION_DEBUG_MODE = 'debug_mode';
 
     public const OPTION_TRACE_FLAGS = 'trace_flags';

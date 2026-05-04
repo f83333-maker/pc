@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    {# 认证类页面默认 noindex（防止登录/注册被索引）。子页面可通过 {% set seo = {...} %} 覆盖。 #}
     {% set seo = ({
         title: title is defined ? title : '',
         noindex: true,

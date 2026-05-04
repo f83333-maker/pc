@@ -10,13 +10,6 @@ use Kernel\Exception\RuntimeException;
 class Language extends Command
 {
 
-    /**
-     * @param string $text
-     * @param string $translation
-     * @param string $code
-     * @return void
-     * @throws RuntimeException
-     */
     public function createPack(string $text, string $translation, string $code): void
     {
         if (count($this->param) != 3) {
@@ -28,9 +21,6 @@ class Language extends Command
         $this->success(sprintf("语言包创建成功，目标语言：%s，原文：%s，译文：%s", $code, $text, $translation));
     }
 
-    /**
-     * @throws RuntimeException
-     */
     public function delPack(string $text, string $code): void
     {
         if (count($this->param) != 2) {
@@ -44,9 +34,6 @@ class Language extends Command
         }
     }
 
-    /**
-     * @throws RuntimeException
-     */
     public function delAllPack(): void
     {
         foreach ($this->param as $text) {

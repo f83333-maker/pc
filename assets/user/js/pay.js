@@ -22,14 +22,14 @@ const pay = new class Pay {
                 this.getPayOrder(tradeNo, order => {
                     if (order.status === 2) {
                         if (new Date() > new Date(order.timeout)) {
-                            //超时
+
                             message.error("订单支付超时");
                             typeof timeout == "function" && timeout();
                             resolve(false);
                             return;
                         }
                         message.alert("支付成功", "success");
-                        //支付成功
+
                         typeof done == "function" && done();
                         resolve(false);
                         return;
@@ -51,7 +51,7 @@ const pay = new class Pay {
             let timestamp = new Date(timeout).getTime() / 1000;
             let now_timestamp = parseInt(new Date().getTime() / 1000);
             let expire = parseInt(timestamp) - now_timestamp;
-            let day = Math.floor(expire / (24 * 3600)); // Math.floor()向下取整
+            let day = Math.floor(expire / (24 * 3600)); 
             let hour = Math.floor((expire - day * 24 * 3600) / 3600);
             let minute = Math.floor((expire - day * 24 * 3600 - hour * 3600) / 60);
             let second = expire - day * 24 * 3600 - hour * 3600 - minute * 60;
@@ -72,7 +72,6 @@ const pay = new class Pay {
             callback();
         }, 1000);
     }
-
 
     openPayment(business, amount, callback) {
         let isBalance = true, payId = 0;
@@ -190,23 +189,9 @@ const pay = new class Pay {
         });
     }
 
-
     payment(payMethod, isBalance, tradeNo) {
-        //拉起支付
+
         util.post("/pay", {trade_no: tradeNo, method: payMethod, balance: isBalance ? 1 : 0}, result => {
-            // window.location.href = result.data.pay_url; //跳转到支付页面
-            /*  util.openCheckoutWindowUrl(result.data.pay_url);
-              pay.timer(tradeNo, () => {
-                  setTimeout(() => {
-                      window.location.reload();
-                  }, 500);
-              }, () => {
-                  setTimeout(() => {
-                      window.location.reload();
-                  }, 500);
-              }, () => {
-                  window.location.reload();
-              });*/
 
             localStorage.setItem(`pay_${tradeNo}`, result?.data?.pay_url);
             window.location.href = `/checkout?tradeNo=${tradeNo}`;

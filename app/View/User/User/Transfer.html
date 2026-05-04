@@ -1,6 +1,5 @@
 {{ include ("Common/Header.html") }}
 
-<!-- Hero -->
 <div class="bg-body-light">
     <div class="content content-full">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
@@ -26,8 +25,6 @@
     </div>
 </div>
 
-
-<!-- END Hero -->
 <div class="content">
             <div class="recharge-view">
                 <div class="layout-box">
@@ -45,13 +42,11 @@
                     <div class="recharge-content amount"><input type="text" class="recharge-amount" value="{{ user.balance }}"></div>
                 </div>
 
-
                 <div class="layout-box">
                     <button class="btn-recharge">{{ i18n("立即转账")|raw }}</button>
                 </div>
             </div>
 </div>
-
 
 {{ ready("/assets/user/controller/user/transfer.js")|raw }}
 {{ include ("Common/Footer.html") }}

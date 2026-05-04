@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\User\API\User;
 
-
 use App\Controller\User\Base;
 use App\Interceptor\PostDecrypt;
 use App\Interceptor\User;
@@ -21,11 +20,6 @@ class UpgradeLevel extends Base
 
     #[Inject]
     private \App\Service\User\Level $level;
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
 
     #[Validator([
         [\App\Validator\User\UpgradeLevel::class, "levelId"]

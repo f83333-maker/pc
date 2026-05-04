@@ -11,27 +11,16 @@ use Kernel\Context\Interface\Response;
 use Kernel\Exception\RuntimeException;
 use Kernel\Util\Call;
 
-
 #[Interceptor(class: [PostDecrypt::class, Admin::class], type: Interceptor::API)]
 class App extends Base
 {
 
-    /**
-     * 重启程序
-     * @return Response
-     * @throws RuntimeException
-     */
     public function restart(): Response
     {
         Call::defer(fn() => \Kernel\Service\App::inst()->restart());
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function state(): Response
     {
         return $this->json();

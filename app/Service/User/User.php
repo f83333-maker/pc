@@ -9,5 +9,4 @@ use Kernel\Annotation\Bind;
 interface User
 {
 
-
 }

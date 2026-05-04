@@ -1,11 +1,11 @@
 const message = new class Message {
     log(text, type = 'success') {
         toastr.options = {
-           // "closeButton": true,
+
             "debug": false,
             "newestOnTop": true,
             "progressBar": true,
-            //"positionClass": "toast-top-center", // 可以根据需要选择位置
+
             "preventDuplicates": false,
             "onclick": null,
             "showDuration": "300",
@@ -65,9 +65,6 @@ const message = new class Message {
         }));
     }
 
-    /**
-     * @param opt
-     */
     prompt(opt) {
         let options = {
             input: "text",
@@ -101,7 +98,6 @@ const message = new class Message {
             }
         });
     }
-
 
     alert(text, type = 'success') {
         text = i18n(text);

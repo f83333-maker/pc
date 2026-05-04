@@ -24,13 +24,6 @@ class ItemSkuGroup extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $id
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(string $id, string $type): Response
     {
         $columns = [
@@ -63,13 +56,6 @@ class ItemSkuGroup extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-
-    /**
-     * @param string $skuId
-     * @param string $type
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         ['key' => 'stock_price', 'rule' => 'notZero', 'message' => ['notZero' => '进货价，必须大于0']],
     ])]

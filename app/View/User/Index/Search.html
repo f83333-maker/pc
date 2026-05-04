@@ -6,8 +6,6 @@
 } %}
 {{ include ("Index/Header.html") }}
 
-<!-- END Navigation -->
-<!-- Search -->
 <div class="content">
     <h1 class="visually-hidden sr-only">{{ i18n("订单查询")|raw }}</h1>
     <div class="input-group">
@@ -20,11 +18,9 @@
               </span>
     </div>
 </div>
-<!-- END Search -->
 
-<!-- Page Content -->
 <div class="content">
-    <!-- Results -->
+
     <div class="block block-rounded overflow-hidden">
 
         <div class="block-content tab-content overflow-hidden">
@@ -32,7 +28,6 @@
 
                 {% if  user is null %}
 
-                <!-- Projects -->
                 <div class="alert alert-warning alert-dismissible" role="alert">
                     <h3 class="alert-heading h4 my-2">{{ i18n("安全提醒")|raw }}</h3>
                     <p class="mb-0">
@@ -114,10 +109,8 @@
             {% endif %}
         </div>
     </div>
-    <!-- END Results -->
-
 
 </div>
-<!-- END Page Content -->
+
 {{ ready("/assets/user/controller/index/search.js")|raw }}
 {{ include ("Index/Footer.html") }}

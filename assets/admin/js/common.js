@@ -7,7 +7,6 @@ const common = new class Common {
         return util.icon('icon-guanfang');
     }
 
-
     renderTableBr() {
         return "<div style='margin-top: 6px;'></div>";
     }

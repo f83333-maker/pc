@@ -47,15 +47,9 @@ class Supply extends Base
     #[Inject]
     private Ownership $ownership;
 
-
     #[Inject]
     private RepertoryItemSku $repertoryItemSku;
 
-    /**
-     * 货源
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -68,9 +62,7 @@ class Supply extends Base
         $get->setPaginate((int)$this->request->post("page"), (int)$this->request->post("limit"));
         $get->setOrderBy("sort", "asc");
         $get->setColumn("id", "name", "picture_thumb_url", "repertory_category_id", "sort");
-        /**
-         * @var LengthAwarePaginatorInterface $data
-         */
+
         $data = $this->query->get($get, function (Builder $builder) use ($apiCode, $map) {
             $builder = $builder->with(["sku" => function (HasMany $builder) {
                 $builder->orderBy("sort")->select([
@@ -96,10 +88,7 @@ class Supply extends Base
                 $builder = $builder->where("api_code", $apiCode)->where("privacy", 1);
             } else {
                 $builder = $builder->where("privacy", 2);
-                //移除代码，此代码是为了 显示供货商自己的货源
-                /*        if (!isset($map["search-name"]) || $map["search-name"] === "") {
-                            $builder = $builder->orWhere("user_id", $this->getUser()->id);
-                        }*/
+
             }
 
             return $builder;
@@ -119,7 +108,7 @@ class Supply extends Base
             if (count($arr['data'][$a]["sku"]) > 0) {
                 $arr['data'][$a]["sku"] = array_values($arr['data'][$a]["sku"]);
             } else {
-                unset($arr['data'][$a]); //隐藏整个商品
+                unset($arr['data'][$a]); 
             }
         }
 
@@ -128,11 +117,6 @@ class Supply extends Base
         return $this->json(data: ["list" => $arr['data'], "total" => $arr['total']]);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, "id"]
     ], Method::GET)]
@@ -142,10 +126,6 @@ class Supply extends Base
         return $this->json(data: $this->supply->getItem($this->getUser(), $itemId)->toArray());
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function trade(): Response
     {
         $map = $this->request->post();
@@ -157,10 +137,6 @@ class Supply extends Base
         return $this->json(data: ["contents" => $order->contents]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Supply::class, ["categoryId", "markupId"]]
     ])]

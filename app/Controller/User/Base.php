@@ -41,12 +41,6 @@ abstract class Base
     #[Inject]
     protected Config $_config;
 
-    /**
-     * @throws JSONException
-     * @throws RedirectException
-     * @throws \ReflectionException
-     * @throws ViewException
-     */
     public function __construct()
     {
         if (!App::$install) {
@@ -62,14 +56,6 @@ abstract class Base
         }
     }
 
-    /**
-     * @param int $code
-     * @param string $message
-     * @param array|null $data
-     * @param array $ext
-     * @return Response
-     * @throws RuntimeException
-     */
     public function json(int $code = 200, string $message = "success", ?array $data = null, array $ext = []): Response
     {
         $secret = Str::generateRandStr(32);
@@ -78,14 +64,6 @@ abstract class Base
         return $this->response->withHeader("Content-Type", "text/plain; charset=utf-8")->withHeader("Secret", $secret)->raw(Aes::encrypt($json, $key, $key));
     }
 
-    /**
-     * 渲染视图
-     * @param int $themePage
-     * @param string $template
-     * @param string|null $title
-     * @param array $data
-     * @return Response
-     */
     public function theme(int $themePage, string $template, ?string $title = null, array $data = []): Response
     {
         $data["language"] = strtolower(Context::get(\Kernel\Language\Entity\Language::class)->preferred);
@@ -96,38 +74,21 @@ abstract class Base
         return $this->response->render($bind['template'], $title, $bind['data'], $bind['templatePath']);
     }
 
-
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User
     {
         return Context::get(User::class);
     }
 
-    /**
-     * @return string
-     */
     public function getUserPath(): string
     {
         return sprintf("/usr/Plugin/M_%d", $this->getUser()->id);
     }
 
-    /**
-     * @return User|null
-     * @throws NotFoundException
-     */
     public function getSiteOwner(): ?User
     {
         return \App\Model\Site::getUser((string)$this->request->header("Host"));
     }
 
-
-    /**
-     * @return Authentication
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function getStoreAuth(): Authentication
     {
         $store = Plugin::inst()->getStoreUser($this->getUserPath());
@@ -137,9 +98,6 @@ abstract class Base
         return $store;
     }
 
-    /**
-     * @return User|null
-     */
     public function getInviter(): ?User
     {
         $inviteId = $this->getUser() ? $this->getUser()->invite_id : $this->request->cookie("invite_id");
@@ -155,13 +113,10 @@ abstract class Base
                 return null;
             }
 
-            //推广人是自己
             if ($user->id == $this->getUser()?->id) {
                 return null;
             }
 
-
-            //检测购买的用户是不是自己
             if (UserLoginLog::query()->where("ip", $ip)->exists()) {
                 return null;
             }

@@ -32,11 +32,6 @@ class OrderReport extends Base
     #[Inject]
     private \App\Service\User\OrderReport $orderReport;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -81,10 +76,6 @@ class OrderReport extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Supply\OrderReport::class, "reportId"]
     ])]
@@ -94,11 +85,6 @@ class OrderReport extends Base
         return $this->json(data: $message->toArray());
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Supply\OrderReport::class, ["reportId", "handleType", "message", "treasure", "refundAmount"]]
     ])]
@@ -125,10 +111,6 @@ class OrderReport extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Supply\OrderReport::class, "reportId"]
     ])]

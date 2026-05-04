@@ -32,12 +32,6 @@ class Order extends Base
     #[Inject]
     protected \App\Service\User\Order $order;
 
-    /**
-     * @return Response
-     * @throws NotFoundException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([[Common::class, "clientId"]], Method::COOKIE)]
     public function trade(): Response
     {
@@ -56,10 +50,6 @@ class Order extends Base
         return $this->json(200, "success", $trade->toArray());
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([[\App\Validator\User\Order::class, "tradeNo"]])]
     public function cancel(): Response
     {
@@ -68,11 +58,6 @@ class Order extends Base
         return $this->json();
     }
 
-
-    /**
-     * @throws RuntimeException
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\User\Order::class, ["itemId", "tradeNo"]]
     ], Method::POST)]
@@ -99,18 +84,12 @@ class Order extends Base
         return $this->json(200, "success", $orderItem->toArray());
     }
 
-
-    /**
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\User\Order::class, ["itemId", "tradeNo"]]
     ], Method::GET)]
     public function downloadOrder(int $itemId, string $tradeNo): Response
     {
-        /**
-         * @var OrderItem $order
-         */
+
         $order = OrderItem::query()
             ->leftJoin("order", "order_item.order_id", "=", "order.id")
             ->where("order.trade_no", $tradeNo)

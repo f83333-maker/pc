@@ -20,19 +20,16 @@ interface Plugin
     const HOOK_TYPE_PAGE = 1;
     const HOOK_TYPE_HTTP = 2;
 
-    //仅主站使用，全局插件
     const HOOK_SCOPE_GLOBAL = 1;
 
-    //分站/主站都可以使用的插件
     const HOOK_SCOPE_USR = 2;
 
-    const TYPE_GENERAL = 1; //通用插件
-    const TYPE_PAY = 2; //支付插件
-    const TYPE_SHIP = 4; //货源插件
+    const TYPE_GENERAL = 1; 
+    const TYPE_PAY = 2; 
+    const TYPE_SHIP = 4; 
 
-    const TYPE_THEME = 8; //模版主题
-    const TYPE_ANY = 16; //全部插件
-
+    const TYPE_THEME = 8; 
+    const TYPE_ANY = 16; 
 
     const STATE_START = 1;
     const STATE_SYNC = 2;

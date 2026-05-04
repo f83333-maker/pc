@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-
 use App\Controller\Base\View\User;
 use App\Interceptor\Waf;
 use App\Model\Order;
@@ -16,12 +15,7 @@ use Kernel\Util\View;
 #[Interceptor(Waf::class)]
 class Pay extends User
 {
-    /**
-     * @return string
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \SmartyException
-     */
+
     public function order(): string
     {
         if (!isset($_GET['_PARAMETER'][0]) || !isset($_GET['_PARAMETER'][1])) {
@@ -30,7 +24,7 @@ class Pay extends User
 
         $tradeNo = $_GET['_PARAMETER'][0];
         $type = (int)$_GET['_PARAMETER'][1];
-        //获取订单信息
+
         $order = Order::with(['pay'])->where("trade_no", $tradeNo)->first();
         if (!$order) {
             return '订单不存在';

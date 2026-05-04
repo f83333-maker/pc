@@ -5,9 +5,8 @@
         shade: [0.3, '#fff']
     });
 
-
     $.ajaxSettings.async = false;
-    //加载支付
+
     $.post('/admin/api/pay/getPlugins', res => {
         layer.close(layIndex);
         res?.data?.list?.forEach(item => {
@@ -45,7 +44,6 @@
 
         return `<span class="table-item"><img src="${plugins[handle]?.icon}" class="table-item-icon"><span class="table-item-name">${plugins[handle]?.info?.name}</span></span>`;
     }
-
 
     const modal = (title, assign = {}) => {
 
@@ -254,11 +252,9 @@
 
     table.render();
 
-
     $('.btn-app-create').click(function () {
         modal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加支付接口`);
     });
-
 
     $('.btn-app-del').click(() => {
         let data = table.getSelectionIds();

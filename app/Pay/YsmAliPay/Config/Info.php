@@ -1,7 +1,6 @@
 <?php
 declare (strict_types=1);
 
-
 return [
     'version' => '1.0.1',
     'name' => '易收米-支付宝支付',

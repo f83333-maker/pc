@@ -62,7 +62,6 @@
     ]);
     table.render();
 
-
     $('.add-role').click(() => {
         modal(util.icon("icon-tianjia") + " 添加角色");
     });

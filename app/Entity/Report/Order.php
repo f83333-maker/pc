@@ -12,14 +12,6 @@ class Order
     public string $message;
     public ?string $imageUrl = null;
 
-
-    /**
-     * @param int $orderItemId
-     * @param int $customerId
-     * @param int $type
-     * @param int $expect
-     * @param string $message
-     */
     public function __construct(int $orderItemId, int $customerId, int $type, int $expect, string $message)
     {
         $this->orderItemId = $orderItemId;
@@ -29,10 +21,6 @@ class Order
         $this->message = $message;
     }
 
-
-    /**
-     * @param string $imageUrl
-     */
     public function setImageUrl(string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;

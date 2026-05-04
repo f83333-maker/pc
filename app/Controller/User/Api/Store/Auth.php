@@ -24,23 +24,12 @@ class Auth extends Base
     #[Inject]
     private \App\Service\Store\Auth $auth;
 
-
-    /**
-     * @param string $type
-     * @return Response
-     */
     #[Validator([[Captcha::class, "type"]], Method::GET)]
     public function captcha(string $type): Response
     {
         return $this->response->raw($this->auth->captcha($type))->withHeader("Content-Type", "image/png");
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Store\Auth::class, ["loginUsername", "loginPassword", "captcha"]]
     ])]
@@ -51,12 +40,6 @@ class Auth extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Store\Auth::class, ["registerUsername", "registerPassword", "code", "phone", "captcha"]]
     ])]
@@ -67,11 +50,6 @@ class Auth extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Store\Auth::class, ["phone", "registerPassword", "code", "captcha"]]
     ])]
@@ -82,11 +60,6 @@ class Auth extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Store\Auth::class, ["sendSms", "type", "captcha"]]
     ])]

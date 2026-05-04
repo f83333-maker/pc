@@ -319,7 +319,6 @@
         createCoupon();
     });
 
-
     $('.button-del').click(() => {
         let data = table.getSelectionIds();
         if (data.length == 0) {

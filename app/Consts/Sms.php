@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Consts;
 
-
 interface Sms
 {
     const CAPTCHA_REGISTER = "REG_PHONE_%s";

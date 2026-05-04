@@ -8,10 +8,6 @@ class Theme
     public string $name;
     public array $theme;
 
-    /**
-     * @param string $name
-     * @param array $theme
-     */
     public function __construct(string $name, array $theme)
     {
         $this->name = $name;

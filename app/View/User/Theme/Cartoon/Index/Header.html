@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- ================== SEO 基础元信息（每页独立） ================== -->
     #{if isset($item) && $item}
         <meta name="keywords" content="#{$item.name|strip_tags|escape:'html'}, #{$config.keywords}"/>
         <meta name="description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}"/>
@@ -16,14 +15,12 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#3d49a1">
 
-    <!-- ================== Canonical（避免重复内容降权） ================== -->
     #{if isset($item) && $item}
         <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}"/>
     #{else}
         <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/"/>
     #{/if}
 
-    <!-- ================== Open Graph / 微信 / Twitter 卡片 ================== -->
     <meta property="og:type" content="#{if isset($item) && $item}product#{else}website#{/if}">
     <meta property="og:site_name" content="#{$config.shop_name}">
     <meta property="og:locale" content="zh_CN">
@@ -47,7 +44,6 @@
 
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
 
-    <!-- ================== Schema.org 结构化数据（增强 Google 富搜索结果） ================== -->
     #{if isset($item) && $item}
     <script type="application/ld+json">
     {
@@ -78,13 +74,7 @@
     }
     </script>
     #{/if}
-    <!--
-        perf: 资源提示, 加速首屏 LCP / TTI
-          - favicon 作为图片预加载 (作品 logo 也使用同一张图)
-          - 关键 bundle 提前下载: defer 脚本默认要等 HTML 解析到 </body> 才开始下载,
-            preload 在 <head> 解析时就并发发起请求, 国内高延迟链路下能省 0.5~2s
-          - 仅在生产模式 (非 DEBUG) 加 preload, 避免和 DEBUG 数组里的多文件冲突
-    -->
+
     <link rel="preload" as="image" href="/favicon.png" fetchpriority="high">
     #{if !$smarty.const.DEBUG}
     <link rel="preload" as="script" href="/assets/common/js/_vendor_lite.min.js?v=#{$smarty.const.APP_VERSION}">
@@ -92,13 +82,7 @@
     <link rel="preload" as="style"  href="/assets/common/css/_.css?v=#{$smarty.const.APP_VERSION}">
     #{/if}
     <title>#{$title} - #{$config.shop_name}</title>
-    <!--
-        perf: 生产环境只加载 3 个合并/必要的 CSS:
-          1) bootstrap.min.css —— 首页布局 (navbar/container/d-flex/col-lg-*)
-          2) _.css           —— 已合并 font/layui/select2/component/bootstrap-table/layer/toastr
-          3) index.css       —— 首页主题样式 (hero-apple/panel/chip-list 等)
-        DEBUG 模式 (第二个数组) 保留全部独立文件, 方便本地排查样式来源.
-    -->
+
     #{css(
         [
             "/assets/common/css/bootstrap.min.css",
@@ -120,10 +104,10 @@
     )}
     #{js("/assets/common/js/ready.js")}
     #{index_var()}
-    <!--start::HOOK-->
+
     #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_HEADER)}
     #{hook(\App\Consts\Hook::USER_VIEW_INDEX_HEADER)}
-    <!--end::HOOK-->
+
 </head>
 <body style="margin: 0; padding: 0;">
 <nav class="navbar navbar-expand-lg navbar-acg">

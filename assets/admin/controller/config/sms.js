@@ -17,7 +17,6 @@
         }
     });
 
-
     $('.save-data').click(function () {
         util.post("/admin/api/config/sms", util.arrayToObject($("#data-form").serializeArray()), res => {
             layer.msg("保存成功");

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Shared;
 
-
 use App\Controller\Base\API\Shared;
 use App\Interceptor\SharedValidation;
 use App\Interceptor\Waf;
@@ -14,9 +13,7 @@ use Kernel\Exception\JSONException;
 #[Interceptor([Waf::class, SharedValidation::class], Interceptor::TYPE_API)]
 class Authentication extends Shared
 {
-    /**
-     * @throws JSONException
-     */
+
     public function connect(): array
     {
         $shopName = Config::get("shop_name");

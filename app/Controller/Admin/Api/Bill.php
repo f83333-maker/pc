@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Get;
 use App\Interceptor\ManageSession;
@@ -21,11 +20,6 @@ class Bill extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function data(): array
     {
         $map = $_POST;

@@ -19,18 +19,8 @@ class WebSocket
 {
     use Singleton;
 
-    /**
-     * @var Server|null
-     */
     protected ?Server $server = null;
 
-    /**
-     * @param Server $server
-     * @param string $name
-     * @param string $env
-     * @return WebSocket|null
-     * @throws \ReflectionException
-     */
     private function handle(Server $server, string $name, string $env): ?WS
     {
         $plugin = Plugin::instance()->getPlugin($name, $env);
@@ -56,16 +46,6 @@ class WebSocket
         return $obj;
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @param Server $server
-     * @param Request $request
-     * @param int $fd
-     * @return void
-     * @throws \ReflectionException
-     */
     public function open(string $name, string $env, Server $server, Request $request, int $fd): void
     {
         $handle = $this->handle($server, $name, $env);
@@ -85,12 +65,6 @@ class WebSocket
         call_user_func_array([$handle, "open"], [$request, $fd, $server]);
     }
 
-    /**
-     * @param Server $server
-     * @param int $fd
-     * @return void
-     * @throws \ReflectionException
-     */
     public function close(Server $server, int $fd): void
     {
         $key = sprintf(WebSocketConst::FD_KEY, $fd);
@@ -110,13 +84,6 @@ class WebSocket
         call_user_func_array([$handle, "close"], [$fd, $server]);
     }
 
-
-    /**
-     * @param Server $server
-     * @param Frame $frame
-     * @return void
-     * @throws \ReflectionException
-     */
     public function message(Server $server, Frame $frame): void
     {
         $key = sprintf(WebSocketConst::FD_KEY, $frame->fd);
@@ -141,11 +108,6 @@ class WebSocket
         call_user_func_array([$handle, "message"], [$frame, $server]);
     }
 
-
-    /**
-     * @param int $workerId
-     * @return void
-     */
     public function deathCheck(int $workerId): void
     {
         Timer::tick(60000, function () use ($workerId) {
@@ -164,18 +126,11 @@ class WebSocket
         });
     }
 
-    /**
-     * @param Server $server
-     * @return void
-     */
     public function setServer(Server $server): void
     {
         $this->server = $server;
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public function push(int $fd, string $data): void
     {
         $key = sprintf(WebSocketConst::FD_KEY, $fd);
@@ -203,11 +158,6 @@ class WebSocket
         }
     }
 
-    /**
-     * @param Server $server
-     * @param array $message
-     * @return void
-     */
     public function pipeMessage(Server $server, array $message): void
     {
         if (!isset($message['fd'], $message['data'])) {

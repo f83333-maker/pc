@@ -1,9 +1,4 @@
-{# ============================================================
-   首页 / 分类列表 / 关键词搜索结果 (复用同一模板)
-   - 无关键词、无 cid -> 站点首页 (可索引)
-   - 有 cid           -> 分类列表页 (可索引, 标题=分类名)
-   - 有 keywords      -> 站内搜索结果 (noindex 防止薄内容)
-   ============================================================ #}
+
 {% set items = items() %}
 
 {% set _cid = request.get('cid')|default('') %}
@@ -24,7 +19,6 @@
     {% set _canon_path  = '/?cid=' ~ _cid %}
 {% endif %}
 
-{# 商品列表 ItemList 结构化数据 #}
 {% set _item_list = [] %}
 {% if items is not empty %}
     {% for m in items|slice(0, 20) %}
@@ -65,7 +59,6 @@
 
 {{ include ("Index/Header.html") }}
 
-<!-- Page Content -->
 <div class="content">
     {% if _is_search %}
         <header class="block block-rounded mb-3">
@@ -81,7 +74,7 @@
         </header>
     {% else %}
         <h1 class="visually-hidden sr-only">{{ i18n(site.title)|raw }} - {{ i18n('商品列表')|raw }}</h1>
-        {# Hero / 公告 #}
+
         <section class="block block-rounded block-notice" aria-label="{{ i18n('公告')|raw }}">
             <div style="background: url('{{ site.notice_banner }}') center/cover !important;"
                  class="notice-background" role="presentation"></div>
@@ -152,6 +145,5 @@
     </section>
 
 </div>
-<!-- END Page Content -->
 
 {{ include ("Index/Footer.html") }}

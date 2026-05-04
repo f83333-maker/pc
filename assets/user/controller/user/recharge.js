@@ -10,7 +10,6 @@
                     $('.pay-list').append(`<a class="button-click btn-pay" data-id="${item.id}" style="line-height: 22px;color: #db66ac;"> <img src="${item.icon}" class="pay-icon"> ${item.name}</a>`);
                 });
 
-
                 $(`.btn-pay`).click(function () {
                     _PayId = $(this).data("id");
                     $('.checked').removeClass('checked');

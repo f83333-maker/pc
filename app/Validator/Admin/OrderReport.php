@@ -35,7 +35,6 @@ class OrderReport
         return true;
     }
 
-
     public function treasure(mixed $value, array $data): bool|string
     {
         if ($data['handle_type'] == 1 && ($value === null || $value === "")) {

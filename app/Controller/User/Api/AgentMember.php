@@ -21,9 +21,6 @@ class AgentMember extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $this->request->post();
@@ -38,11 +35,6 @@ class AgentMember extends User
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function transfer(): array
     {
         $to = $this->request->post("id");

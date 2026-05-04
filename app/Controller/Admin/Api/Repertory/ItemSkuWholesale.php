@@ -25,23 +25,12 @@ class ItemSkuWholesale extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param int $id
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(int $id): Response
     {
         $data = Model::query()->orderBy("quantity", "asc")->where("sku_id", $id)->get()->toArray();
         return $this->json(data: ['list' => $data]);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         ['key' => 'stock_price', 'rule' => 'notZero', 'message' => ['notZero' => '进货价，必须大于0']],
     ])]
@@ -51,17 +40,13 @@ class ItemSkuWholesale extends Base
         $save->enableCreateTime();
         $map = $this->request->post();
 
-
         if (!isset($map['id'])) {
-            /**
-             * @var RepertoryItemSku $repertoryItemSku
-             */
+
             $repertoryItemSku = RepertoryItemSku::query()->find($map['sku_id']);
 
             if (!$repertoryItemSku) {
                 throw new JSONException("SKU 不存在");
             }
-
 
             $repertoryItemSku->user_id && $map['user_id'] = $repertoryItemSku->user_id;
         }
@@ -75,9 +60,6 @@ class ItemSkuWholesale extends Base
         return $this->response->json(message: "保存成功");
     }
 
-    /**
-     * @return Response
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

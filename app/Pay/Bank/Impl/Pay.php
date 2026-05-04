@@ -8,19 +8,11 @@ use App\Pay\Base;
 use App\Util\Str;
 use Kernel\Exception\JSONException;
 
-/**
- * Class Pay
- * @package App\Pay\Kvmpay\Impl
- */
 class Pay extends Base implements \App\Pay\Pay
 {
 
     const PAY_URL = "https://qra.95516.com/pay/gateway";
 
-    /**
-     * @return PayEntity
-     * @throws \Kernel\Exception\JSONException|\GuzzleHttp\Exception\GuzzleException
-     */
     public function trade(): PayEntity
     {
         $data = [

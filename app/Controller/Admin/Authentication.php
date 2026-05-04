@@ -8,18 +8,9 @@ use App\Controller\Base\View\Manage;
 use App\Util\Client;
 use Kernel\Exception\ViewException;
 
-/**
- * Class Authentication
- * @package App\Controller\Admin
- */
 class Authentication extends Manage
 {
 
-    /**
-     * 管理员登录
-     * @return string
-     * @throws ViewException
-     */
     public function login(): string
     {
         if (array_key_exists(ManageConst::SESSION, $_COOKIE) && isset($_COOKIE[ManageConst::SESSION])) {

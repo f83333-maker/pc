@@ -12,7 +12,6 @@ interface Color
     public const YELLOW = 33;
     public const BLACK = 30;
 
-
     public const BLUE = 34;
 
     public const LIGHT_BLUE = 36;

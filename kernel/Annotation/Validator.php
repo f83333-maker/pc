@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Kernel\Annotation;
 
-
 use Kernel\Container\Di;
 use Kernel\Context\Interface\Request;
 use Kernel\Exception\JSONException;
@@ -15,19 +14,10 @@ use Kernel\Validator\Method;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class Validator
 {
-    /**
-     * @param array $rules
-     * @param int $method
-     * @param int $renderType
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
+
     public function __construct(array $rules, int $method = Method::POST, int $renderType = Interceptor::API)
     {
-        /**
-         * @var Request $request
-         */
+
         $request = Context::get(Request::class);
         $data = [];
 
@@ -60,16 +50,6 @@ class Validator
         }
     }
 
-    /**
-     * @param string $class
-     * @param array $actions
-     * @param int $renderType
-     * @param array $data
-     * @return void
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
     private function check(string $class, array $actions, int $renderType, array $data): void
     {
         foreach ($actions as $action) {
@@ -99,21 +79,13 @@ class Validator
                     }
                 }
             });
-            // $this->exception(Di::instance()->make($class)->$action($data[$name] ?? null, $data), $renderType);
+
             $validator = new $class;
             Di::inst()->inject($validator);
             $this->exception(call_user_func_array([$validator, $action], [$data[$name] ?? null, $data]), $renderType);
         }
     }
 
-
-    /**
-     * @param mixed $result
-     * @param int $renderType
-     * @return void
-     * @throws JSONException
-     * @throws ViewException
-     */
     private function exception(mixed $result, int $renderType): void
     {
         if ($result !== true) {

@@ -28,10 +28,6 @@ class Identity extends Base
     #[Inject]
     private Query $query;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -57,12 +53,6 @@ class Identity extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\Level::class, "name"]
     ])]
@@ -81,11 +71,6 @@ class Identity extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

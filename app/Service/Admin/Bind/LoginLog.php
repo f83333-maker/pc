@@ -9,12 +9,6 @@ use Kernel\Util\Date;
 class LoginLog implements \App\Service\Admin\LoginLog
 {
 
-    /**
-     * @param int $manageId
-     * @param string $ip
-     * @param string $ua
-     * @return void
-     */
     public function create(int $manageId, string $ip, string $ua): void
     {
         $ipCount = ManageLoginLog::query()->where("manage_id", $manageId)->where("ip", $ip)->count();

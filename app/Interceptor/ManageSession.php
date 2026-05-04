@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Interceptor;
 
-
 use App\Consts\Manage as ManageConst;
 use App\Model\Manage;
 use App\Util\Client;
@@ -18,18 +17,9 @@ use Kernel\Consts\Base;
 use Kernel\Exception\JSONException;
 use Kernel\Util\View;
 
-/**
- * Class ManageSession
- * @package App\Interceptor
- */
 class ManageSession implements InterceptorInterface
 {
 
-    /**
-     * @param int $type
-     * @throws JSONException
-     * @throws \SmartyException
-     */
     #[NoReturn] public function handle(int $type): void
     {
         if ($type == Interceptor::TYPE_API) {
@@ -43,16 +33,13 @@ class ManageSession implements InterceptorInterface
             $this->kick($type);
         }
 
-
         $manageToken = base64_decode((string)$_COOKIE[ManageConst::SESSION]);
-
 
         if (empty($manageToken)) {
             $this->kick($type);
         }
 
         $head = JWT::getHead($manageToken);
-
 
         if (!isset($head['mid'])) {
             $this->kick($type);
@@ -88,10 +75,8 @@ class ManageSession implements InterceptorInterface
             exit(View::render("LegalTerms.html"));
         }
 
-        //保存会话
         Context::set(ManageConst::SESSION, $manage);
     }
-
 
     #[NoReturn] private function kick(int $type): void
     {

@@ -12,19 +12,10 @@ class Language
 {
     use Singleton;
 
-    /**
-     * @var array
-     */
     private array $languages = [];
-
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/language/";
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return array
-     */
     public function list(string $name, string $env = "/app/Plugin"): array
     {
         $path = BASE_PATH . $env . "/{$name}/Config/Language";
@@ -40,12 +31,6 @@ class Language
         return $list;
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
     public function add(string $name, string $env = "/app/Plugin"): void
     {
         $dir = self::CACHE_FILE . md5($env);
@@ -75,13 +60,6 @@ class Language
         }
     }
 
-
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
     public function del(string $name, string $env = "/app/Plugin"): void
     {
         $dir = self::CACHE_FILE . md5($env);
@@ -98,11 +76,6 @@ class Language
         }
     }
 
-    /**
-     * @param string $language
-     * @param string $env
-     * @return string
-     */
     public function hash(string $language, string $env = "/app/Plugin"): string
     {
         $language = strtolower($language);
@@ -113,12 +86,6 @@ class Language
         return md5_file($path);
     }
 
-
-    /**
-     * @param string $language
-     * @param string $env
-     * @return array
-     */
     public function packs(string $language, string $env = "/app/Plugin"): array
     {
         $language = strtolower($language);

@@ -46,11 +46,6 @@ class Item extends Base
     #[Inject]
     private Ship $ship;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -165,11 +160,6 @@ class Item extends Base
         return $this->json(data: array_merge($data, $raw));
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\Item::class, "name"]
     ])]
@@ -203,7 +193,6 @@ class Item extends Base
         try {
             $origin = isset($map['id']) ? Model::find($map['id']) : null;
 
-            //刷新缓存
             if ($origin && ((isset($map['plugin']) && $origin->plugin != $map['plugin']) || (isset($map['status']) && $origin->status != $map['status']))) {
                 $this->sku->checkSyncCacheForItem($origin->id);
             }
@@ -230,8 +219,6 @@ class Item extends Base
                 ]);
             }
 
-
-            //导入直营店
             if ($directSale == 1 && !isset($map['id'])) {
                 $this->item->loadRepertoryItem((int)$directCategoryId, (int)$saved->id, [
                     "sync_amount" => 2,
@@ -252,11 +239,6 @@ class Item extends Base
         return $this->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));
@@ -264,11 +246,6 @@ class Item extends Base
         return $this->json(message: "删除成功");
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["status", "id"]]
     ])]
@@ -276,19 +253,12 @@ class Item extends Base
     {
         $id = $this->request->post("id", Filter::INTEGER);
         $status = $this->request->post("status", Filter::INTEGER);
-//        if (count($list) == 0) {
-//            throw new JSONException("操作列表不能为空");
-//        }
+
         $this->sku->checkSyncCacheForItem($id);
         Model::query()->where("id", $id)->update(["status" => $status == 1 ? 2 : 1]);
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function transferShop(): Response
     {
         $data = (array)$this->request->post("data");

@@ -97,7 +97,6 @@
     table.setSearch([{title: "分类名称", name: "search-name", type: "input"}]);
     table.render();
 
-
     $('.add-shop-category').click(() => {
         modal(util.icon("icon-tianjia") + "<space></space>添加分类");
     });

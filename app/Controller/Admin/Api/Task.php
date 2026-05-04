@@ -17,16 +17,9 @@ use Kernel\Util\Call;
 class Task extends Base
 {
 
-
     #[Inject]
     private Order $order;
 
-
-    /**
-     * 自动收货TASK
-     * @return Response
-     * @throws RuntimeException
-     */
     public function autoReceipt(): Response
     {
         Call::create(function () {

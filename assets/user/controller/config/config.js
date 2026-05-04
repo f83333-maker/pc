@@ -120,7 +120,6 @@
         })
     });
 
-
     $('.email-setting').click(() => {
         getConfig("email", config => {
             component.popup({
@@ -215,7 +214,6 @@
         });
     });
 
-
     const displayForm = {
         formKeys: {
             ali: ['ali_access_key_id', 'ali_access_key_secret', 'ali_sign_name', 'ali_template_code'],
@@ -264,7 +262,6 @@
             }
         }
     }
-
 
     $('.sms-setting').click(() => {
         getConfig("sms", config => {
@@ -427,7 +424,6 @@
         });
     });
 
-
     $('.domain-setting').click(() => {
         component.popup({
             submit: false,
@@ -576,7 +572,6 @@
                                 });
                                 subdomainTable.render();
 
-                                //-------------
                                 $('.add-domain').click(() => {
                                     let config = getVar("subdomain");
                                     const displayDomainForm = {

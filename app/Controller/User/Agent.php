@@ -11,10 +11,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor([Waf::class, UserSession::class])]
 class Agent extends User
 {
-    /**
-     * @throws \ReflectionException
-     * @throws \Kernel\Exception\ViewException
-     */
+
     public function member(): string
     {
         return $this->theme("我的下级", "AGENT_MEMBER", "Agent/Member.html");

@@ -130,7 +130,6 @@
 
     table.render();
 
-
     $('.settlement').click(() => {
         layer.prompt({
             title: '请输入最低结算账户余额',

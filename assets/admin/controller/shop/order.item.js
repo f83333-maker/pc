@@ -6,11 +6,7 @@
             field: 'order.user', title: '商家信息', formatter: format.user
         },
         {field: 'order.customer', title: '会员', formatter: format.customer},
-/*        {
-            field: 'order.pay_order.status', title: '支付状态', formatter: (status, item) => {
-                return _Dict.result("pay_order_status", status);
-            }
-        },*/
+
         {
             field: 'amount', title: '金额', align: 'center', formatter: amount => {
                 return format.money(amount, "#19bf5d");
@@ -200,11 +196,7 @@
                 return `<a href="/admin/pay/order?tradeNo=${item.order.trade_no}" target="_blank" class="text-primary">查看订单</a>`;
             }
         },
-/*        {
-            field: 'order.pay_order.pay', title: '支付方式', formatter: pay => {
-                return format.pay(pay);
-            }
-        },*/
+
         {
             field: 'order.pay_order.pay_url', title: '支付地址', formatter: (url) => {
                 if (!url) {

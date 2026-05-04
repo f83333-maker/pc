@@ -27,12 +27,6 @@ class OrderReport implements \App\Service\User\OrderReport
     #[Inject]
     private Balance $balance;
 
-
-    /**
-     * @param Order $order
-     * @return void
-     * @throws \Throwable
-     */
     public function apply(Order $order): void
     {
         Db::transaction(function () use ($order) {
@@ -69,7 +63,6 @@ class OrderReport implements \App\Service\User\OrderReport
             $orderItem->status = 4;
             $orderItem->save();
 
-
             $orderReport = new \App\Model\OrderReport();
             $orderReport->order_item_id = $orderItem->id;
             $orderItem->sku->repertoryItemSku->user_id > 0 && ($orderReport->supply_id = $orderItem->sku->repertoryItemSku->user_id);
@@ -91,11 +84,6 @@ class OrderReport implements \App\Service\User\OrderReport
         });
     }
 
-    /**
-     * @param Handle $handle
-     * @return void
-     * @throws \Throwable
-     */
     public function handle(Handle $handle): void
     {
         Db::transaction(function () use ($handle) {
@@ -109,29 +97,18 @@ class OrderReport implements \App\Service\User\OrderReport
                 throw new ServiceException("订单不存在#1");
             }
 
-            /**
-             * @var OrderItem $orderItem
-             */
             $orderItem = $orderReport->orderItem;
 
             if (!$orderItem) {
                 throw new ServiceException("订单不存在#2");
             }
 
-            //进货订单
-            /**
-             * @var RepertoryOrder $repertoryOrder
-             */
             $repertoryOrder = RepertoryOrder::query()->where("item_trade_no", $orderItem->trade_no)->first();
 
             if (!$repertoryOrder) {
                 throw new ServiceException("上游订单不存在，该投诉请联系客户手动处理");
             }
 
-
-            /**
-             * @var \App\Model\Order $order
-             */
             $order = $orderItem->order;
 
             if (!$order) {
@@ -142,8 +119,6 @@ class OrderReport implements \App\Service\User\OrderReport
                 throw new ServiceException("订单无法被处理");
             }
 
-
-            //退款模式
             $refundMode = $orderItem->refund_mode;
             $orderReport->status = 2;
 
@@ -152,16 +127,16 @@ class OrderReport implements \App\Service\User\OrderReport
 
             switch ($handle->type) {
                 case 1:
-                    //更换商品发货信息
+
                     if (!$handle->treasure) {
                         throw new ServiceException("发货信息不能为空");
                     }
                     $orderReport->handle_type = 1;
-                    $orderItem->treasure = $handle->treasure; //修改用户订单发货内容
-                    $repertoryOrder->contents = $handle->treasure;  //修改供货商订单发货内容
+                    $orderItem->treasure = $handle->treasure; 
+                    $repertoryOrder->contents = $handle->treasure;  
                     break;
                 case 2:
-                    //部分退款，按照供货商自己填写的金额退款
+
                     (!$refundMode || $refundMode == 0) && (throw new ServiceException("该订单不支持退款"));
                     $handle->refundAmount <= 0 && (throw new ServiceException("退款金额必须大于0"));
                     $handle->refundMerchantAmount <= 0 && (throw new ServiceException("退款给商家的金额必须大于0"));
@@ -169,7 +144,7 @@ class OrderReport implements \App\Service\User\OrderReport
                     $orderReport->status = 3;
                     $orderItem->status = 5;
                     $repertoryOrder->status = 3;
-                    //扣除供货商的钱款
+
                     if ($repertoryOrder->user_id > 0) {
                         $this->balance->deduct(
                             userId: $repertoryOrder->user_id,
@@ -182,13 +157,13 @@ class OrderReport implements \App\Service\User\OrderReport
                     $refundMerchantAmount = $handle->refundMerchantAmount;
                     break;
                 case 3:
-                    //全额退款，自动原路退款
+
                     ($refundMode != 2) && (throw new ServiceException("该订单不支持全额退款"));
                     $orderReport->handle_type = 3;
                     $orderReport->status = 3;
                     $orderItem->status = 5;
                     $repertoryOrder->status = 3;
-                    //回滚资金
+
                     $this->bill->rollback($orderItem->trade_no);
                     $refundAmount = (string)$orderItem->amount;
                     $refundMerchantAmount = (string)(RepertoryOrder::query()->where("item_trade_no", $orderItem->trade_no)->first())?->amount ?: "0";
@@ -199,7 +174,6 @@ class OrderReport implements \App\Service\User\OrderReport
                 $orderReport->refund_amount = $refundAmount;
                 $orderReport->refund_merchant_amount = $refundMerchantAmount;
 
-                //资金入账到商家钱包
                 if ($orderItem->user_id > 0 && $refundMerchantAmount > 0) {
                     $this->balance->add(
                         userId: $orderItem->user_id,
@@ -211,7 +185,6 @@ class OrderReport implements \App\Service\User\OrderReport
                     );
                 }
 
-                //资金入账到会员钱包
                 $this->balance->add(
                     userId: $order->customer_id,
                     amount: $refundAmount,
@@ -236,11 +209,6 @@ class OrderReport implements \App\Service\User\OrderReport
         }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE);
     }
 
-    /**
-     * @param Reply $reply
-     * @return void
-     * @throws \Throwable
-     */
     public function reply(Reply $reply): void
     {
         Db::transaction(function () use ($reply) {

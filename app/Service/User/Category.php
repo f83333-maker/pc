@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Service\User;
 
-
 use App\Model\User;
 use Kernel\Annotation\Bind;
 
@@ -11,9 +10,5 @@ use Kernel\Annotation\Bind;
 interface Category
 {
 
-    /**
-     * @param User|null $user
-     * @return array[]
-     */
     public function only(?User $user): array;
 }

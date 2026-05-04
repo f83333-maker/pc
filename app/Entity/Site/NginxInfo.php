@@ -11,7 +11,6 @@ class NginxInfo
     public string $conf;
     public string $path;
 
-
     public function __construct(string $host, string $pem, string $key, string $conf, string $path)
     {
         $this->host = $host;

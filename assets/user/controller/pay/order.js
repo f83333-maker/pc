@@ -10,7 +10,6 @@
         localStorage.setItem("pay-voice-broadcast", this.value);
     });
 
-
     function getVoicePack() {
         const c = localStorage.getItem("pay-voice-broadcast");
         if (c != "" && typeof c == "string") {
@@ -42,7 +41,6 @@
         }
         util.post(map);
     }
-
 
     const table = new Table("/user/pay/order/get", "#pay-order-table");
     table.setPagination(10, [10, 20, 50]);
@@ -80,7 +78,6 @@
                 let unique = util.generateRandStr(10);
                 cache.set(`updateTimeoutToken_${item.id}`, unique);
 
-
                 if (item.status != 0 && item.status != 1) {
                     return '-';
                 }
@@ -93,7 +90,6 @@
                     }
                     return format.color(`${timer.expire}s`, "red");
                 }
-
 
                 const updateTimeout = setInterval(() => {
                     if (cache.get(`updateTimeoutToken_${item.id}`) != unique) {
@@ -187,7 +183,6 @@
                 });
             });
         }, 1500);
-
 
         util.timer(() => {
             return new Promise(resolve => {

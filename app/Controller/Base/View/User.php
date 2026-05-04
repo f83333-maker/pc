@@ -12,31 +12,17 @@ use Kernel\Exception\JSONException;
 use Kernel\Exception\ViewException;
 use Kernel\Util\View;
 
-/**
- * Class Manage
- * @package App\Controller\Base\View
- */
 abstract class User extends \App\Controller\Base\User
 {
-    /**
-     * @var array|string[]
-     */
+
     protected array $indexTemplateList = [
         'INDEX', 'ITEM', 'QUERY', 'CLOSED'
     ];
 
-    /**
-     * @param string $title
-     * @param string $template
-     * @param array $data
-     * @return string
-     * @throws ViewException
-     * @throws JSONException
-     */
     protected function render(string $title, string $template, array $data = []): string
     {
         try {
-            //加载helper
+
             require(BASE_PATH . "/app/View/User/Helper.php");
 
             $data['title'] = $title;
@@ -52,20 +38,10 @@ abstract class User extends \App\Controller\Base\User
         }
     }
 
-    /**
-     * @param string $title
-     * @param string $template
-     * @param string $default
-     * @param array $data
-     * @return string
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
     protected function theme(string $title, string $template, string $default, array $data = []): string
     {
         try {
-            //加载helper
+
             require(BASE_PATH . "/app/View/User/Helper.php");
 
             $data['title'] = $title;
@@ -96,7 +72,6 @@ abstract class User extends \App\Controller\Base\User
                 $theme = $cfg['user_center_theme'] ?: "Cartoon";
             }
 
-            //模板静态路径
             $data['static'] = "/app/View/User/Theme/" . $theme;
 
             $domain = Client::getDomain();
@@ -122,7 +97,6 @@ abstract class User extends \App\Controller\Base\User
             $path = $defaultThemePath . $default;
             $system = true;
 
-            //判断路径是否存在
             if (!empty($config['theme']) && key_exists($template, $config['theme'])) {
                 $path = $themePath . $config['theme'][$template];
                 $system = false;
@@ -156,6 +130,5 @@ abstract class User extends \App\Controller\Base\User
 
         return "";
     }
-
 
 }

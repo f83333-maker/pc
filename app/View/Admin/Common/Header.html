@@ -20,7 +20,6 @@
 
     {{ js("/assets/common/js/ready.js")|raw }}
 
-    <!-- perf: 后台图片上传自动转 WebP (纯客户端, 零 PHP 修改, 失败自动回退原图) -->
     <script src="/assets/admin/js/webp-converter.js?v=3.4.8"></script>
 
     {{ admin_var()|raw }}
@@ -36,15 +35,12 @@
     </div>
 </div>
 
-
-<!-- Page Container -->
 <div id="page-container"
      class="sidebar-o enable-page-overlay side-scroll page-header-modern main-content-boxed page-header-fixed">
     {{ include ("Common/Sidebar.html") }}
     {{ include ("Common/Top.html") }}
 
-    <!-- Main Container -->
     <main id="main-container">
-        <!-- Default Table Style -->
+
         <div class="content-heading">{{ icon("icon-wangzhanshezhi","icon-14px")|raw }}  {{ i18n(title) }}</div>
 

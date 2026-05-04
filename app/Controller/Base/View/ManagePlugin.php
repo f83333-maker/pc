@@ -9,21 +9,9 @@ use Kernel\Exception\JSONException;
 use Kernel\Exception\ViewException;
 use Kernel\Util\View;
 
-/**
- * Class ManagePlugin
- * @package App\Controller\Base\View
- */
 abstract class ManagePlugin extends \App\Controller\Base\Manage
 {
-    /**
-     * @param string|null $title
-     * @param string $template
-     * @param array $data
-     * @param bool $controller
-     * @return string
-     * @throws ViewException
-     * @throws JSONException
-     */
+
     protected function render(?string $title, string $template, array $data = [], bool $controller = false): string
     {
         try {

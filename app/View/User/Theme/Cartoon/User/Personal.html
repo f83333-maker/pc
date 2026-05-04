@@ -70,9 +70,7 @@
                             </div>
                         </div>
 
-                        <!--start::HOOK-->
                         #{hook(\App\Consts\Hook::USER_VIEW_PERSONAL_FORM)}
-                        <!--end::HOOK-->
 
                         <div style="margin-top: 25px;">
                             <button type="button" class="layui-btn layui-btn-pink save-data">保存修改</button>
@@ -84,7 +82,6 @@
         </div>
     </div>
 </div>
-
 
 #{ready("/assets/user/controller/security/personal.js" , [
 "_user_wechat" => $user.wechat

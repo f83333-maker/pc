@@ -6,37 +6,21 @@ namespace App\Util;
 use JetBrains\PhpStorm\NoReturn;
 use Kernel\Util\View;
 
-/**
- * Class Client
- * @package App\Util
- */
 class Client
 {
-    /**
-     * @var int|null
-     */
+
     private static ?int $mode = null;
 
-    /**
-     * @param int $mode
-     * @return void
-     */
     public static function setClientMode(int $mode): void
     {
         file_put_contents(BASE_PATH . "/runtime/mode", (string)$mode);
     }
 
-    /**
-     * @return bool
-     */
     public static function haveMode(): bool
     {
         return file_exists(BASE_PATH . "/runtime/mode");
     }
 
-    /**
-     * @return int
-     */
     public static function getClientMode(): int
     {
         if (self::$mode !== null) {
@@ -56,10 +40,6 @@ class Client
         return $mode;
     }
 
-    /**
-     * @param int $type
-     * @return string|null
-     */
     public static function getIp(int $type): ?string
     {
 
@@ -81,7 +61,7 @@ class Client
 
         $header = $headers[$type];
         if (isset($_SERVER[$header])) {
-            //可能有多个IP地址，取第一个
+
             $ips = explode(',', $_SERVER[$header]);
             if (count($ips) > 0) {
                 return trim($ips[0]);
@@ -91,27 +71,16 @@ class Client
         return null;
     }
 
-    /*
-     * 获取客户端IP地址
-     * @return string
-     */
     public static function getAddress(): string
     {
         return (string)self::getIp(self::getClientMode());
     }
 
-    /**
-     * @return string
-     */
     public static function getUserAgent(): string
     {
         return (string)$_SERVER['HTTP_USER_AGENT'];
     }
 
-    /**
-     * 获取URL地址
-     * @return string
-     */
     public static function getUrl(): string
     {
         if (strtolower((string)$_SERVER["HTTPS"]) == "on") {
@@ -122,22 +91,12 @@ class Client
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
     }
 
-    /**
-     * @return string
-     */
     public static function getDomain(): string
     {
         $host = explode(":", (string)$_SERVER['HTTP_HOST']);
         return (string)$host[0];
     }
 
-    /**
-     * 重定向浏览器地址
-     * @param string $url
-     * @param string $message
-     * @param int $time
-     * @throws \SmartyException
-     */
     public static function redirect(string $url, string $message, int $time = 2): void
     {
         if ($time == 0) {
@@ -149,11 +108,6 @@ class Client
         exit;
     }
 
-
-    /**
-     * 判断是否手机访问
-     * @return bool
-     */
     public static function isMobile(): bool
     {
         if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
@@ -176,18 +130,11 @@ class Client
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public static function isWeChat(): bool
     {
         return preg_match('/MicroMessenger/i', $_SERVER['HTTP_USER_AGENT']) === 1;
     }
 
-    /**
-     * @param string|null $userAgent
-     * @return int
-     */
     public static function getDeviceTypeByUa(?string $userAgent = null): int
     {
         $ua = strtolower($userAgent ?? $_SERVER['HTTP_USER_AGENT'] ?? '');

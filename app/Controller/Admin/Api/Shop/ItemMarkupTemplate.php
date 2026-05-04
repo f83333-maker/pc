@@ -35,11 +35,6 @@ class ItemMarkupTemplate extends Base
     #[Inject]
     private \App\Service\User\Item $item;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -66,10 +61,6 @@ class ItemMarkupTemplate extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\ItemMarkupTemplate::class, ["name", "driftBaseAmount", "driftValue", "driftModel"]]
     ])]
@@ -84,7 +75,7 @@ class ItemMarkupTemplate extends Base
             $saved = $this->query->save($save);
 
             if ($origin && $this->repertoryItem->checkForceSyncRemoteItemPrice($origin->toArray(), $saved->toArray())) {
-                $this->item->syncRepertoryItemForMarkupTemplate($origin->id); //同步模版
+                $this->item->syncRepertoryItemForMarkupTemplate($origin->id); 
             }
         } catch (\Exception $exception) {
             throw new JSONException("保存失败，错误：" . $exception->getMessage());
@@ -92,10 +83,6 @@ class ItemMarkupTemplate extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

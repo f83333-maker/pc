@@ -28,13 +28,6 @@ class ItemSkuWholesaleLevel extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param int $id
-     * @param int $userId
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -62,13 +55,6 @@ class ItemSkuWholesaleLevel extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @param int $id
-     * @param int $userId
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Admin\ItemSku::class, "price"]
     ])]

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-
 use App\Controller\Base\View\User;
 use App\Interceptor\UserSession;
 use App\Interceptor\Waf;
@@ -18,12 +17,7 @@ use Kernel\Util\View;
 #[Interceptor(Waf::class, Interceptor::TYPE_VIEW)]
 class Recharge extends User
 {
-    /**
-     * @return mixed
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \ReflectionException
-     */
+
     #[Interceptor(UserSession::class)]
     public function index(): string
     {
@@ -46,12 +40,6 @@ class Recharge extends User
         ]);
     }
 
-    /**
-     * @return string
-     * @throws JSONException
-     * @throws ViewException
-     * @throws \SmartyException
-     */
     public function order(): string
     {
         if (!isset($_GET['_PARAMETER'][0]) || !isset($_GET['_PARAMETER'][1])) {
@@ -61,7 +49,6 @@ class Recharge extends User
         $tradeNo = $_GET['_PARAMETER'][0];
         $type = (int)$_GET['_PARAMETER'][1];
 
-
         $order = UserRecharge::with(["pay"])->where("trade_no", $tradeNo)->first();
         if (!$order) {
             return '订单不存在';
@@ -70,7 +57,6 @@ class Recharge extends User
         if (!$order->pay) {
             return '支付方式不存在';
         }
-
 
         $data = (array)json_decode((string)$order->option, true);
 

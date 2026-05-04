@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Consts\Hook;
 use App\Model\Config as CFG;
 use Kernel\Exception\JSONException;
@@ -12,12 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Email implements \App\Service\Email
 {
-    /**
-     * @param string $email
-     * @param string $title
-     * @param string $content
-     * @return bool
-     */
+
     public function send(string $email, string $title, string $content): bool
     {
         try {
@@ -30,7 +24,7 @@ class Email implements \App\Service\Email
             $mail->IsSMTP();
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
-            $mail->SMTPSecure = $secure;  //tls/ssl
+            $mail->SMTPSecure = $secure;  
             $mail->Host = $config['smtp'];
             $mail->Port = $config['port'];
             $mail->Username = $config['username'];
@@ -39,7 +33,7 @@ class Email implements \App\Service\Email
             $mail->AddAddress($email);
             $mail->Subject = $title;
             $mail->MsgHTML($content);
-            $mail->Timeout = 10; //默认超时10秒钟
+            $mail->Timeout = 10; 
             $result = $mail->Send();
             if ($result) {
                 if (is_bool($hook = hook(Hook::SERVICE_SMTP_SEND_SUCCESS, $config, $email, $title, $content))) return $hook;
@@ -58,12 +52,6 @@ class Email implements \App\Service\Email
         return true;
     }
 
-    /**
-     * @param string $email
-     * @param int $type
-     * @return void
-     * @throws JSONException
-     */
     public function sendCaptcha(string $email, int $type): void
     {
         $capthca = mt_rand(100000, 999999);
@@ -101,13 +89,6 @@ class Email implements \App\Service\Email
         Session::set($key, ["time" => time(), "code" => $capthca]);
     }
 
-
-    /**
-     * @param string $email
-     * @param int $type
-     * @param int $code
-     * @return bool
-     */
     public function checkCaptcha(string $email, int $type, int $code): bool
     {
         $key = match ($type) {
@@ -132,10 +113,6 @@ class Email implements \App\Service\Email
         return true;
     }
 
-    /**
-     * @param string $email
-     * @param int $type
-     */
     public function destroyCaptcha(string $email, int $type): void
     {
         $key = match ($type) {

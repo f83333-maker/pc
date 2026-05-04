@@ -13,7 +13,6 @@ class Attr
     public string $name;
     public string $value;
 
-
     public function __construct(string $name, string $value)
     {
         $this->name = Firewall::inst()->xssKiller($name);

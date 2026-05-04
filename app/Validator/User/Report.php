@@ -18,15 +18,12 @@ class Report
         return true;
     }
 
-
-
     #[Required("请选择维权方式")]
     #[Regex("/^[0-9]\d*$/", "维权方式选择不正确")]
     public function expect(): bool
     {
         return true;
     }
-
 
     #[Required("维权内容不能为空")]
     #[Regex("/^(\S\s*?){20,}$/", "维权内容不得低于20个字")]

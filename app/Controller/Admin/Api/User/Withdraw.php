@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\Admin\API\User;
 
-
 use App\Controller\Admin\Base;
 use App\Entity\Query\Get;
 use App\Interceptor\Admin;
@@ -29,11 +28,6 @@ class Withdraw extends Base
     #[Inject]
     private \App\Service\User\Withdraw $withdraw;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -61,11 +55,6 @@ class Withdraw extends Base
         return $this->json(data: $data, ext: $raw);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\Withdraw::class, ["id", "status", "lockCard"]]
     ])]

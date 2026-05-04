@@ -8,13 +8,11 @@ use Kernel\Annotation\Required;
 class Submit
 {
 
-
     #[Required("插件不能为空")]
     public function name(): bool
     {
         return true;
     }
-
 
     #[Required("JS不能为空")]
     public function js(): bool

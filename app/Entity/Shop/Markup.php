@@ -5,7 +5,7 @@ namespace App\Entity\Shop;
 
 class Markup
 {
-    public string $percentage = "0"; //加价百分比
+    public string $percentage = "0"; 
     public bool $syncAmount = true;
     public bool $syncName = true;
     public bool $syncIntroduce = true;
@@ -49,10 +49,6 @@ class Markup
         $this->syncSkuPicture = $syncSkuPicture;
     }
 
-    /**
-     * @param string $keepDecimals
-     * @return void
-     */
     public function setKeepDecimals(string $keepDecimals): void
     {
         $this->keepDecimals = $keepDecimals;

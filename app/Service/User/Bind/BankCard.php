@@ -10,14 +10,6 @@ use Kernel\Util\Date;
 class BankCard implements \App\Service\User\BankCard
 {
 
-    /**
-     * @param int $userId
-     * @param int $bankId
-     * @param string $cardNo
-     * @param string|null $cardImage
-     * @return void
-     * @throws ServiceException
-     */
     public function add(int $userId, int $bankId, string $cardNo, ?string $cardImage = null): void
     {
         if (UserBankCard::query()->where("card_no", $cardNo)->exists()) {
@@ -43,7 +35,6 @@ class BankCard implements \App\Service\User\BankCard
             $userBankCard->card_image_hash = $hash;
         }
 
-
         $userBankCard->user_id = $userId;
         $userBankCard->bank_id = $bankId;
         $userBankCard->card_no = $cardNo;
@@ -52,31 +43,16 @@ class BankCard implements \App\Service\User\BankCard
         $userBankCard->save();
     }
 
-
-    /**
-     * @param int $cardId
-     * @param int $status
-     * @return void
-     */
     public function abnormality(int $cardId, int $status = 0): void
     {
         UserBankCard::query()->where("id", $cardId)->update(['status' => $status]);
     }
 
-    /**
-     * @param int $cardId
-     * @return void
-     */
     public function del(int $cardId): void
     {
         UserBankCard::query()->where("id", $cardId)->delete();
     }
 
-
-    /**
-     * @param int $userId
-     * @return \App\Entity\User\BankCard[]
-     */
     public function list(int $userId): array
     {
         $cards = UserBankCard::with("bank")->where("user_id", $userId)->get();

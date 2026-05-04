@@ -21,10 +21,6 @@ class Withdraw extends Base
     #[Inject]
     private \App\Service\User\BankCard $bankCard;
 
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function index(): Response
     {
         $list = $this->bankCard->list($this->getUser()->id);
@@ -46,7 +42,6 @@ class Withdraw extends Base
         if ($withdraw['min_withdraw_amount'] != 0 && $defaultWithdrawAmount < $withdraw['min_withdraw_amount']) {
             $defaultWithdrawAmount = $withdraw['min_withdraw_amount'];
         }
-
 
         return $this->theme(Theme::USER_WITHDRAW, "User/Withdraw.html", "提现", [
             'card' => $list,

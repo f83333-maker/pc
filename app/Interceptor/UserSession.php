@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Interceptor;
 
-
 use App\Consts\User;
 use App\Util\Client;
 use App\Util\Context;
@@ -14,16 +13,9 @@ use Kernel\Annotation\Interceptor;
 use Kernel\Annotation\InterceptorInterface;
 use Kernel\Exception\JSONException;
 
-/**
- * Class UserSession
- * @package App\Interceptor
- */
 class UserSession implements InterceptorInterface
 {
 
-    /**
-     * @throws JSONException
-     */
     #[NoReturn] public function handle(int $type): void
     {
         if ($type == Interceptor::TYPE_API) {
@@ -50,7 +42,6 @@ class UserSession implements InterceptorInterface
 
         $user = \App\Model\User::query()->find($head['uid']);
 
-
         if (!$user) {
             $this->kick($type);
         }
@@ -61,18 +52,13 @@ class UserSession implements InterceptorInterface
             $this->kick($type);
         }
 
-
         if ($jwt->expire <= time() || $user->login_time != $jwt->loginTime || $user->status != 1) {
             $this->kick($type);
         }
 
-        //保存会话
         Context::set(User::SESSION, $user);
     }
 
-    /**
-     * @param int $type
-     */
     #[NoReturn] private function kick(int $type): void
     {
         setcookie(User::SESSION, "", time() - 3600, "/");

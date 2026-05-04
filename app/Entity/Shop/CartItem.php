@@ -20,7 +20,6 @@ class CartItem
     public array $option = [];
     public string $createTime;
 
-
     public function __construct(\App\Model\CartItem $cartItem)
     {
         $this->id = $cartItem->id;

@@ -9,13 +9,5 @@ use Kernel\Annotation\Bind;
 interface Smtp
 {
 
-    /**
-     * @param string $to
-     * @param string $title
-     * @param string $body
-     * @param array $files
-     * @param array $config
-     * @return bool
-     */
     public function send(string $to, string $title, string $body, array $files = [], array $config = []): bool;
 }

@@ -31,13 +31,6 @@ class ItemSkuWholesale extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param int $id
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function get(int $id): Response
     {
         $itemSku = \App\Model\ItemSku::query()->where("user_id", $this->getUser()->id)->find($id);
@@ -46,9 +39,6 @@ class ItemSkuWholesale extends Base
             throw new JSONException("权限不足");
         }
 
-        /**
-         * @var RepertoryItemSku $repertoryItemSku
-         */
         $repertoryItemSku = RepertoryItemSku::query()->find($itemSku->repertory_item_sku_id);
         $data = Model::query()
             ->where("user_id", $this->getUser()->id)
@@ -61,13 +51,6 @@ class ItemSkuWholesale extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         ['key' => 'price', 'rule' => 'notZero', 'message' => ['notZero' => '零售价，必须大于0']],
     ])]
@@ -75,9 +58,6 @@ class ItemSkuWholesale extends Base
     {
         $id = (int)$this->request->post("id");
 
-        /**
-         * @var Model $model
-         */
         $model = Model::query()->where("user_id", $this->getUser()->id)->find($id);
 
         if (!$model) {

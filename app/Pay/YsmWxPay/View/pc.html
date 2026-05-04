@@ -30,9 +30,9 @@
     <script type="text/javascript" src="/app/Pay/YsmWxPay/View/Assets/js/pay.js"></script>
     <script>
         let tradeNo = '#{$order.trade_no}';
-        //生成二维码
-        new QRCode(document.getElementById("qrcode_url"), "#{$order.pay_url}");  // 设置要生成二维码的链接
-        //查询订单
+
+        new QRCode(document.getElementById("qrcode_url"), "#{$order.pay_url}");  
+
         pay.queryTimer(tradeNo, null, res => {
             layer.msg('支付成功');
             setTimeout(() => {

@@ -5,17 +5,9 @@ namespace App\Pay\Bank\Impl;
 
 use Kernel\Util\Context;
 
-/**
- * Class Signature
- * @package App\Pay\Kvmpay\Impl
- */
 class Signature implements \App\Pay\Signature
 {
-    /**
-     * @param mixed $str
-     * @param string $local
-     * @return bool
-     */
+
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {
@@ -25,11 +17,6 @@ class Signature implements \App\Pay\Signature
         return hash_equals($local, $str);
     }
 
-    /**
-     * @param array $data
-     * @param string $appKey
-     * @return string
-     */
     public static function generateSignature(array $data, string $appKey): string
     {
         $signPars = "";
@@ -44,9 +31,6 @@ class Signature implements \App\Pay\Signature
         return $sign;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function verification(array $data, array $config): bool
     {
         $data = Xml::toArray((string)file_get_contents("php://input"));

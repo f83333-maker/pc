@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use App\Model\Commodity;
 use App\Util\Http;
 use App\Util\Ini;
@@ -22,14 +21,6 @@ class Shared implements \App\Service\Shared
     #[Inject]
     private Client $http;
 
-    /**
-     * @param string $url
-     * @param string $appId
-     * @param string $appKey
-     * @param array $data
-     * @return array
-     * @throws JSONException
-     */
     public function mcyRequest(string $url, string $appId, string $appKey, array $data = []): array
     {
         try {
@@ -58,16 +49,6 @@ class Shared implements \App\Service\Shared
         }
     }
 
-
-    /**
-     * @param string $url
-     * @param string $appId
-     * @param string $appKey
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     private function post(string $url, string $appId, string $appKey, array $data = []): array
     {
         $data = array_merge($data, ["app_id" => $appId, "app_key" => $appKey]);
@@ -89,15 +70,6 @@ class Shared implements \App\Service\Shared
         return (array)$result['data'];
     }
 
-    /**
-     * @param string $domain
-     * @param string $appId
-     * @param string $appKey
-     * @param int $type
-     * @return array|null
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function connect(string $domain, string $appId, string $appKey, int $type = 0): ?array
     {
         if ($type == 1) {
@@ -107,10 +79,6 @@ class Shared implements \App\Service\Shared
         return $this->post($domain . "/shared/authentication/connect", $appId, $appKey);
     }
 
-    /**
-     * @param array $item
-     * @return array
-     */
     private function createV4Item(array $item): array
     {
         $arr = [
@@ -131,7 +99,7 @@ class Shared implements \App\Service\Shared
             'inventory_hidden' => 0,
             'only_user' => 0,
             'purchase_count' => 0,
-            'minimum' => 0, //最低购买，
+            'minimum' => 0, 
             'maximum' => 0
         ];
 
@@ -171,12 +139,6 @@ class Shared implements \App\Service\Shared
         return $arr;
     }
 
-    /**
-     * @param \App\Model\Shared $shared
-     * @return array|null
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function items(\App\Model\Shared $shared): ?array
     {
         if ($shared->type == 1) {
@@ -210,17 +172,9 @@ class Shared implements \App\Service\Shared
             return $a;
         }
 
-
         return $this->post($shared->domain . "/shared/commodity/items", $shared->app_id, $shared->app_key);
     }
 
-    /**
-     * @param \App\Model\Shared $shared
-     * @param string $code
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function item(\App\Model\Shared $shared, string $code): array
     {
         if ($shared->type == 1) {
@@ -257,17 +211,6 @@ class Shared implements \App\Service\Shared
         ]);
     }
 
-
-    /**
-     * @param \App\Model\Shared $shared
-     * @param Commodity $commodity
-     * @param int $cardId
-     * @param int $num
-     * @param string $race
-     * @return bool
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function inventoryState(\App\Model\Shared $shared, Commodity $commodity, int $cardId, int $num, string $race): bool
     {
 
@@ -290,27 +233,9 @@ class Shared implements \App\Service\Shared
         return true;
     }
 
-    /**
-     * @param \App\Model\Shared $shared
-     * @param Commodity $commodity
-     * @param string $contact
-     * @param int $num
-     * @param int $cardId
-     * @param int $device
-     * @param string $password
-     * @param string $race
-     * @param array|null $sku
-     * @param string|null $widget
-     * @param string $requestNo
-     * @return string
-     * @throws GuzzleException
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function trade(\App\Model\Shared $shared, Commodity $commodity, string $contact, int $num, int $cardId, int $device, string $password, string $race, ?array $sku, ?string $widget, string $requestNo): string
     {
         $wg = (array)json_decode((string)$widget, true);
-
 
         if ($shared->type == 1) {
             $config = Ini::toArray($commodity->config);
@@ -347,24 +272,12 @@ class Shared implements \App\Service\Shared
 
         $trade = $this->post($shared->domain . "/shared/commodity/trade", $shared->app_id, $shared->app_key, $post);
 
-        /**
-         * 更新缓存库存
-         * @var \App\Service\Shop $shop
-         */
         $shop = Di::inst()->make(\App\Service\Shop::class);
         $shop->updateSharedStock($commodity->id, $race, $sku);
 
         return (string)$trade['secret'];
     }
 
-    /**
-     * @param \App\Model\Shared $shared
-     * @param string $code
-     * @param array $map
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function draftCard(\App\Model\Shared $shared, string $code, array $map = []): array
     {
         $card = $this->post($shared->domain . "/shared/commodity/draftCard", $shared->app_id, $shared->app_key, array_merge([
@@ -373,15 +286,6 @@ class Shared implements \App\Service\Shared
         return (array)$card;
     }
 
-
-    /**
-     * @param \App\Model\Shared $shared
-     * @param string $code
-     * @param int $cardId
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function getDraft(\App\Model\Shared $shared, string $code, int $cardId): array
     {
         return $this->post($shared->domain . "/shared/commodity/draft", $shared->app_id, $shared->app_key, [
@@ -390,14 +294,6 @@ class Shared implements \App\Service\Shared
         ]);
     }
 
-    /**
-     * @param \App\Model\Shared $shared
-     * @param Commodity $commodity
-     * @param string $race
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function inventory(\App\Model\Shared $shared, Commodity $commodity, string $race = ""): array
     {
         if ($shared->type == 1) {
@@ -449,16 +345,6 @@ class Shared implements \App\Service\Shared
         return (array)$inventory;
     }
 
-    /**
-     * @param Commodity $commodity
-     * @param \App\Model\Shared $shared
-     * @param string $code
-     * @param string|null $race
-     * @param array|null $sku
-     * @return string
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function getItemStock(Commodity $commodity, \App\Model\Shared $shared, string $code, ?string $race = null, ?array $sku = []): string
     {
         if ($shared->type == 1) {
@@ -476,21 +362,11 @@ class Shared implements \App\Service\Shared
         return $stock['stock'] ?? "0";
     }
 
-    /**
-     * @param Commodity $commodity
-     * @param \App\Model\Shared $shared
-     * @param string $code
-     * @param int $num
-     * @param string|null $race
-     * @param array|null $sku
-     * @param int|null $cardId
-     * @return string|float|int
-     */
     public function getValuation(Commodity $commodity, \App\Model\Shared $shared, string $code, int $num, ?string $race = null, ?array $sku = [], ?int $cardId = 0): string|float|int
     {
         try {
             $config = is_array($commodity->config) ? $commodity->config : Ini::toArray($commodity->config);
-            if ($shared->type == 1) { //V4
+            if ($shared->type == 1) { 
                 $data = $this->mcyRequest($shared->domain . "/plugin/open-api/amount", $shared->app_id, $shared->app_key, [
                     'sku_id' => (int)$config['shared_mapping'][$race],
                     "quantity" => $num
@@ -514,27 +390,17 @@ class Shared implements \App\Service\Shared
         }
     }
 
-
-    /**
-     * @param string $config
-     * @param string $price
-     * @param string $userPrice
-     * @param int $type
-     * @param float $premium
-     * @return array
-     * @throws JSONException
-     */
     public function AdjustmentPrice(string $config, string $price, string $userPrice, int $type, float $premium): array
     {
         $_config = Ini::toArray($config);
-        //race
+
         if (array_key_exists("category", $_config) && is_array($_config['category'])) {
             foreach ($_config['category'] as &$_price) {
                 $_tmp = new Decimal($_price, 2);
                 $_price = $type == 0 ? $_tmp->add($premium)->getAmount() : $_tmp->add((new Decimal($premium, 3))->mul($_price)->getAmount())->getAmount();
             }
         }
-        //sku
+
         if (array_key_exists("sku", $_config) && is_array($_config['sku'])) {
             foreach ($_config['sku'] as &$sku) {
                 foreach ($sku as &$_price) {
@@ -546,7 +412,6 @@ class Shared implements \App\Service\Shared
             }
         }
 
-        //wholesale
         if (array_key_exists("wholesale", $_config) && is_array($_config['wholesale'])) {
             foreach ($_config['wholesale'] as &$_price) {
                 $_tmp = new Decimal($_price, 2);
@@ -554,7 +419,6 @@ class Shared implements \App\Service\Shared
             }
         }
 
-        //category_wholesale
         if (array_key_exists("category_wholesale", $_config) && is_array($_config['category_wholesale'])) {
             foreach ($_config['category_wholesale'] as &$categoryWholesale) {
                 foreach ($categoryWholesale as &$_price) {
@@ -567,34 +431,18 @@ class Shared implements \App\Service\Shared
         $_tmp = new Decimal($price, 2);
         $price = $type == 0 ? $_tmp->add($premium)->getAmount() : $_tmp->add((new Decimal($premium, 3))->mul($price)->getAmount())->getAmount();
 
-
         $_tmp = new Decimal($userPrice, 2);
         $userPrice = $type == 0 ? $_tmp->add($premium)->getAmount() : $_tmp->add((new Decimal($premium, 3))->mul($userPrice)->getAmount())->getAmount();
-
 
         return ["config" => $_config, "price" => $price, "user_price" => $userPrice];
     }
 
-
-    /**
-     * @param int $type
-     * @param float $premium
-     * @param float|int|string $amount
-     * @return string
-     */
     public function AdjustmentAmount(int $type, float $premium, float|int|string $amount): string
     {
         $_tmp = new Decimal($amount, 2);
         return $type == 0 ? $_tmp->add($premium)->getAmount() : $_tmp->add((new Decimal($premium, 3))->mul($amount)->getAmount())->getAmount();
     }
 
-
-    /**
-     * @param Commodity|int $commodity
-     * @return bool
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function syncRemoteItem(Commodity|int $commodity): bool
     {
         if (is_int($commodity)) {
@@ -613,7 +461,6 @@ class Shared implements \App\Service\Shared
 
         $remoteItem = $this->item($shared, $commodity->shared_code);
         $base = $this->AdjustmentPrice(Ini::toConfig($remoteItem['config'] ?: []), (string)$remoteItem['price'], (string)$remoteItem['user_price'], $commodity->shared_premium_type, $commodity->shared_premium);
-
 
         $_config = $remoteItem['config'] ?: [];
 

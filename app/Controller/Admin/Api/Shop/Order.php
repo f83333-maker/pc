@@ -32,10 +32,6 @@ class Order extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -50,7 +46,6 @@ class Order extends Base
         $data = $this->query->get($get, function (Builder $builder) use ($map, &$row) {
             $builder = $builder->where("type", "!=", 0);
 
-
             if (isset($map['display_scope'])) {
                 if ($map['display_scope'] == 1) {
                     $builder = $builder->whereNull("user_id");
@@ -62,7 +57,6 @@ class Order extends Base
                     }
                 }
             }
-
 
             $row['order_count'] = (clone $builder)->count();
             $row['order_amount'] = (clone $builder)->sum("total_amount");
@@ -82,12 +76,6 @@ class Order extends Base
         return $this->json(data: array_merge($data, $row));
     }
 
-
-    /**
-     * @param int $id
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([[Common::class, "id"]], Method::GET)]
     public function items(int $id): Response
     {
@@ -106,10 +94,6 @@ class Order extends Base
         return $this->json(data: ["list" => $arr]);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException|JSONException
-     */
     #[Validator([[Common::class, "id"]])]
     public function item(): Response
     {
@@ -121,9 +105,6 @@ class Order extends Base
         return $this->json(data: $orderItem->toArray());
     }
 
-    /**
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\Order::class, "orderId"]
     ], Method::GET)]

@@ -1,17 +1,15 @@
 #{include file="../Header.html"}
 
-<!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Toolbar-->
+
     #{include file="../Toolbar.html"}
-    <!--end::Toolbar-->
-    <!--begin::Post-->
+
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        <!--begin::Container-->
+
         <div id="kt_content_container" class="container-fluid">
-            <!--begin::Tables Widget 9-->
+
             <div class="card mb-5 mb-xl-8">
-                <!--begin::Header-->
+
                 <div class="card-header">
                     <div class="card-toolbar">
                         <button class="btn btn-sm btn-light-primary settlement me-3"><i class="fa-duotone fa-regular fa-money-bill-transfer"></i>
@@ -19,19 +17,17 @@
                         </button>
                     </div>
                 </div>
-                <!--end::Header-->
+
                 <div class="card-body py-3">
                     <table id="cash-table"></table>
                 </div>
             </div>
 
-            <!--end::Tables Widget 9-->
         </div>
-        <!--end::Container-->
+
     </div>
-    <!--end::Post-->
+
 </div>
-<!--end::Content-->
 
 <script>
 
@@ -45,22 +41,22 @@
 
             let queryParams = null;
             table.bootstrapTable({
-                url: '/admin/api/cash/data',//请求的url地址
-                method: "post",//请求方式
-                // striped:true,//是否显示行间隔色
-                pageSize: 15,//每页显示的数量
+                url: '/admin/api/cash/data',
+                method: "post",
+
+                pageSize: 15,
                 pageList: [15, 25, 50, 100],
-                showRefresh: false,//是否显示刷新按钮
-                cache: false,//是否使用缓存
-                showToggle: false,//是否显示详细视图和列表视图的切换按钮
+                showRefresh: false,
+                cache: false,
+                showToggle: false,
                 cardView: false,
-                pagination: true,//是否显示分页
-                pageNumber: 1,//初始化显示第几页，默认第1页
-                singleSelect: false,//复选框只能选择一条记录
-                sidePagination: 'server',//分页显示方式，可以选择客户端和服务端（server|client）
-                contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
-                dataType: "json",//接收的数据类型
-                queryParamsType: 'limit',//参数格式，发送标准的Restful类型的请求
+                pagination: true,
+                pageNumber: 1,
+                singleSelect: false,
+                sidePagination: 'server',
+                contentType: "application/x-www-form-urlencoded",
+                dataType: "json",
+                queryParamsType: 'limit',
                 queryParams: function (params) {
                     params.page = (params.offset / params.limit) + 1;
                     if (queryParams) {
@@ -72,7 +68,7 @@
                     }
                     return queryParams;
                 },
-                //回调函数
+
                 responseHandler: function (res) {
                     return {
                         "total": res.count,
@@ -205,7 +201,7 @@
                     }
                 ]
             });
-            
+
             cao.query('.search-query', table, [
                 {title: "会员ID", name: "equal-user_id", type: "input"},
                 {

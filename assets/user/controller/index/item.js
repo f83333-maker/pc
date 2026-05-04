@@ -8,11 +8,10 @@
         post["item_id"] = _item.id;
 
         if (!util.isEmptyOrNotJson(_item?.config?.category)) {
-            //商品分类
+
             post["race"] = $(`.switch-race.is-primary`).data("sku");
         }
 
-        //获取SKU
         if (!util.isEmptyOrNotJson(_item?.config?.sku)) {
             for (const name in _item?.config?.sku) {
                 const $sku = $(`.switch-sku[data-sku="${name}"].is-primary`);
@@ -24,11 +23,10 @@
         return post;
     }
 
-    //算盘
     function _Abacus(error = null) {
-        //商品默认价格
+
         const $price = $(`.abacus .price`);
-        //远程加载价格
+
         $price.html(`<i class="fa-duotone fa-regular fa-spinner-third icon-spin fs-6"></i>`);
 
         util.post({
@@ -54,7 +52,6 @@
             return;
         }
 
-        //抢购逻辑
         const $snapUp = $(`.snap-up`);
 
         const startTime = _item.seckill_start_time;
@@ -65,17 +62,17 @@
                 const now = new Date().getTime();
 
                 if (new Date(startTime).getTime() > now) {
-                    //未开始
+
                     const t = format.expireTime(startTime);
                     t && $snapUp.addClass("badge-soft-info").html(`离抢购开始还剩${t}`);
                     resolve(true);
                 } else if (new Date(endTime).getTime() > now) {
-                    //已开始
+
                     const t = format.expireTime(endTime);
                     t && $snapUp.removeClass("badge-soft-info").addClass("badge-soft-primary").html(`抢购结束还剩${t}`);
                     resolve(true);
                 } else {
-                    //已结束
+
                     $snapUp.removeClass("badge-soft-success").addClass("badge-soft-muted").html(`抢购已结束`);
                     $cashPay.fadeOut(150);
                     resolve(false);
@@ -93,7 +90,6 @@
             });
         });
     }
-
 
     function _SwitchRace() {
         const $switchRace = $(`.switch-race`);
@@ -141,7 +137,7 @@
         const html = `<table class="table wholesale-table mt-1 mb-0"><thead><tr><th scope="col">批发数量</th><th scope="col">单价</th></tr></thead><tbody>[body]</tbody></table>`;
         if (!util.isEmptyOrNotJson(_item?.config?.category)) {
             const sku = $(`.switch-race.is-primary`).data('sku');
-            //分类批发
+
             if (_item?.config?.category_wholesale?.hasOwnProperty(sku)) {
                 let body = ``;
                 for (const k in _item.config.category_wholesale[sku]) {
@@ -172,7 +168,7 @@
                     $itemStock.removeClass("badge-soft-success").addClass("badge-soft-danger").html(`已售罄`);
                     return;
                 }
-                
+
                 $itemStock.removeClass("badge-soft-danger").addClass('badge-soft-success').html(`库存 ${res.data.stock}`);
                 $cashPay.fadeIn(150);
             },
@@ -190,7 +186,6 @@
             _CaptchaRefresh();
         });
     }
-
 
     function _SetPayList() {
         const $payList = $(`.pay-list`);
@@ -210,7 +205,7 @@
             post["pay_id"] = $(this).data("id");
             util.post("/user/api/order/trade", post, res => {
                 if (post["pay_id"] == 1) {
-                    //余额购买，直接反馈
+
                     treasure.show(res.data.tradeNo, res.data.secret);
                     return;
                 }
@@ -226,7 +221,6 @@
     function _OptionalCard() {
         const $OptionalCard = $(`.optional-card`);
         let table;
-
 
         $OptionalCard.click(() => {
             component.popup({
@@ -309,17 +303,17 @@
         });
     }
 
-    _SnapUp();//抢购
+    _SnapUp();
     _SwitchRace();
     _SwitchSku();
     _ChangeNum();
     _SetWholesaleMsg();
-    _Coupon();//优惠券
-    //自动询价
+    _Coupon();
+
     _Abacus();
-    //自动更新库存
+
     _GetStock();
-    //支付方式
+
     _SetPayList();
     _RegisterCaptchaRefresh();
     _OptionalCard();

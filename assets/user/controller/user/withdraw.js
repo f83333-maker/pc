@@ -6,11 +6,9 @@
         minimumResultsForSearch: Infinity
     });
 
-
     $('.btn-recharge').click(() => {
         const cardId = $('.bank-select').val();
         const amount = $('.withdraw-amount').val();
-
 
         util.post("/user/withdraw/apply", {card_id: cardId, amount: amount}, () => {
             message.alert("提现成功，银行处理中", "success");
@@ -18,7 +16,6 @@
             table.refresh();
         });
     });
-
 
     const table = new Table("/user/withdraw/get", "#user-withdraw-table");
     table.setColumns([

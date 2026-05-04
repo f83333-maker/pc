@@ -22,7 +22,6 @@ class Level
 
     public bool $upgradeable = false;
 
-
     public function __construct(UserLevel $level)
     {
         $this->id = $level->id;
@@ -32,27 +31,16 @@ class Level
         $this->privilegeIntroduce = $level->privilege_introduce;
     }
 
-
-    /**
-     * @param string $privilegeContent
-     */
     public function setPrivilegeContent(string $privilegeContent): void
     {
         $this->privilegeContent = $privilegeContent;
     }
 
-
-    /**
-     * @param string $upgradePrice
-     */
     public function setUpgradePrice(string $upgradePrice): void
     {
         $this->upgradePrice = $upgradePrice;
     }
 
-    /**
-     * @param bool $upgradeable
-     */
     public function setUpgradeable(bool $upgradeable): void
     {
         $this->upgradeable = $upgradeable;

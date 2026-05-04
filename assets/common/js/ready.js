@@ -59,11 +59,10 @@ function route(uri) {
     }
 
     if (!/^\d+$/.test(rt[1])) {
-        //主站
 
         return `/plugin/${rt[1]}/${uri}`;
     } else {
-        //分站
+
         if (rt[2] === undefined) {
             return "";
         }

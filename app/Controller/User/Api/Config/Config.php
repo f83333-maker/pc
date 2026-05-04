@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace App\Controller\User\API\Config;
 
-
 use App\Controller\User\Base;
 use App\Interceptor\Merchant;
 use App\Interceptor\PostDecrypt;
@@ -32,12 +31,6 @@ class Config extends Base
     #[Inject]
     private Smtp $smtp;
 
-
-    /**
-     * @param string $key
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(string $key): Response
     {
         $config = Model::query()->where("key", $key)->where("user_id", $this->getUser()->id)->first();
@@ -48,11 +41,6 @@ class Config extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException|JSONException
-     */
     #[Validator([
         [Common::class, "phone"]
     ])]
@@ -63,14 +51,14 @@ class Config extends Base
             $config = $this->request->post();
             $platform = (int)$config['platform'];
             $templateCode = match ($platform) {
-                \App\Const\Sms::PLATFORM_ALI => $config['ali_template_code'], //阿里云
-                \App\Const\Sms::PLATFORM_TENCENT => $config['tencent_template_id'], //腾讯云
-                \App\Const\Sms::PLATFORM_DXB => str_replace("{code}", $captcha, $config['dxb_template'])//短信宝
+                \App\Const\Sms::PLATFORM_ALI => $config['ali_template_code'], 
+                \App\Const\Sms::PLATFORM_TENCENT => $config['tencent_template_id'], 
+                \App\Const\Sms::PLATFORM_DXB => str_replace("{code}", $captcha, $config['dxb_template'])
             };
             $var = match ($platform) {
-                \App\Const\Sms::PLATFORM_ALI => ['code' => $captcha], //阿里云
-                \App\Const\Sms::PLATFORM_TENCENT => [(string)$captcha], //腾讯云
-                \App\Const\Sms::PLATFORM_DXB => [], //短信宝
+                \App\Const\Sms::PLATFORM_ALI => ['code' => $captcha], 
+                \App\Const\Sms::PLATFORM_TENCENT => [(string)$captcha], 
+                \App\Const\Sms::PLATFORM_DXB => [], 
             };
             $this->sms->send($config, $config['phone'], $templateCode, $var);
         } catch (\Throwable $e) {
@@ -79,11 +67,6 @@ class Config extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, "email"]
     ])]
@@ -102,12 +85,6 @@ class Config extends Base
 
         return $this->json();
     }
-
-    /**
-     * @param string $key
-     * @return Response
-     * @throws JSONException
-     */
 
     public function save(string $key): Response
     {

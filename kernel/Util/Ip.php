@@ -13,10 +13,6 @@ class Ip
 
     public const IP_PROTOCOL_HEADER = ['XForwardedFor', 'XRealIp', 'ClientIp', 'XForwarded', 'XClusterClientIp', 'ForwardedFor', 'Forwarded', 'CfConnectingIp'];
 
-    /**
-     * @param Request $request
-     * @return string|null
-     */
     public static function get(Request $request): ?string
     {
         if (App::$install) {
@@ -32,20 +28,11 @@ class Ip
         return null;
     }
 
-
-    /**
-     * @param string $header
-     * @return void
-     */
     public static function setMode(string $header): void
     {
         File::write(self::MODE_FILE, $header);
     }
 
-    /**
-     * @param string $ip
-     * @return string|false
-     */
     public static function getType(string $ip): string|false
     {
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {

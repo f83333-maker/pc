@@ -10,7 +10,6 @@ const language = new class Language {
         }
     }
 
-
     output(text) {
         if (this.preferred === "zh-cn") {
             return text;
@@ -26,11 +25,7 @@ const language = new class Language {
         const chineseRegex = /[\p{Script=Han}a-zA-Z0-9&;#=。！？，、；：“”‘’（）《》【】\[\]]+/gu;
         return text.replace(chineseRegex, (match) => {
             if (this.containsChinese(match)) {
-                //TODO : 该方法需要移除
-                /*       util.post({
-                           url: "/language/record?t=" + match,
-                           loader: false
-                       });*/
+
                 const hash = CryptoJS.MD5(match).toString();
                 if (this.pack.hasOwnProperty(hash)) {
                     return this.pack[hash];
@@ -58,11 +53,9 @@ const language = new class Language {
         });
     }
 
-
     containsChinese(text) {
         return /[\u4e00-\u9fa5]/.test(text);
     }
-
 
     change(language) {
         localStorage.removeItem("language.pack");

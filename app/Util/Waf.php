@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-
 use JetBrains\PhpStorm\NoReturn;
 use Kernel\Exception\JSONException;
 
@@ -13,9 +12,6 @@ class Waf
     private static array $DATA = [];
     private static ?self $instance = null;
 
-    /**
-     * @throws JSONException
-     */
     #[NoReturn] private function wafPost(): void
     {
         $def = json_decode(self::$RULE["POST"], true);
@@ -47,9 +43,6 @@ class Waf
         }
     }
 
-    /**
-     * @throws JSONException
-     */
     #[NoReturn] private function wafRequest(): void
     {
         $def = json_decode(self::$RULE["ARG"], true);
@@ -66,9 +59,6 @@ class Waf
         }
     }
 
-    /**
-     * @throws JSONException
-     */
     #[NoReturn] private function wafCookie(): void
     {
         $def = json_decode(self::$RULE["COOKIE"], true);
@@ -79,9 +69,6 @@ class Waf
         }
     }
 
-    /**
-     * @throws JSONException
-     */
     #[NoReturn] private function wafUserAgent(): void
     {
         $def = json_decode(self::$RULE["UA"], true);
@@ -92,11 +79,6 @@ class Waf
         }
     }
 
-
-    /**
-     * @param array $array
-     * @return array|string
-     */
     private function listToString(array $array): array|string
     {
         if (is_array($array)) {
@@ -119,7 +101,6 @@ class Waf
         self::$RULE["COOKIE"] = file_get_contents($path . "/cookie.json");
         self::$RULE["UA"] = file_get_contents($path . "/ua.json");
 
-        //DATA INIT
         self::$DATA["POST"] = $this->listToString($_POST);
         self::$DATA["REQUEST"] = (string)$_SERVER["REQUEST_URI"];
         self::$DATA["UA"] = (string)$_SERVER["HTTP_USER_AGENT"];
@@ -135,10 +116,6 @@ class Waf
         }
     }
 
-
-    /**
-     * @return static
-     */
     public static function instance(): self
     {
         if (!self::$instance) {

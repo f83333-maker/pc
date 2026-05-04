@@ -26,27 +26,16 @@ class Project implements \App\Service\Store\Project
     #[Inject]
     private \App\Service\Store\Http $http;
 
-
-    /**
-     * @return Authentication|null
-     */
     private function getStoreAuth(): ?Authentication
     {
         return Plugin::inst()->getStoreUser("main");
     }
 
-    /**
-     * @return array
-     */
     public function getNotice(): array
     {
         return $this->http->request(url: "/store/notice/list", authentication: $this->getStoreAuth())->data;
     }
 
-
-    /**
-     * @return array
-     */
     public function getVersionLatest(): array
     {
         return $this->http->request(url: "/store/version/latest", data: [
@@ -54,10 +43,6 @@ class Project implements \App\Service\Store\Project
         ], authentication: $this->getStoreAuth())->data;
     }
 
-
-    /**
-     * @return array
-     */
     public function getVersionList(): array
     {
         return $this->http->request(url: "/store/version/list", data: [
@@ -65,15 +50,9 @@ class Project implements \App\Service\Store\Project
         ], authentication: $this->getStoreAuth())->data;
     }
 
-    /**
-     * @return void
-     * @throws JSONException
-     * @throws ServiceException
-     * @throws RuntimeException
-     */
     public function update(): void
     {
-        //获取全部版本
+
         $versionList = array_reverse($this->getVersionList());
         Log::inst()->clear("update");
         Log::inst()->update("开始检查更新..");
@@ -82,7 +61,6 @@ class Project implements \App\Service\Store\Project
             foreach ($versionList as $v) {
                 $cloudVersion = $v["version"];
 
-                //如果云端版本大于本地版本则开始更新
                 if (version_compare($cloudVersion, App::$version, '>')) {
                     $versionPath = $basePath . "/runtime/update/{$cloudVersion}";
                     Log::inst()->update("检查到新版本：{$cloudVersion}，开始下载..");
@@ -97,7 +75,6 @@ class Project implements \App\Service\Store\Project
 
                     Log::inst()->update("下载完成，开始解压：{$versionPath}.zip -> {$versionPath}");
 
-                    //解压压缩包
                     if (!Zip::state()) {
                         Log::inst()->update("缺少php扩展：zip，请安装此扩展后再尝试更新");
                         throw new ServiceException("zip解压不可用");
@@ -110,7 +87,6 @@ class Project implements \App\Service\Store\Project
 
                     Log::inst()->update("解压完成，开始升级..");
 
-                    //升级数据库
                     $database = $versionPath . "/Database.php";
                     if (file_exists($database)) {
                         Log::inst()->update("检测到数据库升级文件，开始升级..");
@@ -125,7 +101,7 @@ class Project implements \App\Service\Store\Project
                         $obj = new $class();
 
                         if ($obj instanceof Database) {
-                            Di::inst()->inject($obj); //升级数据库文件支持依赖注入
+                            Di::inst()->inject($obj); 
                             $obj->handle();
                             Log::inst()->update("数据库升级完成");
                         } else {
@@ -150,7 +126,6 @@ class Project implements \App\Service\Store\Project
                             }
                         }
 
-                        //升级主程序文件
                         if (File::copy($file->getRealPath(), $srcFile)) {
                             Log::inst()->update($srcFile . " 升级成功");
                         } else {
@@ -179,9 +154,9 @@ class Project implements \App\Service\Store\Project
         }
 
         Log::inst()->update("开始清理缓存..");
-        //通知已经更新
+
         File::write($basePath . "/runtime/updated", "success");
-        //模版缓存
+
         Directory::delete($basePath . "/runtime/view");
         Log::inst()->update("版本已升级完成");
         if (App::$cli) {
@@ -189,10 +164,6 @@ class Project implements \App\Service\Store\Project
         }
     }
 
-    /**
-     * @param string $hash
-     * @return UpdateLog
-     */
     public function getUpdateLog(string $hash): UpdateLog
     {
         $log = BASE_PATH . '/runtime/update.log';
@@ -201,7 +172,6 @@ class Project implements \App\Service\Store\Project
         }
         $timeout = 0;
 
-        //3秒超时
         while ($timeout <= 60) {
             clearstatcache();
             $md5 = md5_file($log);

@@ -16,10 +16,6 @@ class Dashboard extends Base
     public function index(): Response
     {
 
-
-
-
-
         return $this->render("Main/Dashboard.html", "控制台");
     }
 }

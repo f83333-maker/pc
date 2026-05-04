@@ -39,17 +39,9 @@ abstract class Controller
 
     #[Inject]
     protected Config $config;
-    /**
-     * @var a
-     */
+
     protected a $plugin;
 
-
-    /**
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function __construct()
     {
         $site = Di::instance()->make(Site::class);
@@ -60,10 +52,6 @@ abstract class Controller
         $this->plugin = $this->getPlugin();
     }
 
-    /**
-     * 检测是否在USR环境中
-     * @return bool
-     */
     protected function isUsr(): bool
     {
         if ($this->plugin->uid == "*") {
@@ -72,31 +60,16 @@ abstract class Controller
         return true;
     }
 
-    /**
-     * @return User|null
-     */
     protected function getUser(): ?User
     {
         return Context::get(User::class);
     }
 
-    /**
-     * @return Manage|null
-     */
     protected function getManage(): ?Manage
     {
         return Context::get(Manage::class);
     }
 
-    /**
-     * 渲染模版
-     * @param string $template
-     * @param string|null $title
-     * @param array $data
-     * @param array $paths
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function render(string $template, ?string $title = null, array $data = [], array $paths = []): Response
     {
         $data['plugin'] = [
@@ -112,28 +85,15 @@ abstract class Controller
         $var = Di::instance()->get(Site::class);
         $var->setTemplateData($data);
 
-        /**
-         * @var Response $response
-         */
         $response = Context::get(Response::class);
         return $response->end()->render($template, $title, $data, array_merge([$this->plugin->path . "/View/"], $paths));
     }
 
-    /**
-     * @param int $code
-     * @param string $message
-     * @param array|null $data
-     * @param array $ext
-     * @return Response
-     * @throws RuntimeException
-     */
     public function json(int $code = 200, string $message = "success", ?array $data = null, array $ext = []): Response
     {
         $secret = Str::generateRandStr(32);
         $key = substr($secret, 0, 16);
-        /**
-         * @var Response $response
-         */
+
         $response = Context::get(Response::class);
         $json = $response->json($code, $message, $data, $ext)->getOptions("json");
         return $response->withHeader("Content-Type", "text/plain; charset=utf-8")->withHeader("Secret", $secret)->raw(Aes::encrypt($json, $key, $key));

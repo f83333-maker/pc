@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -26,11 +25,6 @@ class Group extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -41,11 +35,6 @@ class Group extends Manage
         return $this->json(data: $data);
     }
 
-    /**
-     * @param int $id
-     * @return array
-     * @throws JSONException
-     */
     public function commodityGroupData(int $id): array
     {
         $group = UserGroup::query()->find($id);
@@ -59,7 +48,6 @@ class Group extends Manage
         $collection = \App\Model\CommodityGroup::query()->get(["id", "name"]);
         $data = $collection->toArray();
 
-
         foreach ($data as &$item) {
             if (isset($discountConfig[$item['id']])) {
                 $item['value'] = $discountConfig[$item['id']];
@@ -71,14 +59,6 @@ class Group extends Manage
         return $this->json(200, data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function save(): array
     {
         $map = $_POST;
@@ -93,11 +73,6 @@ class Group extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
     public function setDiscountConfig(Request $request): array
     {
         $groupId = $request->post("group_id", Filter::INTEGER);
@@ -125,13 +100,6 @@ class Group extends Manage
         return $this->json();
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function del(): array
     {
         $delete = new Delete(UserGroup::class, [$_POST['id']]);

@@ -1,6 +1,5 @@
 {{include( "Common/Header.html")}}
 
-<!-- Hero -->
 <div class="bg-body-light">
     <div class="content content-full">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
@@ -25,9 +24,7 @@
         </div>
     </div>
 </div>
-<!-- END Hero -->
 
-<!-- Page Content -->
 <div class="content">
     <div class="row mb-2 data-count">
 
@@ -69,8 +66,6 @@
         </div>
     </div>
 </div>
-<!-- END Page Content -->
-
 
 {{ ready("/assets/user/controller/shop/order.js")|raw }}
 {{ hook(user_env(user.id) , point("USER_ITEM_ORDER_BODY") , 1)|raw }}

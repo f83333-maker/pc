@@ -12,22 +12,9 @@ use App\Entity\Report\Order;
 interface OrderReport
 {
 
-    /**
-     * @param Order $order
-     * @return void
-     */
     public function apply(Order $order): void;
 
-    /**
-     * @param Handle $handle
-     * @return void
-     */
     public function handle(Handle $handle): void;
 
-
-    /**
-     * @param Reply $reply
-     * @return void
-     */
     public function reply(Reply $reply): void;
 }

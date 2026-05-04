@@ -5,9 +5,7 @@ namespace Kernel\Util;
 
 class Session
 {
-    /**
-     * @return void
-     */
+
     public static function start(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -18,19 +16,11 @@ class Session
         }
     }
 
-    /**
-     * @return void
-     */
     public static function end(): void
     {
         session_write_close();
     }
 
-
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public static function get(?string $key = null): mixed
     {
         self::start();
@@ -39,11 +29,6 @@ class Session
         return $result;
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
     public static function set(string $key, mixed $value): void
     {
         self::start();
@@ -51,10 +36,6 @@ class Session
         self::end();
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
     public static function has(string $key): bool
     {
         self::start();
@@ -63,10 +44,6 @@ class Session
         return $result;
     }
 
-    /**
-     * @param string $key
-     * @return void
-     */
     public static function remove(string $key): void
     {
         self::start();
@@ -74,9 +51,6 @@ class Session
         self::end();
     }
 
-    /**
-     * @return void
-     */
     public static function clear(): void
     {
         self::start();

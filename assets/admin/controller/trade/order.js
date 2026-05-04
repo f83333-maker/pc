@@ -30,7 +30,6 @@
         });
     }
 
-
     table.setColumns([
         {checkbox: true}
         , {
@@ -247,7 +246,6 @@
             }
         });
     });
-
 
     $('.btn-app-export').click(function () {
 

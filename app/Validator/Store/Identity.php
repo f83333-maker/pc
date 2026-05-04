@@ -22,7 +22,6 @@ class Identity
         return true;
     }
 
-
     #[Required("单号不能为空", \Kernel\Validator\Required::LOOSE)]
     #[Regex("/^\d{24}$/", "单号错误")]
     public function tradeNo(): bool

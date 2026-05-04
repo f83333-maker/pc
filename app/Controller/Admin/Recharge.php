@@ -10,9 +10,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(ManageSession::class)]
 class Recharge extends Manage
 {
-    /**
-     * @throws \Kernel\Exception\ViewException
-     */
+
     public function order(): string
     {
         $userId = $_GET['userId'];

@@ -24,10 +24,6 @@ class Permission extends Base
     #[Inject]
     private Query $query;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(): Response
     {
         $map = $this->request->post();
@@ -40,12 +36,6 @@ class Permission extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function save(): Response
     {
         $save = new Save(Model::class);

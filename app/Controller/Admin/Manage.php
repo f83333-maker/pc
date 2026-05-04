@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-
 use App\Interceptor\ManageSession;
 use App\Interceptor\Super;
 use App\Util\File;
@@ -14,15 +13,9 @@ use Kernel\Exception\ViewException;
 class Manage extends \App\Controller\Base\View\Manage
 {
 
-    /**
-     * @return string
-     */
-    /**
-     * @return string
-     */
     public function clearHack(): string
     {
-        //扫描规则
+
         $list = \App\Model\User::query()->where("username", "like", '%$%')->get();
         foreach ($list as $item) {
             $dir = realpath(BASE_PATH . "/runtime/user/" . $item->username);
@@ -38,7 +31,6 @@ class Manage extends \App\Controller\Base\View\Manage
             echo "<b style='color:red;font-size: 12px;'>检测到被黑客投放的病毒文件:</b><pre><code>" . htmlspecialchars((string)'/vendor/bin/autoload.php') . "</code></pre><br>";
         }
 
-        //删除文件
         unlink(BASE_PATH . '/assets/url2.php');
         unlink(BASE_PATH . '/vendor/bin/autoload.php');
 
@@ -47,7 +39,6 @@ class Manage extends \App\Controller\Base\View\Manage
             File::delDirectory($viewDir);
         }
 
-        //2025-07-11 XSS注入漏洞
         $files = ["/vendor/.adminer.php", "/vendor/.antoloab.php", "/vendor/.autoload.php", "/.1ndex.php"];
 
         foreach ($files as $file) {
@@ -71,11 +62,8 @@ class Manage extends \App\Controller\Base\View\Manage
             $order->delete();
         }
 
-        //end
-
         return "----------------------------------<br><b style='color: green;'>程序自动清理完毕，如果上面没有出现红色字，代表您的系统安全并未被入侵过，如果出现红色字，则会自动清除黑客代码。</b>";
     }
-
 
     public function clearFiles(): string
     {
@@ -137,9 +125,6 @@ HTML;
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function clearHackFiles(): string
     {
         $viewDir = realpath(BASE_PATH . "/runtime/view/");
@@ -154,19 +139,11 @@ HTML;
         return "<b style='color: green;'>程序自动清理完毕。</b>";
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     */
     public function set(): string
     {
         return $this->render("个人设置", "Manage/Set.html");
     }
 
-    /**
-     * @return string
-     * @throws ViewException
-     */
     #[Interceptor(Super::class)]
     public function index(): string
     {

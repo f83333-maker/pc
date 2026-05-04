@@ -37,10 +37,6 @@ class Item extends Base
     #[Inject]
     private Ship $ship;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -113,10 +109,6 @@ class Item extends Base
         return $this->json(data: array_merge($data, $raw));
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\Item::class, "name"],
         [Common::class, "id"]
@@ -145,10 +137,6 @@ class Item extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

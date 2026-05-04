@@ -9,11 +9,5 @@ use Kernel\Annotation\Bind;
 interface Code
 {
 
-    /**
-     * 创建验证码
-     * @param string $key
-     * @param int $expire
-     * @return int
-     */
     public function create(string $key, int $expire = 60): int;
 }

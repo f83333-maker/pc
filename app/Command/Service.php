@@ -19,7 +19,6 @@ class Service
 
     private string $bin = BASE_PATH . "bin";
 
-
     public function __construct()
     {
         $config = Config::get("cli-server");
@@ -27,12 +26,6 @@ class Service
         $this->file = "/etc/systemd/system/{$this->name}.service";
     }
 
-
-    /**
-     * 安装服务
-     * @return void
-     * @throws \ReflectionException
-     */
     public function install(): void
     {
         $commands = <<<EOL
@@ -65,11 +58,6 @@ EOL;
         }
     }
 
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function start(): void
     {
         Log::inst()->stdout("Service starting...", Color::BLUE, true);
@@ -77,11 +65,6 @@ EOL;
         Log::inst()->stdout("Service started successfully.", Color::GREEN, true);
     }
 
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function stop(): void
     {
         Log::inst()->stdout("Service stopping...", Color::BLUE, true);
@@ -89,11 +72,6 @@ EOL;
         Log::inst()->stdout("Service stop successfully.", Color::GREEN, true);
     }
 
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function restart(): void
     {
         if (App::$mode === "dev") {
@@ -105,10 +83,6 @@ EOL;
         Log::inst()->stdout("Service restart successfully.", Color::GREEN, true);
     }
 
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function uninstall(): void
     {
         Log::inst()->stdout("Service uninstallation...", Color::BLUE, true);

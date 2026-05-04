@@ -47,7 +47,6 @@ body {
     opacity: 0;
 }
 
-
 .card::before {
     content: "";
     width: 104%;
@@ -95,7 +94,6 @@ body {
     margin-bottom: 30px;
 }
 
-
 .layout {
     display: block;
     margin-top: 30px;
@@ -129,7 +127,6 @@ select {
     color: white;
     padding-left: 5px;
 }
-
 
 select:focus {
     outline: none;
@@ -485,7 +482,6 @@ select:focus {
     border: 1px solid #03a9f4;
 }
 
-
 .button-click {
     position: relative;
     border-radius: 10px;
@@ -497,7 +493,7 @@ select:focus {
     user-select: none;
     cursor: pointer;
     padding: 4px 8px;
-    /*margin: 0 12px 8px 0;*/
+
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     -webkit-box-shadow: 0 1px 4px 0 #ff99e899;
@@ -505,13 +501,11 @@ select:focus {
     font-weight: bolder;
 }
 
-
 .general.race-view span {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 4px;
 }
-
 
 .race-click .badge-money {
     position: absolute;
@@ -527,7 +521,7 @@ select:focus {
     background: linear-gradient(90deg, #ffb84d, #ff6b88);
     border: 2px solid #ffffff;
     box-shadow: 0 8px 18px rgba(255, 107, 136, .35);
-    pointer-events: none; /* 不干扰点击 SKU */
+    pointer-events: none; 
 }
 
 @media (hover: hover) and (pointer: fine) {

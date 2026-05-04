@@ -27,7 +27,6 @@ class Withdraw
         return true;
     }
 
-
     #[Required("状态不能为空")]
     #[Regex("/^[0-9]\d*$/", "状态代码错误")]
     public function status(): bool

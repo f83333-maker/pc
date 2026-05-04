@@ -12,9 +12,6 @@ use Kernel\Context\Interface\Response;
 class Manage extends Base
 {
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->render("Manage/Manage.html", "管理员");

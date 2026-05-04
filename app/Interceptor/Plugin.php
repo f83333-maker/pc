@@ -23,15 +23,6 @@ class Plugin implements Interceptor
     #[Inject]
     private User $user;
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
         $plugin = $this->getPlugin();
@@ -49,13 +40,6 @@ class Plugin implements Interceptor
         }
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws \ReflectionException
-     */
     private function notPermission(Request $request, Response $response, int $type): Response
     {
         if ($type == \Kernel\Annotation\Interceptor::API) {

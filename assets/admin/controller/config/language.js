@@ -57,7 +57,6 @@
             });
         }
 
-
         component.popup({
             submit: '/admin/config/language/save',
             tab: [
@@ -129,7 +128,6 @@
     $('.add-translate-language').click(() => {
         modal(`${util.icon("icon-tianjia")} 添加翻译`);
     });
-
 
     $(`.del-translate-language`).click(() => {
         let selections = table.getSelections();

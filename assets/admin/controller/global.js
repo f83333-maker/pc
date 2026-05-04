@@ -14,7 +14,6 @@
                     return;
                 }
 
-
                 let html = format.badge(`<i class="fa-duotone fa-regular fa-user"></i> ${res.data.username}`, 'a-badge-light edit-store-user');
 
                 if (res.data.level === 0) {
@@ -31,7 +30,6 @@
                 }
 
                 $StoreText.html(format.badgeGroup(html));
-
 
                 $(`.edit-store-user`).click(() => {
                     component.popup({
@@ -149,7 +147,7 @@
                 } else {
                     $('.latest-version').css("color", "red").html(`[ 更新 v${res.data.version} ]`);
                     let cache = localStorage.getItem(res.data.version);
-                    //第一次检测到版本，主动打开更新窗口
+
                     if (!cache) {
                         _HandleUpdate(true);
                         localStorage.setItem(res.data.version, true);
@@ -200,7 +198,6 @@
             });
         });
     }
-
 
     function _Pjax(){$(document).pjax('a[target!=_blank]','#pjax-container',{fragment:'#pjax-container',timeout:8e3,scrollTo:0});const e={el:null,init(){this.el||(this.el=$('<div id="admin-top-bar" style="position:fixed;top:0;left:0;width:0;height:3px;background:#009ef7;z-index:99999;transition:width 0.3s ease;"></div>'),$("body").append(this.el))},start(){this.init(),this.el.css({width:"0%",opacity:1}).show(),setTimeout(()=>this.el.css("width","30%"),10),setTimeout(()=>this.el.css("width","70%"),500)},done(){this.el&&(this.el.css("width","100%"),setTimeout(()=>{this.el.fadeOut(300,()=>this.el.css("width","0%"))},200))}};$(document).off("pjax:send").off("pjax:complete"),$(document).on("pjax:send",function(){e.start(),$("#pjax-container").css("opacity","0.5")}),$(document).on("pjax:complete",function(){e.done(),$("#pjax-container").css("opacity","1").hide().fadeIn(200),typeof KTMenu!="undefined"&&KTMenu.createInstances()}),$(document).off("click","a[target!=_blank]").on("click","a[target!=_blank]",function(){$(this).hasClass("menu-link")&&($(".menu-link").removeClass("active"),$(this).addClass("active"))})}
 

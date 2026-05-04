@@ -1,13 +1,11 @@
 !function () {
     let cashWallet = 2;
 
-
     $(`.cash-wallet-btn`).click(function () {
         $('.checked').removeClass('checked');
         $(this).addClass('checked');
         cashWallet = $(this).data("id");
     });
-
 
     $('.payButton').click(function () {
 

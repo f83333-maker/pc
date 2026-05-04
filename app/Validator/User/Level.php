@@ -24,9 +24,6 @@ class Level
             return true;
         }
 
-        /**
-         * @var User $user
-         */
         $user = Context::get(User::class);
         if (!UserLevel::query()->where("user_id", $user->id)->where("id", $value)->exists()) {
             return "等级不存在";

@@ -25,15 +25,9 @@ class BankCard extends Base
     #[Inject]
     private Query $query;
 
-
     #[Inject]
     private \App\Service\User\BankCard $bankCard;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(): Response
     {
         $map = $this->request->post();
@@ -54,10 +48,6 @@ class BankCard extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, "id"]
     ])]
@@ -69,10 +59,6 @@ class BankCard extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

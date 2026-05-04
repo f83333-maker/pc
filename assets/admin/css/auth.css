@@ -1,13 +1,13 @@
 :root {
-    --ay-accent-start: #ff7dc6; /* 霓虹起色 */
-    --ay-accent-end: #7aa8ff; /* 霓虹终色 */
-    --ay-text: #f3f6ff; /* 主文字 */
-    --ay-sub: #b9c3e6; /* 次文字 */
-    --ay-card: rgba(12, 14, 28, .55); /* 卡片深玻璃 */
-    --ay-stroke: rgba(255, 255, 255, .18); /* 细边 */
-    --ay-input: rgba(255, 255, 255, .06); /* 输入框底 */
-    --ay-input-h: 48px; /* 输入高度 */
-    --ay-radius: 20px; /* 圆角 */
+    --ay-accent-start: #ff7dc6; 
+    --ay-accent-end: #7aa8ff; 
+    --ay-text: #f3f6ff; 
+    --ay-sub: #b9c3e6; 
+    --ay-card: rgba(12, 14, 28, .55); 
+    --ay-stroke: rgba(255, 255, 255, .18); 
+    --ay-input: rgba(255, 255, 255, .06); 
+    --ay-input-h: 48px; 
+    --ay-radius: 20px; 
 }
 
 html, body {
@@ -26,7 +26,6 @@ body.ay-bg {
     overflow-x: hidden;
 }
 
-/* 强渐变背景 */
 .ay-gradient-bg {
     position: fixed;
     inset: 0;
@@ -41,7 +40,6 @@ body.ay-bg {
     filter: saturate(1.8) contrast(1.2);
 }
 
-/* 暗化罩，优化对比度 */
 .ay-dim {
     position: fixed;
     inset: 0;
@@ -49,10 +47,8 @@ body.ay-bg {
     background: radial-gradient(60% 50% at 50% 30%, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4) 80%);
 }
 
-/* 移除花瓣动画 */
 .ay-petals { display: none; }
 
-/* 外层布局：单列居中 */
 .ay-wrap {
     min-height: 100dvh;
     display: grid;
@@ -60,7 +56,6 @@ body.ay-bg {
     padding: clamp(16px, 4vw, 32px)
 }
 
-/* 顶部徽章 */
 .ay-badge {
     display: inline-flex;
     gap: 8px;
@@ -77,7 +72,6 @@ body.ay-bg {
     color: #ffe5f3
 }
 
-/* 卡片 */
 .ay-card {
     width: min(480px, 92vw);
     margin-top: 14px;
@@ -94,7 +88,7 @@ body.ay-bg {
 
 .ay-card:hover { box-shadow: 0 24px 80px rgba(5,9,20,.55); }
 
-.ay-card::after{ /* 跟随鼠标的高光 */
+.ay-card::after{ 
     content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; mix-blend-mode:screen; opacity:.0; transition: opacity .2s ease;
     background: radial-gradient(240px 160px at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.28), rgba(255,255,255,0) 60%);
 }
@@ -146,7 +140,6 @@ body.ay-bg {
     padding: 16px 22px 22px
 }
 
-/* 输入组：深色玻璃 + 细描边 + 霓虹底线 */
 .ay-field {
     position: relative;
     margin: 16px 0 22px
@@ -179,7 +172,6 @@ body.ay-bg {
     transition: all .16s ease
 }
 
-
 .ay-input:focus {
     border-color: rgba(255, 255, 255, .38);
     box-shadow: 0 0 0 3px rgba(255, 125, 198, .18)
@@ -199,7 +191,6 @@ body.ay-bg {
     transform: scaleX(1)
 }
 
-/* 眼睛按钮（跟随深色系） */
 .ay-eye {
     position: absolute;
     right: 8px;
@@ -215,7 +206,6 @@ body.ay-bg {
     cursor: pointer
 }
 
-/* 功能区 */
 .ay-row {
     display: flex;
     justify-content: space-between;
@@ -235,13 +225,13 @@ body.ay-bg {
 
 .ay-check input {
     appearance: none;
-    -webkit-appearance: none; /* Safari/iOS */
+    -webkit-appearance: none; 
     width: 18px;
     height: 18px;
     border-radius: 6px;
     border: 1px solid var(--ay-stroke);
     background: rgba(255, 255, 255, .06);
-    cursor: pointer; /* 明确可点击 */
+    cursor: pointer; 
     position: relative;
     transition: all 0.2s ease;
 }
@@ -284,7 +274,6 @@ body.ay-bg {
 .ay-input:hover { border-color: rgba(255,255,255,.32); }
 .ay-eye:hover { background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); }
 
-/* 主按钮：萌系渐变 */
 .ay-btn {
     width: 100%;
     height: 48px;
@@ -318,7 +307,6 @@ body.ay-bg {
     opacity: .85
 }
 
-/* 响应式 */
 @media (max-width: 480px) {
     :root {
         --ay-input-h: 46px

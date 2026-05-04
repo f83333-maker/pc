@@ -13,10 +13,6 @@ use Kernel\Annotation\Interceptor;
 class Patch extends \App\Controller\Base\View\Manage
 {
 
-    /**
-     * 0.8.0->0.8.1
-     * @return void
-     */
     public function update080TO081(): void
     {
         $config = config("app");

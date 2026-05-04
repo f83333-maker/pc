@@ -28,12 +28,6 @@ class Item extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws NotFoundException
-     */
     public function list(): Response
     {
         $categoryId = $this->request->post("category_id", Filter::INTEGER) ?? null;
@@ -43,12 +37,6 @@ class Item extends Base
             )));
     }
 
-
-    /**
-     * @return Response
-     * @throws NotFoundException
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Item::class, "itemId"]
     ])]
@@ -59,10 +47,6 @@ class Item extends Base
         return $this->json(200, "success ", $item->toArray());
     }
 
-
-    /**
-     * @throws JSONException|RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Item::class, ["skuId", "quantity"]]
     ])]
@@ -88,6 +72,5 @@ class Item extends Base
         $amount = $this->order->getAmount($this->getUser(), $sku, $quantity);
         return $this->json(data: ["amount" => $amount]);
     }
-
 
 }

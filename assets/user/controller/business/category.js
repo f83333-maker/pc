@@ -108,7 +108,6 @@
     table.setState("status", "_common_status");
     table.render();
 
-
     $('.button-add').click(function () {
         modal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加分类`);
     });

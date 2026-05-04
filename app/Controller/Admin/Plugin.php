@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-
 use App\Controller\Base\View\Manage;
 use App\Interceptor\ManageSession;
 use App\Service\App;
@@ -63,25 +62,11 @@ class Plugin extends Manage
 本免责声明的解释权归开发者所有。本免责声明适用`中国大陆`法律。
 HTML;
 
-
-    /**
-     * @return string
-     * @throws JSONException
-     * @throws ViewException
-     */
     public function index(): string
     {
         return $this->render("通用插件", "Config/Plugin.html");
     }
 
-
-    /**
-     * @param string $plugin
-     * @return string
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws ViewException
-     */
     public function wiki(string $plugin): string
     {
         if (!preg_match('/^[A-Za-z0-9_]+$/', $plugin)) {
@@ -103,9 +88,9 @@ HTML;
             throw new NotFoundException("此插件没有文档");
         }
 
-        $readme = ['README.md', 'Readme.md']; //主页
-        $sidebar = ['SIDEBAR.md', 'Sidebar.md']; //菜单
-        $terms = ['TERMS.md', 'Terms.md']; //免责声明
+        $readme = ['README.md', 'Readme.md']; 
+        $sidebar = ['SIDEBAR.md', 'Sidebar.md']; 
+        $terms = ['TERMS.md', 'Terms.md']; 
 
         $readmePath = '';
         $sidebarPath = '';
@@ -142,13 +127,11 @@ HTML;
             file_put_contents($wiki . "/{$sidebarPath}", "* [使用说明]({$readmePath})\n* [免责声明]({$termsPath})");
         }
 
-
         if (!array_key_exists($plugin, $appStore)) {
             $icon = "/favicon.ico";
         } else {
             $icon = App::APP_URL . $appStore[$plugin]['icon'];
         }
-
 
         return $this->render("通用插件", "Config/Wiki.html", [
             'pluginName' => strip_tags($plg['NAME']),

@@ -29,7 +29,6 @@ class Common
         return true;
     }
 
-
     #[Required("请不要禁用cookie")]
     #[Regex("/^.{32}$/", "客户端出现错误，请刷新网页")]
     public function clientId(): bool
@@ -53,7 +52,6 @@ class Common
         return true;
     }
 
-
     #[Required("手机号不能为空")]
     public function phone(string $value): bool|string
     {
@@ -63,14 +61,12 @@ class Common
         return true;
     }
 
-
     #[Required("状态不能为空")]
     #[Regex("/^[0-9]\d*$/", "状态代码错误")]
     public function status(): bool
     {
         return true;
     }
-
 
     #[Required("列表不能为空")]
     public function list(mixed $value): bool|string

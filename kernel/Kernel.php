@@ -13,7 +13,6 @@ use Kernel\Util\Plugin;
 use Kernel\Util\RequestLogger;
 use Kernel\Waf\Firewall;
 
-
 date_default_timezone_set("Asia/Shanghai");
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
 ini_set('display_errors', '0');
@@ -25,7 +24,7 @@ require("Helper.php");
 \Kernel\Context\App::$debug = DEBUG;
 \Kernel\Context\App::$version = config('app')['version'];
 \Kernel\Context\App::$startTime = (int)microtime(true);
-//define
+
 define("BASE_APP_SERVER", match ((int)config("store")['server']) {
     0 => App\Service\App::MAIN_SERVER,
     1 => App\Service\App::STANDBY_SERVER1,
@@ -34,10 +33,8 @@ define("BASE_APP_SERVER", match ((int)config("store")['server']) {
 });
 define("APP_VERSION", config('app')['version']);
 
-//session
 session_name("ACG-SHOP");
-//session_start();
-//session_write_close();
+
 try {
     preg_match('/\/item\/(\d+)/', $_GET['s'] ?? "/", $_item);
     preg_match('/\/cat\/(\d+|recommend)/', $_GET['s'] ?? "/", $_cat);
@@ -52,7 +49,6 @@ try {
         $_GET['cid'] = $_cat[1];
     }
 
-    //waf install -> 2025-07-26
     $routePath = $_GET['s'] = $_GET['s'] ?? "/";
     Context::set(\Kernel\Context\Interface\Request::class, new Request());
 
@@ -63,9 +59,9 @@ try {
 
     $s = explode("/", trim((string)$routePath, '/'));
     if ($s[0] == "" || (count($s) == 1 && $s[0] == "index.php")) {
-        $s = ["user", "index", "index"]; // Default route
+        $s = ["user", "index", "index"]; 
     }
-    
+
     $fullRoute = "/" . implode("/", $s);
     Context::set(Base::ROUTE, $fullRoute);
     Context::set(Base::LOCK, (string)@file_get_contents(BASE_PATH . "/kernel/Install/Lock"));
@@ -78,21 +74,19 @@ try {
         require("Plugin.php");
     }
 
-    // If not installed and not currently on the install route, redirect to install
     $isInstall = Context::get(Base::IS_INSTALL);
 
-    // FIX: 只要未安装且不是以 /install 开头的路径，就强制进入安装页面
     if (!$isInstall) {
         if (!str_starts_with($fullRoute, "/install")) {
             header('location: /install');
             exit;
         }
-        // 如果是 /install，强制指向安装控制器，防止路由解析失败
+
         $s = explode("/", trim($fullRoute, '/'));
         if (count($s) == 1) {
             $s = ["install", "step"];
         } else {
-            // /install/submit -> ["install", "submit"]
+
             array_shift($s);
             $s = array_merge(["install"], $s);
         }
@@ -117,14 +111,12 @@ try {
         $controller .= '\\' . ucfirst(trim($x));
     }
 
-    //参数
     $parameter = explode('.', $ends);
-    //需要执行的方法
+
     $action = array_shift($parameter);
-    //存储
+
     $_GET["_PARAMETER"] = Firewall::inst()->xssKiller($parameter);
 
-    //初始化数据库 (仅在已安装时初始化，避免安装前因配置错误导致白屏)
     if ($isInstall) {
         $capsule = new Manager();
         $db_config = config('database');
@@ -138,30 +130,24 @@ try {
         }
     }
 
-    //插件库
     if (Context::get(Base::STORE_STATUS) && $isInstall) {
-        //插件初始化
+
         Hook::inst()->load();
-        //插件初始化
+
         hook(\App\Consts\Hook::KERNEL_INIT);
     }
 
-
-    //记录日志
     RequestLogger::logCurrentRequest(Context::get(\Kernel\Context\Interface\Request::class));
 
-    //检测类是否存在
     if (!class_exists($controller)) {
         throw new NotFoundException("404 Not Found");
     }
 
     $controllerInstance = new $controller;
 
-    //检测method是否存在
     if (!method_exists($controllerInstance, $action)) {
         throw new NotFoundException("404 Not Found");
     }
-
 
     Collector::instance()->classParse($controllerInstance, function (\ReflectionAttribute $attribute) {
         $attribute->newInstance();
@@ -171,17 +157,13 @@ try {
         $attribute->newInstance();
     });
 
-    //依赖注入
     Di::instance()->inject($controllerInstance);
 
-
-    //参数注入
     $parameters = Collector::instance()->getMethodParameters($controllerInstance, $action, $_REQUEST);
     hook(\App\Consts\Hook::CONTROLLER_CALL_BEFORE, $controllerInstance, $action);
     $result = call_user_func_array([$controllerInstance, $action], $parameters);
     hook(\App\Consts\Hook::CONTROLLER_CALL_AFTER, $controllerInstance, $action, $result);
     hook(\App\Consts\Hook::HTTP_ROUTE_RESPONSE, $routePath, $result);
-
 
     if ($result === null) {
         return;

@@ -14,9 +14,6 @@ class Dns
     public ?string $value = null;
     public ?int $ttl = null;
 
-    /**
-     * @param object $record
-     */
     public function __construct(object $record)
     {
         if ($record instanceof \Net_DNS2_RR_A) {

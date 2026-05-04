@@ -22,7 +22,6 @@ class ItemSku
         return true;
     }
 
-
     public function price(mixed $value): bool|string
     {
         if ($value !== null && $value <= 0) {

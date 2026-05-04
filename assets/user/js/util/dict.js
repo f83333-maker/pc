@@ -28,7 +28,7 @@ const _Dict = new class _Dict extends _DictUtil {
                 {id: 3, name: format.warning(util.icon("icon-dengdai") + ' 正在付款')}
             ],
             shop_order_type: [
-                /* {id: 0, name: format.color('商品订单', "#5a83e8")},*/
+
                 {id: 1, name: format.color('充值订单', "#0bc81a")},
                 {id: 2, name: format.color('插件订单', "#bcdc33")}
             ],

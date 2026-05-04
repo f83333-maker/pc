@@ -34,18 +34,9 @@ class Manage implements \App\Service\Admin\Manage
     #[Inject]
     private \App\Service\Admin\LoginLog $loginLog;
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function login(Request $request, Response $response): Response
     {
-        /**
-         * @var ManageModel $manage
-         */
+
         $manage = ManageModel::query()->where("email", $request->post("email"))->first();
 
         if (!$manage) {
@@ -68,7 +59,6 @@ class Manage implements \App\Service\Admin\Manage
         $manage->login_status = 1;
         $manage->save();
 
-
         $payload = array(
             "expire" => time() + $config['session_expire'],
             "loginTime" => $manage->login_time
@@ -88,15 +78,10 @@ class Manage implements \App\Service\Admin\Manage
 
         $this->loginLog->create($manage->id, $request->clientIp(), $request->header("UserAgent"));
         Context::set(ManageModel::class, $manage);
-        
+
         return $response->json(200, "success", ["token" => $jwt]);
     }
 
-    /**
-     * @param ManageModel $manage
-     * @return array
-     * @throws \ReflectionException
-     */
     public function getMenu(ManageModel $manage): array
     {
         if (Memory::instance()->has(MEM::ADMIN_MANAGE_MENU_ROUTE)) {

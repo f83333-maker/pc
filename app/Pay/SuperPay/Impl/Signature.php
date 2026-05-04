@@ -3,20 +3,11 @@ declare(strict_types=1);
 
 namespace App\Pay\SuperPay\Impl;
 
-
 use Kernel\Exception\JSONException;
 
-/**
- * Class Signature
- * @package App\Pay\Kvmpay\Impl
- */
 class Signature implements \App\Pay\Signature
 {
-    /**
-     * @param mixed $str
-     * @param string $local
-     * @return bool
-     */
+
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {
@@ -26,12 +17,6 @@ class Signature implements \App\Pay\Signature
         return hash_equals($local, $str);
     }
 
-    /**
-     * 生成签名
-     * @param array $params
-     * @param string $key
-     * @return string
-     */
     public static function md5(array $params, string $key): string
     {
         unset($params['sign'], $params['sign_type']);
@@ -43,13 +28,6 @@ class Signature implements \App\Pay\Signature
         return strtoupper(md5($signStr));
     }
 
-
-    /**
-     * @param array $params
-     * @param string $privateKey
-     * @return string
-     * @throws JSONException
-     */
     public static function rsa(array $params, string $privateKey): string
     {
         unset($params['sign'], $params['sign_type']);
@@ -72,12 +50,6 @@ class Signature implements \App\Pay\Signature
         return base64_encode($signature);
     }
 
-
-    /**
-     * @param array $params
-     * @param string $publicKey
-     * @return bool
-     */
     public static function rsaVerify(array $params, string $publicKey): bool
     {
         $sign = $params['sign'];
@@ -95,14 +67,10 @@ class Signature implements \App\Pay\Signature
         if (!$publicKey) {
             return false;
         }
-        
+
         return openssl_verify($signStr, base64_decode($sign), $publicKey, OPENSSL_ALGO_SHA256) === 1;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function verification(array $data, array $config): bool
     {
         if ($config['version'] == 1) {

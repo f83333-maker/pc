@@ -12,9 +12,6 @@ use Kernel\Context\Interface\Response;
 class Upload extends Base
 {
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->render("Upload/Upload.html", "文件管理");

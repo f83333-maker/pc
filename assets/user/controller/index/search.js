@@ -15,7 +15,6 @@
         window.location.href = "/search?tradeNo=" + tradeNo;
     });
 
-
     $searchOrderKeyword.on('keypress', function (e) {
         if (e.which === 13) {
             $searchOrderBtn.click();

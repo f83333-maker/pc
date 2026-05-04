@@ -2,14 +2,12 @@ const trade = new class {
     constructor() {
     }
 
-    //获取分类
     getCategoryList(done = null) {
         util.get("/user/api/index/data", data => {
             typeof done === "function" && done(data);
         });
     }
 
-    //获取商品列表
     getCommodityList(opt = {}) {
         let params = {};
 

@@ -34,10 +34,6 @@ class Order extends Base
     #[Inject]
     private \App\Service\User\Order $order;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -94,12 +90,6 @@ class Order extends Base
         return $this->json(data: $data, ext: $row);
     }
 
-
-    /**
-     * @param int $id
-     * @return Response
-     * @throws RuntimeException
-     */
     public function items(int $id): Response
     {
         $items = OrderItem::with([
@@ -117,11 +107,6 @@ class Order extends Base
         return $this->json(data: ["list" => $arr]);
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException|JSONException
-     */
     #[Validator([[\App\Validator\Shop\OrderItem::class, "id"]])]
     public function item(): Response
     {
@@ -133,10 +118,6 @@ class Order extends Base
         return $this->json(data: $orderItem->toArray());
     }
 
-
-    /**
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\User\Order::class, "orderId"]
     ], Method::GET)]

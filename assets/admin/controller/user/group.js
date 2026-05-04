@@ -52,7 +52,6 @@
 
                                         let discountTable = new Table(data, "#discount-config-table");
 
-
                                         discountTable.setColumns([
                                             {
                                                 field: 'name', title: '商品分组'
@@ -63,7 +62,6 @@
                                                 type: "input"
                                             },
                                         ]);
-
 
                                         discountTable.setUpdate(data => {
                                             util.post({
@@ -78,7 +76,6 @@
                                                     layer.msg("折扣已生效");
                                                 }
                                             });
-
 
                                         });
                                         discountTable.render();
@@ -201,16 +198,13 @@
     table.disablePagination();
     table.render();
 
-
     $('.btn-group-create').click(function () {
         modal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加等级`);
     });
 
-
     $('.btn-commodity-group-create').click(function () {
         CommodityGroupModal(`<i class="fa-duotone fa-regular fa-circle-plus"></i> 添加商品分组`);
     });
-
 
     CommodityGroupTable = new Table("/admin/api/commodityGroup/data", "#commodity-group");
     CommodityGroupTable.setColumns([

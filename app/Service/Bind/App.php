@@ -18,23 +18,12 @@ use Kernel\Util\Context;
 use Kernel\Util\Plugin;
 use Kernel\Util\SQL;
 
-/**
- * Class AppService
- * @package App\Service\Impl
- */
 class App implements \App\Service\App
 {
 
     #[Inject]
     private Client $client;
 
-    /**
-     * @param string $uri
-     * @param array $data
-     * @param array|null $cookies
-     * @return mixed
-     * @throws JSONException
-     */
     private function post(string $uri, array $data = [], ?array &$cookies = null): mixed
     {
         try {
@@ -68,13 +57,6 @@ class App implements \App\Service\App
         return $res['data'];
     }
 
-    /**
-     * @param string $uri
-     * @param array $data
-     * @return mixed
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     private function storeRequest(string $uri, array $data = []): mixed
     {
         $store = config("store");
@@ -92,12 +74,6 @@ class App implements \App\Service\App
         return $res['data'];
     }
 
-    /**
-     * @param string $uri
-     * @param array $data
-     * @return array|null
-     * @throws GuzzleException
-     */
     private function storeDownload(string $uri, array $data = []): ?string
     {
         $store = config("store");
@@ -123,10 +99,6 @@ class App implements \App\Service\App
         return null;
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function getVersions(): array
     {
         if (Context::get(Base::LOCK) == "") {
@@ -140,25 +112,17 @@ class App implements \App\Service\App
         ]);
     }
 
-    /**
-     * @param string $key
-     * @param int $type 插件类型
-     * @param int $pluginId
-     * @throws GuzzleException
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function installPlugin(string $key, int $type, int $pluginId): void
     {
-        //默认位置，通用插件
+
         $pluginPath = BASE_PATH . "/app/Plugin/{$key}/";
         $fileInit = file_exists($pluginPath . "/Config/Info.php");
         if ($type == 1) {
-            //支付插件
+
             $pluginPath = BASE_PATH . "/app/Pay/{$key}/";
             $fileInit = file_exists($pluginPath . "/Config/Info.php");
         } elseif ($type == 2) {
-            //网站模板
+
             $pluginPath = BASE_PATH . "/app/View/User/Theme/{$key}/";
             $fileInit = file_exists($pluginPath . "/Config.php");
         }
@@ -177,14 +141,14 @@ class App implements \App\Service\App
         if (!$storeDownload) {
             throw new JSONException("安装失败，请联系技术人员");
         }
-        //下载完成，开始安装
+
         $src = BASE_PATH . "/kernel/Install/OS/{$storeDownload}";
         if (!Zip::unzip($src, $pluginPath)) {
             throw new JSONException("安装失败，请检查是否有写入权限");
         }
-        //安装完成，删除src
+
         unlink($src);
-        //判断目标目录是否有install.sqll
+
         $installSql = $pluginPath . "install.sql";
         if (file_exists($installSql)) {
             $database = config("database");
@@ -192,28 +156,20 @@ class App implements \App\Service\App
         }
 
         if ($type == 0) {
-            //安装
+
             Plugin::runHookState($key, \Kernel\Annotation\Plugin::INSTALL);
         }
     }
 
-    /**
-     * @param string $key
-     * @param int $type
-     * @param int $pluginId
-     * @throws GuzzleException
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function updatePlugin(string $key, int $type, int $pluginId): void
     {
-        //默认位置，通用插件
+
         $pluginPath = BASE_PATH . "/app/Plugin/{$key}/";
         if ($type == 1) {
-            //支付插件
+
             $pluginPath = BASE_PATH . "/app/Pay/{$key}/";
         } elseif ($type == 2) {
-            //网站模板
+
             $pluginPath = BASE_PATH . "/app/View/User/Theme/{$key}/";
         }
         if (!is_dir($pluginPath)) {
@@ -225,14 +181,14 @@ class App implements \App\Service\App
         if (!$storeDownload) {
             throw new JSONException("更新失败，请联系技术人员");
         }
-        //下载完成，开始安装
+
         $src = BASE_PATH . "/kernel/Install/OS/{$storeDownload}";
         if (!Zip::unzip($src, $pluginPath)) {
             throw new JSONException("更新失败，请检查是否有写入权限");
         }
-        //更新完成，删除src
+
         unlink($src);
-        //判断目标目录是否有update.sql
+
         $updateSql = $pluginPath . "update.sql";
         if (file_exists($updateSql)) {
             $database = config("database");
@@ -242,7 +198,7 @@ class App implements \App\Service\App
         if ($type == 0) {
             Plugin::runHookState($key, \Kernel\Annotation\Plugin::UPGRADE);
         } elseif ($type == 2) {
-            //清空模版缓存
+
             $viewDir = realpath(BASE_PATH . "/runtime/view/");
             if ($viewDir) {
                 File::delDirectory($viewDir);
@@ -257,32 +213,23 @@ class App implements \App\Service\App
         }
     }
 
-    /**
-     * 卸载
-     * @param string $key
-     * @param int $type
-     */
     public function uninstallPlugin(string $key, int $type): void
     {
-        //默认位置，通用插件
+
         $pluginPath = BASE_PATH . "/app/Plugin/{$key}/";
         if ($type == 1) {
-            //支付插件
+
             $pluginPath = BASE_PATH . "/app/Pay/{$key}/";
         } elseif ($type == 2) {
-            //网站模板
+
             $pluginPath = BASE_PATH . "/app/View/User/Theme/{$key}/";
         }
         if (is_dir($pluginPath)) {
-            //开始卸载
+
             File::delDirectory($pluginPath);
         }
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function purchaseRecords(int $pluginId): array
     {
         return $this->storeRequest("/store/records", [
@@ -290,10 +237,6 @@ class App implements \App\Service\App
         ]);
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function unbind(int $authId): array
     {
         return $this->storeRequest("/store/unbind", [
@@ -301,10 +244,6 @@ class App implements \App\Service\App
         ]);
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function update(): void
     {
         $versions = $this->getVersions();
@@ -326,10 +265,9 @@ class App implements \App\Service\App
 
         foreach ($vrs as $key => $val) {
             if ($startVersion < $key) {
-                //下载完成，写入到本地缓存目录
+
                 $zipPath = BASE_PATH . '/kernel/Install/Update/' . $val['version'];
 
-                //下载更新包
                 if (!Http::download($val['update_url'], $zipPath . '/update.zip')) {
                     throw new JSONException("更新包下载失败");
                 }
@@ -338,16 +276,14 @@ class App implements \App\Service\App
                     throw new JSONException("ZIP解压缩失败，请检查程序是否有写入权限！");
                 }
 
-                //升级数据库
                 $sql = $zipPath . '/update.sql';
 
                 if (file_exists($sql)) {
-                    //导入数据库
+
                     $database = config("database");
                     SQL::import($sql, $database['host'], $database['database'], $database['username'], $database['password'], $database['prefix']);
                 }
 
-                //升级程序，防止sql等命令错误，通过php代码来执行sql，新增时间：2022/04/07
                 $ext = $zipPath . '/update.php';
                 if (file_exists($ext)) {
                     require($ext);
@@ -362,42 +298,27 @@ class App implements \App\Service\App
                     $updateObj->handle();
                 }
 
-                //升级程序
                 try {
                     File::copyDirectory($zipPath . '/file', BASE_PATH);
                 } catch (\Exception $e) {
                     throw new JSONException($e->getMessage());
                 }
 
-                //升级完成，记录版本号
                 setConfig(["version" => $val["version"]], BASE_PATH . "/config/app.php");
             }
         }
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function ad(): array
     {
         return (array)$this->post("/open/project/ad", ["key" => "faka"]);
     }
 
-    /**
-     * @throws JSONException
-     */
     public function install(): void
     {
-        // $this->post("/open/project/install", ["key" => "faka"]);
-        // Removed remote installation call for security and privacy.
+
     }
 
-    /**
-     * @param string $type
-     * @return array
-     * @throws JSONException
-     */
     public function captcha(string $type): array
     {
         $cookie = [];
@@ -408,14 +329,6 @@ class App implements \App\Service\App
         return $result;
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @param string $captcha
-     * @param array $cookie
-     * @return array
-     * @throws JSONException
-     */
     public function register(string $username, string $password, string $captcha, array $cookie): array
     {
         return (array)$this->post("/auth/register", [
@@ -425,9 +338,6 @@ class App implements \App\Service\App
         ], $cookie);
     }
 
-    /**
-     * @throws JSONException
-     */
     public function login(string $username, string $password): array
     {
         return (array)$this->post("/auth/login", [
@@ -436,42 +346,21 @@ class App implements \App\Service\App
         ]);
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function plugins(array $data): array
     {
         return $this->storeRequest("/store/plugins", $data);
     }
 
-    /**
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function developerPlugins(array $data): array
     {
         return $this->storeRequest("/developer/plugins", $data);
     }
 
-
-    /**
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function developerCreatePlugin(array $data): array
     {
         return $this->storeRequest("/developer/create", $data);
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function purchase(int $type, int $pluginId, int $payType): array
     {
         return $this->storeRequest("/store/purchase", [
@@ -482,32 +371,16 @@ class App implements \App\Service\App
         ]);
     }
 
-    /**
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function developerCreateKit(array $data): array
     {
         return $this->storeRequest("/developer/createKit", $data);
     }
 
-
-    /**
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function developerDeletePlugin(array $data): array
     {
         return $this->storeRequest("/developer/deletePlugin", $data);
     }
 
-    /**
-     * @param array $data
-     * @return array
-     * @throws JSONException
-     */
     public function upload(array $data): array
     {
         try {
@@ -526,67 +399,31 @@ class App implements \App\Service\App
         return $res['data'];
     }
 
-    /**
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function developerUpdatePlugin(array $data): array
     {
         return $this->storeRequest("/developer/createUpdate", $data);
     }
 
-    /**
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function developerPluginPriceSet(array $data): array
     {
         return $this->storeRequest("/developer/priceSet", $data);
     }
 
-    /**
-     * @param int $authId
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function bindLevel(int $authId): array
     {
         return $this->storeRequest("/store/bindLevel", ["auth_id" => $authId]);
     }
 
-
-    /**
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function levels(): array
     {
         return $this->storeRequest("/store/levels");
     }
 
-    /**
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function service(): array
     {
         return $this->storeRequest("/store/service");
     }
 
-
-    /**
-     * @param array $data
-     * @return array
-     * @throws GuzzleException
-     * @throws JSONException
-     */
     public function editPassword(array $data): array
     {
         return $this->storeRequest("/store/editPassword", $data);

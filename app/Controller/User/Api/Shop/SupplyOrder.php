@@ -31,11 +31,6 @@ class SupplyOrder extends Base
     #[Inject]
     private RepertoryOrder $repertoryOrder;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -56,18 +51,11 @@ class SupplyOrder extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([[Common::class, "id"]])]
     public function detail(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        /**
-         * @var Model $order
-         */
+
         $order = Model::query()->where("customer_id", $this->getUser()->id)->find($id);
 
         if (!$order) {

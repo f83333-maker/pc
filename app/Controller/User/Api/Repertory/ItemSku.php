@@ -32,13 +32,6 @@ class ItemSku extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $id
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -59,10 +52,6 @@ class ItemSku extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\User\ItemSku::class, ["name", "supplyPrice"]]
     ])]
@@ -76,7 +65,7 @@ class ItemSku extends Base
         unset($map['sku_temp_id']);
 
         if (!isset($map['id'])) {
-            //create new
+
             $itemId = (int)$map['repertory_item_id'] ?? 0;
             if ($itemId > 0) {
                 $item = RepertoryItem::query()->where("user_id", $this->getUser()->id)->find($itemId);
@@ -105,13 +94,12 @@ class ItemSku extends Base
         $save->addForceMap("user_id", $this->getUser()->id);
         $save->setMap(map: $map, forbidden: ["user_id", "stock_price", "create_time", "repertory_item_id"]);
 
-
         try {
             $model = $this->query->save($save);
             if (!isset($map['id'])) {
                 RepertoryItem::query()->where("id", $model->repertory_item_id)->update(["status" => 0]);
             }
-            //删除没用的SKU
+
             RepertoryItemSku::query()->where("create_time", "<=", Date::calcDay(-1))->where("user_id", $this->getUser()->id)->whereNull("repertory_item_id")->delete();
         } catch (\Exception $exception) {
             throw new JSONException("保存失败，错误：" . $exception->getMessage());
@@ -119,10 +107,6 @@ class ItemSku extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

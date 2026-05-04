@@ -47,26 +47,12 @@ class Item implements \App\Service\User\Item
     #[Inject]
     protected \App\Service\User\Order $tradeOrder;
 
-
     #[Inject]
     protected Ship $ship;
-
 
     #[Inject]
     protected \App\Service\Common\RepertoryItemSku $repertoryItemSku;
 
-
-    /**
-     * @param User|null $customer
-     * @param int|null $categoryId
-     * @param User|null $merchant
-     * @param string|null $keywords
-     * @param int|null $page
-     * @param int|null $size
-     * @return array
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function list(?User $customer, ?int $categoryId, ?User $merchant, ?string $keywords = null, ?int $page = null, ?int $size = null): array
     {
         $query = Model::query()
@@ -85,7 +71,6 @@ class Item implements \App\Service\User\Item
             $query = $query->whereNull("item.user_id");
         }
 
-        //模糊搜索
         if ($keywords) {
             $query = $query->where("item.name", "like", "%{$keywords}%");
         }
@@ -116,16 +101,6 @@ class Item implements \App\Service\User\Item
         return $list;
     }
 
-
-    /**
-     * @param User|null $customer
-     * @param Model $item
-     * @param Collection $itemSku
-     * @param bool $source
-     * @return \App\Entity\Shop\Item|null
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function getItemEntity(?User $customer, Model $item, Collection $itemSku, bool $source = false): ?\App\Entity\Shop\Item
     {
         $stock = 0;
@@ -169,7 +144,6 @@ class Item implements \App\Service\User\Item
             }
         }
 
-
         if (count($ItemSkuAvailable) == 0) {
             return null;
         }
@@ -184,15 +158,6 @@ class Item implements \App\Service\User\Item
         return $itemEntity;
     }
 
-    /**
-     * @param User|null $customer
-     * @param int $itemId
-     * @param User|null $user
-     * @return \App\Entity\Shop\Item
-     * @throws JSONException
-     * @throws NotFoundException
-     * @throws \ReflectionException
-     */
     public function getItem(?User $customer, int $itemId, ?User $user): \App\Entity\Shop\Item
     {
         $item = Model::query();
@@ -203,9 +168,6 @@ class Item implements \App\Service\User\Item
             $item = $item->whereNull("user_id");
         }
 
-        /**
-         * @var Model|null $item
-         */
         $item = $item->with(["category", "repertoryItem"])->find($itemId);
 
         if (!$item) {
@@ -216,9 +178,8 @@ class Item implements \App\Service\User\Item
             throw new JSONException("该商品未上架");
         }
 
-        //自动同步缓存
         Call::defer(function () use ($item) {
-            $this->repertoryItemSku->syncCacheForItem($item->repertory_item_id); //同步缓存
+            $this->repertoryItemSku->syncCacheForItem($item->repertory_item_id); 
         });
 
         $itemSku = ItemSku::query()->where("item_id", $itemId)->orderBy("sort")->with("repertoryItemSku")->get();
@@ -232,17 +193,6 @@ class Item implements \App\Service\User\Item
         return $itemEntity;
     }
 
-    /**
-     * @param int $categoryId
-     * @param int $itemId
-     * @param int|array $markupId
-     * @param User|null $user
-     * @param bool $available
-     * @return void
-     * @throws JSONException
-     * @throws \ReflectionException
-     * @throws \Throwable
-     */
     public function loadRepertoryItem(int $categoryId, int $itemId, int|array $markupId, ?User $user = null, bool $available = false): void
     {
         if (is_int($markupId) && !ItemMarkupTemplate::query()->where("id", $markupId)->exists()) {
@@ -250,9 +200,7 @@ class Item implements \App\Service\User\Item
         }
 
         $data = Db::transaction(function () use ($available, $categoryId, $user, $itemId, $markupId) {
-            /**
-             * @var RepertoryItem $repertoryItem
-             */
+
             $repertoryItem = RepertoryItem::query()->find($itemId);
 
             if (!$repertoryItem) {
@@ -265,8 +213,6 @@ class Item implements \App\Service\User\Item
 
             $now = Date::current();
 
-
-            # add item
             $item = new Model();
             if ($user) {
                 $item->user_id = $user->id;
@@ -287,11 +233,8 @@ class Item implements \App\Service\User\Item
             is_array($markupId) && $item->markup = $markupId;
             $item->save();
 
-            # add sku
             $repertoryItemSkus = RepertoryItemSku::query()->where("repertory_item_id", $repertoryItem->id)->get();
-            /**
-             * @var RepertoryItemSku $repertoryItemSku
-             */
+
             foreach ($repertoryItemSkus as $repertoryItemSku) {
                 $itemSku = new  ItemSku();
                 $itemSku->repertory_item_sku_id = $repertoryItemSku->id;
@@ -302,7 +245,7 @@ class Item implements \App\Service\User\Item
                     $itemSku->price = $repertoryItemSku->supply_price;
                     $itemSku->stock_price = $repertoryItemSku->supply_price;
                 } else {
-                    $itemSku->price = ($repertoryItemSku->market_control_status == 1 && $repertoryItemSku->market_control_min_price > 0) ? $repertoryItemSku->market_control_min_price : $repertoryItemSku->stock_price; //市场控制
+                    $itemSku->price = ($repertoryItemSku->market_control_status == 1 && $repertoryItemSku->market_control_min_price > 0) ? $repertoryItemSku->market_control_min_price : $repertoryItemSku->stock_price; 
                     $itemSku->stock_price = $repertoryItemSku->stock_price;
                 }
 
@@ -315,16 +258,8 @@ class Item implements \App\Service\User\Item
                 }
                 $itemSku->save();
 
-                # add item_sku_wholesale
-
-                /**
-                 * @var RepertoryItemSkuWholesale $repertoryItemSkuWholesale
-                 */
                 $repertoryItemSkuWholesales = RepertoryItemSkuWholesale::query()->where("sku_id", $repertoryItemSku->id)->get();
 
-                /**
-                 * @var RepertoryItemSkuWholesale $repertoryItemSkuWholesale
-                 */
                 foreach ($repertoryItemSkuWholesales as $repertoryItemSkuWholesale) {
                     $itemSkuWholesale = new ItemSkuWholesale();
                     $itemSkuWholesale->repertory_item_sku_wholesale_id = $repertoryItemSkuWholesale->id;
@@ -340,20 +275,12 @@ class Item implements \App\Service\User\Item
                 }
             }
 
-
             return [$item, $repertoryItem];
         });
-
 
         $this->syncRepertoryItem(...$data);
     }
 
-    /**
-     * @param string $amount
-     * @param string $percentage
-     * @param int $keepDecimals
-     * @return string
-     */
     public function getPercentageAmount(string $amount, string $percentage, int $keepDecimals): string
     {
         $src = $amount;
@@ -364,21 +291,12 @@ class Item implements \App\Service\User\Item
         return $src;
     }
 
-    /**
-     * @param Model $item
-     * @param RepertoryItem $repertoryItem
-     * @return void
-     * @throws \ReflectionException
-     */
     public function syncRepertoryItem(Model $item, RepertoryItem $repertoryItem): void
     {
         $now = Date::current();
         $item->attr = $repertoryItem->attr;
         $itemSkus = ItemSku::query()->where("item_id", $item->id)->get();
-        /**
-         * 检查SKU是否存在，如果不存在就要删除
-         * @var ItemSku $itemSku
-         */
+
         foreach ($itemSkus as $itemSku) {
             if (!RepertoryItemSku::query()->where("id", $itemSku->repertory_item_sku_id)->exists()) {
                 try {
@@ -389,7 +307,6 @@ class Item implements \App\Service\User\Item
             }
         }
 
-        //获得同步配置
         $markup = $this->getMarkup($item);
 
         $markup->syncName && $item->name = $repertoryItem->name;
@@ -403,31 +320,26 @@ class Item implements \App\Service\User\Item
 
         $keepDecimals = (int)$markup->keepDecimals;
 
-
-        /**
-         * 检测sku
-         * @var RepertoryItemSku $sku
-         */
         foreach ($repertoryItem->sku as $sku) {
             $itemSku = ItemSku::query()->where("repertory_item_sku_id", $sku->id)->where("item_id", $item->id)->first();
-            //进货价
+
             $stockPrice = ($item->user_id > 0 && $repertoryItem->user_id > 0 && $item->user_id === $repertoryItem->user_id) ? (string)$sku->supply_price : (string)$sku->stock_price;
-            //游客底价
+
             $touristPrice = $stockPrice;
-            //原来的进货价（旧的）
+
             $oldStockPrice = (string)$itemSku?->stock_price;
 
             $SKUEntity = $this->repertoryItemSku->getSKUEntity($sku->id, $item?->user_id);
 
             if ($SKUEntity && $SKUEntity->marketControl) {
-                //游客价覆盖
+
                 if ($SKUEntity->marketControlMinPrice > $touristPrice) {
                     $touristPrice = $SKUEntity->marketControlMinPrice;
                 }
             }
 
             if (!$itemSku) {
-                //SKU不存在，准备新增
+
                 $itemSku = new  ItemSku();
                 $itemSku->repertory_item_sku_id = $sku->id;
                 $item->user_id && $itemSku->user_id = $item->user_id;
@@ -453,16 +365,8 @@ class Item implements \App\Service\User\Item
             $itemSku->stock_price = $stockPrice;
             $itemSku->save();
 
-            /**
-             * 同步会员等级的价格，算法：通过会员等级价格和旧的进货价自动得出站长心里想给会员等定的价格
-             * @var array $itemSkuLevels
-             */
             $itemSkuLevels = ItemSkuLevel::query()->where("sku_id", $itemSku->id)->get();
 
-            /**
-             * 开始同步会员等级价格
-             * @var ItemSkuLevel $itemSkuLevel
-             */
             foreach ($itemSkuLevels as $itemSkuLevel) {
                 if ($oldStockPrice != $stockPrice && $markup->syncAmount) {
                     $itemSkuLevel->price = (new Decimal((string)$itemSkuLevel->price, 6))->div($oldStockPrice)->mul($stockPrice)->getAmount($keepDecimals);
@@ -470,16 +374,8 @@ class Item implements \App\Service\User\Item
                 }
             }
 
-            /**
-             * 同步会员密价，算法：同上
-             * @var array $itemSkuUsers
-             */
             $itemSkuUsers = ItemSkuUser::query()->where("sku_id", $itemSku->id)->get();
 
-            /**
-             * 开始同步会员密价
-             * @var ItemSkuUser $itemSkuUser
-             */
             foreach ($itemSkuUsers as $itemSkuUser) {
                 if ($oldStockPrice != $stockPrice && $markup->syncAmount) {
                     $itemSkuUser->price = (new Decimal((string)$itemSkuUser->price, 6))->div($oldStockPrice)->mul($stockPrice)->getAmount($keepDecimals);
@@ -489,10 +385,6 @@ class Item implements \App\Service\User\Item
 
             $itemSkuWholesales = ItemSkuWholesale::query()->where("sku_id", $itemSku->id)->get();
 
-            /**
-             * 检测仓库是否存在批发规则，不存在，则自动删除
-             * @var ItemSkuWholesale $itemSkuWholesale
-             */
             foreach ($itemSkuWholesales as $itemSkuWholesale) {
                 if (!RepertoryItemSkuWholesale::query()->where("id", $itemSkuWholesale->repertory_item_sku_wholesale_id)->exists()) {
                     try {
@@ -503,16 +395,12 @@ class Item implements \App\Service\User\Item
                 }
             }
 
-            /**
-             * 同步批发规则价格
-             * @var RepertoryItemSkuWholesale $wholesale
-             */
             foreach ($sku->wholesale as $wholesale) {
                 $itemSkuWholesale = ItemSkuWholesale::query()->where("repertory_item_sku_wholesale_id", $wholesale->id)->where("sku_id", $itemSku->id)->first();
-                //进货价
+
                 $stockPrice = (string)$wholesale->stock_price;
                 if (!$itemSkuWholesale) {
-                    //SKU 批发规则不存在，准备新增
+
                     $itemSkuWholesale = new ItemSkuWholesale();
                     $itemSkuWholesale->repertory_item_sku_wholesale_id = $wholesale->id;
                     $item->user_id && $itemSkuWholesale->user_id = $item->user_id;;
@@ -524,46 +412,29 @@ class Item implements \App\Service\User\Item
 
                 $itemSkuWholesale->quantity = $wholesale->quantity;
                 if ($markup->syncAmount) {
-                    $itemSkuWholesale->price = (new Decimal($stockPrice, 6))->mul($markup->percentage)->add($stockPrice)->getAmount($keepDecimals);  //进货价，这里要适当的通过规则进行自动加价
+                    $itemSkuWholesale->price = (new Decimal($stockPrice, 6))->mul($markup->percentage)->add($stockPrice)->getAmount($keepDecimals);  
                 }
                 $itemSkuWholesale->save();
             }
         }
     }
 
-    /**
-     * @param int $itemId
-     * @return void
-     * @throws \ReflectionException
-     */
     public function syncRepertoryItems(int $itemId): void
     {
-        /**
-         * @var RepertoryItem $repertoryItem
-         */
+
         $repertoryItem = RepertoryItem::with([
             "sku" => function (HasMany $hasMany) {
                 $hasMany->with(["wholesale"]);
             }
         ])->find($itemId);
-        /**
-         * @var RepertoryItemSku $repertorySku
-         */
-        //$repertorySku = RepertoryItemSku::with(['wholesale'])->where("repertory_item_id", $itemId)->get();
-        //已对接的货物
+
         $items = Model::query()->where("repertory_item_id", $itemId)->get();
-        /**
-         * @var Model $item
-         */
+
         foreach ($items as $item) {
             $this->syncRepertoryItem($item, $repertoryItem);
         }
     }
 
-    /**
-     * @param int|Model $item
-     * @return Markup
-     */
     public function getMarkup(int|Model $item): Markup
     {
         if (is_int($item)) {
@@ -574,9 +445,7 @@ class Item implements \App\Service\User\Item
         $markupEntity = new Markup();
 
         if ($item->markup_mode == 1) {
-            /**
-             * @var ItemMarkupTemplate $template
-             */
+
             $template = ItemMarkupTemplate::query()->find($item->markup_template_id);
             if ($template) {
                 $markupEntity->setSyncAmount((bool)$template->sync_amount);
@@ -640,11 +509,6 @@ class Item implements \App\Service\User\Item
         return $markupEntity;
     }
 
-    /**
-     * @param int $skuId
-     * @return ItemSku
-     * @throws JSONException
-     */
     public function getSku(int $skuId): ItemSku
     {
         $sku = ItemSku::with(["item", "repertoryItemSku"])->find($skuId);
@@ -660,11 +524,6 @@ class Item implements \App\Service\User\Item
         return $sku;
     }
 
-    /**
-     * @param int $markupTemplateId
-     * @return void
-     * @throws \ReflectionException
-     */
     public function syncRepertoryItemForMarkupTemplate(int $markupTemplateId): void
     {
         if (!ItemMarkupTemplate::query()->where("id", $markupTemplateId)->exists()) {
@@ -676,37 +535,23 @@ class Item implements \App\Service\User\Item
         }
     }
 
-
-    /**
-     * @param User|null $customer
-     * @param int $skuId
-     * @return Wholesale[]
-     */
     public function getWholesale(?User $customer, int $skuId): array
     {
         $list = ItemSkuWholesale::query()->where("sku_id", $skuId)->orderBy("quantity", "asc")->get();
         $data = [];
-        /**
-         * @var ItemSkuWholesale $li
-         */
+
         foreach ($list as $li) {
             $wholesale = new Wholesale($li->id, $li->quantity, $li->price);
             if ($customer) {
-                /**
-                 * @var UserLevel $level
-                 */
+
                 $level = $customer?->level;
-                //等级批发
+
                 if ($level) {
-                    /**
-                     * @var ItemSkuWholesaleLevel $levelRule
-                     */
+
                     $levelRule = ItemSkuWholesaleLevel::where("level_id", $level->id)->where("wholesale_id", $wholesale->id)->first();
                     ($levelRule && $levelRule->status == 1 && $levelRule->price < $wholesale->price) && $wholesale->setPrice($levelRule->price);
                 }
-                /**
-                 * @var ItemSkuWholesaleUser $userRule
-                 */
+
                 $userRule = ItemSkuWholesaleUser::where("customer_id", $customer->id)->where("wholesale_id", $wholesale->id)->first();
                 ($userRule && $userRule->status == 1 && $userRule->price < $wholesale->price) && $wholesale->setPrice($userRule->price);
             }
@@ -717,11 +562,6 @@ class Item implements \App\Service\User\Item
         return $data;
     }
 
-    /**
-     * @param int|null $userId
-     * @param ?RepertoryItemSku $itemSku
-     * @return QuantityRestriction
-     */
     public function getQuantityRestriction(?int $userId, ?RepertoryItemSku $itemSku): QuantityRestriction
     {
         $sku = $this->repertoryItemSku->getSKUEntity($itemSku, $userId);

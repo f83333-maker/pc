@@ -15,7 +15,6 @@ use Kernel\Plugin\Const\Plugin as PGI;
 use Kernel\Plugin\Const\Point;
 use Kernel\Plugin\Plugin;
 
-
 #[Interceptor(class: [PostDecrypt::class, Waf::class], type: Interceptor::API)]
 class Auth extends Base
 {
@@ -23,10 +22,6 @@ class Auth extends Base
     #[Inject]
     private Manage $manage;
 
-    /**
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function login(): Response
     {
         $hook = Plugin::instance()->hook(App::$mEnv, Point::ADMIN_API_AUTH_LOGIN_BEFORE, PGI::HOOK_TYPE_HTTP, $this->request, $this->response);

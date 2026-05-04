@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Controller\Base\API\User;
 use App\Entity\Query\Get;
 use App\Interceptor\UserSession;
@@ -21,9 +20,6 @@ class CommodityOrder extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -50,11 +46,6 @@ class CommodityOrder extends User
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function delivery(): array
     {
         $id = (int)$_POST['id'];

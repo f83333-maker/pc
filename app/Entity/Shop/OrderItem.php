@@ -28,7 +28,6 @@ class OrderItem
         $this->status = $orderItem->status;
     }
 
-
     public function setItem(Item $item): void
     {
         $this->item = $item;
@@ -49,15 +48,11 @@ class OrderItem
         $this->widget = $widget;
     }
 
-
     public function setRender(bool $render): void
     {
         $this->render = $render;
     }
 
-    /**
-     * @param string|null $message
-     */
     public function setMessage(?string $message): void
     {
         $this->message = $message;

@@ -15,15 +15,8 @@ class Composer
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/vendor";
 
-    /**
-     * @var array
-     */
     private array $loaded = [];
 
-
-    /**
-     * @return void
-     */
     public function register(): void
     {
         try {
@@ -49,7 +42,6 @@ class Composer
                 $autoloadRealFile = dirname($path) . '/composer/autoload_real.php';
                 $code = file_get_contents($autoloadRealFile);
 
-
                 if ($code !== false && preg_match('/class\s+(ComposerAutoloaderInit[a-zA-Z0-9_]+)/', $code, $match)) {
                     $composerInitClass = $match[1];
                     if (class_exists($composerInitClass, false)) {
@@ -66,14 +58,6 @@ class Composer
         }
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function install(string $name, string $env): void
     {
         $plugin = Plugin::inst()->getPlugin($name, $env);
@@ -81,7 +65,6 @@ class Composer
         if (!$plugin) {
             throw new ServiceException("插件不存在");
         }
-
 
         if (!file_exists($plugin->path . "/Vendor/autoload.php")) {
             return;
@@ -98,12 +81,6 @@ class Composer
         });
     }
 
-    /**
-     * @param string $name
-     * @param string $env
-     * @return void
-     * @throws RuntimeException
-     */
     public function uninstall(string $name, string $env): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($name, $env) {

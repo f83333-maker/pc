@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Controller\Base\API\User;
 use App\Entity\Query\Get;
 use App\Interceptor\UserSession;
@@ -19,9 +18,6 @@ class Bill extends User
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $this->request->post();

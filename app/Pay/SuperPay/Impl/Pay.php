@@ -9,17 +9,9 @@ use App\Util\Client;
 use App\Util\Http;
 use Kernel\Exception\JSONException;
 
-/**
- * Class Pay
- * @package App\Pay\Kvmpay\Impl
- */
 class Pay extends Base implements \App\Pay\Pay
 {
 
-    /**
-     * @return PayEntity
-     * @throws JSONException
-     */
     public function trade(): PayEntity
     {
 
@@ -46,7 +38,6 @@ class Pay extends Base implements \App\Pay\Pay
             'client_ip' => $this->clientIp
         ];
 
-
         $url = trim($this->config['url'], "/") . "/openapi/pay/create";
 
         if ($this->config['version'] == 1) {
@@ -58,7 +49,6 @@ class Pay extends Base implements \App\Pay\Pay
         } else {
             throw new JSONException("支付接口出错，下单失败！");
         }
-
 
         try {
             $response = Http::make()->post($url, [

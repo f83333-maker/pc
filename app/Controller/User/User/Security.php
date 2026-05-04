@@ -19,9 +19,6 @@ class Security extends Base
     #[Inject]
     private Config $config;
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         $userIdentity = UserIdentity::query()->where("user_id", $this->getUser()->id)->first();
@@ -29,10 +26,6 @@ class Security extends Base
         return $this->theme(Theme::USER_SECURITY, "User/Security.html", "安全中心", ["userIdentity" => $userIdentity, "option" => $config]);
     }
 
-
-    /**
-     * @return Response
-     */
     public function loginLog(): Response
     {
         return $this->theme(Theme::USER_LOGIN_LOG, "User/LoginLog.html", "登录日志");

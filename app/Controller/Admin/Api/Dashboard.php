@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Model\Business;
 use App\Model\UserRecharge;
 use App\Util\Date;
@@ -13,14 +12,11 @@ use Kernel\Util\Decimal;
 #[Interceptor(\App\Interceptor\ManageSession::class, Interceptor::TYPE_API)]
 class Dashboard extends \App\Controller\Base\API\Manage
 {
-    /**
-     * @param int $type
-     * @return array
-     */
+
     public function data(int $type): array
     {
         $data = [];
-        //今日
+
         if ($type == 0) {
             $time = [Date::calcDay(), Date::calcDay(1)];
         } elseif ($type == 1) {
@@ -37,57 +33,46 @@ class Dashboard extends \App\Controller\Base\API\Manage
             $cash = \App\Model\Cash::query();
             $user = \App\Model\User::query();
             $recharge = UserRecharge::query();
-            //新注册用户数量
+
             $data['user_register_num'] = (clone $user)->count();
-            //打卡用户
-            //  $data['user_login_num'] = (clone $user)->count();
 
         } else {
-            //init
+
             $order = \App\Model\Order::query()->whereBetween('create_time', $time)->where("status", 1);
             $business = Business::query()->whereBetween("create_time", $time);
             $cash = \App\Model\Cash::query()->whereBetween("create_time", $time);
             $user = \App\Model\User::query();
             $recharge = UserRecharge::query()->whereBetween("create_time", $time);
 
-            //新注册用户数量
             $data['user_register_num'] = (clone $user)->whereBetween("create_time", $time)->count();
-            //打卡用户
-            // $data['user_login_num'] = (clone $user)->whereBetween("login_time", $time)->count();
+
         }
 
-        //全站营业额
         $data['turnover'] = sprintf("%.2f", (clone $order)->sum("amount"));
-        //订单数量
+
         $data['order_num'] = (clone $order)->count();
-        //非余额交易
+
         $data['online_amout'] = sprintf("%.2f", (clone $order)->where("pay_id", "!=", 1)->sum("amount"));
-        //推广返利
+
         $data['divide_amount'] = sprintf("%.2f", (clone $order)->sum("divide_amount"));
-        //分站盈利
+
         $data['rebate'] = sprintf("%.2f", (clone $order)->sum("rebate"));
-        //供货商手续费
+
         $data['cost'] = sprintf("%.2f", (clone $order)->sum("cost"));
-        //盈利
+
         $data['profit'] = (new Decimal($data['turnover']))->sub((clone $order)->sum("rent"))->sub($data['divide_amount'])->sub($data['rebate'])->add($data['cost'])->getAmount();
 
-        //店铺数量
         $data['business'] = $business->count();
-        //未处理的提现
-        $data['cash_status_0'] = (clone $cash)->where("status", 0)->count();
-        //总提现金额
-        $data['cash_money_status_1'] = (clone $cash)->where("status", 1)->sum("amount");
-        //充值金额
-        $data['recharge_amount'] = (clone $recharge)->where("status", 1)->sum("amount");
 
+        $data['cash_status_0'] = (clone $cash)->where("status", 0)->count();
+
+        $data['cash_money_status_1'] = (clone $cash)->where("status", 1)->sum("amount");
+
+        $data['recharge_amount'] = (clone $recharge)->where("status", 1)->sum("amount");
 
         return $this->json(200, 'success', $data);
     }
 
-    /**
-     * 本周数据
-     * @return array
-     */
     public function weekStatistics(): array
     {
         $w = date('w');
@@ -105,7 +90,6 @@ class Dashboard extends \App\Controller\Base\API\Manage
 
         $weeks = [];
 
-
         $series = [
             "profit" => [],
             "trade" => [],
@@ -115,10 +99,10 @@ class Dashboard extends \App\Controller\Base\API\Manage
 
         for ($i = 1; $i <= $w; $i++) {
             $weeks[] = $week[$i];
-            //交易额
+
             $amount = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("amount");
             $series["trade"][] = sprintf("%.2f", $amount);
-            //利润
+
             $divideAmount = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("divide_amount");;
             $rebate = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("rebate");;
             $cost = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("cost");
@@ -126,10 +110,9 @@ class Dashboard extends \App\Controller\Base\API\Manage
 
             $series['profit'][] = (new Decimal($amount))->sub($rent)->sub($divideAmount)->sub($rebate)->add($cost)->getAmount();
 
-            //提现
             $cash = \App\Model\Cash::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("amount");
             $series["cash"][] = sprintf("%.2f", $cash);
-            //充值
+
             $recharge = \App\Model\UserRecharge::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("amount");;
             $series["recharge"][] = sprintf("%.2f", $recharge);
         }

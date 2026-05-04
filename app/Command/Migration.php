@@ -20,10 +20,6 @@ class Migration extends Command
     #[Inject]
     private Lifetime $lifetime;
 
-    /**
-     * @param string $name
-     * @return void
-     */
     public function v3_user(string $name): void
     {
         $sql = file_get_contents(BASE_PATH . "/{$name}");
@@ -80,7 +76,6 @@ class Migration extends Command
                 }
             }
         }
-
 
         $this->success("成功导入会员数: {$success}");
         $this->error("失败导入会员数: {$error}");

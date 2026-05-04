@@ -14,25 +14,14 @@ use Kernel\Util\Context;
 class Merchant implements Interceptor
 {
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
 
-        /**
-         * @var User $user
-         */
         $user = Context::get(User::class);
         if (!$user) {
             return $this->notPermission($request, $response, $type);
         }
-        /**
-         * @var UserGroup $group
-         */
+
         $group = $user->group;
 
         if (!$group) {
@@ -45,12 +34,6 @@ class Merchant implements Interceptor
         return $response;
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     */
     private function notPermission(Request $request, Response $response, int $type): Response
     {
         if ($type == \Kernel\Annotation\Interceptor::API) {

@@ -13,24 +13,13 @@ use Kernel\Util\Date;
 class Log implements \App\Service\User\Log
 {
 
-    /**
-     * @param int $userId
-     * @param string $content
-     * @return void
-     */
     public function create(int $userId, string $content): void
     {
-        /**
-         * @var Request $request
-         */
+
         $request = Context::get(Request::class);
 
-        /**
-         * @var Manage $manage
-         */
         $user = Context::get(User::class);
 
-        
         $log = new UserLog();
         $log->user_id = $user->id;
         $log->content = $content;

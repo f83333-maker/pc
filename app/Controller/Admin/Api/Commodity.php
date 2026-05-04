@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -31,9 +30,6 @@ class Commodity extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -66,19 +62,19 @@ class Commodity extends Manage
                 'card as card_success_count' => function (Builder $builder) {
                     $builder->where("status", 1);
                 },
-                //商品总盈利
+
                 'order as order_all_amount' => function (Builder $relation) {
                     $relation->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_all_amount"));
                 },
-                //过去7天内盈利
+
                 'order as order_week_amount' => function (Builder $relation) {
                     $relation->whereBetween('create_time', [Date::weekDay(1, Date::TYPE_START), Date::weekDay(7, Date::TYPE_END)])->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_week_amount"));
                 },
-                //昨日盈利
+
                 'order as order_yesterday_amount' => function (Builder $relation) {
                     $relation->whereBetween('create_time', [Date::calcDay(-1), Date::calcDay()])->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_yesterday_amount"));
                 },
-                //今日盈利
+
                 'order as order_today_amount' => function (Builder $relation) {
                     $relation->whereBetween('create_time', [Date::calcDay(), Date::calcDay(1)])->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_today_amount"));
                 }
@@ -99,21 +95,13 @@ class Commodity extends Manage
             $val['share_url'] = $url . "/item/{$val['id']}";
         }
 
-
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
     public function save(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
 
-        //create new
         if ((int)$map['id'] == 0) {
 
             if (!$map['name']) {
@@ -124,12 +112,10 @@ class Commodity extends Manage
                 throw new JSONException("商品单价不能低于0元哦(｡￫‿￩｡)");
             }
 
-            //--init
             $map['owner'] = 0;
             $map['code'] = strtoupper(Str::generateRandStr(16));
         }
 
-        //如果选择了别人平台
         if ((int)$map['shared_id'] != 0) {
             $map['delivery_way'] = 0;
             if (!$map['shared_code']) {
@@ -152,7 +138,6 @@ class Commodity extends Manage
             }
         }
 
-        //解析配置文件
         if ($map['config']) {
             Ini::toArray($map['config']);
         }
@@ -170,11 +155,6 @@ class Commodity extends Manage
         return $this->json(200, '（＾∀＾）保存成功');
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function del(): array
     {
         $deleteBatchEntity = new Delete(\App\Model\Commodity::class, $_POST['list']);
@@ -187,9 +167,6 @@ class Commodity extends Manage
         return $this->json(200, '（＾∀＾）移除成功');
     }
 
-    /**
-     * @return array
-     */
     public function status(): array
     {
         $list = (array)$_POST['list'];
@@ -199,10 +176,6 @@ class Commodity extends Manage
         return $this->json(200, '商品状态已经更新');
     }
 
-
-    /**
-     * @return array
-     */
     public function fastEnable(): array
     {
         $map = $this->request->post();
@@ -227,7 +200,6 @@ class Commodity extends Manage
             "shared_amount_sync" => $sharedAmountSync,
             "shared_config_sync" => $sharedConfigSync
         ]);
-
 
         ManageLog::log($this->getManage(), "[批量更新]商品状态");
         return $this->json(200, '更新成功');

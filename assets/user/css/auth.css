@@ -9,12 +9,10 @@
     overflow: hidden;
 }
 
-
 .auth-wrapper::before,
 .auth-wrapper::after {
     display: none;
 }
-
 
 .auth-card {
     width: 100%;
@@ -139,7 +137,6 @@
     text-decoration: underline;
 }
 
-/* Tiny helper for password toggle icon placement if needed later */
 .input-icon-end {
     position: relative;
 }

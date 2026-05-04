@@ -35,12 +35,6 @@ class ItemSku extends Base
     #[Inject]
     private \App\Service\User\Item $item;
 
-    /**
-     * @param string $id
-     * @param string $type
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -60,12 +54,6 @@ class ItemSku extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function save(): Response
     {
         $map = $this->request->post();
@@ -104,6 +92,5 @@ class ItemSku extends Base
         }
         return $this->response->json(message: "保存成功");
     }
-
 
 }

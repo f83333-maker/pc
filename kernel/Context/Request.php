@@ -45,10 +45,6 @@ class Request extends Abstract\Request
         parent::__construct();
     }
 
-
-    /**
-     * @return array
-     */
     private function parseHeader(): array
     {
         $headers = [];

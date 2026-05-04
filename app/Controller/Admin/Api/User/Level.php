@@ -27,11 +27,6 @@ class Level extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(): Response
     {
         $map = $this->request->post();
@@ -56,10 +51,6 @@ class Level extends Base
         return $this->json(data: ['list' => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Admin\Level::class, "name"]
     ])]
@@ -88,11 +79,6 @@ class Level extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @param array $map
-     * @return array
-     */
     private function getUpgradeRequirements(array $map): array
     {
         $requirements = [
@@ -113,11 +99,6 @@ class Level extends Base
         return $data;
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         [\App\Validator\Common::class, "id"]
     ])]
@@ -130,12 +111,10 @@ class Level extends Base
             throw new JSONException("等级不存在");
         }
 
-
         if ($level->user_id > 0 ? Model::query()->where("user_id", $level->user_id)->count() <= 1 : Model::query()->whereNull("user_id")->count() <= 1) {
             throw new JSONException("必须保留1个默认等级");
         }
 
-        //判断是否存在该会员等级
         if (\App\Model\User::query()->where("level_id", $id)->exists()) {
             throw new JSONException("该会员等级下有会员，无法删除");
         }

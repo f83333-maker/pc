@@ -11,10 +11,6 @@ use Kernel\Annotation\Required;
 class Withdraw extends Base
 {
 
-    /**
-     * @param mixed $value
-     * @return bool|string
-     */
     #[Required("请选择银行卡")]
     #[Regex("/^[1-9]\d*$/", "请选择正确的银行卡")]
     public function cardId(mixed $value): bool|string
@@ -36,7 +32,6 @@ class Withdraw extends Base
 
         return true;
     }
-
 
     #[Required("提现金额不能为空")]
     #[Regex("/^[0-9]+(\.[0-9]{1,2})?$/", "提现金额错误")]

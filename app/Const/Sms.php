@@ -9,7 +9,6 @@ interface Sms
     public const PLATFORM_TENCENT = 1;
     public const PLATFORM_DXB = 2;
 
-
     public const CAPTCHA_KEY_REGISTER = "REG_PHONE_%s";
     public const CAPTCHA_KEY_FORGET = "FORGET_PHONE_%s";
     public const CAPTCHA_KEY_BIND_NEW = "BIND_NEW_PHONE_%s";

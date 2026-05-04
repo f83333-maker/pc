@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Shared;
 
-
 use App\Controller\Base\API\Shared;
 use App\Interceptor\Waf;
 use App\Util\Aes;
@@ -14,9 +13,6 @@ use Kernel\Util\Context;
 class Plugin extends Shared
 {
 
-    /**
-     * @return string
-     */
     public function face(): string
     {
         $store = config('store');

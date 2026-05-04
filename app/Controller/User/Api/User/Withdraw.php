@@ -30,11 +30,6 @@ class Withdraw extends Base
     #[Inject]
     private \App\Service\User\Withdraw $withdraw;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -51,12 +46,6 @@ class Withdraw extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\User\Withdraw::class, ["cardId", "amount"]]
     ])]
@@ -72,7 +61,6 @@ class Withdraw extends Base
         if ($withdraw['max_withdraw_amount'] != 0 && $amount > $withdraw['max_withdraw_amount']) {
             throw new JSONException("最大兑现金额为：{$withdraw['max_withdraw_amount']}");
         }
-
 
         $this->withdraw->apply($this->getUser()->id, $this->request->post("card_id", Filter::INTEGER), $this->request->post("amount"));
         return $this->json();

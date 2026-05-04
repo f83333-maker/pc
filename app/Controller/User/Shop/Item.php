@@ -14,9 +14,6 @@ use Kernel\Plugin\Const\Theme;
 class Item extends Base
 {
 
-    /**
-     * @return Response
-     */
     public function index(): Response
     {
         return $this->theme(Theme::USER_SHOP_ITEM, "Shop/Item.html", "我的商品");

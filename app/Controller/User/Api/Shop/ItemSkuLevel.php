@@ -39,12 +39,6 @@ class ItemSkuLevel extends Base
     #[Inject]
     private RepertoryItemSku $repertoryItemSku;
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -68,7 +62,6 @@ class ItemSkuLevel extends Base
             }]);
         });
 
-
         foreach ($data['list'] as &$item) {
             $item['sku_entity'] = $this->repertoryItemSku->getSKUEntity($sku->repertory_item_sku_id, $this->getUser()->id);
         }
@@ -76,17 +69,10 @@ class ItemSkuLevel extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param int $skuId
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function save(int $skuId): Response
     {
         $map = $this->request->post();
-        //验证归属权
+
         $this->ownership->throw(
             $this->ownership->level($this->getUser()->id, (int)$map['id'])
         );

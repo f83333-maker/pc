@@ -28,13 +28,6 @@ class Store extends Base
     #[Inject]
     private \App\Service\Store\Store $store;
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function list(): Response
     {
         $list = $this->store->list($this->request->post(), $this->getStoreAuth());
@@ -50,13 +43,6 @@ class Store extends Base
         return $this->json(data: $list);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Install::class, "key"]
     ])]
@@ -67,10 +53,6 @@ class Store extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Install::class, "key"]
     ])]
@@ -81,13 +63,6 @@ class Store extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function getPluginVersions(): Response
     {
         $pluginVersionKeys = Plugin::inst()->getPluginVersionKeys($this->getUserPath());
@@ -100,36 +75,18 @@ class Store extends Base
         return $this->json(data: $versions);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function getPluginVersionList(): Response
     {
         $list = $this->store->getPluginVersionList((string)$this->request->post("key"), $this->getStoreAuth());
         return $this->json(data: $list);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function pluginUpdate(): Response
     {
         $this->store->pluginVersionUpdate((string)$this->request->post("key"), $this->getUserPath(), $this->getStoreAuth());
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Purchase::class, ["type", "itemId", "subscription", "payId"]]
     ])]
@@ -145,13 +102,6 @@ class Store extends Base
         return $this->json(data: $purchase);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Purchase::class, ["amount", "payId"]]
     ])]
@@ -163,12 +113,6 @@ class Store extends Base
         return $this->json(data: $recharge);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function powers(): Response
     {
         $powers = $this->store->powers($this->getStoreAuth());
@@ -186,12 +130,6 @@ class Store extends Base
         return $this->json(data: ["list" => $powers]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Purchase::class, ["itemId"]]
     ])]
@@ -202,12 +140,6 @@ class Store extends Base
         return $this->json(data: $this->store->powerDetail($itemId, $isGroup, $this->getStoreAuth()));
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Purchase::class, ["type", "itemId", "subscription"]]
     ])]
@@ -219,13 +151,6 @@ class Store extends Base
         return $this->json(data: ["status" => $this->store->powerRenewal($type, $itemId, $subscription, $this->getStoreAuth())]);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Purchase::class, ["type", "itemId"]]
     ])]
@@ -236,12 +161,6 @@ class Store extends Base
         return $this->json(data: ["status" => $this->store->openPowerAutoRenewal($type, $itemId, $this->getStoreAuth())]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Purchase::class, ["type", "itemId"]]
     ])]

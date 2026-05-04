@@ -12,17 +12,12 @@ use Kernel\Annotation\Interceptor;
 use Kernel\Context\Interface\Response;
 use Kernel\Exception\RuntimeException;
 
-
 #[Interceptor(class: [PostDecrypt::class, Online::class], type: Interceptor::API)]
 class Notice extends Base
 {
     #[Inject]
     private Project $project;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function list(): Response
     {
         return $this->json(data: $this->project->getNotice());

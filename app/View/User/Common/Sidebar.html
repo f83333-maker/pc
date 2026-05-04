@@ -1,6 +1,6 @@
-<!-- Sidebar Scrolling -->
+
 <div class="js-sidebar-scroll pb-4">
-    <!-- Side Navigation -->
+
     <div class="content-side">
         <ul class="nav-main">
             <li class="nav-main-heading">{{ i18n("我的购物")|raw }}</li>
@@ -25,7 +25,6 @@
                             class="nav-main-link-name">{{ i18n("消费维权")|raw }}</span>
                 </a>
             </li>
-
 
             <li class="nav-main-heading">{{ i18n("我的钱包")|raw }}</li>
 
@@ -53,7 +52,6 @@
 
                     <span class="nav-main-link-badge badge rounded-pill bg-primary user-withdraw-amount">{{ user.withdraw_amount }}</span>
                 </a>
-
 
             </li>
 
@@ -102,7 +100,6 @@
                             class="nav-main-link-name">{{ i18n("安全中心")|raw }}</span>
                 </a>
             </li>
-
 
             {% if user.group.is_merchant == 1 or user.group.is_supplier == 1 %}
 
@@ -255,9 +252,7 @@
 
             {% endif %}
 
-
         </ul>
     </div>
-    <!-- END Side Navigation -->
+
 </div>
-<!-- END Sidebar Scrolling -->

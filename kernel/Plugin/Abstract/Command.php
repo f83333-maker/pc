@@ -8,15 +8,9 @@ use Kernel\Plugin\Entity\Plugin;
 
 abstract class Command extends \Kernel\Console\Command
 {
-    /**
-     * @var Plugin|null
-     */
+
     private ?Plugin $plugin = null;
 
-
-    /**
-     * @throws RuntimeException
-     */
     protected function getPlugin(): ?Plugin
     {
 

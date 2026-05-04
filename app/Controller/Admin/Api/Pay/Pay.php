@@ -35,12 +35,6 @@ class Pay extends Base
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @param string $plugin
-     * @return Response
-     * @throws RuntimeException|JSONException
-     */
     public function code(string $plugin): Response
     {
         $plg = Plugin::instance()->getPlugin($plugin, App::$mEnv);
@@ -50,10 +44,6 @@ class Pay extends Base
         return $this->json(data: $plg->payCode);
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -109,11 +99,6 @@ class Pay extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\Admin\Pay::class, ["name", "payConfigId", "code"]]
     ])]
@@ -138,9 +123,8 @@ class Pay extends Base
                 ]);
             }
 
-            //删除没用的group set
             PayGroup::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("pay_id")->delete();
-            //删除没用的user set
+
             PayUser::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("pay_id")->delete();
         } catch (\Exception $exception) {
             throw new JSONException(Resolver::make($exception)->getMessage());
@@ -148,10 +132,6 @@ class Pay extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

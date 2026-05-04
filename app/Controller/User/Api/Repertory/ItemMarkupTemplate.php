@@ -35,10 +35,6 @@ class ItemMarkupTemplate extends Base
     #[Inject]
     private RepertoryItem $repertoryItem;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -56,12 +52,6 @@ class ItemMarkupTemplate extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [\App\Validator\User\ItemMarkupTemplate::class, "id"],
         [\App\Validator\Admin\ItemMarkupTemplate::class, ["name", "driftBaseAmount", "driftValue", "driftModel"]]
@@ -74,18 +64,13 @@ class ItemMarkupTemplate extends Base
         $save->setMap($map);
         $save->addForceMap("user_id", $this->getUser()->id);
         try {
-            /**
-             * @var Model $origin
-             */
+
             $origin = isset($map['id']) ? Model::query()->where("user_id", $this->getUser()->id)->find($map['id']) : null;
 
-            /**
-             * @var Model $saved
-             */
             $saved = $this->query->save($save);
 
             if ($origin && $this->repertoryItem->checkForceSyncRemoteItemPrice($origin->toArray(), $saved->toArray())) {
-                //强制同步价格
+
                 Call::create(function () use ($saved) {
                     $repertoryItems = \App\Model\RepertoryItem::query()
                         ->where("markup_mode", "!=", 0)
@@ -103,11 +88,6 @@ class ItemMarkupTemplate extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

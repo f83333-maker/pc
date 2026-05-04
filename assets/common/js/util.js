@@ -16,11 +16,11 @@ const util = new class Util {
 
     parseStringObject(obj, str) {
         try {
-            // 去除字符串两端的空格
+
             str = str.trim();
-            // 拆分字符串为属性路径数组
+
             let props = str.split('-');
-            // 逐级访问属性
+
             let value = obj;
             for (let i = 0; i < props.length; i++) {
                 let prop = props[i];
@@ -41,7 +41,6 @@ const util = new class Util {
             }
         }
 
-        // 不是对象类型，统统算 true
         return true;
     }
 
@@ -88,7 +87,6 @@ const util = new class Util {
         return parsedObject;
     }
 
-
     getCookie(name) {
         return document.cookie.match(`[;\s+]?${name}=([^;]*)`)?.pop();
     }
@@ -105,17 +103,9 @@ const util = new class Util {
         return null;
     }
 
-    /**
-     * POST
-     * @param url
-     * @param data
-     * @param done
-     * @param error
-     * @param fail
-     */
     post(url, data, done, error = null, fail = null) {
         let loader = {
-            enable: false, // 默认关闭 POST 请求的加载动画，除非明确开启
+            enable: false, 
             autoClose: true
         };
         if (typeof url == "object") {
@@ -167,15 +157,9 @@ const util = new class Util {
         });
     }
 
-    /**
-     * GET
-     * @param url
-     * @param done
-     * @param error
-     */
     get(url, done = null, error = null) {
         let loader = {
-            enable: false // 默认关闭 GET 请求的加载动画，提升体验
+            enable: false 
         };
 
         if (typeof url == "object") {
@@ -210,12 +194,6 @@ const util = new class Util {
         });
     }
 
-    /**
-     *
-     * @param data
-     * @param secret
-     * @returns {string}
-     */
     encrypt(data, secret) {
         let key = CryptoJS.enc.Utf8.parse(secret);
         let secretData = CryptoJS.enc.Utf8.parse(data);
@@ -225,12 +203,6 @@ const util = new class Util {
         return encrypted.toString();
     }
 
-    /**
-     *
-     * @param data
-     * @param secret
-     * @returns {string}
-     */
     decrypt(data, secret) {
         let key = CryptoJS.enc.Utf8.parse(secret);
         let decrypt = CryptoJS.AES.decrypt(data, key, {
@@ -239,10 +211,6 @@ const util = new class Util {
         return CryptoJS.enc.Utf8.stringify(decrypt).toString();
     }
 
-    /**
-     * @param serializeArray
-     * @returns {{}}
-     */
     arrayToObject(serializeArray) {
         let paramsToJSONObject = {};
         serializeArray.forEach(item => {
@@ -267,11 +235,6 @@ const util = new class Util {
         return list;
     }
 
-    /**
-     *
-     * @param url
-     * @returns {{}}
-     */
     paramsToJSONObject(url) {
         let hash;
         let json = {};
@@ -291,10 +254,6 @@ const util = new class Util {
         return json;
     }
 
-    /**
-     * @param length
-     * @returns {string}
-     */
     generateRandStr(length = 32) {
         let _charStr = 'abacdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789',
             min = 0,
@@ -316,10 +275,6 @@ const util = new class Util {
         return _str;
     }
 
-    /**
-     * @param obj
-     * @returns {{}}
-     */
     ksort(obj) {
         let sortObj = {}, keys = Object.keys(obj);
         keys.sort();
@@ -329,11 +284,6 @@ const util = new class Util {
         return sortObj;
     }
 
-    /**
-     * @param data
-     * @param secret
-     * @returns {*}
-     */
     generateSignature(data, secret) {
         delete data.sign;
         data = this.ksort(data);
@@ -413,7 +363,6 @@ const util = new class Util {
         this.stdout(message, color, ...val);
     }
 
-
     stdout(message, color, ...val) {
         const date = new Date();
         const d = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -465,12 +414,11 @@ const util = new class Util {
         return formattedTime.trim();
     }
 
-
     getAbstractTimeout(timeout) {
         let timestamp = new Date(timeout).getTime() / 1000;
         let now_timestamp = parseInt(new Date().getTime() / 1000);
         let expire = parseInt(timestamp) - now_timestamp;
-        let day = Math.floor(expire / (24 * 3600)); // Math.floor()向下取整
+        let day = Math.floor(expire / (24 * 3600)); 
         let hour = Math.floor((expire - day * 24 * 3600) / 3600);
         let minute = Math.floor((expire - day * 24 * 3600 - hour * 3600) / 60);
         let second = expire - day * 24 * 3600 - hour * 3600 - minute * 60;
@@ -485,10 +433,10 @@ const util = new class Util {
 
     getUploadProgress(fileSize, startTime, percent) {
         let currentTime = new Date().getTime();
-        let milliseconds = (currentTime - startTime); // 已经过的时间（单位：秒）
-        let uploadedBytes = percent * fileSize; // 已上传的字节数
-        let uploadedSize = this.bytesToSize(uploadedBytes); // 已上传的文件大小（格式化后）
-        let speedBytes = uploadedBytes / (milliseconds / 1000); // 上传速度（字节/秒）
+        let milliseconds = (currentTime - startTime); 
+        let uploadedBytes = percent * fileSize; 
+        let uploadedSize = this.bytesToSize(uploadedBytes); 
+        let speedBytes = uploadedBytes / (milliseconds / 1000); 
 
         return {
             speed: this.bytesToSize(speedBytes) + '/s',
@@ -518,11 +466,9 @@ const util = new class Util {
         let totalScripts = scripts.length;
         let loadedScriptsCount = 0;
 
-
         for (let i = 0; i < totalScripts; i++) {
             scripts[i] = path + scripts[i] + '.js';
         }
-
 
         scripts.forEach((scriptPath) => {
             let script = document.createElement('script');
@@ -571,15 +517,15 @@ const util = new class Util {
         if (typeof text !== 'string') {
             return text;
         }
-        // 去除HTML标签
+
         const noHtml = text.replace(/<[^>]*>/g, '');
-        // 去除前后空格和换行
+
         return noHtml.trim();
     }
 
     setCookie(key, value) {
         let expires = new Date();
-        expires.setTime(expires.getTime() + (20 * 365 * 24 * 60 * 60 * 1000)); //20年
+        expires.setTime(expires.getTime() + (20 * 365 * 24 * 60 * 60 * 1000)); 
         document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/`;
     }
 
@@ -589,17 +535,17 @@ const util = new class Util {
         }
         for (let i = 0; i < data.length; i++) {
             const node = data[i];
-            // 检查当前节点是否是要删除的节点
+
             if (node.id === id) {
-                data.splice(i, 1); // 从数组中移除该节点
-                return data; // 返回更新后的数据
+                data.splice(i, 1); 
+                return data; 
             }
-            // 如果当前节点有子节点，递归搜索子节点
+
             if (node.children && node.children.length > 0) {
                 node.children = this.deleteNodeById(node.children, id);
             }
         }
-        return data; // 返回更新后的数据，无论是否进行了删除
+        return data; 
     }
 
     copyTextToClipboard(text, success = null, error = null) {
@@ -627,11 +573,6 @@ const util = new class Util {
         }
     }
 
-    /**
-     * 动态加载一个或多个 JS 脚本，并在所有脚本加载完成后执行回调函数。
-     * @param {string|string[]} urls - 一个或多个要加载的 JS 文件的 URL。
-     * @param {Function} callback - 所有脚本加载完成后要执行的回调函数。
-     */
     loadScripts(urls, callback = null) {
         if (typeof urls === 'string') {
             urls = [urls];
@@ -654,7 +595,6 @@ const util = new class Util {
             console.error(error);
         });
     }
-
 
     bindButtonUpload(obj, url, done) {
         $(obj).change(function () {
@@ -684,14 +624,6 @@ const util = new class Util {
         });
     }
 
-
-    /**
-     *
-     * @param call
-     * @param millisecond
-     * @param immediately
-     * @returns {Promise<void>}
-     */
     async timer(call, millisecond, immediately = false) {
         if (immediately) {
             const state = await call();
@@ -737,14 +669,13 @@ const util = new class Util {
     }
 
     onScrollToBottom(callback) {
-        // PC端滚动事件
+
         window.addEventListener('scroll', function () {
             if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight) {
-                callback();  // 到底部时触发回调
+                callback();  
             }
         });
 
-        // 手机端触摸事件
         let lastTouchY = 0;
         window.addEventListener('touchstart', function (event) {
             lastTouchY = event.touches[0].pageY;
@@ -753,12 +684,11 @@ const util = new class Util {
         window.addEventListener('touchmove', function (event) {
             if (lastTouchY < event.touches[0].pageY) {
                 if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight) {
-                    callback();  // 到底部时触发回调
+                    callback();  
                 }
             }
         });
     }
-
 
     syncOrder(url, tradeNo) {
         util.timer(() => {
@@ -770,14 +700,14 @@ const util = new class Util {
                     done: res => {
                         if (res.data.status === 2) {
                             if (new Date() > new Date(res.data.timeout)) {
-                                //超时
+
                                 message.error("订单支付超时");
                                 window.location.reload();
                                 resolve(false);
                                 return;
                             }
                             message.alert("支付已完成，已经授权成功！", "success");
-                            //支付成功
+
                             window.location.reload();
                             resolve(false);
                         } else if (res.data.status === 3) {
@@ -799,7 +729,6 @@ const util = new class Util {
             });
         }, 2000);
     }
-
 
     getFormData(element) {
         const formData = new FormData(

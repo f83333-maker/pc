@@ -9,7 +9,6 @@ class Form {
         this.opt = opt;
         this.form = {};
 
-        //html editor register
         ['basePath', 'workerPath', 'modePath', 'themePath'].forEach(name => {
             ace.config.set(name, '/assets/common/js/editor/code/lib');
         });
@@ -178,7 +177,7 @@ class Form {
     }
 
     htmlHtml(form) {
-        //return this.getBlockHtml(form, `<textarea name="${form.name}">${form.default ?? ""}</textarea>`);
+
         return this.getBlockHtml(form, `<div  style="width: 100%;height: ${form.height ? (Number.isInteger(form.height) ? form.height + "px" : form.height) : '400px'}" id="${this.unique}-${form.name}-editor"></div>`);
     }
 
@@ -203,7 +202,6 @@ class Form {
     treeSelectHtml(form) {
         return this.getBlockHtml(form, `<input type="text" lay-filter="${this.unique + form.name}" class="layui-input tree-select"><input name="${form.name}"  type="hidden" class="layui-input" value="${form.default ?? ""}">`);
     }
-
 
     hide(name) {
         $('.' + this.unique + " .block-" + util.replaceDotWithHyphen(name)).hide();
@@ -249,7 +247,6 @@ class Form {
         layui.form.render(instance);
     }
 
-
     addCheckbox(name, val, title, checked = false, disabled = false, initialize = false) {
         const form = this.form[name];
         name = util.replaceDotWithHyphen(name);
@@ -260,7 +257,6 @@ class Form {
             layui.form.render(instance.find('input'));
         }
     }
-
 
     setCheckbox(name, val, checked) {
         name = util.replaceDotWithHyphen(name);
@@ -303,7 +299,6 @@ class Form {
         layui.form.render($('.' + this.unique + ' .component-' + name + ' input[type=radio]'));
     }
 
-
     addOption(name, val, title, selected = false, initialize = false) {
         name = util.replaceDotWithHyphen(name);
         let instance = $('.' + this.unique + ' .component-' + name + " select");
@@ -319,7 +314,6 @@ class Form {
         instance.remove();
         layui.form.render($('.' + this.unique + ' .component-' + name + " select"));
     }
-
 
     clearOption(name) {
         name = util.replaceDotWithHyphen(name);
@@ -347,7 +341,6 @@ class Form {
             instance = $('.' + this.unique + ' .component-' + name);
             after = false;
         }
-
 
         let html = '' +
             '<div class="widget-block widget-block-' + unique + '">' +
@@ -600,7 +593,6 @@ class Form {
         layUpload.render($options);
     }
 
-
     getTab() {
         return this.tab;
     }
@@ -696,9 +688,7 @@ class Form {
 
         (this.opt.hasOwnProperty('assign') && this.opt.assign.hasOwnProperty('id')) && (obj.id = this.opt.assign.id);
 
-
         const data = util.parseNestedKeysFromJSON(obj);
-
 
         delete data.btSelectAll;
         delete data.btSelectItem;
@@ -714,7 +704,7 @@ class Form {
         let opt = this.opt;
         opt.tab.forEach((item, index) => {
             item.form.forEach((form, ix) => {
-                //   (opt.hasOwnProperty('assign') && opt.assign.hasOwnProperty(form.name)) && (form.default = opt.assign[form.name]);
+
                 (opt.hasOwnProperty('assign') && util.checkPropertyExistence(opt.assign, form.name)) && (form.default = util.parseStringObject(opt.assign, form.name));
                 let instance = null;
                 this.setData(form.name, form.default);
@@ -793,7 +783,7 @@ class Form {
     }
 
     inputRegister(form) {
-        //监听input值改变事件
+
         let instance = $('.' + this.unique + ' input[name=' + form.name + ']');
         let _this = this;
 
@@ -805,7 +795,6 @@ class Form {
 
         form.complete && form.complete(this, instance.val());
     }
-
 
     dateRegister(form) {
         let instance = $(`.${this.unique} input[name=${form.name}]`);
@@ -921,7 +910,7 @@ class Form {
         editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
         editor.config.uploadImgMaxLength = 1;
         editor.config.uploadImgTimeout = 60 * 1000;
-        editor.config.uploadImgMaxSize = 50 * 1024 * 1024; //50M
+        editor.config.uploadImgMaxSize = 50 * 1024 * 1024; 
         editor.config.uploadImgHooks = {
             customInsert: function (insertImgFn, result) {
                 if (result.code != 200) {
@@ -959,7 +948,6 @@ class Form {
         form.default && editor.txt.html(form.default);
         form.default && textarea.val(form.default);
 
-
         $('.' + _this.unique + ' .component-' + form.name + ' .button-switch-' + form.name).click(function () {
             let _obj = $(this);
             let type = _obj.attr("data-type");
@@ -992,7 +980,6 @@ class Form {
                 editorContent.fadeIn(150);
             }
         });
-
 
         form.complete && form.complete(_this, form.default);
         cache.set(_this.unique + form.name, editor);
@@ -1117,7 +1104,7 @@ class Form {
         });
 
         if (form.photoAlbumUrl) {
-            //注册相册
+
             const $photoAlbum = $(`.${_this.unique} .block-${form.name} .photo-album`);
             $photoAlbum.click(function () {
                 let popupIndex = null;
@@ -1231,24 +1218,22 @@ class Form {
     treeSelectRegister(form) {
         let _this = this;
         layui.treeSelect.render({
-            // 选择器
+
             elem: '.' + _this.unique + ' .component-' + form.name + ' .tree-select',
-            // 数据
+
             data: form.dict,
-            // 异步加载方式：get/post，默认get
-            //type: 'post',
-            // 占位符
+
             placeholder: form.placeholder,
-            // 是否开启搜索功能：true/false，默认false
+
             search: true,
-            //禁用父级
+
             parent: form?.parent ?? true,
-            // 点击回调
+
             click: function (d) {
                 $('.' + _this.unique + "  .component-" + form.name + " input[name=" + form.name + "]").val(d.current.id);
                 form.change && form.change(_this, d.current.id);
             },
-            // 加载完成后的回调函数
+
             success: function (d) {
                 if (form.default) {
                     layui.treeSelect.checkNode(_this.unique + form.name, parseInt(form.default));
@@ -1259,7 +1244,6 @@ class Form {
 
         layui.form.render();
     }
-
 
     widgetRegister(form) {
         this.clearComponent(form.name);
@@ -1356,7 +1340,6 @@ class Form {
                 d = this.getBlockHtml(form);
                 break;
         }
-
 
         let instance = $('.' + this.unique + " .block-" + targetName);
         if (sequence == "after") {

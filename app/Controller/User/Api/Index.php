@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Consts\Hook;
 use App\Controller\Base\API\User;
 use App\Entity\Query\Get;
@@ -43,10 +42,6 @@ class Index extends User
     #[Inject]
     private Shop $shop;
 
-
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $category = Tree::generate($this->shop->getCategory($this->getUserGroup()));
@@ -54,11 +49,6 @@ class Index extends User
         return $this->json(200, "success", $category);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function commodity(): array
     {
         $keywords = (string)$_GET['keywords'];
@@ -84,16 +74,16 @@ class Index extends User
         }
 
         $bus = \App\Model\Business::get();
-        $userCommodityMap = []; //自定义名称的MAP
+        $userCommodityMap = []; 
 
         if ($bus) {
-            //商家
+
             if ($bus->master_display == 0) {
                 $commodity = $commodity->where("owner", $bus->user_id);
             } else {
-                //查出所有自己定义的商品
+
                 $userCommodity = UserCommodity::query()->where("user_id", $bus->user_id)->get();
-                //隐藏的分类ID
+
                 $hideCommodity = [];
 
                 foreach ($userCommodity as $userComm) {
@@ -107,10 +97,10 @@ class Index extends User
                 $commodity = $commodity->whereNotIn("id", $hideCommodity)->whereRaw("(`owner`=0 or `owner`={$bus->user_id})");
             }
         } else {
-            //主站
+
             if (Config::get("substation_display") == 1) {
                 $let = "(`owner`=0 or ";
-                //显示商家
+
                 $list = (array)json_decode(Config::get("substation_display_list"), true);
                 foreach ($list as $userId) {
                     $let .= "`owner`={$userId} or ";
@@ -146,17 +136,15 @@ class Index extends User
             $data = $commodity->toArray()['data'];
         }
 
-
         $user = $this->getUser();
         $userGroup = $this->getUserGroup();
-        //取得分类
+
         $category = $this->shop->getCategory($userGroup);
         $cates = [];
         foreach ($category as $cate) {
             $cates[] = (string)$cate['id'];
         }
 
-        //perf: 批量聚合本页商品的可用卡密库存, 一次 GROUP BY 替代每行 COUNT(*) 的 N+1 查询
         $stockMap = [];
         $stockNeedIds = [];
         foreach ($data as $val) {
@@ -176,11 +164,10 @@ class Index extends User
             }
         }
 
-        //最终的商品数据遍历
         foreach ($data as $key => $val) {
             $parseGroupConfig = Commodity::parseGroupConfig($val['level_price'], $userGroup);
             if (!in_array((string)$val['category_id'], $cates) || $val['hide'] == 1 && (!$parseGroupConfig || !isset($parseGroupConfig['show']) || $parseGroupConfig['show'] != 1)) {
-                //隐藏商品
+
                 unset($data[$key]);
                 continue;
             }
@@ -189,7 +176,6 @@ class Index extends User
                 $data[$key]['stock'] = $stockMap[(int)$val['id']] ?? 0;
             }
 
-            //如果登录后，则自动计算登录后的价格
             if ($user) {
                 $tradeAmount = $this->order->valuation(commodity: $commodity[$key], group: $userGroup);
                 $data[$key]['price'] = $tradeAmount;
@@ -205,7 +191,6 @@ class Index extends User
                 $data[$key]['cover'] = "/favicon.ico";
             }
 
-            //分站自定义名称和价格
             if (isset($userCommodityMap[$val['id']])) {
                 $var = $userCommodityMap[$val['id']];
 
@@ -218,7 +203,6 @@ class Index extends User
                 }
             }
 
-            //隐藏库存
             $data[$key]['stock_state'] = $this->shop->getStockState($data[$key]['stock']);
             if ($val['inventory_hidden'] == 1) {
                 $data[$key]['stock'] = $this->shop->getHideStock($data[$key]['stock']);
@@ -232,10 +216,6 @@ class Index extends User
         return $json;
     }
 
-    /**
-     * @param int $commodityId
-     * @return array
-     */
     public function commodityDetail(int $commodityId): array
     {
         $array = $this->shop->getItem($commodityId, $this->getUser(), $this->getUserGroup());
@@ -249,16 +229,10 @@ class Index extends User
         return $this->json(200, 'success', $array);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function card(): array
     {
         $map = $this->request->post();
-        /**
-         * @var Commodity $commodity
-         */
+
         $commodity = Commodity::with(['shared'])->find($map['item_id']);
         $limit = $map['limit'] ?? 10;
 
@@ -275,7 +249,7 @@ class Index extends User
 
         if ($commodity->shared) {
             $data = $this->shared->draftCard($commodity->shared, $commodity->shared_code, $map);
-            //加价算法
+
             foreach ($data['list'] as &$item) {
                 if ($item['draft_premium'] > 0) {
                     $item['draft_premium'] = $this->shared->AdjustmentAmount($commodity->shared_premium_type, $commodity->shared_premium, $item['draft_premium']);
@@ -304,7 +278,6 @@ class Index extends User
             });
         }
 
-        //分站处理
         if (\App\Model\Business::state()) {
             foreach ($data['list'] as &$item) {
                 if ($item['draft_premium'] > 0) {
@@ -314,7 +287,7 @@ class Index extends User
         }
 
         if ($commodity->level_disable != 1) {
-            //折扣处理
+
             foreach ($data['list'] as &$item) {
                 if ($item['draft_premium'] > 0) {
                     $item['draft_premium'] = $this->order->getValuationPrice($commodity->id, $item['draft_premium'], $this->getUserGroup());
@@ -325,10 +298,6 @@ class Index extends User
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return array
-     */
     public
     function valuation(): array
     {
@@ -345,10 +314,6 @@ class Index extends User
         return $this->json(data: ["price" => $price]);
     }
 
-
-    /**
-     * @return array
-     */
     public
     function stock(): array
     {
@@ -367,10 +332,6 @@ class Index extends User
         return $this->json(data: $array);
     }
 
-
-    /**
-     * @return array
-     */
     public
     function pay(): array
     {
@@ -397,12 +358,6 @@ class Index extends User
         return $this->json(200, 'success', $pay);
     }
 
-
-    /**
-     * @param string $keywords
-     * @return array
-     * @throws JSONException
-     */
     public function query(string $keywords): array
     {
         $keywords = trim($keywords);
@@ -447,12 +402,6 @@ class Index extends User
         return $this->json(data: $data);
     }
 
-    /**
-     * @param string $tradeNo
-     * @param string $password
-     * @return array
-     * @throws JSONException
-     */
     public function secret(string $tradeNo, string $password): array
     {
         $order = Order::with(['commodity'])->where("trade_no", $tradeNo)->first();

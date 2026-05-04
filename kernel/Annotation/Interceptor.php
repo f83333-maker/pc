@@ -9,17 +9,11 @@ use Kernel\Exception\InterceptorException;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class Interceptor
 {
-    const TYPE_API = 1; //API请求
-    const TYPE_VIEW = 0; //浏览器访问
+    const TYPE_API = 1; 
+    const TYPE_VIEW = 0; 
 
     public static array $run = [];
 
-    /**
-     * Interceptor constructor.
-     * @param string|array $class
-     * @param int $type
-     * @throws InterceptorException
-     */
     public function __construct(mixed $class, int $type = self::TYPE_VIEW)
     {
         if (is_array($class)) {
@@ -31,12 +25,6 @@ class Interceptor
         $this->run($class, $type);
     }
 
-    /**
-     * @param string $class
-     * @param int $type
-     * @throws InterceptorException
-     * @throws \ReflectionException
-     */
     private function run(string $class, int $type): void
     {
         if (array_key_exists($class, Interceptor::$run)) {

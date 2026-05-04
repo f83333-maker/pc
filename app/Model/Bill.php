@@ -3,58 +3,28 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-
 use App\Util\Date;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use JetBrains\PhpStorm\NoReturn;
 use Kernel\Exception\JSONException;
 
-/**
- * @property float $amount
- * @property float $balance
- * @property string $create_time
- * @property int $id
- * @property string $log
- * @property int $owner
- * @property int $type
- * @property int $currency
- */
 class Bill extends Model
 {
     const TYPE_ADD = 1;
     const TYPE_SUB = 0;
 
-    /**
-     * @var string
-     */
     protected $table = "bill";
 
-    /**
-     * @var bool
-     */
     public $timestamps = false;
 
-    /**
-     * @var array
-     */
     protected $casts = ['amount' => 'float', 'balance' => 'float', 'id' => 'integer', 'owner' => 'integer', 'type' => 'integer', 'currency' => 'integer'];
-
 
     public function owner(): ?HasOne
     {
         return $this->hasOne(User::class, "id", "owner");
     }
 
-    /**
-     * @param User|int|string $user
-     * @param float $amount
-     * @param int $type
-     * @param string $log
-     * @param int $currency
-     * @param bool $total
-     * @throws JSONException
-     */
     public static function create(User|int|string $user, float $amount, int $type, string $log, int $currency = 0, bool $total = true): void
     {
         if ($amount <= 0) {

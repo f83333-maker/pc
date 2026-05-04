@@ -21,13 +21,6 @@ class User implements Interceptor
     #[Inject]
     private Lifetime $lifetime;
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws \ReflectionException
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
         $userToken = base64_decode((string)$request->cookie(Cookie::USER_TOKEN));
@@ -61,14 +54,6 @@ class User implements Interceptor
         return $response;
     }
 
-
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws \ReflectionException
-     */
     private function login(Request $request, Response $response, int $type): Response
     {
         $response->withCookie(Cookie::USER_TOKEN, "", 0);

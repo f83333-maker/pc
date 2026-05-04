@@ -37,11 +37,6 @@ class ItemSku extends Base
     #[Inject]
     private Ownership $ownership;
 
-    /**
-     * @param string $id
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -59,16 +54,9 @@ class ItemSku extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws \ReflectionException
-     */
     public function save(): Response
     {
         $map = $this->request->post();
-
 
         $itemSku = \App\Model\ItemSku::query()->where("user_id", $this->getUser()->id)->find($map['id']);
         if (!$itemSku) {
@@ -76,7 +64,6 @@ class ItemSku extends Base
         }
 
         $SKUEntity = $this->repertoryItemSku->getSKUEntity($itemSku->repertory_item_sku_id, $this->getUser()->id);
-
 
         if (isset($map['dividend_amount']) && isset($map['price'])) {
             if ((new Decimal($map['price'], 6))->sub($SKUEntity->stockPrice)->sub($map['dividend_amount'])->getAmount(6) <= 0) {

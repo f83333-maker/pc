@@ -133,7 +133,7 @@ VIP-2025-0821-XYZ
                             complete: (form, dom) => {
                                 dom.html(` <div class="card no-shadow transparent h-100 shadow border-0">
         <div class="card-body">
-           
+
           <p class="text-muted mb-3">
             一行一个，必须使用 <code>║</code> 分隔，结构为：  
             <span class="text-dark fw-bold">卡密本体 ║ 预告信息 ║ 自选加价金额(可选)</span>
@@ -367,11 +367,9 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
     table.setState("status", "_card_status");
     table.render();
 
-
     $('.button-add').click(function () {
         uploadCard();
     });
-
 
     $('.button-del').click(() => {
         let data = table.getSelectionIds();
@@ -386,7 +384,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
             });
         });
     });
-
 
     $('.button-lock').click(() => {
         let data = table.getSelectionIds();
@@ -417,7 +414,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
         });
     });
 
-
     $('.button-sell').click(() => {
         let data = table.getSelectionIds();
         if (data.length == 0) {
@@ -431,7 +427,6 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
             });
         });
     });
-
 
     $('.button-export').click(function () {
         component.popup({
@@ -496,6 +491,5 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
             },
         });
     });
-
 
 }();

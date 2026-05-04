@@ -34,7 +34,6 @@ class Purchase
         return true;
     }
 
-
     #[Required("金额不能为空")]
     #[Regex("/^\d+(\.\d{1,2})?$/", "金额格式错误")]
     public function amount(mixed $value): bool

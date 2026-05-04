@@ -7,21 +7,10 @@ layui.define(['form', 'jquery'], function (exports) {
       TreeSelect = function () {
         this.v = '1.0.0';
       };
-  /*
- * JQuery zTree core v3.5.37
- * http://treejs.cn/
- *
- * Copyright (c) 2010 Hunter.z
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2018-08-21
- */
+
   (function ($) {
     var settings = {}, roots = {}, caches = {},
-        //default consts of core
+
         _consts = {
           className: {
             BUTTON: "button",
@@ -65,7 +54,7 @@ layui.define(['form', 'jquery'], function (exports) {
             CURSELECTED: "curSelectedNode"
           }
         },
-        //default setting of core
+
         _setting = {
           treeId: "",
           treeObj: null,
@@ -138,8 +127,7 @@ layui.define(['form', 'jquery'], function (exports) {
             onRemove: null
           }
         },
-        //default root of core
-        //zTree use root to save full data
+
         _initRoot = function (setting) {
 
           var r = data.getRoot(setting);
@@ -155,7 +143,7 @@ layui.define(['form', 'jquery'], function (exports) {
           r.zId = 0;
           r._ver = (new Date()).getTime();
         },
-        //default cache of core
+
         _initCache = function (setting) {
           var c = data.getCache(setting);
           if (!c) {
@@ -165,7 +153,7 @@ layui.define(['form', 'jquery'], function (exports) {
           c.nodes = [];
           c.doms = [];
         },
-        //default bindEvent of core
+
         _bindEvent = function (setting) {
           var o = setting.treeObj,
               c = consts.event;
@@ -217,7 +205,7 @@ layui.define(['form', 'jquery'], function (exports) {
               .unbind(c.SELECTED)
               .unbind(c.UNSELECTED);
         },
-        //default event proxy of core
+
         _eventProxy = function (event) {
           var target = event.target,
               setting = data.getSetting(event.data.treeId),
@@ -257,7 +245,7 @@ layui.define(['form', 'jquery'], function (exports) {
               tId = tools.getNodeMainDom(tmp).id;
             }
           }
-          // event to node
+
           if (tId.length > 0) {
             node = data.getNodeCache(setting, tId);
             switch (nodeEventType) {
@@ -277,7 +265,7 @@ layui.define(['form', 'jquery'], function (exports) {
                 break;
             }
           }
-          // event to zTree
+
           switch (treeEventType) {
             case "mousedown" :
               treeEventCallback = handler.onZTreeMousedown;
@@ -302,7 +290,7 @@ layui.define(['form', 'jquery'], function (exports) {
           };
           return proxyResult
         },
-        //default init node of core
+
         _initNode = function (setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
           if (!n) return;
           var r = data.getRoot(setting),
@@ -354,7 +342,7 @@ layui.define(['form', 'jquery'], function (exports) {
           innerAfterA: [],
           zTreeTools: []
         },
-        //method of operate data
+
         data = {
           addNodeCache: function (setting, node) {
             data.getCache(setting).nodes[data.getNodeCacheId(node.tId)] = node;
@@ -739,7 +727,7 @@ layui.define(['form', 'jquery'], function (exports) {
             }
           }
         },
-        //method of event proxy
+
         event = {
           bindEvent: function (setting) {
             for (var i = 0, j = _init.bind.length; i < j; i++) {
@@ -757,7 +745,7 @@ layui.define(['form', 'jquery'], function (exports) {
                 },
                 o = setting.treeObj;
             if (!setting.view.txtSelectedEnable) {
-              // for can't select text
+
               o.bind('selectstart', handler.onSelectStart).css({
                 "-moz-user-select": "-moz-none"
               });
@@ -811,7 +799,7 @@ layui.define(['form', 'jquery'], function (exports) {
             return r;
           }
         },
-        //method of event handler
+
         handler = {
           onSwitchNode: function (event, node) {
             var setting = data.getSetting(event.data.treeId);
@@ -871,7 +859,7 @@ layui.define(['form', 'jquery'], function (exports) {
             return (n === "input" || n === "textarea");
           }
         },
-        //method of tools for zTree
+
         tools = {
           apply: function (fun, param, defaultValue) {
             if ((typeof fun) == "function") {
@@ -900,7 +888,7 @@ layui.define(['form', 'jquery'], function (exports) {
           },
           isElement: function (o) {
             return (
-                typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+                typeof HTMLElement === "object" ? o instanceof HTMLElement : 
                     o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
             );
           },
@@ -937,7 +925,7 @@ layui.define(['form', 'jquery'], function (exports) {
             return true;
           }
         },
-        //method of operate ztree dom
+
         view = {
           addNodes: function (setting, parentNode, index, newNodes, isSilent) {
             var isParent = data.nodeIsParent(setting, parentNode);
@@ -999,7 +987,7 @@ layui.define(['form', 'jquery'], function (exports) {
               var childHtml = [];
               var children = data.nodeChildren(setting, node);
               if (children && children.length > 0) {
-                //make child html first, because checkType
+
                 childHtml = view.appendNodes(setting, level + 1, children, node, -1, initFlag, openFlag && node.open);
               }
               if (openFlag) {
@@ -1170,12 +1158,12 @@ layui.define(['form', 'jquery'], function (exports) {
 
             if (!parentNode) {
               parentObj = setting.treeObj;
-              //setting.treeObj.append(zTreeHtml.join(''));
+
             } else {
               var ulObj = $$(parentNode, consts.id.UL, setting);
               if (ulObj.get(0)) {
                 parentObj = ulObj;
-                //ulObj.append(zTreeHtml.join(''));
+
               }
             }
             if (parentObj) {
@@ -1440,7 +1428,7 @@ layui.define(['form', 'jquery'], function (exports) {
             if (!dom) {
               return;
             }
-            // support IE 7
+
             if (typeof Element === 'undefined') {
               var contRect = setting.treeObj.get(0).getBoundingClientRect(),
                   findMeRect = dom.getBoundingClientRect();
@@ -1450,7 +1438,7 @@ layui.define(['form', 'jquery'], function (exports) {
               }
               return;
             }
-            // CC-BY jocki84@googlemail.com, https://gist.github.com/jocki84/6ffafd003387179a988e
+
             if (!Element.prototype.scrollIntoViewIfNeeded) {
               Element.prototype.scrollIntoViewIfNeeded = function (centerIfNeeded) {
                 "use strict";
@@ -1496,7 +1484,7 @@ layui.define(['form', 'jquery'], function (exports) {
                     origin;
 
                 while (elem instanceof HTMLElement) {
-                  // Apply desired scroll amount.
+
                   origin = absolute(elem, makePoint(elem.clientLeft, elem.clientTop));
                   elem.scrollLeft = coverRange(
                       makeRange(target.x - origin.x, extent.x),
@@ -1507,7 +1495,6 @@ layui.define(['form', 'jquery'], function (exports) {
                       makeRange(elem.scrollTop, elem.clientHeight)
                   );
 
-                  // Determine actual scroll amount by reading back scroll properties.
                   target = target.translate(-elem.scrollLeft, -elem.scrollTop);
                   elem = elem.parentNode;
                 }
@@ -1561,9 +1548,8 @@ layui.define(['form', 'jquery'], function (exports) {
             var tmp_ulObj, tmp_switchObj, tmp_icoObj,
                 childLength = children.length;
 
-            //repair nodes old parent
             if (!setting.data.keep.parent && childLength == 0) {
-              //old parentNode has no child nodes
+
               data.nodeIsParent(setting, parentNode, false);
               parentNode.open = false;
               delete parentNode[setting.data.key.children];
@@ -1575,14 +1561,14 @@ layui.define(['form', 'jquery'], function (exports) {
               tmp_ulObj.css("display", "none");
 
             } else if (setting.view.showLine && childLength > 0) {
-              //old parentNode has child nodes
+
               var newLast = children[childLength - 1];
               tmp_ulObj = $$(newLast, consts.id.UL, setting);
               tmp_switchObj = $$(newLast, consts.id.SWITCH, setting);
               tmp_icoObj = $$(newLast, consts.id.ICON, setting);
               if (parentNode == root) {
                 if (children.length == 1) {
-                  //node was root, and ztree has only one root after move node
+
                   view.replaceSwitchClass(newLast, tmp_switchObj, consts.line.ROOT);
                 } else {
                   var tmp_first_switchObj = $$(children[0], consts.id.SWITCH, setting);
@@ -1711,7 +1697,7 @@ layui.define(['form', 'jquery'], function (exports) {
             }
           }
         };
-    // zTree defind
+
     $.fn.zTree = {
       consts: _consts,
       _z: {
@@ -1740,7 +1726,7 @@ layui.define(['form', 'jquery'], function (exports) {
         setting.treeObj = obj;
         setting.treeObj.empty();
         settings[setting.treeId] = setting;
-        //For some older browser,(e.g., ie6)
+
         if (typeof document.body.style.maxHeight === "undefined") {
           setting.view.expandSpeed = "";
         }
@@ -1775,7 +1761,6 @@ layui.define(['form', 'jquery'], function (exports) {
               index = i;
             }
             if (!newNodes) return null;
-
 
             var xNewNodes = tools.clone(tools.isArray(newNodes) ? newNodes : [newNodes]);
 
@@ -1994,20 +1979,9 @@ layui.define(['form', 'jquery'], function (exports) {
         $$ = tools.$,
         consts = zt.consts;
   })(jQuery);
-  /*
- * JQuery zTree excheck v3.5.37
- * http://treejs.cn/
- *
- * Copyright (c) 2010 Hunter.z
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2018-08-21
- */
+
   (function ($) {
-    //default consts of excheck
+
     var _consts = {
           event: {
             CHECK: "ztree_check"
@@ -2031,7 +2005,7 @@ layui.define(['form', 'jquery'], function (exports) {
             TYPE_LEVEL: "level"
           }
         },
-        //default setting of excheck
+
         _setting = {
           check: {
             enable: false,
@@ -2055,15 +2029,15 @@ layui.define(['form', 'jquery'], function (exports) {
             onCheck: null
           }
         },
-        //default root of excheck
+
         _initRoot = function (setting) {
           var r = data.getRoot(setting);
           r.radioCheckedList = [];
         },
-        //default cache of excheck
+
         _initCache = function (treeId) {
         },
-        //default bind event of excheck
+
         _bindEvent = function (setting) {
           var o = setting.treeObj,
               c = consts.event;
@@ -2077,7 +2051,7 @@ layui.define(['form', 'jquery'], function (exports) {
               c = consts.event;
           o.unbind(c.CHECK);
         },
-        //default event proxy of excheck
+
         _eventProxy = function (e) {
           var target = e.target,
               setting = data.getSetting(e.data.treeId),
@@ -2125,7 +2099,7 @@ layui.define(['form', 'jquery'], function (exports) {
           };
           return proxyResult
         },
-        //default init node of excheck
+
         _initNode = function (setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
           if (!n) return;
           var checked = data.nodeChecked(setting, n);
@@ -2148,14 +2122,14 @@ layui.define(['form', 'jquery'], function (exports) {
             r.radioCheckedList.push(n);
           }
         },
-        //add dom for check
+
         _beforeA = function (setting, node, html) {
           if (setting.check.enable) {
             data.makeChkFlag(setting, node);
             html.push("<span ID='", node.tId, consts.id.CHECK, "' class='", view.makeChkClass(setting, node), "' treeNode", consts.id.CHECK, (node.nocheck === true ? " style='display:none;'" : ""), "></span>");
           }
         },
-        //update zTreeObj, add method of check
+
         _zTreeTools = function (setting, zTreeTools) {
           zTreeTools.checkNode = function (node, checked, checkTypeFlag, callbackFlag) {
             var nodeChecked = data.nodeChecked(setting, node);
@@ -2218,7 +2192,7 @@ layui.define(['form', 'jquery'], function (exports) {
             }
           }
         },
-        //method of operate data
+
         _data = {
           getRadioCheckedList: function (setting) {
             var checkedList = data.getRoot(setting).radioCheckedList;
@@ -2328,9 +2302,9 @@ layui.define(['form', 'jquery'], function (exports) {
             node.check_Child_State = chkFlag;
           }
         },
-        //method of event proxy
+
         _event = {},
-        //method of event handler
+
         _handler = {
           onCheckNode: function (event, node) {
             if (node.chkDisabled === true) return false;
@@ -2362,9 +2336,9 @@ layui.define(['form', 'jquery'], function (exports) {
             return true;
           }
         },
-        //method of tools for zTree
+
         _tools = {},
-        //method of operate ztree dom
+
         _view = {
           checkNodeRelation: function (setting, node) {
             var pNode, i, l,
@@ -2642,20 +2616,9 @@ layui.define(['form', 'jquery'], function (exports) {
       return html;
     }
   })(jQuery);
-  /*
- * JQuery zTree exedit v3.5.37
- * http://treejs.cn/
- *
- * Copyright (c) 2010 Hunter.z
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2018-08-21
- */
+
   (function ($) {
-    //default consts of exedit
+
     var _consts = {
           event: {
             DRAG: "ztree_drag",
@@ -2679,7 +2642,7 @@ layui.define(['form', 'jquery'], function (exports) {
             TMPTARGET_NODE: "tmpTargetNode"
           }
         },
-        //default setting of exedit
+
         _setting = {
           edit: {
             enable: false,
@@ -2718,7 +2681,7 @@ layui.define(['form', 'jquery'], function (exports) {
             onRename: null
           }
         },
-        //default root of exedit
+
         _initRoot = function (setting) {
           var r = data.getRoot(setting), rs = data.getRoots();
           r.curEditNode = null;
@@ -2729,10 +2692,10 @@ layui.define(['form', 'jquery'], function (exports) {
           r.dragMaskList = new Array();
           rs.showHoverDom = true;
         },
-        //default cache of exedit
+
         _initCache = function (treeId) {
         },
-        //default bind event of exedit
+
         _bindEvent = function (setting) {
           var o = setting.treeObj;
           var c = consts.event;
@@ -2760,7 +2723,7 @@ layui.define(['form', 'jquery'], function (exports) {
           o.unbind(c.DRAGMOVE);
           o.unbind(c.DROP);
         },
-        //default event proxy of exedit
+
         _eventProxy = function (e) {
           var target = e.target,
               setting = data.getSetting(e.data.treeId),
@@ -2813,13 +2776,13 @@ layui.define(['form', 'jquery'], function (exports) {
           };
           return proxyResult
         },
-        //default init node of exedit
+
         _initNode = function (setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
           if (!n) return;
           n.isHover = false;
           n.editNameFlag = false;
         },
-        //update zTreeObj, add method of edit
+
         _zTreeTools = function (setting, zTreeTools) {
           zTreeTools.cancelEditName = function (newName) {
             var root = data.getRoot(this.setting);
@@ -2885,7 +2848,7 @@ layui.define(['form', 'jquery'], function (exports) {
             return this.refresh();
           }
         },
-        //method of operate data
+
         _data = {
           setSonNodeLevel: function (setting, parentNode, node) {
             if (!node) return;
@@ -2897,9 +2860,9 @@ layui.define(['form', 'jquery'], function (exports) {
             }
           }
         },
-        //method of event proxy
+
         _event = {},
-        //method of event handler
+
         _handler = {
           onHoverOverNode: function (event, node) {
             var setting = data.getSetting(event.data.treeId),
@@ -2922,10 +2885,9 @@ layui.define(['form', 'jquery'], function (exports) {
             var i, l,
                 setting = data.getSetting(eventMouseDown.data.treeId),
                 root = data.getRoot(setting), roots = data.getRoots();
-            //right click can't drag & drop
+
             if (eventMouseDown.button == 2 || !setting.edit.enable || (!setting.edit.drag.isCopy && !setting.edit.drag.isMove)) return true;
 
-            //input of edit node name can't drag & drop
             var target = eventMouseDown.target,
                 _nodes = data.getRoot(setting).curSelectedList,
                 nodes = [];
@@ -2966,7 +2928,7 @@ layui.define(['form', 'jquery'], function (exports) {
             }
 
             function _docMouseMove(event) {
-              //avoid start drag after click node
+
               if (root.dragFlag == 0 && Math.abs(mouseDownX - event.clientX) < setting.edit.drag.minMoveSize
                   && Math.abs(mouseDownY - event.clientY) < setting.edit.drag.minMoveSize) {
                 return true;
@@ -2997,7 +2959,6 @@ layui.define(['form', 'jquery'], function (exports) {
                 roots.showHoverDom = false;
                 tools.showIfameMask(setting, true);
 
-                //sort
                 var isOrder = true, lastIndex = -1;
                 if (nodes.length > 1) {
                   var pNodes = nodes[0].parentTId ? data.nodeChildren(setting, nodes[0].getParentNode()) : data.getNodes(setting);
@@ -3021,7 +2982,6 @@ layui.define(['form', 'jquery'], function (exports) {
                   nextNode = nodes[nodes.length - 1].getNextNode();
                 }
 
-                //set node in selected
                 curNode = $$("<ul class='zTreeDragUL'></ul>", setting);
                 for (i = 0, l = nodes.length; i < l; i++) {
                   tmpNode = nodes[i];
@@ -3066,7 +3026,6 @@ layui.define(['form', 'jquery'], function (exports) {
                 tmpTarget = null;
                 tmpTargetNodeId = null;
 
-                //judge drag & drop in multi ztree
                 isOtherTree = false;
                 targetSetting = setting;
                 var settings = data.getSettings();
@@ -3098,14 +3057,14 @@ layui.define(['form', 'jquery'], function (exports) {
                     isTreeRight = (isRight && (targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width() + 10) >= scrollWidth);
 
                 if (event.target && tools.isChildOrSelf(event.target, targetSetting.treeId)) {
-                  //get node <li> dom
+
                   var targetObj = event.target;
                   while (targetObj && targetObj.tagName && !tools.eqs(targetObj.tagName, "li") && targetObj.id != targetSetting.treeId) {
                     targetObj = targetObj.parentNode;
                   }
 
                   var canMove = true;
-                  //don't move to self or children of self
+
                   for (i = 0, l = nodes.length; i < l; i++) {
                     tmpNode = nodes[i];
                     if (targetObj.id === tmpNode.tId) {
@@ -3122,14 +3081,13 @@ layui.define(['form', 'jquery'], function (exports) {
                   }
                 }
 
-                //the mouse must be in zTree
                 tmpNode = nodes[0];
                 if (isTreeInner && tools.isChildOrSelf(event.target, targetSetting.treeId)) {
-                  //judge mouse move in root of ztree
+
                   if (!tmpTarget && (event.target.id == targetSetting.treeId || isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && tmpNode.parentTId))) {
                     tmpTarget = targetSetting.treeObj;
                   }
-                  //auto scroll top
+
                   if (isTop) {
                     targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop() - 10);
                   } else if (isBottom) {
@@ -3140,7 +3098,7 @@ layui.define(['form', 'jquery'], function (exports) {
                   } else if (isRight) {
                     targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft() + 10);
                   }
-                  //auto scroll left
+
                   if (tmpTarget && tmpTarget != targetSetting.treeObj && tmpTarget.offset().left < targetSetting.treeObj.offset().left) {
                     targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft() + tmpTarget.offset().left - targetSetting.treeObj.offset().left);
                   }
@@ -3364,16 +3322,10 @@ layui.define(['form', 'jquery'], function (exports) {
               return false;
             }
 
-            // 2018-03-30 FireFox has fixed this issue.
-            //Avoid FireFox's Bug
-            //If zTree Div CSS set 'overflow', so drag node outside of zTree, and event.target is error.
-            // if(eventMouseDown.preventDefault) {
-            // 	eventMouseDown.preventDefault();
-            // }
             return true;
           }
         },
-        //method of tools for zTree
+
         _tools = {
           getAbs: function (obj) {
             var oRect = obj.getBoundingClientRect(),
@@ -3407,13 +3359,13 @@ layui.define(['form', 'jquery'], function (exports) {
           },
           showIfameMask: function (setting, showSign) {
             var root = data.getRoot(setting);
-            //clear full mask
+
             while (root.dragMaskList.length > 0) {
               root.dragMaskList[0].remove();
               root.dragMaskList.shift();
             }
             if (showSign) {
-              //show mask
+
               var iframeList = $$("iframe", setting);
               for (var i = 0, l = iframeList.length; i < l; i++) {
                 var obj = iframeList.get(i),
@@ -3425,7 +3377,7 @@ layui.define(['form', 'jquery'], function (exports) {
             }
           }
         },
-        //method of operate ztree dom
+
         _view = {
           addEditBtn: function (setting, node) {
             if (node.editNameFlag || $$(node, consts.id.EDIT, setting).length > 0) {
@@ -3564,7 +3516,7 @@ layui.define(['form', 'jquery'], function (exports) {
 
             if (moveType == consts.move.TYPE_INNER) {
               if (targetNodeIsRoot) {
-                //parentTId of root node is null
+
                 node.parentTId = null;
               } else {
                 if (!data.nodeIsParent(setting, targetNode)) {
@@ -3576,7 +3528,6 @@ layui.define(['form', 'jquery'], function (exports) {
               }
             }
 
-            //move node Dom
             var targetObj, target_ulObj;
             if (targetNodeIsRoot) {
               targetObj = setting.treeObj;
@@ -3610,7 +3561,6 @@ layui.define(['form', 'jquery'], function (exports) {
               targetObj.after(nodeDom);
             }
 
-            //repair the data after move
             var i, l,
                 tmpSrcIndex = -1,
                 tmpTargetIndex = 0,
@@ -3686,13 +3636,11 @@ layui.define(['form', 'jquery'], function (exports) {
             data.fixPIdKeyValue(setting, node);
             data.setSonNodeLevel(setting, node.getParentNode(), node);
 
-            //repair node what been moved
             view.setNodeLineIcos(setting, node);
             view.repairNodeLevelClass(setting, node, oldLevel);
 
-            //repair node's old parentNode dom
             if (!setting.data.keep.parent && oldChildren.length < 1) {
-              //old parentNode has no child nodes
+
               data.nodeIsParent(setting, oldParentNode, false);
               oldParentNode.open = false;
               var tmp_ulObj = $$(oldParentNode, consts.id.UL, setting),
@@ -3703,16 +3651,14 @@ layui.define(['form', 'jquery'], function (exports) {
               tmp_ulObj.css("display", "none");
 
             } else if (oldNeighbor) {
-              //old neigbor node
+
               view.setNodeLineIcos(setting, oldNeighbor);
             }
 
-            //new neigbor node
             if (newNeighbor) {
               view.setNodeLineIcos(setting, newNeighbor);
             }
 
-            //repair checkbox / radio
             if (!!setting.check && setting.check.enable && view.repairChkClass) {
               view.repairChkClass(setting, oldParentNode);
               view.repairParentChkClassWithSelf(setting, oldParentNode);
@@ -3720,7 +3666,6 @@ layui.define(['form', 'jquery'], function (exports) {
                 view.repairParentChkClassWithSelf(setting, node);
             }
 
-            //expand parents after move
             if (!isSilent) {
               view.expandCollapseParentNode(setting, node.getParentNode(), true, animateFlag);
             }
@@ -3848,19 +3793,19 @@ layui.define(['form', 'jquery'], function (exports) {
 
   TreeSelect.prototype.render = function (options) {
     var elem = options.elem,
-        // 请求地址
+
         data = options.data,
-        // 节点点击回调
+
         click = options.click,
-        // 渲染成功后的回调函数
+
         success = options.success,
-        //是否启用父级选项
+
         parent =  options.parent,
-        // 占位符（提示信息）
+
         placeholder = options.placeholder === undefined ? '请选择' : options.placeholder,
-        // 是否开启搜索
+
         search = options.search === undefined ? false : options.search,
-        // 唯一id
+
         tmp = new Date().getTime(),
         DATA = {},
         selected = 'layui-form-selected',
@@ -3874,7 +3819,6 @@ layui.define(['form', 'jquery'], function (exports) {
         TREE_SELECT_BODY_ID = 'layui-treeSelect-body-' + tmp,
         TREE_SELECT_BODY_CLASS = 'layui-treeSelect-body',
         TREE_SELECT_SEARCHED_CLASS = 'layui-treeSelect-search-ed';
-
 
     var a = {
       init: function () {
@@ -3925,8 +3869,6 @@ layui.define(['form', 'jquery'], function (exports) {
         $input.val(name);
         $('#' + TREE_SELECT_ID).removeClass(selected);
 
-
-
         if (click) {
           var obj = {
             data: DATA,
@@ -3958,9 +3900,7 @@ layui.define(['form', 'jquery'], function (exports) {
         $(elem).parent().append(selectHtml);
         return a;
       },
-      /**
-       * 展开/折叠下拉框
-       */
+
       toggleSelect: function () {
         var item = '#' + TREE_SELECT_TITLE_ID;
         a.event('click', item, function (e) {
@@ -3969,9 +3909,9 @@ layui.define(['form', 'jquery'], function (exports) {
             $select.removeClass(selected);
             $('#' + TREE_INPUT_ID).blur();
           } else {
-            // 隐藏其他picker
+
             $('.layui-form-select').removeClass(selected);
-            // 显示当前picker
+
             $select.addClass(selected);
           }
           e.stopPropagation();
@@ -3985,7 +3925,7 @@ layui.define(['form', 'jquery'], function (exports) {
         });
         return a;
       },
-      // 模糊查询
+
       searchParam: function () {
         if (!search) {
           return;
@@ -3998,7 +3938,7 @@ layui.define(['form', 'jquery'], function (exports) {
           var nodes = TREE_OBJ.getNodesByParamFuzzy("name", t, null);
           if (t !== '') {
             a.checkNodes(nodes);
-            // 隐藏非结果项
+
             var lis = $('#' + TREE_SELECT_ID + ' li[treenode]');
             for (var i = 0; i < lis.length; i++) {
               var oLi = lis.eq(i);
@@ -4008,7 +3948,6 @@ layui.define(['form', 'jquery'], function (exports) {
                 oLi.show();
               }
             }
-            // 无结果提示
 
           } else {
             $('#' + TREE_SELECT_ID + ' li[treenode]').show();
@@ -4021,7 +3960,7 @@ layui.define(['form', 'jquery'], function (exports) {
               pid = o.parentTId,
               tid = o.tId;
           if (pid !== null) {
-            // 获取父节点
+
             $('#' + pid).addClass(TREE_SELECT_SEARCHED_CLASS);
             var pNode = TREE_OBJ.getNodesByParam("tId", pid, null);
             TREE_OBJ.expandNode(pNode[0], true, false, true);
@@ -4029,7 +3968,7 @@ layui.define(['form', 'jquery'], function (exports) {
           $('#' + tid).addClass(TREE_SELECT_SEARCHED_CLASS);
         }
       },
-      // 阻止Layui的一些默认事件
+
       preventEvent: function () {
         var item = '#' + TREE_SELECT_ID + ' .layui-anim';
         a.event('click', item, function (e) {
@@ -4055,20 +3994,11 @@ layui.define(['form', 'jquery'], function (exports) {
     return new TreeSelect();
   };
 
-  /**
-   * 重新加载trerSelect
-   * @param filter
-   */
   TreeSelect.prototype.refresh = function (filter) {
     var treeObj = obj.treeObj(filter);
     treeObj.reAsyncChildNodes(null, "refresh");
   };
 
-  /**
-   * 选中节点，因为tree是异步加载，所以必须在success回调中调用checkNode函数，否则无法获取生成的DOM元素
-   * @param filter lay-filter属性
-   * @param id 选中的id
-   */
   TreeSelect.prototype.checkNode = function (filter, id) {
     var o = obj.filter(filter),
         treeInput = o.parent().find('.layui-select-title input'),
@@ -4080,10 +4010,6 @@ layui.define(['form', 'jquery'], function (exports) {
     treeObj.selectNode(node);
   };
 
-  /**
-   * 获取zTree对象，可调用所有zTree函数
-   * @param filter
-   */
   TreeSelect.prototype.zTree = function (filter) {
     return obj.treeObj(filter);
   };
@@ -4105,7 +4031,6 @@ layui.define(['form', 'jquery'], function (exports) {
     }
   };
 
-  //输出接口
   var mod = new TreeSelect();
   exports(_MOD, mod);
 });

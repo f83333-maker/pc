@@ -32,7 +32,6 @@
         }
     ]);
 
-
     table.setSearch([
         {
             title: "到账方式", name: "equal-card", type: "select", dict: "_cash_order_type"

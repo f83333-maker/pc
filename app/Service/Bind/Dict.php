@@ -3,18 +3,11 @@ declare(strict_types=1);
 
 namespace App\Service\Bind;
 
-
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Dict implements \App\Service\Dict
 {
 
-    /**
-     * @param string $dictName
-     * @param string $keywords
-     * @param string $where
-     * @return array
-     */
     public function get(string $dictName, string $keywords = '', string $where = ''): array
     {
         $dict = explode(",", $dictName);
@@ -22,7 +15,7 @@ class Dict implements \App\Service\Dict
         $dictLength = count($dict);
 
         if ($dictLength >= 3) {
-            //远程表字典查询
+
             $prefix = config('database')['prefix'];
             $table = explode('->', $dict[0]);
 

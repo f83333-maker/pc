@@ -1,13 +1,11 @@
 <?php require("Header.php"); ?>
 
-
     <div class="layout">
         <div class="layout-search">
             <input type="text" placeholder="请输入联系方式或订单号进行查询" class="keywords" value="<?php echo $data['tradeNo']; ?>">
             <button type="button" class="query-btn">查询</button>
         </div>
     </div>
-
 
     <div class="layout">
         <div class="layout-result">

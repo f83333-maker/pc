@@ -15,7 +15,6 @@ class Transfer extends Base
         return true;
     }
 
-
     #[Required("转账金额不能为空")]
     #[Regex("/^[0-9]+(\.[0-9]{1,2})?$/", "转账金额错误")]
     public function amount(): bool

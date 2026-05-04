@@ -20,9 +20,8 @@
     ]);
     ?>
 
-    <!--start::HOOK-->
     <?php hook(\App\Consts\Hook::USER_VIEW_INDEX_HEADER); ?>
-    <!--end::HOOK-->
+
 </head>
 <body>
 <div class="card main-window">

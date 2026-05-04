@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Shared;
 
-
 use App\Controller\Base\API\Shared;
 use App\Entity\Query\Get;
 use App\Interceptor\SharedValidation;
@@ -37,16 +36,11 @@ class Commodity extends Shared
     #[Inject]
     private Shop $shop;
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     private function getItems(): array
     {
         $items = Category::query()->with(['children' => function (Relation $relation) {
             $relation->where("api_status", 1)->where("status", 1);
         }])->where("status", 1)->get();
-
 
         $list = $items->toArray();
         $userGroup = $this->getUserGroup();
@@ -57,7 +51,7 @@ class Commodity extends Shared
                 continue;
             }
             foreach ($item['children'] as $index => $child) {
-                $commodity = $items[$key]['children'][$index]; //直接拿到商品对象
+                $commodity = $items[$key]['children'][$index]; 
                 if (!$commodity || $commodity->id != $child['id']) {
                     unset($list[$key]['children'][$index]);
                     continue;
@@ -69,32 +63,24 @@ class Commodity extends Shared
                     continue;
                 }
 
-                if ($child['delivery_way'] == 0) { //stock
+                if ($child['delivery_way'] == 0) { 
                     $list[$key]['children'][$index]['stock'] = Card::query()->where("status", 0)->where("commodity_id", $child['id'])->count();
                 }
 
                 unset($list[$key]['children'][$index]['leave_message'], $list[$key]['children'][$index]['delivery_message']);
             }
-            //重组
+
             $list[$key]['children'] = array_values($list[$key]['children']);
         }
 
         return array_values($list);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function items(): array
     {
         return $this->json(data: $this->getItems());
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function item(): array
     {
         $code = $_POST['code'] ?? null;
@@ -104,16 +90,12 @@ class Commodity extends Shared
         return $this->json(data: $this->shop->getItem($code));
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function inventoryState(): array
     {
-        $sharedCode = (string)$_POST['shared_code'];//商品CODE
-        $cardId = (int)$_POST['card_id'];//预选的卡号ID
-        $num = (int)$_POST['num']; //购买数量
-        $race = (string)$_POST['race']; //类别
+        $sharedCode = (string)$_POST['shared_code'];
+        $cardId = (int)$_POST['card_id'];
+        $num = (int)$_POST['num']; 
+        $race = (string)$_POST['race']; 
 
         if ($sharedCode == "") {
             throw new JSONException("商品代码不能为空");
@@ -128,7 +110,7 @@ class Commodity extends Shared
         }
 
         $shared = $commodity->shared;
-        //如果是套娃，直接拉远程服务器数据
+
         if ($shared) {
             if (!$this->shared->inventoryState($shared, $commodity, $cardId, $num, $race)) {
                 throw new JSONException("库存不足");
@@ -136,7 +118,6 @@ class Commodity extends Shared
             return $this->json(200, "success");
         }
 
-        //预选卡密
         if ($commodity->draft_status == 1 && $cardId != 0) {
             $card = Card::query()->find($cardId);
             if (!$card || $card->status != 0) {
@@ -147,7 +128,7 @@ class Commodity extends Shared
                 throw new JSONException("该卡密不属于这个商品，无法预选");
             }
         } else {
-            //自动发货，库存检测
+
             if ($commodity->delivery_way == 0) {
                 $count = Card::query()->where("commodity_id", $commodity->id)->where("status", 0);
 
@@ -165,13 +146,9 @@ class Commodity extends Shared
         return $this->json(200, "success");
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function inventory(): array
     {
-        $sharedCode = (string)$_POST['sharedCode'];//商品CODE
+        $sharedCode = (string)$_POST['sharedCode'];
         $race = (string)$_POST['race'];
 
         if ($sharedCode == "") {
@@ -192,7 +169,6 @@ class Commodity extends Shared
 
         $shared = $commodity->shared;
 
-        //如果是套娃，直接拉远程服务器数据
         if ($shared) {
             $inventory = $this->shared->inventory($shared, $commodity, $race);
             return $this->json(200, "success", $inventory);
@@ -216,7 +192,6 @@ class Commodity extends Shared
             $count = $count->count();
         }
 
-        //去掉原来的成本，准备计算拿货价
         $userId = $this->getUser()->id;
         $userGroup = $this->getUserGroup();
 
@@ -228,15 +203,14 @@ class Commodity extends Shared
             unset($configs['category_factory']);
         }
 
-        //检测是否设置了种类
         if (array_key_exists("category", $configs)) {
-            //挨个计算成本
+
             $categorys = $configs['category'];
             $factorys = [];
-            //这里ck = race种类名称，cv=单价
+
             foreach ($categorys as $ck => $cv) {
                 $isCategory = true;
-                //计算当前种类的成本
+
                 try {
                     $factorys[$ck] = $this->order->calcAmount(owner: $userId, num: 1, disableSubstation: true, group: $userGroup, commodity: $commodity, race: $ck);
                 } catch (\Error|\Exception $e) {
@@ -245,17 +219,15 @@ class Commodity extends Shared
                 }
             }
             if (count($factorys) != 0) {
-                //覆盖成本
+
                 $configs['category_factory'] = $factorys;
             }
         } else {
-            //没有设置种类，计算会员价
+
             $factoryPrice = $this->order->calcAmount(owner: $userId, num: 1, disableSubstation: true, group: $userGroup, commodity: $commodity);
         }
 
-        //将config array转换为配置文件
         $cfg = Ini::toConfig($configs);
-
 
         return $this->json(200, "success", [
             'count' => $count,
@@ -269,15 +241,10 @@ class Commodity extends Shared
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     */
     public function trade(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
-        $map['pay_id'] = 1; //强制走余额支付
+        $map['pay_id'] = 1; 
 
         $commodity = \App\Model\Commodity::query()->where("code", (string)$map['shared_code'])->first();
 
@@ -288,17 +255,10 @@ class Commodity extends Shared
         return $this->json(200, 'success', $this->order->trade($this->getUser(), $this->getUserGroup(), $map));
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function draftCard(): array
     {
         $map = $this->request->post();
-        /**
-         * @var \App\Model\Commodity $commodity
-         */
+
         $commodity = \App\Model\Commodity::query()->where("code", $map['code'])->first();
         $limit = $map['limit'] ?? 10;
 
@@ -342,17 +302,9 @@ class Commodity extends Shared
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param string $tradeNo
-     * @return array
-     * @throws JSONException
-     */
     public function query(string $tradeNo): array
     {
-        /**
-         * @var \App\Model\Order $order
-         */
+
         $order = \App\Model\Order::query()->where("trade_no", $tradeNo)->where("owner", $this->getUser()->id)->first();
 
         if (!$order) {
@@ -367,10 +319,6 @@ class Commodity extends Shared
         return $this->json(200, 'success', ['secret' => $order->secret, 'widget' => $widget, "status" => $order->status]);
     }
 
-
-    /**
-     * @return array
-     */
     public function stock(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -378,10 +326,6 @@ class Commodity extends Shared
         return $this->json(data: ["stock" => $stock]);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function valuation(): array
     {
         $commodity = \App\Model\Commodity::query()->where("code", $this->request->post("code"))->first();
@@ -402,10 +346,6 @@ class Commodity extends Shared
         return $this->json(data: ["price" => $price]);
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function draft(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);

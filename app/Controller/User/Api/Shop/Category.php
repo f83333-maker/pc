@@ -22,18 +22,12 @@ use Kernel\Exception\JSONException;
 use Kernel\Exception\RuntimeException;
 use Kernel\Waf\Filter;
 
-
 #[Interceptor(class: [PostDecrypt::class, Waf::class, User::class, Merchant::class], type: Interceptor::API)]
 class Category extends Base
 {
     #[Inject]
     private Query $query;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function get(): Response
     {
         $get = new Get(Model::class);
@@ -51,10 +45,6 @@ class Category extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     */
     #[Validator([
         ['key' => 'name', 'rule' => 'require', 'message' => ['require' => '分类名称不能为空']]
     ])]
@@ -76,10 +66,6 @@ class Category extends Base
         return $this->response->json(message: "保存成功");
     }
 
-
-    /**
-     * @return Response
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

@@ -29,7 +29,6 @@
         }, 60000, true);
     }
 
-
     function handLoadStoreUser() {
         const $storeUser = $(".store-user");
         util.post({
@@ -122,7 +121,6 @@
 
     handleAutoReceipt();
     handLoadStoreUser();
-
 
     if (group?.is_supplier == 1) {
         handleSyncRemoteItems();

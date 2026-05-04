@@ -29,7 +29,7 @@
             color: #08c!important;
         }
     </style>
- 
+
 </head>
 <body>
     <div class="order_box">
@@ -51,7 +51,7 @@
     <script>
         window.location.replace("#{$order.pay_url}");
         let tradeNo = '#{$order.trade_no}';
-        //查询订单
+
         pay.queryTimer(tradeNo, null, res => {
             layer.msg('支付成功');
             setTimeout(() => {

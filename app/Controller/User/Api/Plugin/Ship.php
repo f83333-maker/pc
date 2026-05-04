@@ -24,22 +24,12 @@ use Kernel\Waf\Filter;
 class Ship extends Base
 {
 
-
     #[Inject]
     private RepertoryItem $repertoryItem;
 
-    /**
-     * @param int $configId
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function items(int $configId): Response
     {
-        /**
-         * @var PluginConfig $config
-         */
+
         $config = PluginConfig::where("user_id", $this->getUser()->id)->find($configId);
         if (!$config) {
             throw new JSONException("配置不存在");
@@ -74,13 +64,6 @@ class Ship extends Base
         return $this->json(data: ["list" => $data]);
     }
 
-
-    /**
-     * @param int $configId
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function import(int $configId): Response
     {
         $categoryId = (int)$this->request->post("category_id", Filter::INTEGER);
@@ -104,28 +87,16 @@ class Ship extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function getSyncRemoteItems(): Response
     {
         $syncRemoteItems = $this->repertoryItem->getSyncRemoteItems(true, $this->getUser()->id);
         return $this->json(data: $syncRemoteItems);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     public function syncRemoteItem(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        /**
-         * @var \App\Model\RepertoryItem $repertoryItem
-         */
+
         $repertoryItem = \App\Model\RepertoryItem::where("user_id", $this->getUser()->id)->find($id);
         if (!$repertoryItem) {
             throw new JSONException("商品不存在");

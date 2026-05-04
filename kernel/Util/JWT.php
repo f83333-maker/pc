@@ -9,11 +9,6 @@ class JWT
 {
     use Singleton;
 
-
-    /**
-     * @param string $jwt
-     * @return array
-     */
     public function getHead(string $jwt): array
     {
         $arr = explode(".", $jwt);

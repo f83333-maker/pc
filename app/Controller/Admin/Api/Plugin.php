@@ -16,9 +16,7 @@ use Kernel\Waf\Filter;
 #[Interceptor([ManageSession::class], Interceptor::TYPE_API)]
 class Plugin extends Manage
 {
-    /**
-     * @return array
-     */
+
     public function getPlugins(): array
     {
         $plugins = \Kernel\Util\Plugin::getPlugins(false);
@@ -41,18 +39,16 @@ class Plugin extends Manage
                 }
             }
 
-            //判断文档是否存在
             if (is_dir($path . $plugins[$key]["id"] . "/Wiki")) {
                 $plugins[$key]['wiki'] = "/admin/plugin/wiki?plugin={$plugins[$key]["id"]}";
             }
 
             if ($status !== "" && $status !== null) {
-                //未运行
+
                 if ((int)$plugin[\App\Consts\Plugin::PLUGIN_CONFIG]['STATUS'] != $status) {
                     unset($plugins[$key]);
                 }
             }
-
 
             if ($keywords) {
                 if (!str_contains($plugin[\App\Consts\Plugin::NAME], $keywords) && !str_contains($plugin[\App\Consts\Plugin::DESCRIPTION], $keywords)) {
@@ -76,13 +72,6 @@ class Plugin extends Manage
         return $this->json(200, 'success', ["list" => $plugins]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws JSONException
-     * @throws \ReflectionException
-     * @throws \Throwable
-     */
     public function setConfig(Request $request): array
     {
         $map = $request->post(flags: Filter::NORMAL);
@@ -118,18 +107,14 @@ class Plugin extends Manage
             $config[$k] = is_scalar($v) ? urldecode((string)$v) : $v;
         }
 
-        hook(Hook::ADMIN_API_PLUGIN_SAVE_CONFIG, $id, $map); //12/09-重写HOOK逻辑
-        \Kernel\Util\Plugin::runHookState($id, \Kernel\Annotation\Plugin::SAVE_CONFIG, $id, $map);//2022/01/12新增插件保存配置逻辑，无需启用插件也可以hook
+        hook(Hook::ADMIN_API_PLUGIN_SAVE_CONFIG, $id, $map); 
+        \Kernel\Util\Plugin::runHookState($id, \Kernel\Annotation\Plugin::SAVE_CONFIG, $id, $map);
 
         $configFile = BASE_PATH . '/app/Plugin/' . $id . '/Config/Config.php';
         setConfig($config, $configFile);
         return $this->json(200, '配置已生效');
     }
 
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function setThemeConfig(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -155,21 +140,12 @@ class Plugin extends Manage
         return $this->json(200, '模板设置已生效');
     }
 
-    /**
-     * 获取插件日志
-     * @param string $handle
-     * @return array
-     */
     public function getPluginLog(#[Post] string $handle): array
     {
         $pluginLog = \App\Util\Plugin::getPluginLog($handle);
         return $this->json(200, 'success', ['log' => $pluginLog]);
     }
 
-    /**
-     * @param string $handle
-     * @return array
-     */
     public function ClearPluginLog(#[Post] string $handle): array
     {
         \App\Util\Plugin::ClearPluginLog($handle);

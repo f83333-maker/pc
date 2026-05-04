@@ -1,10 +1,5 @@
 class Broadcast {
 
-    /**
-     * 初始化语音包
-     * @param selector
-     * @param path
-     */
     constructor(selector, path) {
         this.path = path;
         this.$handle = $(selector);
@@ -16,11 +11,6 @@ class Broadcast {
         });
     }
 
-
-    /**
-     * 获取当前语音包
-     * @returns {boolean|string}
-     */
     getPackage() {
         const c = localStorage.getItem(this.path);
         if (c != "" && typeof c == "string") {
@@ -29,11 +19,6 @@ class Broadcast {
         return false;
     }
 
-
-    /**
-     * 播放语音包
-     * @param name
-     */
     play(name) {
         const pack = this.getPackage();
         if (pack) {

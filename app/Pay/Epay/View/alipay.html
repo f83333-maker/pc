@@ -55,7 +55,6 @@
         <span class="ico_log ico-zfbsm" style="margin-left: 50px;"></span>
     </h1>
 
-
     <div class="mod-ct" style="margin-top: 2px;">
 
         <div class="pc">
@@ -82,7 +81,6 @@
         <div class="footer">
             <div>
                 <div class="tip ">
-
 
                     <div class="ico-scan"></div>
                     <div class="tip-text">
@@ -127,7 +125,6 @@
             $('.mobile').show();
         }
 
-        //查询订单
         pay.queryTimer(tradeNo, null, res => {
             layer.msg('支付成功');
             setTimeout(() => {
@@ -136,11 +133,10 @@
         }, res => {
             layer.msg('订单已被关闭');
             setTimeout(() => {
-                //window.location.href = "#{$option.returnUrl}";
+
             }, 1000);
         });
 
-        //点击小箭头事件
         $('#orderDetail a').click(function () {
             if ($('#orderDetail').hasClass('detail-open')) {
                 $('#orderDetail .detail-ct').slideUp(500, function () {

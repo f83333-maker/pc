@@ -5,9 +5,7 @@ namespace Kernel\Util;
 
 class UserAgent
 {
-    /**
-     * @var array|string[]
-     */
+
     private static array $devices = [
         'iPhone' => 'iPhone',
         'iPad' => 'iPad',
@@ -42,10 +40,6 @@ class UserAgent
         'Windows' => 'Windows'
     ];
 
-    /**
-     * @param string|null $ua
-     * @return bool
-     */
     public static function isMobile(?string $ua): bool
     {
         if (!$ua) {
@@ -54,10 +48,6 @@ class UserAgent
         return (bool)preg_match('/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i', $ua);
     }
 
-    /**
-     * @param string|null $ua
-     * @return bool
-     */
     public static function isWeChat(?string $ua): bool
     {
         if (!$ua) {
@@ -66,10 +56,6 @@ class UserAgent
         return preg_match('/MicroMessenger/i', $ua) === 1;
     }
 
-    /**
-     * @param string|null $ua
-     * @return int
-     */
     public static function getEquipment(?string $ua): int
     {
         if (self::isWeChat($ua)) {
@@ -81,10 +67,6 @@ class UserAgent
         return 2;
     }
 
-    /**
-     * @param string $ua
-     * @return string
-     */
     public static function getBrowser(string $ua): string
     {
         return match (true) {
@@ -110,10 +92,6 @@ class UserAgent
         };
     }
 
-    /**
-     * @param string $ua
-     * @return string
-     */
     public static function getDevice(string $ua): string
     {
         foreach (self::$devices as $key => $value) {

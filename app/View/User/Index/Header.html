@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    {# 集中化 SEO：调用方通过 {% set seo = {...} %} 传入页面专属元信息 #}
     {{ include('Common/Seo.html') }}
 
     <link rel="shortcut icon" href="{{ site.logo }}">
-    <!-- Stylesheets -->
+
     {{ css( [
         "/assets/user/css/index.min.css",
     ] , [
@@ -25,42 +24,34 @@
     {{ js(["/assets/common/js/ready.js"])|raw }}
 
     {{ index_var()|raw }}
-    <!-- END Stylesheets -->
 
     {{ hook(env() , point("INDEX_HEADER") , 1)|raw }}
 </head>
 
-
 <body style="background: url('{{ site.bg_image }}') fixed no-repeat;background-size: cover;">
-<!-- Page Container -->
+
 <div id="page-container" class="page-header-dark main-content-boxed">
 
-    <!-- Header -->
     <header id="page-header">
-        <!-- Header Content -->
+
         <div class="content-header">
-            <!-- Left Section -->
+
             <div class="d-flex align-items-center">
-                <!-- Logo -->
+
                 <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="/">
                     <span class="shop-name"><img src="{{ site.logo }}" class="shop-logo" alt="{{ site.title|striptags }} Logo" width="32" height="32" loading="eager" decoding="async"> <span
                                 class="shop-title d-none d-md-inline-block">{{ site.title }}</span></span>
                 </a>
-                <!-- END Logo -->
-            </div>
-            <!-- END Left Section -->
 
-            <!-- Right Section -->
+            </div>
+
             <div class="d-flex align-items-center">
-                <!-- Open Search Section (visible on smaller screens) -->
-                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+
                 <button type="button" class="btn btn-sm btn-alt-secondary d-md-none" data-toggle="layout"
                         data-action="header_search_on">
                     <i class="fa fa-fw fa-search"></i>
                 </button>
-                <!-- END Open Search Section -->
 
-                <!-- Search Form (visible on larger screens) -->
                 <form class="d-none d-md-inline-block" id="search-form" action="/">
                     <div class="input-group input-group-sm">
                         <input type="text" value="{{ keywords }}" class="form-control form-control-alt"
@@ -70,9 +61,7 @@
                                     class="fa fa-fw fa-search"></i></span>
                     </div>
                 </form>
-                <!-- END Search Form -->
 
-                <!-- User Dropdown -->
                 <div class="dropdown d-inline-block ms-2 me-2">
                     <a href="{{ user ? "javascript:void(0);" : "/login?goto=/" }}"
                        class="btn btn-sm btn-alt-secondary d-flex align-items-center" {{ user ? 'id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : '' }}>
@@ -81,7 +70,6 @@
                              alt="{{ user ? user.username ~ ' 头像' : '访客头像' }}"
                              width="21" height="21" loading="lazy" decoding="async"
                              style="width: 21px;"/>
-
 
                         <span class="d-none d-sm-inline-block ms-2">{% if user %}<span
                                     class="bg-primary-light text-white px-1 me-1">{{ user.level.name }}</span>{% endif %}{{ user ? user.username : i18n("登录/注册")|raw }}</span>
@@ -99,9 +87,7 @@
                                      width="48" height="48" loading="lazy" decoding="async">
                                 <p class="mt-2 mb-0 fw-medium text-success">{{ user ? user.username : i18n("未登录")|raw }}</p>
 
-
                             </div>
-
 
                             <div class="p-2">
                                 <a class="dropdown-item d-flex align-items-center justify-content-between"
@@ -129,21 +115,18 @@
                         </div>
                     {% endif %}
                 </div>
-                <!-- END User Dropdown -->
 
                 {{ view_languages()|raw }}
 
             </div>
-            <!-- END Right Section -->
-        </div>
-        <!-- END Header Content -->
 
-        <!-- Header Search -->
+        </div>
+
         <div id="page-header-search" class="overlay-header bg-body-extra-light">
             <div class="content-header">
                 <form class="w-100">
                     <div class="input-group">
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+
                         <button type="button" class="btn btn-alt-danger" data-toggle="layout"
                                 data-action="header_search_off">
                             <i class="fa fa-fw fa-times-circle"></i>
@@ -154,10 +137,7 @@
                 </form>
             </div>
         </div>
-        <!-- END Header Search -->
 
-        <!-- Header Loader -->
-        <!-- Please check out the Loaders page under Components category to see examples of showing/hiding it -->
         <div id="page-header-loader" class="overlay-header bg-primary-lighter">
             <div class="content-header">
                 <div class="w-100 text-center">
@@ -165,19 +145,17 @@
                 </div>
             </div>
         </div>
-        <!-- END Header Loader -->
-    </header>
-    <!-- END Header -->
 
-    <!-- Main Container -->
+    </header>
+
     <main id="main-container">
-        <!-- Navigation -->
+
         <div class="bg-nav-primary-darker">
             <div class="bg-black-10">
                 <div class="content py-3">
-                    <!-- Toggle Main Navigation -->
+
                     <div class="d-lg-none">
-                        <!-- Class Toggle, functionality initialized in Helpers.oneToggleClass() -->
+
                         <button type="button"
                                 class="btn w-100 btn-alt-secondary d-flex justify-content-between align-items-center"
                                 data-toggle="class-toggle" data-target="#main-navigation" data-class="d-none">
@@ -185,9 +163,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </div>
-                    <!-- END Toggle Main Navigation -->
 
-                    <!-- Main Navigation -->
                     <div id="main-navigation" class="d-none d-lg-block mt-2 mt-lg-0">
                         <ul class="nav-main nav-main-dark nav-main-horizontal nav-main-hover">
                             <li class="nav-main-item">
@@ -229,8 +205,8 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- END Main Navigation -->
+
                 </div>
             </div>
         </div>
-        <!-- END Navigation -->
+

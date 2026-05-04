@@ -3,10 +3,6 @@ declare (strict_types=1);
 
 namespace Kernel\Pool;
 
-
-/**
- * 连接池
- */
 class ConnectionPool extends \Swoole\ConnectionPool
 {
 

@@ -27,30 +27,17 @@ class Developer extends Base
     #[Inject]
     private \App\Service\Store\Developer $developer;
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function pluginList(): Response
     {
         return $this->json(data: $this->developer->pluginList($this->request->post(), $this->getStoreAuth()));
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function createOrUpdatePlugin(): Response
     {
         $data = $this->request->post();
 
         if (!isset($data['id'])) {
-            //上传文件
+
             $http = $this->http->upload("image", BASE_PATH . $data['icon'], $this->getStoreAuth());
             $data['icon'] = $http->data['url'];
         }
@@ -59,26 +46,12 @@ class Developer extends Base
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function publishPlugin(): Response
     {
         $this->developer->publishPlugin($this->request->post("key"), $this->getStoreAuth());
         return $this->json();
     }
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function getPluginTrackedFiles(): Response
     {
         $name = $this->request->post("key");
@@ -95,26 +68,12 @@ class Developer extends Base
         return $this->json(data: ["files" => $pluginTrackedFiles, "version" => $plugin->info['version']]);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function updatePlugin(): Response
     {
         $this->developer->updatePlugin($this->request->get("key"), $this->request->post("update_content", Filter::NORMAL), $this->getStoreAuth());
         return $this->json();
     }
 
-
-    /**
-     * @param int $pluginId
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -124,14 +83,6 @@ class Developer extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @param int $pluginId
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function getPluginAuthorizationList(int $pluginId): Response
     {
         $post = $this->request->post();
@@ -139,25 +90,12 @@ class Developer extends Base
         return $this->json(data: $data);
     }
 
-
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function addPluginAuthorization(): Response
     {
         $this->developer->addPluginAuthorization($this->request->post(), $this->getStoreAuth());
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function removePluginAuthorization(): Response
     {
         $id = (int)$this->request->post("id", Filter::INTEGER);

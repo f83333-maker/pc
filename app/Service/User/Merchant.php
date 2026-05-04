@@ -10,5 +10,4 @@ use Kernel\Annotation\Bind;
 interface Merchant
 {
 
-
 }

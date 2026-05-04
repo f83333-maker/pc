@@ -24,7 +24,6 @@
         }
     ]);
 
-
     table.setSearch([
         {
             title: "支出/收入", name: "equal-type", type: "select", dict: [

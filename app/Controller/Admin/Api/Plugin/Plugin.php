@@ -18,11 +18,7 @@ use Kernel\Waf\Filter;
 #[Interceptor(class: [PostDecrypt::class, Admin::class], type: Interceptor::API)]
 class Plugin extends Base
 {
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
+
     public function get(): Response
     {
         $state = $this->request->post("state");
@@ -35,12 +31,6 @@ class Plugin extends Base
         return $this->json(data: $query->list());
     }
 
-    /**
-     * @param string $hash
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function getLogs(string $hash): Response
     {
         $name = $this->request->post("name");
@@ -48,15 +38,9 @@ class Plugin extends Base
         return $this->json(data: $data);
     }
 
-    /**
-     * @param string $name
-     * @return Response
-     * @throws JSONException
-     */
     public function icon(string $name): Response
     {
         $path = realpath(BASE_PATH . Usr::MAIN . "/" . $name . "/Icon.ico");
-
 
         if (!$path) {
             throw new JSONException("ICON不存在");
@@ -76,11 +60,6 @@ class Plugin extends Base
             ->withHeader("Date", gmdate("D, d M Y H:i:s", time() + 31536000) . " GMT");
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function clearLog(): Response
     {
         $name = $this->request->post("name");
@@ -88,13 +67,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-
-    /**
-     * @param string $name
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function setCfg(string $name): Response
     {
         $post = $this->request->post(flags: Filter::NORMAL);
@@ -104,26 +76,12 @@ class Plugin extends Base
         return $this->json();
     }
 
-    /**
-     * @param string $name
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function setSysCfg(string $name): Response
     {
         \Kernel\Plugin\Plugin::instance()->setSystemConfig($name, Usr::MAIN, $this->request->post());
         return $this->json();
     }
 
-
-    /**
-     * 启动插件
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function start(): Response
     {
         $name = $this->request->post("name");
@@ -131,13 +89,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    /**
-     * 停止插件
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function stop(): Response
     {
         $name = $this->request->post("name");
@@ -145,13 +96,6 @@ class Plugin extends Base
         return $this->json();
     }
 
-    /**
-     * 重启插件
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function restart(): Response
     {
         $name = $this->request->post("name");

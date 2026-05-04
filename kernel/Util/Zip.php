@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace Kernel\Util;
 
-
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -12,20 +11,11 @@ use ZipArchive;
 class Zip
 {
 
-    /**
-     * @return bool
-     */
     public static function state(): bool
     {
         return class_exists('ZipArchive');
     }
 
-    /**
-     * @param string|array $source
-     * @param string $destination
-     * @param array $excludes
-     * @return bool
-     */
     public static function createZip(string|array $source, string $destination, array $excludes = []): bool
     {
         if (!extension_loaded('zip')) {
@@ -82,11 +72,6 @@ class Zip
         return $zip->close();
     }
 
-    /**
-     * @param string $file
-     * @param string $targetPath
-     * @return bool
-     */
     public static function unzip(string $file, string $targetPath): bool
     {
         $zip = new \ZipArchive();

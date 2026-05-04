@@ -13,7 +13,7 @@ interface Theme
     public const REGISTER = 0x10;
     public const LOGIN = 0x11;
     public const DASHBOARD = 0x12;
-    public const STOCK_MARKET = 0x13;  //废弃
+    public const STOCK_MARKET = 0x13;  
     public const USER_SHOP_CATEGORY = 0x14;
     public const USER_SHOP_ITEM = 0x15;
     public const USER_SHOP_SUPPLY = 0x16;
@@ -23,7 +23,6 @@ interface Theme
 
     public const USER_SHOP_ORDER = 0x19;
 
-
     public const USER_PLUGIN = 0x20;
     public const USER_PLUGIN_WIKI = 0x21;
 
@@ -32,16 +31,13 @@ interface Theme
 
     public const USER_REPERTORY_ITEM = 0x24;
 
-
     public const USER_TRADE_ORDER = 0x25;
 
     public const USER_REPORT_ORDER = 0x26;
 
     public const USER_SUPPLY_REPORT_ORDER = 0x27;
 
-
     public const USER_REPERTORY_ORDER = 0x28;
-
 
     public const USER_BILL = 0x29;
 
@@ -65,17 +61,13 @@ interface Theme
 
     public const USER_SELF_LEVEL = 0x40;
 
-
     public const USER_SHOP_SUMMARY = 0x41;
 
-
     public const USER_LOGIN_LOG = 0x42;
-
 
     public const USER_STORE = 0x43;
 
     public const TERMS = 0x44;
-
 
     public const USER_REPERTORY_ITEM_MARKUP_TEMPLATE = 0X45;
 }

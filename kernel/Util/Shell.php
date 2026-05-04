@@ -9,11 +9,6 @@ class Shell
 {
     use Singleton;
 
-
-    /**
-     * @param string $command
-     * @return string|false|null
-     */
     public function exec(string $command): string|null|false
     {
         $command = str_replace("\r\n", "\n", $command);

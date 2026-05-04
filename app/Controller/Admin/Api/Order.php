@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Api;
 
-
 use App\Controller\Base\API\Manage;
 use App\Entity\Query\Delete;
 use App\Entity\Query\Get;
@@ -26,9 +25,6 @@ class Order extends Manage
     #[Inject]
     private Query $query;
 
-    /**
-     * @return array
-     */
     public function data(): array
     {
         $map = $_POST;
@@ -55,11 +51,11 @@ class Order extends Manage
                 'pay' => function (Relation $relation) {
                     $relation->select(["id", "name", "icon"]);
                 },
-                //推广者
+
                 'promote' => function (Relation $relation) {
                     $relation->select(["id", "username", "avatar", "recharge"]);
                 },
-                //分站订单
+
                 'substationUser' => function (Relation $relation) {
                     $relation->select(["id", "username", "avatar", "recharge"]);
                 },
@@ -70,11 +66,6 @@ class Order extends Manage
         return $this->json(data: array_merge($data, $raw));
     }
 
-
-    /**
-     * @return array
-     * @throws JSONException
-     */
     public function save(): array
     {
         $map = $this->request->post(flags: Filter::NORMAL);
@@ -92,10 +83,6 @@ class Order extends Manage
         return $this->json(200, '（＾∀＾）发货成功');
     }
 
-
-    /**
-     * @return array
-     */
     public function clear(): array
     {
         \App\Model\Order::query()
@@ -106,10 +93,6 @@ class Order extends Manage
         return $this->json(200, '（＾∀＾）清理完成');
     }
 
-
-    /**
-     * @return void
-     */
     public function export(): void
     {
         ignore_user_abort(true);
@@ -210,7 +193,6 @@ class Order extends Manage
                 1 => '已发货',
                 default => '未知',
             };
-
 
             fputcsv($fp, [
                 (string)($d['trade_no'] ?? ''),

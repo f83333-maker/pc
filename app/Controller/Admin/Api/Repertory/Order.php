@@ -30,10 +30,6 @@ class Order extends Base
     #[Inject]
     private RepertoryOrder $repertoryOrder;
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -78,17 +74,11 @@ class Order extends Base
             return $builder->with(["supplier", "customer", "item", "sku", "commission"])->withSum("commission as commission_amount", "amount");
         });
 
-
         $this->repertoryOrder->hydrateOrderListRenderFlags($data['list']);
 
         return $this->json(data: $data, ext: $raw);
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([[Common::class, "id"]])]
     public function detail(): Response
     {
@@ -106,6 +96,5 @@ class Order extends Base
 
         return $this->json(data: ["contents" => $ship->isCustomRender() ? $ship->render() : $order->contents]);
     }
-
 
 }

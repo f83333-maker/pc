@@ -20,13 +20,6 @@ class PostDecrypt implements Interceptor
     #[Inject]
     private Session $session;
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param int $type
-     * @return Response
-     * @throws JSONException
-     */
     public function handle(Request $request, Response $response, int $type): Response
     {
         $secret = (string)$request->header("Secret");
@@ -40,7 +33,6 @@ class PostDecrypt implements Interceptor
 
         $key = substr($secret, 0, 16);
         $post = (array)json_decode((string)Aes::decrypt($data, $key, $key), true);
-
 
         if (!$signature || Str::generateSignature($post, $secret) != $signature) {
             throw new JSONException("signature failure");

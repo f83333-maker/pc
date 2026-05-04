@@ -68,9 +68,8 @@
         return map[status] || map[0];
     }
 
-    // ========== 重新设计的订单卡片 ==========
     function _CreateOrderItem(order) {
-        // SKU 标签
+
         let skuHtml = '';
         if (order.race) {
             skuHtml += `<span class="ov-tag ov-tag-success">${order.race}</span>`;
@@ -82,7 +81,6 @@
         }
         skuHtml += `<span class="ov-tag ov-tag-warning"><i class="fa-duotone fa-regular fa-cube me-1"></i>数量 ${order.card_num}</span>`;
 
-        // 卡密 / 发货区域（仅已付款显示）
         let cardSection = '';
         if (order.status == 1) {
             let inner = '';
@@ -133,7 +131,6 @@
                 </div>`;
         }
 
-        // 顶部：状态徽章 + 订单号 + 金额
         const headerHtml = `
             <div class="ov-order-head">
                 <div class="ov-order-head-left">
@@ -148,7 +145,6 @@
                 </div>
             </div>`;
 
-        // 商品行：缩略图 + 名称 + 标签
         const goodsHtml = `
             <div class="ov-goods-row">
                 <div class="ov-goods-thumb">
@@ -160,7 +156,6 @@
                 </div>
             </div>`;
 
-        // 元信息网格
         const metaHtml = `
             <div class="ov-meta-grid">
                 <div class="ov-meta-item">
@@ -187,7 +182,6 @@
             ${cardSection}
         </div>`;
     }
-    // ========== 重新设计结束 ==========
 
     function _ShowResults(orders) {
         $('.order-results').show();

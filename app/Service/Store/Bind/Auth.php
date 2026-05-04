@@ -13,11 +13,6 @@ class Auth implements \App\Service\Store\Auth
     #[Inject]
     private \App\Service\Store\Http $http;
 
-    /**
-     * @param string $type
-     * @return string
-     * @throws ServiceException
-     */
     public function captcha(string $type): string
     {
         $http = $this->http->request("/auth/captcha", ["type" => $type]);
@@ -28,13 +23,6 @@ class Auth implements \App\Service\Store\Auth
         return base64_decode($http->data["raw"]);
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @param string $captcha
-     * @return Login
-     * @throws ServiceException
-     */
     public function login(string $username, string $password, string $captcha): Login
     {
         $http = $this->http->request("/auth/login",
@@ -52,15 +40,6 @@ class Auth implements \App\Service\Store\Auth
         return new Login($http->data);
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @param string $phone
-     * @param string $code
-     * @param string $captcha
-     * @return Login
-     * @throws ServiceException
-     */
     public function register(string $username, string $password, string $phone, string $code, string $captcha): Login
     {
         $http = $this->http->request("/auth/register",
@@ -80,14 +59,6 @@ class Auth implements \App\Service\Store\Auth
         return new Login($http->data);
     }
 
-
-    /**
-     * @param string $type
-     * @param string $phone
-     * @param string $captcha
-     * @return void
-     * @throws ServiceException
-     */
     public function sendSms(string $type, string $phone, string $captcha): void
     {
         $http = $this->http->request("/auth/phone/code?type={$type}", ["captcha" => $captcha, "phone" => $phone]);
@@ -96,14 +67,6 @@ class Auth implements \App\Service\Store\Auth
         }
     }
 
-    /**
-     * @param string $phone
-     * @param string $password
-     * @param string $code
-     * @param string $captcha
-     * @return Login
-     * @throws ServiceException
-     */
     public function reset(string $phone, string $password, string $code, string $captcha): Login
     {
         $http = $this->http->request("/auth/reset",

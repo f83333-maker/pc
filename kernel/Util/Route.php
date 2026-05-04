@@ -21,18 +21,8 @@ class Route
     const TYPE_ROUTE = 2;
     const TYPE_LEADER = 3;
 
-    /**
-     * @var \Kernel\Context\Interface\Route[]
-     */
     private static array $route = [];
 
-    /**
-     * @param string $route
-     * @param array $class
-     * @param string $method
-     * @return void
-     * @throws RuntimeException
-     */
     public static function add(string $route, array $class, string $method = "ALL"): void
     {
         File::writeForLock(BASE_PATH . "/runtime/route", function (string $contents) use ($route, $method, $class) {
@@ -47,12 +37,6 @@ class Route
         });
     }
 
-    /**
-     * @param string $route
-     * @param string $method
-     * @return void
-     * @throws RuntimeException
-     */
     public static function del(string $route, string $method): void
     {
         File::writeForLock(BASE_PATH . "/runtime/route", function (string $contents) use ($route, $method) {
@@ -62,10 +46,6 @@ class Route
         });
     }
 
-
-    /**
-     * @return void
-     */
     private static function loadData(): void
     {
         self::$route = File::read(BASE_PATH . "/runtime/route", function (string $contents) {
@@ -73,13 +53,6 @@ class Route
         });
     }
 
-
-    /**
-     * 路由合并
-     * @param array $routes
-     * @param array ...$arr
-     * @return array
-     */
     private static function mergeRoutes(array $routes, array ...$arr): array
     {
         foreach ($arr as $any) {
@@ -92,23 +65,12 @@ class Route
         return $routes;
     }
 
-    /**
-     * @param string $uri
-     * @return \Kernel\Context\Interface\Route[]
-     * @throws \ReflectionException
-     */
     public static function list(string $uri = ""): array
     {
         self::loadData();
         return array_merge_recursive(self::$route, \Kernel\Plugin\Route::inst()->list());
     }
 
-    /**
-     * @param string $route
-     * @param string $method
-     * @return bool
-     * @throws \ReflectionException
-     */
     public static function has(string $route, string $method): bool
     {
         $routes = self::list($route);
@@ -116,12 +78,6 @@ class Route
         return isset($routes[$method][$route]) || isset($routes["ALL"][$route]);
     }
 
-    /**
-     * @param string $route
-     * @param string $method
-     * @return \Kernel\Context\Interface\Route|null
-     * @throws \ReflectionException
-     */
     public static function get(string $route, string $method): ?\Kernel\Context\Interface\Route
     {
         $routes = self::list($route);

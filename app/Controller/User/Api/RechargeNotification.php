@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Api;
 
-
 use App\Controller\Base\API\User;
 use App\Interceptor\Waf;
 use App\Util\Str;
@@ -19,11 +18,6 @@ class RechargeNotification extends User
     #[Inject]
     private \App\Service\Recharge $recharge;
 
-    /**
-     * @param Request $request
-     * @return string
-     * @throws JSONException
-     */
     public function callback(Request $request): string
     {
         $handle = $_GET['_PARAMETER'][0];

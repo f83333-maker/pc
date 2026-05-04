@@ -17,16 +17,15 @@ const treasure = new class Treasure {
                                 disabled: true,
                                 complete: (popup, val, dom) => {
                                     dom.parent().parent().parent().parent().css("padding", "0px");
-                                    //dom.get(0).style.setProperty("border-radius", "0 0 25px 25px", "important");
 
                                     dom.get(0).style.setProperty("background-color", "#fff", "important");
                                     dom.get(0).style.setProperty("border", "none", "important");
                                     dom.get(0).style.setProperty("overflow", "hidden", "important");
                                     dom.get(0).style.setProperty("resize", "none", "important");
                                     dom.parent().get(0).style.setProperty("padding", "0", "important");
-                                    // dom.parent().parent().parent().get(0).style.setProperty("left", "0", "important");
+
                                     dom.get(0).style.setProperty("width", "100%", "important");
-                                    // dom.css('height', (dom.parent().parent().parent().parent().parent().height()) + "px");
+
                                     dom.parent().parent().fadeIn("slow");
                                     dom.parent().parent().parent().parent().parent().css('overflow', 'hidden');
                                     dom.parent().parent().get(0).style.setProperty("margin", "0", "important");

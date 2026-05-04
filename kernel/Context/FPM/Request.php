@@ -6,7 +6,6 @@ namespace Kernel\Context\FPM;
 class Request extends \Kernel\Context\Abstract\Request
 {
 
-
     public function __construct()
     {
         $this->post = $_POST;
@@ -47,10 +46,6 @@ class Request extends \Kernel\Context\Abstract\Request
         parent::__construct();
     }
 
-
-    /**
-     * @return array
-     */
     private function parseHeader(): array
     {
         $headers = [];

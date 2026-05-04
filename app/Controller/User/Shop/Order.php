@@ -19,9 +19,6 @@ class Order extends Base
         return $this->theme(Theme::USER_SHOP_ORDER, "Shop/Order.html", "订单管理");
     }
 
-    /**
-     * @return Response
-     */
     public function summary(): Response
     {
         return $this->theme(Theme::USER_SHOP_SUMMARY, "Shop/OrderSummary.html", "订单汇总");

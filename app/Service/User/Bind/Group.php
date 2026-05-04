@@ -8,10 +8,6 @@ use App\Model\UserGroup;
 class Group implements \App\Service\User\Group
 {
 
-    /**
-     * @param int|null $currentGroupId
-     * @return array
-     */
     public function list(?int $currentGroupId): array
     {
         $groups = UserGroup::query()->where("is_upgradable", 1);

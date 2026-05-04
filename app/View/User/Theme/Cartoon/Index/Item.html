@@ -2,10 +2,7 @@
 #{item_var($item)}
 
 <style>
-    /* ================================================== */
-    /* 输入框统一样式：让联系方式/查询密码/优惠券/人机验证 */
-    /* 与购买数量保持完全一致的"厚底框"风格               */
-    /* ================================================== */
+
     .detail-form .item-apple-input-wrapper {
         position: relative;
         background: #f3f4f8;
@@ -39,13 +36,11 @@
         background: transparent;
     }
 
-    /* 购买数量数字居中保留 */
     .detail-form .item-apple-input-wrapper > input[name="num"] {
         text-align: center;
         font-weight: 600;
     }
 
-    /* 人机验证：右侧验证码图片不占满高度 */
     .detail-form .item-apple-input-wrapper > .captcha-img {
         position: absolute;
         right: 8px;
@@ -59,9 +54,6 @@
         padding-right: 110px;
     }
 
-    /* ================================================== */
-    /* 支付方式：固定尺寸 logo + 卡片化网格                  */
-    /* ================================================== */
     .detail-form .cash-pay {
         margin-top: 4px;
     }
@@ -72,7 +64,6 @@
         gap: 10px;
     }
 
-    /* 兼容 pay-list 子元素可能是 a / div / label 等 */
     .detail-form .pay-list > * {
         display: flex;
         flex-direction: column;
@@ -100,7 +91,6 @@
         box-shadow: 0 6px 18px -10px rgba(76, 88, 179, 0.5);
     }
 
-    /* 选中态（适配常见的 active / is-primary / selected 类名） */
     .detail-form .pay-list > .active,
     .detail-form .pay-list > .is-primary,
     .detail-form .pay-list > .selected,
@@ -110,7 +100,6 @@
         box-shadow: 0 0 0 3px rgba(76, 88, 179, 0.15);
     }
 
-    /* 关键：固定 logo 容器尺寸，无论原图多大都缩放到此盒子内 */
     .detail-form .pay-list img,
     .detail-form .pay-list svg,
     .detail-form .pay-list i {
@@ -122,7 +111,6 @@
         font-size: 32px;
     }
 
-    /* 文字（名称）样式 */
     .detail-form .pay-list span,
     .detail-form .pay-list p {
         margin: 0;
@@ -138,7 +126,7 @@
 <main class="container py-4">
 
     <div class="row g-4 mt-1 align-items-start">
-        <!-- 左侧：宝贝详情 -->
+
         <div class="col-12 col-lg-8 order-2 order-lg-1">
             <div class="panel item-detail h-100">
                 <div class="panel-header">
@@ -151,14 +139,12 @@
             </div>
         </div>
 
-        <!-- 右侧：下单信息 -->
         <div class="col-12 col-lg-4 order-1 order-lg-2">
             <div class="panel">
                 <div class="panel-body p-4">
-                    <!-- 商品标题（H1，全页唯一，对 SEO 至关重要） -->
+
                     <h1 class="fw-bold mb-3 h4" style="font-size:1.4rem;line-height:1.3;">#{$item.name}</h1>
 
-                    <!-- 状态标签 -->
                     <div class="d-flex align-items-center flex-wrap gap-2 mb-4">
                         #{if $item.seckill_status == 1}
                             <span class="badge-soft snap-up" style="display: none;"></span>
@@ -168,14 +154,12 @@
                         <span class="badge-soft badge-soft-success item-stock">库存 #{$item.stock}</span>
                     </div>
 
-                    <!-- 价格展示 -->
                     <div class="d-flex align-items-baseline gap-2 mb-4 abacus">
                         <div class="price" style="font-size: 2rem; color: #4c58b3; font-weight: 800;">
                             <i class="fa-duotone fa-regular fa-spinner-third icon-spin fs-6"></i>
                         </div>
                     </div>
 
-                    <!-- 下单表单 -->
                     <form class="vstack gap-3 detail-form">
                         #{if !empty($item.config.category)}
                             <div>
@@ -272,7 +256,7 @@
                         <div class="cash-pay p-0" style="display: none;">
                             <label class="form-label mb-3 fw-bold"><i class="fa-duotone fa-regular fa-wallet me-2"></i>支付方式</label>
                             <div class="pay-list">
-                                <!-- 支付列表由 JS 动态渲染 -->
+
                             </div>
                         </div>
                     </form>

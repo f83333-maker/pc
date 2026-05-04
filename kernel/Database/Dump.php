@@ -10,14 +10,6 @@ class Dump
 {
     use Singleton;
 
-    /**
-     * @param string $sql
-     * @param string $host
-     * @param string $db
-     * @param string $username
-     * @param string $password
-     * @return void
-     */
     public function import(string $sql, string $host, string $db, string $username, string $password): void
     {
         $hosts = explode(":", $host);

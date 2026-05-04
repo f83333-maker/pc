@@ -25,7 +25,6 @@ class Server
         return true;
     }
 
-
     #[Required("监听端口不能为空")]
     #[Regex("/^([0-9]{1,5})$/", "监听端口范围：1~65535")]
     public function cliPort(mixed $value): bool|string

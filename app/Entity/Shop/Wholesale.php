@@ -21,10 +21,6 @@ class Wholesale
         $this->price = Str::amountRemoveTrailingZeros($price);
     }
 
-
-    /**
-     * @param string|int|float $price
-     */
     public function setPrice(string|int|float $price): void
     {
         $this->price = Str::amountRemoveTrailingZeros($price);

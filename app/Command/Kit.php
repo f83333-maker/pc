@@ -16,27 +16,16 @@ class Kit extends Command
     #[Inject]
     private Project $project;
 
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function update(): void
     {
         $this->project->update();
-        //重启
+
         Di::inst()->make(Service::class)->restart();
     }
 
-
-    /**
-     * @param string $password
-     * @return void
-     */
     public function reset(string $password): void
     {
-        /**
-         * @var Manage $manage
-         */
+
         $manage = Manage::query()->find(1);
         if (!$manage) {
             $this->error("超级管理员不存在");

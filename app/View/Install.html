@@ -89,7 +89,7 @@
             border: none;
             outline: none;
         }
-        
+
         .form-wrapper .button:hover, .form-wrapper .submit:hover {
             background-color: #2980b9;
         }
@@ -131,7 +131,7 @@
             background-color: #ccc !important;
             cursor: not-allowed !important;
         }
-        
+
         .success-icon {
             font-size: 60px;
             color: #2ecc71;
@@ -205,7 +205,7 @@
         $(".form-wrapper .button").click(function () {
             var button = $(this);
             if(button.hasClass('disabled')) return;
-            
+
             var currentSection = button.parents(".section");
             var currentSectionIndex = currentSection.index();
             var headerSection = $('.steps li').eq(currentSectionIndex);

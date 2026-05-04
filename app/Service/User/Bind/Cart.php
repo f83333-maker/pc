@@ -28,11 +28,6 @@ class Cart implements \App\Service\User\Cart
     #[Inject]
     private \App\Service\User\Item $item;
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @return \App\Model\Cart
-     */
     private function getCart(?User $customer, string $clientId): \App\Model\Cart
     {
         $cart = \App\Model\Cart::query();
@@ -53,12 +48,6 @@ class Cart implements \App\Service\User\Cart
         return $cart;
     }
 
-
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @return string
-     */
     public function getClientId(?User $customer, string $clientId): string
     {
         if (!$customer) {
@@ -70,12 +59,6 @@ class Cart implements \App\Service\User\Cart
         return Str::generateRandStr(32);
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @return array
-     * @throws \Exception
-     */
     public function getItems(?User $customer, string $clientId): array
     {
         $cart = $this->getCart($customer, $clientId);
@@ -103,36 +86,17 @@ class Cart implements \App\Service\User\Cart
         return $items;
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @return string
-     */
     public function getAmount(?User $customer, string $clientId): string
     {
         $cart = $this->getCart($customer, $clientId);
         return (string)CartItem::query()->where("cart_id", $cart->id)->sum("amount");
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @param int $quantity
-     * @param int $skuId
-     * @param array $option
-     * @return bool
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function add(?User $customer, string $clientId, int $quantity, int $skuId, array $option): bool
     {
         $cart = $this->getCart($customer, $clientId);
         $sku = $this->item->getSku($skuId);
 
-        /**
-         * 仓库的商品对象
-         * @var RepertoryItemSku $repertoryItemSku
-         */
         $repertoryItemSku = $sku?->repertoryItemSku;
 
         if (!$repertoryItemSku) {
@@ -145,14 +109,11 @@ class Cart implements \App\Service\User\Cart
 
         Plugin::instance()->unsafeMultiHook([$sku?->user_id, $repertoryItemSku?->user_id], Point::SERVICE_CART_ADD_BEFORE, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $option, $cart, $sku, $repertoryItemSku, $customer, $quantity);
 
-        /**
-         * @var CartItem $cartItem
-         */
         $cartItem = CartItem::query()->where("cart_id", $cart->id)->where("sku_id", $skuId)->first();
 
         if ($cartItem) {
             $this->inspectQuantityRestriction($quantity + $cartItem->quantity, $skuId, $repertoryItemSku, $sku?->user_id, $clientId, $customer);
-            //如果信息相同，则增量
+
             if (json_encode($option) == json_encode(is_array($cartItem->option) ? $cartItem->option : [])) {
                 $cartItem->quantity = $cartItem->quantity + $quantity;
                 $cartItem->save();
@@ -176,23 +137,9 @@ class Cart implements \App\Service\User\Cart
         return true;
     }
 
-
-    /**
-     * @param int $quantity
-     * @param int $skuId
-     * @param RepertoryItemSku $repertoryItemSku
-     * @param int|null $merchantId
-     * @param string $clientId
-     * @param User|null $customer
-     * @return void
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function inspectQuantityRestriction(int $quantity, int $skuId, RepertoryItemSku $repertoryItemSku, ?int $merchantId, string $clientId, ?User $customer = null): void
     {
-        /**
-         * @var \App\Service\User\Item $itemService
-         */
+
         $itemService = Di::inst()->make(\App\Service\User\Item::class);
 
         $quantityRestriction = $itemService->getQuantityRestriction($merchantId, $repertoryItemSku);
@@ -225,15 +172,6 @@ class Cart implements \App\Service\User\Cart
         }
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @param int $itemId
-     * @param int $quantity
-     * @return void
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public function changeQuantity(?User $customer, string $clientId, int $itemId, int $quantity): void
     {
         $cart = $this->getCart($customer, $clientId);
@@ -246,11 +184,6 @@ class Cart implements \App\Service\User\Cart
             return;
         }
 
-
-        /**
-         * 仓库的商品对象
-         * @var RepertoryItemSku $repertoryItemSku
-         */
         $repertoryItemSku = $cartItem?->sku?->repertoryItemSku;
 
         if (!$repertoryItemSku) {
@@ -270,13 +203,6 @@ class Cart implements \App\Service\User\Cart
         $cartItem->save();
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @param int $itemId
-     * @return bool
-     * @throws \Exception
-     */
     public function del(?User $customer, string $clientId, int $itemId): bool
     {
         $cart = $this->getCart($customer, $clientId);
@@ -287,25 +213,15 @@ class Cart implements \App\Service\User\Cart
         return (bool)($cartItem->delete());
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @return void
-     */
     public function clear(?User $customer, string $clientId): void
     {
         $cart = $this->getCart($customer, $clientId);
         CartItem::query()->where("cart_id", $cart->id)->delete();
     }
 
-    /**
-     * @param User $customer
-     * @param string $clientId
-     * @return void
-     */
     public function bindUser(User $customer, string $clientId): void
     {
-        //更新购物车
+
         $cart = \App\Model\Cart::query()->where("customer_id", $customer->id)->orderBy("id", "asc")->first();
         if ($cart) {
             $carts = \App\Model\Cart::query()->where("client_id", $clientId)->whereNull("customer_id")->get();
@@ -316,19 +232,10 @@ class Cart implements \App\Service\User\Cart
         } else {
             \App\Model\Cart::query()->where("client_id", $clientId)->whereNull("customer_id")->update(["customer_id" => $customer->id]);
         }
-        //更新订单
+
         \App\Model\Order::query()->where("client_id", $clientId)->whereNull("customer_id")->update(['customer_id' => $customer->id]);
     }
 
-
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @param int $itemId
-     * @return \App\Entity\Shop\CartItem
-     * @throws JSONException
-     * @throws \Exception
-     */
     public function getItem(?User $customer, string $clientId, int $itemId): \App\Entity\Shop\CartItem
     {
         $cart = $this->getCart($customer, $clientId);
@@ -351,14 +258,6 @@ class Cart implements \App\Service\User\Cart
         return $cartItemEntity;
     }
 
-    /**
-     * @param User|null $customer
-     * @param string $clientId
-     * @param int $itemId
-     * @param array $option
-     * @return void
-     * @throws JSONException
-     */
     public function updateOption(?User $customer, string $clientId, int $itemId, array $option): void
     {
         $cart = $this->getCart($customer, $clientId);

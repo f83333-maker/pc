@@ -23,29 +23,20 @@ class Http implements \App\Service\Store\Http
     #[Inject]
     private Client $httpClient;
 
-    /**
-     * @var array
-     */
     private array $baseUrl = [];
 
     private string $node = BASE_PATH . "/runtime/store.node";
 
     public function __construct()
     {
-        $this->baseUrl = []; // Neutered remote connection
+        $this->baseUrl = []; 
     }
 
-    /**
-     * @return string
-     */
     public function getBaseUrl(): string
     {
         return $this->baseUrl[$this->getNode()];
     }
 
-    /**
-     * @return array
-     */
     public function ping(): array
     {
         $pings = [];
@@ -61,18 +52,11 @@ class Http implements \App\Service\Store\Http
         return $pings;
     }
 
-    /**
-     * @param int $index
-     * @return void
-     */
     public function setNode(int $index): void
     {
         File::write($this->node, (string)$index);
     }
 
-    /**
-     * @return int
-     */
     public function getNode(): int
     {
         return File::read($this->node, function (string $content) {
@@ -80,16 +64,10 @@ class Http implements \App\Service\Store\Http
         }) ?: 0;
     }
 
-
-    /**
-     * @return string
-     */
     private
     function getSenderIp(): string
     {
-        /**
-         * @var Request $request
-         */
+
         $request = Context::get(Request::class);
         if (!$request) {
             return "127.0.0.1";
@@ -97,15 +75,6 @@ class Http implements \App\Service\Store\Http
         return $request->clientIp();
     }
 
-
-    /**
-     * @param string $url
-     * @param array $data
-     * @param Authentication|null $authentication
-     * @return \App\Entity\Store\Http
-     * @throws RuntimeException
-     * @throws ServiceException
-     */
     public
     function request(string $url, array $data = [], ?Authentication $authentication = null): \App\Entity\Store\Http
     {
@@ -161,15 +130,6 @@ class Http implements \App\Service\Store\Http
         return new \App\Entity\Store\Http((int)$_data["code"], $_data["msg"], $_data["data"] ?? [], $_data);
     }
 
-
-    /**
-     * @param string $url
-     * @param string $path
-     * @param Authentication|null $authentication
-     * @param string $method
-     * @param array $data
-     * @return bool
-     */
     public
     function download(string $url, string $path, ?Authentication $authentication = null, string $method = "GET", array $data = []): bool
     {
@@ -219,14 +179,6 @@ class Http implements \App\Service\Store\Http
         }
     }
 
-    /**
-     * @param string $mime
-     * @param string $file
-     * @param Authentication|null $authentication
-     * @return \App\Entity\Store\Http
-     * @throws ServiceException
-     * @throws \ReflectionException
-     */
     public
     function upload(string $mime, string $file, ?Authentication $authentication = null): \App\Entity\Store\Http
     {

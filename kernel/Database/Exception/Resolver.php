@@ -10,31 +10,15 @@ class Resolver
 
     use Make;
 
-
-    /**
-     * @var \Throwable
-     */
     private \Throwable $exception;
 
-    /**
-     * @var array|\Closure[]
-     */
     private array $errorCodeHandlers = [];
 
-
-    /**
-     * 字段的中文字典
-     * @var array
-     */
     private array $dict = [
         'price' => "价格",
         'drift_value' => '浮动值'
     ];
 
-
-    /**
-     * @param \Throwable $exception
-     */
     public function __construct(\Throwable $exception)
     {
         $this->exception = $exception;
@@ -88,10 +72,6 @@ class Resolver
         ];
     }
 
-    /**
-     * @param string $column
-     * @return string
-     */
     private function getDict(string $column): string
     {
         if (isset($this->dict[$column])) {
@@ -100,9 +80,6 @@ class Resolver
         return $column;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         $errorCode = $this->exception->getCode();
@@ -112,6 +89,5 @@ class Resolver
         }
         return '数据库发生错误：' . $this->exception->getMessage();
     }
-
 
 }

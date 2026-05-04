@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace Kernel\Context\Abstract;
 
-
 use Kernel\Exception\RuntimeException;
 use Kernel\Util\Arr;
 use Kernel\Waf\Filter;
@@ -30,12 +29,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
     protected string $uri;
     protected string $uriSuffix;
 
-
-    /**
-     * @throws \HTMLPurifier_Exception
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     public function __construct()
     {
         $_POST = $this->post = Firewall::instance()->xssKiller($this->post);
@@ -44,36 +37,22 @@ abstract class Request implements \Kernel\Context\Interface\Request
         $_SERVER = Firewall::instance()->xssKiller($_SERVER);
         $this->json = Firewall::instance()->xssKiller($this->json);
 
-
         $_POST = Firewall::inst()->filterContent($_POST, Filter::STRING_UNSIGNED);
         $_GET = Firewall::inst()->filterContent($_GET, Filter::STRING_UNSIGNED);
         $_REQUEST = Firewall::inst()->filterContent($_REQUEST, Filter::STRING_UNSIGNED);
     }
 
-    /**
-     * @return string
-     */
     public function method(): string
     {
         return $this->method;
     }
 
-
-    /**
-     * @param int $flags
-     * @return mixed
-     */
     public function all(int $flags = Filter::STRING_UNSIGNED): mixed
     {
         $all = array_merge($this->post, $this->get, $this->json);
         return Firewall::instance()->filterContent($all, $flags);
     }
 
-    /**
-     * @param string|null $key
-     * @param int $flags
-     * @return mixed
-     */
     public function post(?string $key = null, int $flags = Filter::STRING_UNSIGNED): mixed
     {
         if ($key) {
@@ -87,11 +66,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return Arr::get($this->_unsafe_post, $key);
     }
 
-    /**
-     * @param string|null $key
-     * @param int $flags
-     * @return mixed
-     */
     public function xml(?string $key = null, int $flags = Filter::STRING_UNSIGNED): mixed
     {
         $data = Arr::xmlToArray($this->raw());
@@ -101,11 +75,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return Firewall::instance()->filterContent($data, $flags);
     }
 
-    /**
-     * @param string|null $key
-     * @param int $flags
-     * @return mixed
-     */
     public function get(?string $key = null, int $flags = Filter::STRING_UNSIGNED): mixed
     {
         if ($key) {
@@ -114,20 +83,11 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return Firewall::instance()->filterContent($this->get, $flags);
     }
 
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function unsafeGet(?string $key = null): mixed
     {
         return Arr::get($this->_unsafe_get, $key);
     }
 
-
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function header(?string $key = null): mixed
     {
         if ($key) {
@@ -136,10 +96,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return $this->header;
     }
 
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function cookie(?string $key = null): mixed
     {
         if ($key) {
@@ -148,11 +104,6 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return $this->cookie;
     }
 
-    /**
-     * @param string|null $key
-     * @param int $flags
-     * @return mixed
-     */
     public function json(?string $key = null, int $flags = Filter::STRING_UNSIGNED): mixed
     {
         if ($key) {
@@ -161,21 +112,11 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return Firewall::instance()->filterContent($this->json, $flags);
     }
 
-
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function unsafeJson(?string $key = null): mixed
     {
         return Arr::get($this->_unsafe_json, $key);
     }
 
-
-    /**
-     * @param string|null $key
-     * @return mixed
-     */
     public function file(?string $key = null): mixed
     {
         if ($key) {
@@ -184,52 +125,31 @@ abstract class Request implements \Kernel\Context\Interface\Request
         return $this->files;
     }
 
-    /**
-     * @return string
-     */
     public function uri(): string
     {
         return $this->uri;
     }
 
-    /**
-     * @return string
-     */
     public function uriSuffix(): string
     {
         return $this->uriSuffix;
     }
 
-    /**
-     * @param string $property
-     * @param mixed $value
-     * @return void
-     */
     public function setProperty(string $property, mixed $value): void
     {
         $this->{$property} = $value;
     }
 
-    /**
-     * @return string
-     */
     public function domain(): string
     {
         return $this->domain;
     }
 
-
-    /**
-     * @return string
-     */
     public function url(): string
     {
         return $this->url;
     }
 
-    /**
-     * @return string
-     */
     public function raw(): string
     {
         return $this->raw;

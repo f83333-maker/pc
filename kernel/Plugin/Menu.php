@@ -14,13 +14,6 @@ class Menu
 
     public const CACHE_FILE = BASE_PATH . "/runtime/plugin/menu";
 
-    /**
-     * @param string $name
-     * @param array $menu
-     * @param string $usr
-     * @return void
-     * @throws RuntimeException
-     */
     public function add(string $name, array $menu, string $usr = "*"): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($menu, $name, $usr) {
@@ -30,12 +23,6 @@ class Menu
         });
     }
 
-    /**
-     * @param string $name
-     * @param string $usr
-     * @return void
-     * @throws RuntimeException
-     */
     public function del(string $name, string $usr = "*"): void
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($name, $usr) {
@@ -45,10 +32,6 @@ class Menu
         });
     }
 
-    /**
-     * @param string $usr
-     * @return array
-     */
     public function list(string $usr = "*"): array
     {
         $menus = File::read(self::CACHE_FILE, function (string $contents) use ($usr) {

@@ -50,12 +50,6 @@ class Item extends Base
     #[Inject]
     private \App\Service\User\Item $item;
 
-
-    /**
-     * @return Response
-     * @throws RuntimeException
-     * @throws \ReflectionException
-     */
     #[Validator([
         [Common::class, ["page", "limit"]]
     ])]
@@ -152,11 +146,6 @@ class Item extends Base
         return $this->json(data: array_merge($data, $raw));
     }
 
-    /**
-     * @return Response
-     * @throws JSONException
-     * @throws RuntimeException
-     */
     #[Validator([
         [\App\Validator\Admin\Item::class, "name"]
     ])]
@@ -178,9 +167,6 @@ class Item extends Base
             throw new JSONException("请选择直营店的商品分类");
         }
 
-        /**
-         * @var Model $origin
-         */
         $origin = isset($map['id']) ? Model::where("user_id", $this->getUser()->id)->find($map['id']) : null;
 
         if (!isset($map['id'])) {
@@ -226,8 +212,6 @@ class Item extends Base
                 $this->repertoryItem->forceSyncRemoteItemPrice($origin->id);
             }
 
-
-            //导入直营店
             if ($directSale == 1 && !isset($map['id'])) {
                 if (!Category::where("user_id", $this->getUser()->id)->where("id", $directCategoryId)->exists()) {
                     throw new JSONException("直营店商品分类不存在");
@@ -251,10 +235,6 @@ class Item extends Base
         return $this->json(message: "保存成功");
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     #[Validator([
         [Common::class, ["status", "id"]]
     ])]
@@ -266,10 +246,6 @@ class Item extends Base
         return $this->json();
     }
 
-    /**
-     * @return Response
-     * @throws RuntimeException
-     */
     public function del(): Response
     {
         $delete = new Delete(Model::class, (array)$this->request->post("list"));

@@ -159,7 +159,6 @@
                                             }
                                         }
 
-
                                         $onlinePay.find('.online-pay-click').click(function () {
                                             payId = $(this).attr("data-payId");
                                             $onlinePay.find(".online-pay-click").removeClass("pay-current");
@@ -174,8 +173,7 @@
 
                                             util.post("/admin/store/recharge", {pay_id: payId, amount: amount}, res => {
                                                 window.location.href = res.data.pay_url;
-                                                /*   util.openCheckoutWindowUrl(res.data.pay_url);
-                                                   util.syncOrder("/admin/store/pay/order", res.data.trade_no);*/
+
                                             });
                                         });
                                     }
@@ -253,25 +251,23 @@
                       您所购买的插件或个人版等产品，将统一归属于您的应用商店账户名下。无论您更换服务器或重新安装程序，只需登录购买时所使用的应用商店账户，即可迅速将产品绑定至新的网站上。
                     </p>
                   </div>          
-            
+
                     <div class="mb-3 store-introduce">
                       ${i18n(item.introduce)}
                     </div>
-                    
+
                     <div class="subscription-container">
                         <div class="layout-box">
                                 <div class="title">订阅类型</div>
                                 <div class="subscription-list online-pay">${payList}</div>
                         </div>
-                        
-                        
+
                         <div class="layout-box ${!isGift ? 'hide' : ''}">
                                 <div class="title">应用商店账号</div>
                                 <div class="col-12 col-sm-6 mt-2"><input type="text" class="form-control gift-username" placeholder="要赠送的应用商店账号"></div>
                         </div>
                     </div>
-         
-        
+
                 <form class="form-store-login">
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn fw-bold btn-lg btn-alt-primary py-2 text-primary btn-purchasing-${unique}">
@@ -516,7 +512,6 @@
 
                                 subscriptionTable.render();
 
-
                                 dom.find('.wallet-recharge').click(() => {
                                     topUp();
                                 });
@@ -586,7 +581,6 @@
                                     }, "请确认您续费的订阅！");
                                 });
 
-
                                 dom.find('.bind-subscription').click(() => {
                                     const selections = subscriptionTable.getSelections();
                                     if (selections.length == 0) {
@@ -599,7 +593,6 @@
                                     selections.forEach(item => {
                                         powers.push(`<b class="text-success">${item?.is_group ? "用户组" : "插件"}-${util.plainText(item.name)}</b>`);
                                     });
-
 
                                     message.ask(`<p>${powers.join("、")}</p><p class="mt-3 fs-sm text-danger">将授权转移至本机后，其他机器上的插件将被停用。如果本机已存在授权的插件，则授权转移将失败。</p>`, () => {
                                         let index = 0;
@@ -788,7 +781,6 @@
         });
     });
 
-
     util.post({
         url: "/admin/store/personal/info",
         done: res => {
@@ -796,7 +788,6 @@
             giveDiscount = res?.data?.group?.give_discount;
             groupSubscription = res?.data?.group?.subscription;
             groupSort = res?.data?.group?.sort;
-
 
             table = new Table("/admin/store/list", "#store-table");
             table.setPagination(12, [12, 20, 50, 100]);
@@ -847,7 +838,6 @@
                                 }
                             }
                         });
-
 
                         item?.group?.forEach(group => {
                             amount += format.badge(group.name + "免费", "acg-badge-h-green");
@@ -904,7 +894,6 @@
 
             showStoreGroup();
 
-
             if (res?.data?.group?.substation == true) {
                 $(`.auth-store-sub`).show();
             }
@@ -923,18 +912,18 @@
                                 complete: (form, dom) => {
                                     dom.html(`<div class="">               
                   <div class="alert alert-warning d-flex align-items-center" role="alert">
-                   
+
                     <p class="mb-0">
                       ${i18n('访问我们的应用商店需要先登录应用商店账号。应用商店内提供大量插件、模板和主题等资源供您安装。')}
                     </p>
                   </div>
-          
+
                 <form class="form-store-login">
                   <div class="form-floating mb-4">
                              <input type="text" class="form-control" id="login-username" name="username" placeholder="${i18n('手机号/用户名')}">
                             <label class="form-label" for="login-username">${i18n('账号/手机号')}</label>
                   </div>
-                  
+
                   <div class="form-floating mb-4">
                     <input type="password" class="form-control" id="login-password" name="password" placeholder="${i18n('请输入密码')}">
                     <label class="form-label" for="login-password">${i18n('密码')}</label>
@@ -950,7 +939,7 @@
                            <img src="/admin/store/auth/captcha?type=login" style="cursor:pointer;" class="img-captcha-login" onclick="this.src='/admin/store/auth/captcha?type=login&rand=' + util.generateRandStr(12);" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-lg btn-alt-success py-2 text-success btn-login">
                         ${i18n('登入')}
@@ -1004,7 +993,7 @@
                     <input type="text" class="form-control" id="register-username"  placeholder="${i18n('用户名')}">
                     <label class="form-label" for="register-username">${i18n('用户名')}</label>
                   </div>
-           
+
                    <div class="row mb-4">
                     <div class="col-sm-4 col-4">
                       <div class="form-floating">
@@ -1045,7 +1034,7 @@
                            <img src="/admin/store/auth/captcha?type=register" style="cursor:pointer;" class="img-captcha-register" onclick="this.src='/admin/store/auth/captcha?type=register&rand=' + util.generateRandStr(12);" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-lg btn-alt-success py-2 text-success btn-register">
                         ${i18n('确认注册')}
@@ -1055,7 +1044,6 @@
               </div>`);
                                     const $imageCode = $('.img-captcha-register');
                                     const $registerPhoneCountry = $("#register-phone-country");
-
 
                                     $('.btn-send-register-code').click(function () {
                                         let phone = $("#register-phone").val();
@@ -1078,7 +1066,6 @@
                                         });
                                     });
 
-
                                     $('.btn-register').click(() => {
                                         let phone = $("#register-phone").val();
                                         if ($registerPhoneCountry.val() !== "86") {
@@ -1099,7 +1086,6 @@
                                             $imageCode.click();
                                         });
                                     });
-
 
                                     _Dict.advanced("sms_country", data => {
                                         data.forEach(item => {
@@ -1159,7 +1145,7 @@
                            <img src="/admin/store/auth/captcha?type=reset" style="cursor:pointer;" class="img-captcha-reset" onclick="this.src='/admin/store/auth/captcha?type=reset&rand=' + util.generateRandStr(12);" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-lg btn-alt-success py-2 text-success btn-reset">
                         ${i18n('确认重置')}
@@ -1170,7 +1156,6 @@
                                     const $imageCode = $('.img-captcha-reset');
                                     const $resetPhoneCountry = $("#reset-phone-country");
                                     const $resetCaptcha = $("#reset-captcha");
-
 
                                     $('.btn-send-reset-code').click(function () {
                                         let phone = $("#reset-phone").val();
@@ -1192,7 +1177,6 @@
                                             $imageCode.click();
                                         });
                                     });
-
 
                                     $('.btn-reset').click(() => {
                                         let phone = $("#reset-phone").val();

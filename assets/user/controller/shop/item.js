@@ -194,9 +194,7 @@
                         change: (obj, value) => {
                             if (value == 0) {
                                 obj.hide("markup_template_id");
-                                //    obj.show("markup.drift_base_amount");
-                                //   obj.show("markup.drift_model");
-                                //   obj.show("markup.drift_value");
+
                                 obj.show("markup.sync_name");
                                 obj.show("markup.sync_introduce");
                                 obj.show("markup.sync_picture");
@@ -510,7 +508,7 @@
                                 }
                             ]);
                             skuGroupTable.render();
-                            //-------------
+
                         }
                     }
                 ]
@@ -569,13 +567,12 @@
                                 {title: "备注", name: "search-note", type: "input", width: 125}
                             ]);
                             skuUserTable.render();
-                            //-------------
+
                         }
                     }
                 ]
             },
         ];
-
 
         component.popup({
             submit: '/user/shop/item/sku/save',
@@ -594,7 +591,6 @@
                 skuTable.refresh();
             }
         });
-
 
     }
     const wholesaleModal = (title, skuId, userId) => {
@@ -640,7 +636,7 @@
                                                 title: '配置',
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    //------------------------------
+
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -685,7 +681,7 @@
                                                                                 }
                                                                             ]);
                                                                             tmp.render();
-                                                                            //-------------
+
                                                                         }
                                                                     }
                                                                 ]
@@ -694,7 +690,7 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    //-----------------------------
+
                                                 }
                                             }
                                         ]
@@ -706,7 +702,7 @@
                                                 title: "配置",
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    //------------------------------
+
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -771,7 +767,7 @@
                                                                                 }
                                                                             ]);
                                                                             tmp.render();
-                                                                            //-------------
+
                                                                         }
                                                                     }
                                                                 ]
@@ -780,14 +776,14 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    //-----------------------------
+
                                                 }
                                             }
                                         ]
                                     },
                                 ]);
                                 skuWholesaleTable.render();
-                                //-------------
+
                             }
                         }
                     ]
@@ -798,8 +794,6 @@
         });
     }
 
-
-    //item-table
     table = new Table("/user/shop/item/get", "#shop-item-table");
     table.setDeleteSelector(".del-shop-item", "/user/shop/item/del");
     table.setUpdate("/user/shop/item/save");
@@ -909,7 +903,6 @@
         $('.data-count .not_sold_count').html(data.data.not_sold_count);
     });
     table.render();
-
 
     $('.control-item').click(() => {
         const selections = table.getSelections();

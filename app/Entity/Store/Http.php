@@ -10,12 +10,6 @@ class Http
     public array $data;
     public array $origin;
 
-    /**
-     * @param int $code
-     * @param string $message
-     * @param array $data
-     * @param array $origin
-     */
     public function __construct(int $code, string $message, array $data = [], array $origin = [])
     {
         $this->code = $code;

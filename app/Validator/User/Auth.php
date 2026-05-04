@@ -33,7 +33,6 @@ class Auth
         return true;
     }
 
-
     #[Name("password")]
     #[Required("请设置你的登录密码")]
     #[Regex(Auth::password, "登录密码应为字母、数字、特殊符号(~!@#$%^&*()_.)，两种及以上组合，8-26位字符串")]
@@ -42,7 +41,6 @@ class Auth
         return true;
     }
 
-
     #[Name("username")]
     #[Required("用户名不能为空")]
     public function loginUsername(): bool
@@ -50,14 +48,12 @@ class Auth
         return true;
     }
 
-
     #[Name("password")]
     #[Required("登录密码不能为空")]
     public function loginPassword(): bool
     {
         return true;
     }
-
 
     #[Name("email")]
     #[Required("邮箱不能为空")]
