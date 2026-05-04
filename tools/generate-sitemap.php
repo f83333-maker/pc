@@ -102,20 +102,6 @@ $xml .= build_url_node($baseUrl . '/user/index/query',   $today, 'monthly', '0.4
 //    mcy-shop 的 commodity 表无 update_time，仅有 create_time。
 $itemCount = 0;
 try {
-    // 诊断：先看商品表整体分布
-    $total = (int)$pdo->query("SELECT COUNT(*) FROM `{$prefix}commodity`")->fetchColumn();
-    log_msg("诊断：commodity 表共 {$total} 条记录");
-
-    if ($total > 0) {
-        $dist = $pdo->query("SELECT status, COUNT(*) AS n FROM `{$prefix}commodity` GROUP BY status")
-            ->fetchAll(PDO::FETCH_KEY_PAIR);
-        $distStr = [];
-        foreach ($dist as $st => $n) {
-            $distStr[] = "status={$st}:{$n}";
-        }
-        log_msg('诊断：status 分布 → ' . implode(', ', $distStr));
-    }
-
     // 主查询：status=1 且未隐藏 / 非草稿
     $stmt = $pdo->query(
         "SELECT id, create_time
