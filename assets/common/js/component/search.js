@@ -41,7 +41,7 @@ class Search {
         item.title = i18n(item.title);
         this.item[item.name] = item;
         let target = $('.' + this.unique + " .e-" + targetName);
-        
+
         let d;
         switch (item.type) {
             case "input":
@@ -198,20 +198,20 @@ class Search {
         let _this = this;
         $('.' + this.unique + " .tree-" + item.name).html(`<input type="text" lay-filter="${this.unique + item.name}" class="layui-input ${this.unique + item.name}"><input name="${item.name}"  type="hidden" class="layui-input"">`);
         layui.treeSelect.render({
-            
+
             elem: '.' + _this.unique + item.name,
-            
+
             data: item.dict,
 
             placeholder: item.title,
-            
+
             search: true,
-            
+
             click: function (d) {
                 $('.' + _this.unique + " input[name=" + item.name + "]").val(d.current.id);
                 item.change && item.change(_this, d.current.id);
             },
-            
+
             success: function (d) {
 
             }
@@ -231,15 +231,15 @@ class Search {
             radio: true,
             autoRow: true,
             name: item.name,
-            
+
             tips: item.title,
             searchTips: item.title,
-            
+
             filterable: true,
             remoteSearch: true,
             language: 'zn',
             remoteMethod: (val, cb, show) => {
-                
+
                 if (!val) {
                     return cb([]);
                 }

@@ -45,7 +45,7 @@
                 }
             ],
             done: () => {
-                
+
                 loadMessage(unique, item, true);
             },
             autoPosition: true,

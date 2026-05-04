@@ -508,7 +508,7 @@
                                 }
                             ]);
                             skuGroupTable.render();
-                            
+
                         }
                     }
                 ]
@@ -567,7 +567,7 @@
                                 {title: "备注", name: "search-note", type: "input", width: 125}
                             ]);
                             skuUserTable.render();
-                            
+
                         }
                     }
                 ]
@@ -636,7 +636,7 @@
                                                 title: '配置',
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    
+
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -681,7 +681,7 @@
                                                                                 }
                                                                             ]);
                                                                             tmp.render();
-                                                                            
+
                                                                         }
                                                                     }
                                                                 ]
@@ -690,7 +690,7 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    
+
                                                 }
                                             }
                                         ]
@@ -702,7 +702,7 @@
                                                 title: "配置",
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    
+
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -767,7 +767,7 @@
                                                                                 }
                                                                             ]);
                                                                             tmp.render();
-                                                                            
+
                                                                         }
                                                                     }
                                                                 ]
@@ -776,14 +776,14 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    
+
                                                 }
                                             }
                                         ]
                                     },
                                 ]);
                                 skuWholesaleTable.render();
-                                
+
                             }
                         }
                     ]

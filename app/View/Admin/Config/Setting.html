@@ -5,38 +5,38 @@
 ])}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        
+
         <div id="kt_content_container" class="container-xxl">
-            
+
             <div class="card mb-5 mb-xl-10">
-                
+
                 <div class="card-header border-0 cursor-pointer">
-                    
+
                     <div class="card-title m-0">
                         <h3 class="fw-bolder m-0">基本设置</h3>
                     </div>
-                    
+
                 </div>
 
                 <div id="kt_account_profile_details" class="collapse show">
-                    
+
                     <form id="data-form" class="form">
-                        
+
                         <div class="card-body  p-9">
-                            
+
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">LOGO</label>
 
                                 <div class="col-lg-8">
-                                    
+
                                     <div class="image-input image-input-outline" data-kt-image-input="true"
                                          style="background-image: url(/assets/admin/images/setting/blank.png)">
-                                        
+
                                         <div class="image-input-wrapper w-125px h-125px"
                                              style="background-image: url(/favicon.ico)"></div>
 
@@ -44,11 +44,11 @@
                                                data-kt-image-input-action="change" data-bs-toggle="tooltip"
                                                title="Change logo">
                                             <i class="fa-duotone fa-regular fa-pen"></i>
-                                            
+
                                             <input type="file" class="upload-logo"
                                                    accept=".png, .jpg, .jpeg, .ico"/>
                                             <input type="hidden" name="logo" value="/favicon.ico"/>
-                                            
+
                                         </label>
 
                                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -56,19 +56,19 @@
                                               title="Cancel logo">
 																<i class="fa-duotone fa-regular fa-xmark"></i>
 															</span>
-                                        
+
                                     </div>
 
                                     <div class="form-text">支持文件格式: png, jpg, jpeg,
                                         ico，更换后，记得强制刷新浏览器，否则你看到的还是缓存。
                                     </div>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">关闭请求日志(建议开启)</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
@@ -80,7 +80,7 @@
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="form-text text-success fw-bold">
                                     此配置为临时选项，将在下一个版本中移除。当前我们正在对程序进行大幅优化。为便于排查现阶段系统可能出现的问题，本版本将开启请求日志功能，以协助技术人员更快速、准确地定位问题。如您的网站出现异常，请及时联系官方人员，我们将结合相关日志信息为您进行排查与处理。
                                 </div>
@@ -88,11 +88,11 @@
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">PC模板</label>
 
                                 <div class="col-lg-6 fv-row">
-                                    
+
                                     <select name="user_theme" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         #{foreach $themes as $theme}
@@ -104,23 +104,23 @@
                                             </option>
                                         #{/foreach}
                                     </select>
-                                    
+
                                 </div>
                                 <div class="col-lg-2 fv-row">
-                                    
+
                                     <button type="button" class="btn btn-light theme-setting"><i class="fa-duotone fa-regular fa-folder-gear"></i> 模板设置
                                     </button>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">手机模板</label>
 
                                 <div class="col-lg-6 fv-row">
-                                    
+
                                     <select name="user_mobile_theme"
                                             class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
@@ -135,24 +135,24 @@
                                             </option>
                                         #{/foreach}
                                     </select>
-                                    
+
                                 </div>
                                 <div class="col-lg-2 fv-row">
-                                    
+
                                     <button type="button" class="btn btn-light theme-mobile-setting"><i
                                                 class="fa-duotone fa-regular fa-folder-gear"></i> 模板设置
                                     </button>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">会员中心</label>
 
                                 <div class="col-lg-6 fv-row">
-                                    
+
                                     <select name="user_center_theme" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         #{foreach $themes as $theme}
@@ -164,37 +164,36 @@
                                             </option>
                                         #{/foreach}
                                     </select>
-                                    
+
                                 </div>
                                 <div class="col-lg-2 fv-row">
-                                    
+
                                     <button type="button" class="btn btn-light theme-user-setting"><i class="fa-duotone fa-regular fa-folder-gear"></i> 模板设置
                                     </button>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
-                            
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">CDN获取IP方式</label>
 
                                 <div class="col-lg-6 fv-row">
-                                    
+
                                     <select name="ip_get_mode" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         #{foreach $ip_get_mode as $index => $mode}
                                             <option value="#{$index}" #{if $index == $ip_mode} selected #{/if}>#{$mode}</option>
                                         #{/foreach}
                                     </select>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">PC背景图片(支持http地址或者图床api)</label>
 
                                 <div class="col-lg-6 fv-row">
@@ -204,20 +203,20 @@
                                            value="#{$config.background_url}"/>
                                 </div>
                                 <div class="col-lg-2 fv-row">
-                                    
+
                                     <input type="file" class="background-upload" style="display: none;"
                                            accept=".png, .jpg, .jpeg, .gif"/>
                                     <button type="button" class="btn btn-light background-upload"
                                             onclick="document.getElementsByClassName('background-upload')[0].click();">
                                         <i class="fa-duotone fa-regular fa-cloud-arrow-up"></i> 上传图片
                                     </button>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">手机背景图片</label>
 
                                 <div class="col-lg-6 fv-row">
@@ -226,20 +225,20 @@
                                            placeholder="不设置则使用PC版配置" value="#{$config.background_mobile_url}"/>
                                 </div>
                                 <div class="col-lg-2 fv-row">
-                                    
+
                                     <input type="file" class="background-mobile-upload" style="display: none;"
                                            accept=".png, .jpg, .jpeg, .gif"/>
                                     <button type="button" class="btn btn-light background-mb-upload"
                                             onclick="document.getElementsByClassName('background-mobile-upload')[0].click();">
                                         <i class="fa-duotone fa-regular fa-cloud-arrow-up"></i> 上传图片
                                     </button>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">店铺名称</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -247,11 +246,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入店铺名称" value="#{$config.shop_name}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">网站标题</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -259,11 +258,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入网站标题" value="#{$config.title}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">关键词</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -271,11 +270,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入网站关键词" value="#{$config.keywords}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">网站描述</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -283,11 +282,11 @@
                                               class="form-control form-control-lg form-control-solid"
                                               placeholder="请输入网站描述">#{$config.description}</textarea>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">店铺公告</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -306,15 +305,15 @@
                                                   name="notice"></textarea>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">注册方式</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <select name="registered_type" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         <option value="0" #{if $config.registered_type== 0} selected #{/if}>用户名
@@ -324,19 +323,19 @@
                                         <option value="2" #{if $config.registered_type== 2} selected #{/if}>用户名+邮箱
                                         </option>
                                     </select>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">注册验证码</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <div class="d-flex align-items-center mt-3">
-                                        
+
                                         <label class="form-check form-check-inline form-check-solid me-5">
                                             <input class="form-check-input" name="registered_verification"
                                                    type="checkbox"
@@ -357,21 +356,21 @@
                                                    value="1" #{if $config.registered_email_verification== 1} checked #{/if}>
                                             <span class="fw-bold ps-2 fs-6">邮箱验证码</span>
                                         </label>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">其他验证码</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <div class="d-flex align-items-center mt-3">
-                                        
+
                                         <label class="form-check form-check-inline form-check-solid me-5">
                                             <input class="form-check-input" name="login_verification" type="checkbox"
                                                    value="1" #{if $config.login_verification== 1} checked #{/if}>
@@ -383,15 +382,15 @@
                                                    value="1" #{if $config.trade_verification== 1} checked #{/if}>
                                             <span class="fw-bold ps-2 fs-6">下单验证码</span>
                                         </label>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">注册开关</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
@@ -402,11 +401,11 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">注册用户名长度</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -414,15 +413,15 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入限制注册用户名长度" value="#{$config.username_len}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">找回密码方式</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <select name="forget_type" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         <option value="0" #{if $config.forget_type== 0} selected #{/if}>邮箱验证码
@@ -430,13 +429,13 @@
                                         <option value="1" #{if $config.forget_type== 1} selected #{/if}>手机验证码
                                         </option>
                                     </select>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">会话保持时间</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -444,11 +443,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入会话保持时间，单位/秒" value="#{$config.session_expire}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">店铺维护</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
@@ -458,11 +457,11 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">店铺维护公告</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -470,25 +469,25 @@
                                               class="form-control form-control-lg form-control-solid"
                                               placeholder="请输入店铺维护公告">#{$config.closed_message}</textarea>
                                 </div>
-                                
+
                             </div>
-                            
+
                         </div>
 
                         <div class="card-footer d-flex justify-content-center py-6 px-9">
                             <button type="button" class="btn btn-primary save-data">保存设置 (Save Config)</button>
                         </div>
-                        
+
                     </form>
-                    
+
                 </div>
-                
+
             </div>
-            
+
         </div>
-        
+
     </div>
-    
+
 </div>
 
 #{ready("/assets/admin/controller/config/index.js")}

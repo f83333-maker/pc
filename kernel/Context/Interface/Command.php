@@ -5,7 +5,7 @@ namespace Kernel\Context\Interface;
 
 interface Command
 {
-    
+
     public function getCommand(): string;
 
     public function getClass(): string;

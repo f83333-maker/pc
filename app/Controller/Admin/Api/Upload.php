@@ -52,7 +52,7 @@ class Upload extends Manage
         }
 
         $append = [];
-        
+
         if ($type == self::MIME[0] && $thumbHeight > 0) {
             $imageFile = BASE_PATH . $fileName;
             $thumbUrl = $this->image->createThumbnail($fileName, $thumbHeight);

@@ -37,7 +37,7 @@ class Developer extends Base
         $data = $this->request->post();
 
         if (!isset($data['id'])) {
-            
+
             $http = $this->http->upload("image", BASE_PATH . $data['icon'], $this->getStoreAuth());
             $data['icon'] = $http->data['url'];
         }

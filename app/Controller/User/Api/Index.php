@@ -77,13 +77,13 @@ class Index extends User
         $userCommodityMap = []; 
 
         if ($bus) {
-            
+
             if ($bus->master_display == 0) {
                 $commodity = $commodity->where("owner", $bus->user_id);
             } else {
-                
+
                 $userCommodity = UserCommodity::query()->where("user_id", $bus->user_id)->get();
-                
+
                 $hideCommodity = [];
 
                 foreach ($userCommodity as $userComm) {
@@ -97,10 +97,10 @@ class Index extends User
                 $commodity = $commodity->whereNotIn("id", $hideCommodity)->whereRaw("(`owner`=0 or `owner`={$bus->user_id})");
             }
         } else {
-            
+
             if (Config::get("substation_display") == 1) {
                 $let = "(`owner`=0 or ";
-                
+
                 $list = (array)json_decode(Config::get("substation_display_list"), true);
                 foreach ($list as $userId) {
                     $let .= "`owner`={$userId} or ";
@@ -138,7 +138,7 @@ class Index extends User
 
         $user = $this->getUser();
         $userGroup = $this->getUserGroup();
-        
+
         $category = $this->shop->getCategory($userGroup);
         $cates = [];
         foreach ($category as $cate) {
@@ -167,7 +167,7 @@ class Index extends User
         foreach ($data as $key => $val) {
             $parseGroupConfig = Commodity::parseGroupConfig($val['level_price'], $userGroup);
             if (!in_array((string)$val['category_id'], $cates) || $val['hide'] == 1 && (!$parseGroupConfig || !isset($parseGroupConfig['show']) || $parseGroupConfig['show'] != 1)) {
-                
+
                 unset($data[$key]);
                 continue;
             }
@@ -232,7 +232,7 @@ class Index extends User
     public function card(): array
     {
         $map = $this->request->post();
-        
+
         $commodity = Commodity::with(['shared'])->find($map['item_id']);
         $limit = $map['limit'] ?? 10;
 
@@ -249,7 +249,7 @@ class Index extends User
 
         if ($commodity->shared) {
             $data = $this->shared->draftCard($commodity->shared, $commodity->shared_code, $map);
-            
+
             foreach ($data['list'] as &$item) {
                 if ($item['draft_premium'] > 0) {
                     $item['draft_premium'] = $this->shared->AdjustmentAmount($commodity->shared_premium_type, $commodity->shared_premium, $item['draft_premium']);
@@ -287,7 +287,7 @@ class Index extends User
         }
 
         if ($commodity->level_disable != 1) {
-            
+
             foreach ($data['list'] as &$item) {
                 if ($item['draft_premium'] > 0) {
                     $item['draft_premium'] = $this->order->getValuationPrice($commodity->id, $item['draft_premium'], $this->getUserGroup());

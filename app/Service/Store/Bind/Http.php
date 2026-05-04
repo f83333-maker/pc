@@ -67,7 +67,7 @@ class Http implements \App\Service\Store\Http
     private
     function getSenderIp(): string
     {
-        
+
         $request = Context::get(Request::class);
         if (!$request) {
             return "127.0.0.1";

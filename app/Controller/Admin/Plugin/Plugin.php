@@ -13,7 +13,7 @@ use Kernel\Exception\ViewException;
 #[Interceptor(class: Admin::class)]
 class Plugin extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->render("Plugin/Plugin.html", "插件管理");

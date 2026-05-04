@@ -11,7 +11,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(Waf::class)]
 class Site extends User
 {
-    
+
     public function info(): array
     {
         return $this->json(200, "success", [

@@ -38,18 +38,18 @@ class Business extends User
         $user = $this->getUser();
         $businessLevel = $user->businessLevel;
         if ($businessLevel) {
-            
+
             if ($businessLevel->id == $level->id || $businessLevel->price >= $level->price) {
                 throw new JSONException("不能购买已有等级或比自己更低的等级");
             }
         }
 
         DB::transaction(function () use ($level, $user) {
-            
+
             Bill::create($user, $level->price, Bill::TYPE_SUB, "购买商户等级", 0);
             $user->business_level = $level->id;
             $user->save();
-            
+
             if (!\App\Model\Business::query()->where("user_id", $user->id)->first()) {
                 $business = new \App\Model\Business();
                 $business->user_id = $user->id;

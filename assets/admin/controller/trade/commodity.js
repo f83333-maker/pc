@@ -660,7 +660,7 @@ VIP-2025-0821-XYZ
                             complete: (form, dom) => {
                                 dom.html(` <div class="card no-shadow transparent h-100 shadow border-0">
         <div class="card-body">
-           
+
           <p class="text-muted mb-3">
             一行一个，必须使用 <code>║</code> 分隔，结构为：  
             <span class="text-dark fw-bold">卡密本体 ║ 预告信息 ║ 自选加价金额(可选) ║ 自选加价成本(可选)</span>

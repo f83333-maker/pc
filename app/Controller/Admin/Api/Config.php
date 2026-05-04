@@ -109,12 +109,12 @@ class Config extends Manage
         $type = (int)$_POST['type'];
         $list = json_decode(CFG::get("substation_display_list"), true);
         if ($type == 0) {
-            
+
             if (!in_array($userId, $list)) {
                 $list[] = $userId;
             }
         } else {
-            
+
             if (($key = array_search($userId, $list)) !== false) {
                 unset($list[$key]);
                 $list = array_values($list);

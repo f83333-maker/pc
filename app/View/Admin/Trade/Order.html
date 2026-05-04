@@ -1,57 +1,57 @@
 #{include file="../Header.html"}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        
+
         <div id="kt_content_container" class="container-fluid">
-            
+
             <div class="row g-5 g-xl-10">
                 <div class="col-xl-4">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">订单数量</span>
                             <div class="fw-bolder fs-1 text-primary my-6 order_count">...</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-4">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">订单金额</span>
                             <div class="fw-bolder fs-1 text-success my-6 order_amount">...</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-4">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">手续费</span>
                             <div class="fw-bolder fs-1 text-danger my-6 order_cost">...</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
 
             <div class="card mb-5 mb-xl-8">
-                
+
                 <div class="card-header border-0">
                     <div class="card-toolbar">
                         <button class="btn btn-sm btn-light-primary clear me-3"><i class="fa-duotone fa-regular fa-trash-can-clock"></i>
@@ -60,9 +60,9 @@
                         <button class="btn btn-sm btn-light-success btn-app-export me-3"><i class="fa-duotone fa-regular fa-down-to-line"></i>
                             导出筛选订单
                         </button>
-                        
+
                         #{hook(\App\Consts\Hook::ADMIN_VIEW_ORDER_TOOLBAR)}
-                        
+
                         <span class="badge badge-light-primary fs-8">Tips：上方订单数据显示会根据下方的查询条件进行筛选显示。</span>
                     </div>
                 </div>
@@ -73,9 +73,9 @@
             </div>
 
         </div>
-        
+
     </div>
-    
+
 </div>
 
 #{hook(\App\Consts\Hook::ADMIN_VIEW_ORDER_FOOTER)}

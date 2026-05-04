@@ -11,7 +11,7 @@ use Kernel\Util\Url;
 
 class Site extends Model
 {
-    
+
     protected ?string $table = "site";
 
     public bool $timestamps = false;
@@ -29,7 +29,7 @@ class Site extends Model
         if (Memory::instance()->has($key)) {
             return Memory::instance()->get($key);
         }
-        
+
         $site = Site::query()->with(["user"])->where("host", $host)->orWhere("host", Url::getWildcard($host))->first();
 
         if (!$site || !$site->user) {

@@ -104,7 +104,7 @@ class Order extends Base
         $id = $this->request->post("id", Filter::INTEGER);
 
         Db::transaction(function () use ($id) {
-            
+
             $payOrder = PayOrder::where("user_id", $this->getUser()->id)->find($id);
 
             if (!$payOrder || ($payOrder->status != 1 && $payOrder->status != 3)) {
@@ -138,7 +138,7 @@ class Order extends Base
     public function close(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        
+
         $payOrder = PayOrder::query()->where("user_id", $this->getUser()->id)->find($id);
         if (!$payOrder) {
             throw new JSONException("订单不存在");

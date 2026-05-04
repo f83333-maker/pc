@@ -5,6 +5,6 @@ namespace Kernel\Pool;
 
 interface Connection
 {
-    
+
     public function createObject(): mixed;
 }

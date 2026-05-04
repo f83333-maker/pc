@@ -12,7 +12,7 @@ use Kernel\Exception\ViewException;
 #[Interceptor([Waf::class, UserSession::class, \App\Interceptor\Business::class])]
 class Order extends User
 {
-    
+
     public function index(): string
     {
         return $this->theme("商品订单", "ORDER", "User/Order.html");

@@ -65,7 +65,7 @@ class ItemSku extends Base
         unset($map['sku_temp_id']);
 
         if (!isset($map['id'])) {
-            
+
             $itemId = (int)$map['repertory_item_id'] ?? 0;
             if ($itemId > 0) {
                 $item = RepertoryItem::query()->where("user_id", $this->getUser()->id)->find($itemId);
@@ -99,7 +99,7 @@ class ItemSku extends Base
             if (!isset($map['id'])) {
                 RepertoryItem::query()->where("id", $model->repertory_item_id)->update(["status" => 0]);
             }
-            
+
             RepertoryItemSku::query()->where("create_time", "<=", Date::calcDay(-1))->where("user_id", $this->getUser()->id)->whereNull("repertory_item_id")->delete();
         } catch (\Exception $exception) {
             throw new JSONException("保存失败，错误：" . $exception->getMessage());

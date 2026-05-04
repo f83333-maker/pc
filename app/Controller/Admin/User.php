@@ -12,7 +12,7 @@ use Kernel\Exception\ViewException;
 #[Interceptor(ManageSession::class)]
 class User extends Manage
 {
-    
+
     public function index(): string
     {
 

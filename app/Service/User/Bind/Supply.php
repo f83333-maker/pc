@@ -27,7 +27,7 @@ class Supply implements \App\Service\User\Supply
 
     public function getItem(?User $customer, int $itemId): \App\Entity\Repertory\RepertoryItem
     {
-        
+
         $item = RepertoryItem::with(["sku" => function (HasMany $hasMany) {
             $hasMany->orderBy("sort", "asc");
         }])->find($itemId);

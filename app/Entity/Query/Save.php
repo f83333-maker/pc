@@ -5,7 +5,7 @@ namespace App\Entity\Query;
 
 class Save
 {
-    
+
     public string $model;
 
     public ?int $id = null;

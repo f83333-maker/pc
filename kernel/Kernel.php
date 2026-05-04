@@ -61,7 +61,7 @@ try {
     if ($s[0] == "" || (count($s) == 1 && $s[0] == "index.php")) {
         $s = ["user", "index", "index"]; 
     }
-    
+
     $fullRoute = "/" . implode("/", $s);
     Context::set(Base::ROUTE, $fullRoute);
     Context::set(Base::LOCK, (string)@file_get_contents(BASE_PATH . "/kernel/Install/Lock"));
@@ -81,12 +81,12 @@ try {
             header('location: /install');
             exit;
         }
-        
+
         $s = explode("/", trim($fullRoute, '/'));
         if (count($s) == 1) {
             $s = ["install", "step"];
         } else {
-            
+
             array_shift($s);
             $s = array_merge(["install"], $s);
         }
@@ -112,9 +112,9 @@ try {
     }
 
     $parameter = explode('.', $ends);
-    
+
     $action = array_shift($parameter);
-    
+
     $_GET["_PARAMETER"] = Firewall::inst()->xssKiller($parameter);
 
     if ($isInstall) {
@@ -131,9 +131,9 @@ try {
     }
 
     if (Context::get(Base::STORE_STATUS) && $isInstall) {
-        
+
         Hook::inst()->load();
-        
+
         hook(\App\Consts\Hook::KERNEL_INIT);
     }
 

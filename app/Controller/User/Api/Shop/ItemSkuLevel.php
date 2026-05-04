@@ -72,7 +72,7 @@ class ItemSkuLevel extends Base
     public function save(int $skuId): Response
     {
         $map = $this->request->post();
-        
+
         $this->ownership->throw(
             $this->ownership->level($this->getUser()->id, (int)$map['id'])
         );

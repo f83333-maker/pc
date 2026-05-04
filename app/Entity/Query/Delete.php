@@ -5,7 +5,7 @@ namespace App\Entity\Query;
 
 class Delete
 {
-    
+
     public string $model;
 
     public array $list = [];

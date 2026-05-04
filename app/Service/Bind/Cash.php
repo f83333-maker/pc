@@ -27,7 +27,7 @@ class Cash implements \App\Service\Cash
                     $cash->create_time = $date;
                     $cash->cost = 0;
                     $cash->status = 0;
-                    
+
                     Bill::create($usr, $usr->coin, \App\Model\Bill::TYPE_SUB, "自动结算", 1);
                     $cash->save();
                 });

@@ -4,31 +4,31 @@
 ])}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        
+
         <div id="kt_content_container" class="container-xxl">
-            
+
             <div class="card mb-5 mb-xl-10">
-                
+
                 <div class="card-header border-0 cursor-pointer">
-                    
+
                     <div class="card-title m-0">
                         <h3 class="fw-bolder m-0">其他设置</h3>
                     </div>
-                    
+
                 </div>
 
                 <div id="kt_account_profile_details" class="collapse show">
-                    
+
                     <form id="data-form" class="form">
-                        
+
                         <div class="card-body p-9">
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">自定义支付回调域名(<a
                                             href="https://faka.wiki/#/zh-cn/setting-other" target="_blank" style="color: red;">详细教程</a>)</label>
 
@@ -37,11 +37,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="自定义支付回调域名，需要带http://" value="#{$config.callback_domain}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6 required">主站域名配置(支持多域名,使用逗号分割)</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -49,11 +49,11 @@
                                               class="form-control form-control-lg form-control-solid"
                                               placeholder="多个域名使用逗号分割">#{$config.domain}</textarea>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">DNS-CNAME(域名解析)</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -61,11 +61,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="CNAME域名" value="#{$config.cname}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6 required">主站显示其他商家商品</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
@@ -76,21 +76,21 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">你想要显示那些供货商到主站</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
                                     <table id="substation_display_list"></table>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">单次最低充值金额</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -98,11 +98,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="单次最低充值金额，0代表不限制，默认10元" value="#{$config.recharge_min}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">单次最高充值金额</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -110,11 +110,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="单次最高充值金额，0代表不限制" value="#{$config.recharge_max}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">充值赠送</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
@@ -125,11 +125,11 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">充值赠送配置</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -139,11 +139,11 @@
 100-5
 一行一个规则。">#{$config.recharge_welfare_config}</textarea>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">客服QQ(主站)</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -151,11 +151,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="客服QQ" value="#{$config.service_qq}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">网页客服地址(主站)</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -163,17 +163,17 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="网页客服地址" value="#{$config.service_url}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">提现方式</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <div class="d-flex align-items-center mt-3">
-                                        
+
                                         <label class="form-check form-check-inline form-check-solid me-5">
                                             <input class="form-check-input" name="cash_type_alipay" type="checkbox"
                                                    value="1" #{if $config.cash_type_alipay == 1} checked #{/if}>
@@ -197,15 +197,15 @@
                                                    value="1" #{if $config.cash_type_balance == 1} checked #{/if}>
                                             <span class="fw-bold ps-2 fs-6">钱包余额</span>
                                         </label>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">提现手续费(单笔固定)</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -213,11 +213,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="提现手续费" value="#{$config.cash_cost}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required  fw-bold fs-6">最低提现金额</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -225,15 +225,15 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="最低提现金额" value="#{$config.cash_min}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">默认展开分类</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <select name="default_category" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         <option value="0" #{if $config.default_category == 0} selected #{/if}>不展开
@@ -244,13 +244,13 @@
                                             <option value="#{$cate.id}" #{if $config.default_category == $cate.id} selected #{/if}>#{$cate.name}</option>
                                         #{/foreach}
                                     </select>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">首页商品推荐</label>
 
                                 <div class="col-lg-8 d-flex align-items-center">
@@ -261,17 +261,17 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label  fw-bold fs-6">推荐分类名称</label>
 
                                 <div class="col-lg-8 fv-row">
                                     <textarea class="form-control form-control-lg form-control-solid"   name="commodity_name" placeholder="首页推荐分类名称"   rows="1">#{$config.commodity_name}</textarea>
                                 </div>
-                                
+
                             </div>
 
                         </div>
@@ -279,17 +279,17 @@
                         <div class="card-footer d-flex justify-content-center py-6 px-9">
                             <button type="button" class="btn btn-primary save-data">保存设置 (Save Config)</button>
                         </div>
-                        
+
                     </form>
-                    
+
                 </div>
-                
+
             </div>
-            
+
         </div>
-        
+
     </div>
-    
+
 </div>
 
 #{ready("/assets/admin/controller/config/other.js")}

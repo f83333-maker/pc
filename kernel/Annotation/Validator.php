@@ -14,10 +14,10 @@ use Kernel\Validator\Method;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class Validator
 {
-    
+
     public function __construct(array $rules, int $method = Method::POST, int $renderType = Interceptor::API)
     {
-        
+
         $request = Context::get(Request::class);
         $data = [];
 
@@ -79,7 +79,7 @@ class Validator
                     }
                 }
             });
-            
+
             $validator = new $class;
             Di::inst()->inject($validator);
             $this->exception(call_user_func_array([$validator, $action], [$data[$name] ?? null, $data]), $renderType);

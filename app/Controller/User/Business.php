@@ -13,7 +13,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor([Waf::class, UserSession::class])]
 class Business extends User
 {
-    
+
     public function index(): string
     {
 

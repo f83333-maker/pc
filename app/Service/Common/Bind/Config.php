@@ -19,7 +19,7 @@ class Config implements \App\Service\Common\Config
     public function getUserConfig(string $key, ?int $userId = null): mixed
     {
         if (!$userId) {
-            
+
             $host = Context::get(Request::class)?->header("Host");
             if (!$host) {
                 return [];

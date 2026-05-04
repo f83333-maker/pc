@@ -62,7 +62,7 @@ class Supply extends Base
         $get->setPaginate((int)$this->request->post("page"), (int)$this->request->post("limit"));
         $get->setOrderBy("sort", "asc");
         $get->setColumn("id", "name", "picture_thumb_url", "repertory_category_id", "sort");
-        
+
         $data = $this->query->get($get, function (Builder $builder) use ($apiCode, $map) {
             $builder = $builder->with(["sku" => function (HasMany $builder) {
                 $builder->orderBy("sort")->select([

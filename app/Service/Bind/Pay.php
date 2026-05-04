@@ -30,7 +30,7 @@ class Pay implements \App\Service\Pay
                 $dir[] = $item;
             }
         }
-        
+
         $plug = [];
         foreach ($dir as $value) {
             $platformInfo = $this->getPluginInfo($value);
@@ -44,7 +44,7 @@ class Pay implements \App\Service\Pay
     public function getPluginInfo(string $name): array
     {
         $plugPath = BASE_PATH . '/app/Pay/' . $name;
-        
+
         if (file_exists($plugPath . '/Config/Info.php') && file_exists($plugPath . '/Config/Submit.php')) {
             $infoPath = $plugPath . '/Config/Info.php';
             $submitPath = $plugPath . '/Config/Submit.php';

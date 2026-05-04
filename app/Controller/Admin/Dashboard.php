@@ -10,7 +10,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(ManageSession::class)]
 class Dashboard extends Manage
 {
-    
+
     public function index(): string
     {
         return  $this->render("控制台","Dashboard/Index.html");

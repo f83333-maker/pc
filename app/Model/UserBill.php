@@ -8,7 +8,7 @@ use Kernel\Database\Model;
 
 class UserBill extends Model
 {
-    
+
     protected ?string $table = "user_bill";
 
     public bool $timestamps = false;

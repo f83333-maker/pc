@@ -10,7 +10,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(ManageSession::class)]
 class Recharge extends Manage
 {
-    
+
     public function order(): string
     {
         $userId = $_GET['userId'];

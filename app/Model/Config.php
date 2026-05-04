@@ -11,7 +11,7 @@ use Kernel\Util\File;
 
 class Config extends Model
 {
-    
+
     protected $table = 'config';
 
     public $timestamps = false;
@@ -56,7 +56,7 @@ class Config extends Model
             $configs[$key] = $cfg->value;
             return Binary::inst()->pack($configs);
         });
-        
+
         Context::set($cacheKey, $cfg->value);
 
         return (string)$cfg->value;

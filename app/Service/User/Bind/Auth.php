@@ -142,7 +142,7 @@ class Auth implements \App\Service\User\Auth
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_REGISTER_SUCCESS, PGI::HOOK_TYPE_PAGE, $user);
 
         $this->lifetime->create($user->id, $ip, $ua);
-        
+
         $this->cart->bindUser($user, $clientId);
         return $user;
     }
@@ -151,7 +151,7 @@ class Auth implements \App\Service\User\Auth
     {
 
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_LOGIN_BEFORE, PGI::HOOK_TYPE_PAGE, $map, $ip, $ua);
-        
+
         $user = User::query()->where("username", $map['username'])->first() ?? User::query()->where("email", $map['username'])->first();
         if (!$user) {
             throw new JSONException("用户不存在");
@@ -171,7 +171,7 @@ class Auth implements \App\Service\User\Auth
 
     public function setLoginSuccess(User $user): string
     {
-        
+
         $request = Context::get(Request::class);
         if (!$request) {
             throw new ServiceException("此方法只能在HTTP环境中调用");
@@ -194,13 +194,12 @@ class Auth implements \App\Service\User\Auth
             head: ["uid" => $user->id]
         ));
 
-        
         Context::set(\App\Model\User::class, $user);
-        
+
         $this->lifetime->update($user->id, "last_login_time", $loginTime);
-        
+
         $this->lifetime->update($user->id, "login_status", 1);
-        
+
         $this->loginLog->create($user->id, $ip, $ua);
 
         $this->cart->bindUser($user, $clientId);
@@ -210,7 +209,7 @@ class Auth implements \App\Service\User\Auth
     public function reset(array $map): void
     {
         Plugin::instance()->hook(App::env(), Point::SERVICE_AUTH_RESET_BEFORE, PGI::HOOK_TYPE_PAGE, $map);
-        
+
         $user = User::query()->where("email", $map['email'])->first();
         if (!$user) {
             throw new JSONException("该邮箱未注册");

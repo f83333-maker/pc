@@ -7,7 +7,7 @@ use Kernel\Exception\RuntimeException;
 
 class File
 {
-    
+
     public mixed $resource = false;
 
     public string $path = "";

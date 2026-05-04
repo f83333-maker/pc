@@ -5,7 +5,7 @@ namespace Kernel\Plugin\Entity;
 
 class Stock
 {
-    
+
     private string $stock;
 
     public function __construct(string|int $stock)

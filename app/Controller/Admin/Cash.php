@@ -11,7 +11,7 @@ use Kernel\Exception\ViewException;
 #[Interceptor(ManageSession::class)]
 class Cash extends Manage
 {
-    
+
     public function index(): string
     {
         return $this->render("提现管理", "User/Cash.html");

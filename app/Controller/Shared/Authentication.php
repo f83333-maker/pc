@@ -13,7 +13,7 @@ use Kernel\Exception\JSONException;
 #[Interceptor([Waf::class, SharedValidation::class], Interceptor::TYPE_API)]
 class Authentication extends Shared
 {
-    
+
     public function connect(): array
     {
         $shopName = Config::get("shop_name");

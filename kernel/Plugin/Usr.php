@@ -29,10 +29,10 @@ class Usr
             return null;
         }
         if (!preg_match("/^\d+$/", $rt[1])) {
-            
+
             return new Entity\Route(Str::snakeToPascal($rt[1]), "*");
         } else {
-            
+
             if (!isset($rt[2])) {
                 return null;
             }

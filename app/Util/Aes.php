@@ -5,7 +5,7 @@ namespace App\Util;
 
 class Aes
 {
-    
+
     public static function encrypt(mixed $data, string $key, string $iv): string
     {
         return base64_encode(openssl_encrypt(serialize($data), 'aes-128-cbc', $key, OPENSSL_RAW_DATA, $iv));

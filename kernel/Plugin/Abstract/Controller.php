@@ -39,7 +39,7 @@ abstract class Controller
 
     #[Inject]
     protected Config $config;
-    
+
     protected a $plugin;
 
     public function __construct()
@@ -93,7 +93,7 @@ abstract class Controller
     {
         $secret = Str::generateRandStr(32);
         $key = substr($secret, 0, 16);
-        
+
         $response = Context::get(Response::class);
         $json = $response->json($code, $message, $data, $ext)->getOptions("json");
         return $response->withHeader("Content-Type", "text/plain; charset=utf-8")->withHeader("Secret", $secret)->raw(Aes::encrypt($json, $key, $key));

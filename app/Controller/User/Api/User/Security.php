@@ -143,7 +143,7 @@ class Security extends Base
 
     public function resubmitIdentity(): Response
     {
-        
+
         $identity = UserIdentity::query()->where("user_id", $this->getUser()->id)->first();
         if (!$identity) {
             throw new RuntimeException("未提交过实名认证");

@@ -148,11 +148,11 @@
                 </table>
             </div>
         </div>
-        
+
         {% if order.status == 0 %}
 
             {% if user is not null %}
-                
+
                 <div class="block block-rounded bg-gradient-blue">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">{{ icon("icon-qianbao2")|raw }} {{ i18n("余额支付")|raw }} <span
@@ -168,7 +168,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             {% endif %}
 
             <div class="block block-rounded bg-gradient-blue">
@@ -197,7 +197,7 @@
                 <button type="button"
                         class="btn-cancel-order">{{ icon("icon-quxiao")|raw }} {{ i18n("取消订单")|raw }}</button>
             </div>
-            
+
         {% elseif order.status == 2 %}
             <div class="block block-rounded bg-gradient-blue">
                 <div class="block-content block-content-full text-center">

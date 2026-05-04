@@ -27,7 +27,7 @@ class Ship extends Base
 
     public function items(int $configId): Response
     {
-        
+
         $config = PluginConfig::find($configId);
         if (!$config) {
             throw new JSONException("配置不存在");

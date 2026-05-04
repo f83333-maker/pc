@@ -21,7 +21,7 @@ class Group implements Interceptor
         if (!$user) {
             return $this->notPermission($request, $response, $type);
         }
-        
+
         $group = $user->group;
 
         if (!$group) {

@@ -12,7 +12,7 @@ use Kernel\Util\Context;
 try {
     $req = new  Request();
     $resp = new Response();
-    
+
     Context::set(RequestInterface::class, $req);
     Context::set(ResponseInterface::class, $resp);
     Manager::instance()->create();

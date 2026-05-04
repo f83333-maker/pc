@@ -22,14 +22,14 @@ const pay = new class Pay {
                 this.getPayOrder(tradeNo, order => {
                     if (order.status === 2) {
                         if (new Date() > new Date(order.timeout)) {
-                            
+
                             message.error("订单支付超时");
                             typeof timeout == "function" && timeout();
                             resolve(false);
                             return;
                         }
                         message.alert("支付成功", "success");
-                        
+
                         typeof done == "function" && done();
                         resolve(false);
                         return;
@@ -190,7 +190,7 @@ const pay = new class Pay {
     }
 
     payment(payMethod, isBalance, tradeNo) {
-        
+
         util.post("/pay", {trade_no: tradeNo, method: payMethod, balance: isBalance ? 1 : 0}, result => {
 
             localStorage.setItem(`pay_${tradeNo}`, result?.data?.pay_url);

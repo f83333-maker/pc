@@ -5,7 +5,7 @@ namespace Kernel\Validator;
 
 class Rule
 {
-    
+
     protected string $title;
 
     protected array $rule = [];

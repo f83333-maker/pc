@@ -5,7 +5,7 @@ namespace App\Const;
 
 interface RepertoryItem
 {
-    
+
     public const REFUND_MODE_NOT = 0;
 
     public const REFUND_MODE_CONDITION = 1;

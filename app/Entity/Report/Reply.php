@@ -5,7 +5,7 @@ namespace App\Entity\Report;
 
 class Reply
 {
-    
+
     public int $reportId;
 
     public string $message;

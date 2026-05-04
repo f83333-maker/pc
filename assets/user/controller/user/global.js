@@ -37,10 +37,10 @@
 
         $(document).pjax('a[target!=_blank]', '#pjax-container', {fragment: '#pjax-container', timeout: 8000});
         $(document).on('pjax:send', function () {
-            
+
         });
         $(document).on('pjax:complete', function () {
-            
+
         });
     }
 

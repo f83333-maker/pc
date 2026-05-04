@@ -7,7 +7,7 @@ use Kernel\Util\Session;
 
 class Captcha
 {
-    
+
     public static function generate(string $sessionName)
     {
         $w = 50;
@@ -19,7 +19,7 @@ class Captcha
         }
 
         Session::set($sessionName, $code);
-        
+
         Header("Content-type: image/PNG");
         $im = imagecreate($w, $h);
         $black = imagecolorallocate($im, 250, 133, 203);
@@ -40,7 +40,7 @@ class Captcha
             $gray,
             $gray
         );
-        
+
         $y1 = rand(0, $h);
         $y2 = rand(0, $h);
         $y3 = rand(0, $h);
@@ -48,9 +48,8 @@ class Captcha
         imageline($im, 0, $y1, $w, $y3, IMG_COLOR_STYLED);
         imageline($im, 0, $y2, $w, $y4, IMG_COLOR_STYLED);
 
-        
         $strx = rand(3, 8);
-        
+
         for ($i = 0; $i < $num; $i++) {
             $strpos = rand(1, 6);
             imagestring($im, 5, $strx, $strpos, substr($code, $i, 1), $black);

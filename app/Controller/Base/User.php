@@ -8,7 +8,7 @@ use App\Util\Context;
 
 abstract class User
 {
-    
+
     protected function getUser(): ?\App\Model\User
     {
         return Context::get(\App\Consts\User::SESSION);

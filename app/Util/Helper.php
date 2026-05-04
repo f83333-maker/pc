@@ -7,7 +7,7 @@ use Kernel\Exception\JSONException;
 
 class Helper
 {
-    
+
     const TYPE_GENERAL = 0;
 
     const TYPE_PAY = 1;

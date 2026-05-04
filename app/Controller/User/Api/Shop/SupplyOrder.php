@@ -55,7 +55,7 @@ class SupplyOrder extends Base
     public function detail(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        
+
         $order = Model::query()->where("customer_id", $this->getUser()->id)->find($id);
 
         if (!$order) {

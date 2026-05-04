@@ -31,7 +31,7 @@ class Firewall
         }
 
         $config = \HTMLPurifier_Config::createDefault();
-        
+
         $config->set('Cache.SerializerPath', BASE_PATH . "/runtime/waf"); 
         $config->set('Cache.SerializerPermissions', 0755);
         $config->set('Cache.DefinitionImpl', 'Serializer');
@@ -166,7 +166,7 @@ class Firewall
             $cleanedArray = [];
             foreach ($input as $key => $value) {
                 if (is_string($value)) {
-                    
+
                     $cleanedArray[$key] = $this->getCache($value);
                 } elseif (is_array($value)) {
                     $cleanedArray[$key] = $this->xssKiller($value);
@@ -176,7 +176,7 @@ class Firewall
             }
             return $cleanedArray;
         } elseif (is_string($input)) {
-            
+
             return $this->getCache($input);
         } else {
             return $input;

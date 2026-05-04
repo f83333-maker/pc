@@ -7,7 +7,7 @@ use Kernel\Exception\JSONException;
 
 class Config
 {
-    
+
     private static array $config = [];
 
     public static function set(array $data, string $file, bool $merge = false): void

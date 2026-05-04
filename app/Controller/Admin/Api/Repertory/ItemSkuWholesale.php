@@ -41,7 +41,7 @@ class ItemSkuWholesale extends Base
         $map = $this->request->post();
 
         if (!isset($map['id'])) {
-            
+
             $repertoryItemSku = RepertoryItemSku::query()->find($map['sku_id']);
 
             if (!$repertoryItemSku) {

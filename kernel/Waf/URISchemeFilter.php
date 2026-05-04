@@ -17,7 +17,7 @@ class URISchemeFilter extends \HTMLPurifier_URIFilter
 
     public function filter(&$uri, $config, $context): bool
     {
-        
+
         return true;
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderOption extends Model
 {
-    
+
     protected $table = "order_option";
 
     public $timestamps = false;

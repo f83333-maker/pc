@@ -11,7 +11,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class ItemMarkupTemplate extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->render("Shop/ItemMarkupTemplate.html", "同步模板");

@@ -5,7 +5,7 @@ namespace Kernel\Component;
 
 trait ToArray
 {
-    
+
     public function toArray(): array
     {
         $array = [];

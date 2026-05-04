@@ -89,9 +89,9 @@ class Store implements \App\Service\Store\Store
         if ($state['run'] != 0) {
             \Kernel\Plugin\Plugin::inst()->stop($key, $env);
         }
-        
+
         Composer::inst()->uninstall($key, $env);
-        
+
         \Kernel\Plugin\Plugin::inst()->database("uninstall", $key, $env);
         Assets::inst()->del("{$plugin->path}/Wiki");
         Directory::delete($plugin->path);
@@ -310,7 +310,7 @@ class Store implements \App\Service\Store\Store
         try {
             foreach ($versionList as $v) {
                 $cloudVersion = $v["version"];
-                
+
                 if (version_compare($cloudVersion, $localVersion, '>')) {
                     $versionPath = $basePath . "/Download/Update/{$cloudVersion}";
                     $plugin->log("检查到新版本：{$cloudVersion}，开始下载..", true);

@@ -54,7 +54,7 @@ class Withdraw implements \App\Service\User\Withdraw
     public function processed(int $withdrawId, bool $lockCard, int $status, string $message): void
     {
         Db::transaction(function () use ($lockCard, $message, $status, $withdrawId) {
-            
+
             $withdraw = UserWithdraw::query()->find($withdrawId);
 
             if (!$withdraw) {

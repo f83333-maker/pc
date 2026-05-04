@@ -86,7 +86,7 @@ const _Dict = new class _Dict extends _DictUtil {
                 {id: 3, name: format.dark(util.icon("icon-guanbi") + ' 支付关闭')}
             ],
             shop_order_type: [
-                
+
                 {id: 1, name: format.color('充值订单', "#0bc81a")},
                 {id: 2, name: format.color('升级用户组', "#bcdc33")},
                 {id: 3, name: format.color('升级会员等级', "#b357f1")},

@@ -127,7 +127,7 @@ class OrderReport implements \App\Service\User\OrderReport
 
             switch ($handle->type) {
                 case 1:
-                    
+
                     if (!$handle->treasure) {
                         throw new ServiceException("发货信息不能为空");
                     }
@@ -136,7 +136,7 @@ class OrderReport implements \App\Service\User\OrderReport
                     $repertoryOrder->contents = $handle->treasure;  
                     break;
                 case 2:
-                    
+
                     (!$refundMode || $refundMode == 0) && (throw new ServiceException("该订单不支持退款"));
                     $handle->refundAmount <= 0 && (throw new ServiceException("退款金额必须大于0"));
                     $handle->refundMerchantAmount <= 0 && (throw new ServiceException("退款给商家的金额必须大于0"));
@@ -144,7 +144,7 @@ class OrderReport implements \App\Service\User\OrderReport
                     $orderReport->status = 3;
                     $orderItem->status = 5;
                     $repertoryOrder->status = 3;
-                    
+
                     if ($repertoryOrder->user_id > 0) {
                         $this->balance->deduct(
                             userId: $repertoryOrder->user_id,
@@ -157,13 +157,13 @@ class OrderReport implements \App\Service\User\OrderReport
                     $refundMerchantAmount = $handle->refundMerchantAmount;
                     break;
                 case 3:
-                    
+
                     ($refundMode != 2) && (throw new ServiceException("该订单不支持全额退款"));
                     $orderReport->handle_type = 3;
                     $orderReport->status = 3;
                     $orderItem->status = 5;
                     $repertoryOrder->status = 3;
-                    
+
                     $this->bill->rollback($orderItem->trade_no);
                     $refundAmount = (string)$orderItem->amount;
                     $refundMerchantAmount = (string)(RepertoryOrder::query()->where("item_trade_no", $orderItem->trade_no)->first())?->amount ?: "0";

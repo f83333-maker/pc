@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommodityGroup extends Model
 {
-    
+
     protected $table = "commodity_group";
 
     public $timestamps = false;

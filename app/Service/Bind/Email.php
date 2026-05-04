@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Email implements \App\Service\Email
 {
-    
+
     public function send(string $email, string $title, string $content): bool
     {
         try {

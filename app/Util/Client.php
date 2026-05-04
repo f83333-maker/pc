@@ -8,7 +8,7 @@ use Kernel\Util\View;
 
 class Client
 {
-    
+
     private static ?int $mode = null;
 
     public static function setClientMode(int $mode): void
@@ -61,7 +61,7 @@ class Client
 
         $header = $headers[$type];
         if (isset($_SERVER[$header])) {
-            
+
             $ips = explode(',', $_SERVER[$header]);
             if (count($ips) > 0) {
                 return trim($ips[0]);

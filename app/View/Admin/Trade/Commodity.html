@@ -1,97 +1,97 @@
 #{include file="../Header.html"}
 
 <div class="content d-flex flex-column flex-column-fluid">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid">
-        
+
         <div id="kt_content_container" class="container-fluid">
-            
+
             <div class="row g-5 g-xl-10">
                 <div class="col-xl-2">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">总商品</span>
                             <div class="fw-bolder fs-1 text-primary my-6">#{$all}</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-2">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-2.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">已上架</span>
                             <div class="fw-bolder fs-1 text-success my-6">#{$shelves}</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-2">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-5 mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-1.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">未上架</span>
                             <div class="fw-bolder fs-1 text-danger my-6">#{$not}</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
 
                 <div class="col-xl-2">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-5 mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-3.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">主站商品</span>
                             <div class="fw-bolder fs-1 text-info my-6">#{$main}</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-2">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-5 mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">子站商品</span>
                             <div class="fw-bolder fs-1 text-dark my-6">#{$child}</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-2">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-5 mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">子站上架</span>
                             <div class="fw-bolder fs-1 text-success my-6">#{$child_shelves}</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
 
             <div class="card mb-5 mb-xl-8">
-                
+
                 <div class="card-header border-0">
                     <div class="card-toolbar">
                         <button class="btn btn-sm btn-light-primary btn-app-create me-3"><i class="fa-duotone fa-regular fa-circle-plus"></i>
@@ -108,21 +108,21 @@
                         </button>
                         <button class="btn btn-sm btn-light-danger btn-app-del me-3"><i class="fa-duotone fa-regular fa-trash-can"></i> 移除选中商品
                         </button>
-                        
+
                         #{hook(\App\Consts\Hook::ADMIN_VIEW_COMMODITY_TOOLBAR)}
-                        
+
                     </div>
                 </div>
-                
+
                 <div class="card-body py-3">
                     <table id="commodity-table"></table>
                 </div>
             </div>
 
         </div>
-        
+
     </div>
-    
+
 </div>
 
 #{hook(\App\Consts\Hook::ADMIN_VIEW_COMMODITY_FOOTER)}

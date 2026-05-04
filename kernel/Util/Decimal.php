@@ -5,7 +5,7 @@ namespace Kernel\Util;
 
 class Decimal
 {
-    
+
     private string $amount;
 
     private int $scale;

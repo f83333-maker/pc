@@ -9,11 +9,11 @@ use Kernel\Util\Context;
 
 class Upload extends \Kernel\Context\Abstract\File
 {
-    
+
     public function __construct(string $name = 'file')
     {
         $this->name = $name;
-        
+
         $request = Context::get(Request::class);
         $this->files = $request->file();
         parent::__construct();

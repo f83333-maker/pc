@@ -11,7 +11,7 @@ use Kernel\Exception\JSONException;
 
 class Commodity extends Model
 {
-    
+
     protected $table = 'commodity';
 
     public $timestamps = false;
@@ -103,7 +103,7 @@ class Commodity extends Model
 
         if (array_key_exists("category", $configs)) {
             foreach ($configs['category'] as $ck => $cv) {
-                
+
                 $price = $type == 0 ? (float)$cv + $premium : (float)$cv + ($premium * (float)$cv);
                 $price = (int)($price * 100) / 100;
                 $configs['category'][$ck] = $price;

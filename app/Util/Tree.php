@@ -5,7 +5,7 @@ namespace App\Util;
 
 class Tree
 {
-    
+
     public static function generate(array $array, string $primaryKey = 'id', string $parentKey = 'pid', string $childrenName = 'children'): array
     {
         $items = [];

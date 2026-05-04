@@ -5,6 +5,6 @@ namespace Kernel\Update;
 
 interface Database
 {
-    
+
     public function handle(): void;
 }

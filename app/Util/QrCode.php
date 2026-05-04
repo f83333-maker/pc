@@ -8,7 +8,7 @@ ini_set('memory_limit', '1024M');
 
 class QrCode
 {
-    
+
     public static function parse(string $path): string
     {
         $qrReader = new QrReader($path);

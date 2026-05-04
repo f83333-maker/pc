@@ -45,7 +45,7 @@ class Balance implements \App\Service\User\Balance
 
         if ($status === Bce::STATUS_DIRECT) {
             $user->balance = $userBill->after_balance = (new Decimal((string)($userBill->before_balance = $user->balance), 2))->add($amount)->getAmount(2);
-            
+
             $isWithdraw && ($user->withdraw_amount = (new Decimal((string)$user->withdraw_amount))->add($amount)->getAmount(2));
             $user->save();
         } else if ($status === Bce::STATUS_DELAYED) {
@@ -122,7 +122,7 @@ class Balance implements \App\Service\User\Balance
 
     public function unfreeze(int $id): void
     {
-        
+
         $bill = UserBill::query()->lock()->find($id);
         if (!$bill) {
             throw new ServiceException("资金不存在");
@@ -151,7 +151,7 @@ class Balance implements \App\Service\User\Balance
 
     public function rollback(int $id): void
     {
-        
+
         $bill = UserBill::query()->lock()->find($id);
         if (!$bill) {
             throw new ServiceException("资金不存在");
@@ -204,9 +204,9 @@ class Balance implements \App\Service\User\Balance
     public function transfer(int $payer, int $payee, string $amount): void
     {
         $transferNo = Str::generateTradeNo(); 
-        
+
         $this->deduct($payer, $amount, Bce::TYPE_TRANSFER, $transferNo);
-        
+
         $this->add($payee, $amount, Bce::TYPE_TRANSFER, false, Bce::STATUS_DIRECT, 0, $transferNo);
     }
 }

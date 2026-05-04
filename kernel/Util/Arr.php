@@ -63,16 +63,16 @@ class Arr
         $list = explode($separator, $str);
         return array_values(array_filter(array_map(function ($item) {
             $item = trim($item);
-            
+
             return ($item === '' || str_starts_with($item, '#') || str_starts_with($item, '//')) ? null : $item;
         }, $list)));
     }
 
     public static function xmlToArray(string $str): array
     {
-        
+
         $xml = simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NOCDATA);
-        
+
         if ($xml === false) {
             return [];
         }

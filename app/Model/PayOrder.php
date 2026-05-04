@@ -9,7 +9,7 @@ use Kernel\Util\Date;
 
 class PayOrder extends Model
 {
-    
+
     protected ?string $table = "pay_order";
 
     public bool $timestamps = false;

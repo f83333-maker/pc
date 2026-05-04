@@ -5,7 +5,7 @@ namespace Kernel\Annotation;
 #[\Attribute(\Attribute::TARGET_METHOD)]
 class Required
 {
-    
+
     public int $mode;
     public string $message;
 

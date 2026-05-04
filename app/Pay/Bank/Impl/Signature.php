@@ -7,7 +7,7 @@ use Kernel\Util\Context;
 
 class Signature implements \App\Pay\Signature
 {
-    
+
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {

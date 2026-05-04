@@ -12,7 +12,7 @@ use Kernel\Plugin\Const\Theme;
 #[Interceptor(class: [\App\Interceptor\User::class, Merchant::class])]
 class User extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->theme(Theme::USER, "User/User.html", "会员管理");

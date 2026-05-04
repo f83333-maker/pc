@@ -5,7 +5,7 @@ namespace App\Entity\Report;
 
 class Handle
 {
-    
+
     public int $reportId;
 
     public int $type;

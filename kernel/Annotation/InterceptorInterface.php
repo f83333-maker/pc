@@ -5,6 +5,6 @@ namespace Kernel\Annotation;
 
 interface InterceptorInterface
 {
-    
+
     public function handle(int $type): void;
 }

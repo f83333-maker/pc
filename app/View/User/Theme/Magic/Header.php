@@ -21,7 +21,7 @@
     ?>
 
     <?php hook(\App\Consts\Hook::USER_VIEW_INDEX_HEADER); ?>
-    
+
 </head>
 <body>
 <div class="card main-window">

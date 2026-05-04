@@ -10,7 +10,7 @@ use Kernel\Database\Schema;
 
 class Database extends Command
 {
-    
+
     public function createModel(): void
     {
         if (empty($this->param)) {

@@ -14,9 +14,9 @@ class Item
     public string $name;
     public string $introduce;
     public string $pictureUrl;
-    
+
     public array $widgets = [];
-    
+
     public array $attr = [];
     public string $category;
 

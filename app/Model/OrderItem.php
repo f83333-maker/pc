@@ -8,7 +8,7 @@ use Kernel\Database\Model;
 
 class OrderItem extends Model
 {
-    
+
     protected ?string $table = "order_item";
 
     public bool $timestamps = false;

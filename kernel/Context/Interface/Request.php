@@ -7,7 +7,7 @@ use Kernel\Waf\Filter;
 
 interface Request
 {
-    
+
     public function method(): string;
 
     public function all(int $flags = Filter::STRING_UNSIGNED): mixed;

@@ -114,15 +114,15 @@ class App implements \App\Service\App
 
     public function installPlugin(string $key, int $type, int $pluginId): void
     {
-        
+
         $pluginPath = BASE_PATH . "/app/Plugin/{$key}/";
         $fileInit = file_exists($pluginPath . "/Config/Info.php");
         if ($type == 1) {
-            
+
             $pluginPath = BASE_PATH . "/app/Pay/{$key}/";
             $fileInit = file_exists($pluginPath . "/Config/Info.php");
         } elseif ($type == 2) {
-            
+
             $pluginPath = BASE_PATH . "/app/View/User/Theme/{$key}/";
             $fileInit = file_exists($pluginPath . "/Config.php");
         }
@@ -141,14 +141,14 @@ class App implements \App\Service\App
         if (!$storeDownload) {
             throw new JSONException("安装失败，请联系技术人员");
         }
-        
+
         $src = BASE_PATH . "/kernel/Install/OS/{$storeDownload}";
         if (!Zip::unzip($src, $pluginPath)) {
             throw new JSONException("安装失败，请检查是否有写入权限");
         }
-        
+
         unlink($src);
-        
+
         $installSql = $pluginPath . "install.sql";
         if (file_exists($installSql)) {
             $database = config("database");
@@ -156,20 +156,20 @@ class App implements \App\Service\App
         }
 
         if ($type == 0) {
-            
+
             Plugin::runHookState($key, \Kernel\Annotation\Plugin::INSTALL);
         }
     }
 
     public function updatePlugin(string $key, int $type, int $pluginId): void
     {
-        
+
         $pluginPath = BASE_PATH . "/app/Plugin/{$key}/";
         if ($type == 1) {
-            
+
             $pluginPath = BASE_PATH . "/app/Pay/{$key}/";
         } elseif ($type == 2) {
-            
+
             $pluginPath = BASE_PATH . "/app/View/User/Theme/{$key}/";
         }
         if (!is_dir($pluginPath)) {
@@ -181,14 +181,14 @@ class App implements \App\Service\App
         if (!$storeDownload) {
             throw new JSONException("更新失败，请联系技术人员");
         }
-        
+
         $src = BASE_PATH . "/kernel/Install/OS/{$storeDownload}";
         if (!Zip::unzip($src, $pluginPath)) {
             throw new JSONException("更新失败，请检查是否有写入权限");
         }
-        
+
         unlink($src);
-        
+
         $updateSql = $pluginPath . "update.sql";
         if (file_exists($updateSql)) {
             $database = config("database");
@@ -198,7 +198,7 @@ class App implements \App\Service\App
         if ($type == 0) {
             Plugin::runHookState($key, \Kernel\Annotation\Plugin::UPGRADE);
         } elseif ($type == 2) {
-            
+
             $viewDir = realpath(BASE_PATH . "/runtime/view/");
             if ($viewDir) {
                 File::delDirectory($viewDir);
@@ -215,17 +215,17 @@ class App implements \App\Service\App
 
     public function uninstallPlugin(string $key, int $type): void
     {
-        
+
         $pluginPath = BASE_PATH . "/app/Plugin/{$key}/";
         if ($type == 1) {
-            
+
             $pluginPath = BASE_PATH . "/app/Pay/{$key}/";
         } elseif ($type == 2) {
-            
+
             $pluginPath = BASE_PATH . "/app/View/User/Theme/{$key}/";
         }
         if (is_dir($pluginPath)) {
-            
+
             File::delDirectory($pluginPath);
         }
     }
@@ -265,7 +265,7 @@ class App implements \App\Service\App
 
         foreach ($vrs as $key => $val) {
             if ($startVersion < $key) {
-                
+
                 $zipPath = BASE_PATH . '/kernel/Install/Update/' . $val['version'];
 
                 if (!Http::download($val['update_url'], $zipPath . '/update.zip')) {
@@ -279,7 +279,7 @@ class App implements \App\Service\App
                 $sql = $zipPath . '/update.sql';
 
                 if (file_exists($sql)) {
-                    
+
                     $database = config("database");
                     SQL::import($sql, $database['host'], $database['database'], $database['username'], $database['password'], $database['prefix']);
                 }

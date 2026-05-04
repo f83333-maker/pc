@@ -8,7 +8,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\Bind\Pay::class)]
 interface Pay
 {
-    
+
     public function getPlugins(): array;
 
     public function getPluginInfo(string $name): array;

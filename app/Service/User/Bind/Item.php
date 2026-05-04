@@ -200,7 +200,7 @@ class Item implements \App\Service\User\Item
         }
 
         $data = Db::transaction(function () use ($available, $categoryId, $user, $itemId, $markupId) {
-            
+
             $repertoryItem = RepertoryItem::query()->find($itemId);
 
             if (!$repertoryItem) {
@@ -234,7 +234,7 @@ class Item implements \App\Service\User\Item
             $item->save();
 
             $repertoryItemSkus = RepertoryItemSku::query()->where("repertory_item_id", $repertoryItem->id)->get();
-            
+
             foreach ($repertoryItemSkus as $repertoryItemSku) {
                 $itemSku = new  ItemSku();
                 $itemSku->repertory_item_sku_id = $repertoryItemSku->id;
@@ -296,7 +296,7 @@ class Item implements \App\Service\User\Item
         $now = Date::current();
         $item->attr = $repertoryItem->attr;
         $itemSkus = ItemSku::query()->where("item_id", $item->id)->get();
-        
+
         foreach ($itemSkus as $itemSku) {
             if (!RepertoryItemSku::query()->where("id", $itemSku->repertory_item_sku_id)->exists()) {
                 try {
@@ -322,24 +322,24 @@ class Item implements \App\Service\User\Item
 
         foreach ($repertoryItem->sku as $sku) {
             $itemSku = ItemSku::query()->where("repertory_item_sku_id", $sku->id)->where("item_id", $item->id)->first();
-            
+
             $stockPrice = ($item->user_id > 0 && $repertoryItem->user_id > 0 && $item->user_id === $repertoryItem->user_id) ? (string)$sku->supply_price : (string)$sku->stock_price;
-            
+
             $touristPrice = $stockPrice;
-            
+
             $oldStockPrice = (string)$itemSku?->stock_price;
 
             $SKUEntity = $this->repertoryItemSku->getSKUEntity($sku->id, $item?->user_id);
 
             if ($SKUEntity && $SKUEntity->marketControl) {
-                
+
                 if ($SKUEntity->marketControlMinPrice > $touristPrice) {
                     $touristPrice = $SKUEntity->marketControlMinPrice;
                 }
             }
 
             if (!$itemSku) {
-                
+
                 $itemSku = new  ItemSku();
                 $itemSku->repertory_item_sku_id = $sku->id;
                 $item->user_id && $itemSku->user_id = $item->user_id;
@@ -397,10 +397,10 @@ class Item implements \App\Service\User\Item
 
             foreach ($sku->wholesale as $wholesale) {
                 $itemSkuWholesale = ItemSkuWholesale::query()->where("repertory_item_sku_wholesale_id", $wholesale->id)->where("sku_id", $itemSku->id)->first();
-                
+
                 $stockPrice = (string)$wholesale->stock_price;
                 if (!$itemSkuWholesale) {
-                    
+
                     $itemSkuWholesale = new ItemSkuWholesale();
                     $itemSkuWholesale->repertory_item_sku_wholesale_id = $wholesale->id;
                     $item->user_id && $itemSkuWholesale->user_id = $item->user_id;;
@@ -421,7 +421,7 @@ class Item implements \App\Service\User\Item
 
     public function syncRepertoryItems(int $itemId): void
     {
-        
+
         $repertoryItem = RepertoryItem::with([
             "sku" => function (HasMany $hasMany) {
                 $hasMany->with(["wholesale"]);
@@ -429,7 +429,7 @@ class Item implements \App\Service\User\Item
         ])->find($itemId);
 
         $items = Model::query()->where("repertory_item_id", $itemId)->get();
-        
+
         foreach ($items as $item) {
             $this->syncRepertoryItem($item, $repertoryItem);
         }
@@ -445,7 +445,7 @@ class Item implements \App\Service\User\Item
         $markupEntity = new Markup();
 
         if ($item->markup_mode == 1) {
-            
+
             $template = ItemMarkupTemplate::query()->find($item->markup_template_id);
             if ($template) {
                 $markupEntity->setSyncAmount((bool)$template->sync_amount);
@@ -539,19 +539,19 @@ class Item implements \App\Service\User\Item
     {
         $list = ItemSkuWholesale::query()->where("sku_id", $skuId)->orderBy("quantity", "asc")->get();
         $data = [];
-        
+
         foreach ($list as $li) {
             $wholesale = new Wholesale($li->id, $li->quantity, $li->price);
             if ($customer) {
-                
+
                 $level = $customer?->level;
-                
+
                 if ($level) {
-                    
+
                     $levelRule = ItemSkuWholesaleLevel::where("level_id", $level->id)->where("wholesale_id", $wholesale->id)->first();
                     ($levelRule && $levelRule->status == 1 && $levelRule->price < $wholesale->price) && $wholesale->setPrice($levelRule->price);
                 }
-                
+
                 $userRule = ItemSkuWholesaleUser::where("customer_id", $customer->id)->where("wholesale_id", $wholesale->id)->first();
                 ($userRule && $userRule->status == 1 && $userRule->price < $wholesale->price) && $wholesale->setPrice($userRule->price);
             }

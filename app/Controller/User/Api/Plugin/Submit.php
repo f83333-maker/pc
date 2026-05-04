@@ -21,7 +21,7 @@ use Kernel\Validator\Method;
 #[Interceptor(class: [PostDecrypt::class, Waf::class, User::class, Group::class], type: Interceptor::API)]
 class Submit extends Base
 {
-    
+
     #[Validator([
         [\App\Validator\Admin\Submit::class, ["name", "js"]]
     ], Method::GET)]

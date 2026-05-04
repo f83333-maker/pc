@@ -54,7 +54,7 @@ class ItemSkuWholesaleGroup extends Base
     {
         $map = $this->request->post();
         try {
-            
+
             $repertoryItemSkuWholesale = RepertoryItemSkuWholesale::query()->find($wholesaleId);
 
             if (!$repertoryItemSkuWholesale) {

@@ -493,7 +493,7 @@ select:focus {
     user-select: none;
     cursor: pointer;
     padding: 4px 8px;
-    
+
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     -webkit-box-shadow: 0 1px 4px 0 #ff99e899;

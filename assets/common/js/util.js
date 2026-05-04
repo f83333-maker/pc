@@ -16,11 +16,11 @@ const util = new class Util {
 
     parseStringObject(obj, str) {
         try {
-            
+
             str = str.trim();
-            
+
             let props = str.split('-');
-            
+
             let value = obj;
             for (let i = 0; i < props.length; i++) {
                 let prop = props[i];
@@ -517,9 +517,9 @@ const util = new class Util {
         if (typeof text !== 'string') {
             return text;
         }
-        
+
         const noHtml = text.replace(/<[^>]*>/g, '');
-        
+
         return noHtml.trim();
     }
 
@@ -535,12 +535,12 @@ const util = new class Util {
         }
         for (let i = 0; i < data.length; i++) {
             const node = data[i];
-            
+
             if (node.id === id) {
                 data.splice(i, 1); 
                 return data; 
             }
-            
+
             if (node.children && node.children.length > 0) {
                 node.children = this.deleteNodeById(node.children, id);
             }
@@ -669,7 +669,7 @@ const util = new class Util {
     }
 
     onScrollToBottom(callback) {
-        
+
         window.addEventListener('scroll', function () {
             if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight) {
                 callback();  
@@ -700,14 +700,14 @@ const util = new class Util {
                     done: res => {
                         if (res.data.status === 2) {
                             if (new Date() > new Date(res.data.timeout)) {
-                                
+
                                 message.error("订单支付超时");
                                 window.location.reload();
                                 resolve(false);
                                 return;
                             }
                             message.alert("支付已完成，已经授权成功！", "success");
-                            
+
                             window.location.reload();
                             resolve(false);
                         } else if (res.data.status === 3) {

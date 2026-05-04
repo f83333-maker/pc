@@ -100,7 +100,7 @@ class Card extends Manage
             if ($cardType == 0) {
                 $cardObj->secret = $cardt;
             } else {
-                
+
                 $list = explode("║", $cardt);
                 if (count($list) < 2) {
                     $error++; 
@@ -236,13 +236,13 @@ class Card extends Manage
         }
 
         if ($exportStatus == 1) {
-            
+
             try {
                 \App\Model\Card::query()->whereIn('id', $ids)->whereRaw("status!=1")->update(['status' => 2]);
             } catch (\Exception $e) {
             }
         } elseif ($exportStatus == 2) {
-            
+
             try {
                 $deleteBatchEntity = new Delete(\App\Model\Card::class, $ids);
                 $this->query->delete($deleteBatchEntity);

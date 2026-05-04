@@ -9,10 +9,10 @@ use Kernel\Exception\JSONException;
 
 class Pay extends Base implements \App\Pay\Pay
 {
-    
+
     public function trade(): PayEntity
     {
-        
+
         if (!$this->config['appid']) {
             throw new JSONException("请先配置商户APPID");
         }
@@ -20,10 +20,10 @@ class Pay extends Base implements \App\Pay\Pay
         if (!$this->config['secret']) {
             throw new JSONException("请先配置商户AppSecret");
         }
-        
+
         $url = 'https://www.yishoumi.cn/u/payment';
         $params = array();
-        
+
         $params['appid'] = $this->config['appid'];
         $params['mch_orderid'] = $this->tradeNo;
         $params['description'] = $this->tradeNo;
@@ -37,7 +37,7 @@ class Pay extends Base implements \App\Pay\Pay
         $params['plugin'] = 'acg';
         $params['sign'] = Signature::HashSign($params, $this->config['secret']);
         $result = Signature::HttpPost($url, json_encode($params));
-        
+
         if(!isset($result['code'])){
             throw new JSONException("支付接口调用失败");
         }
@@ -46,15 +46,15 @@ class Pay extends Base implements \App\Pay\Pay
         }
 
         $payEntity = new PayEntity();
- 
+
         if (!Signature::isMobile()) {
             $payEntity->setType(self::TYPE_LOCAL_RENDER);
             $payEntity->setUrl($result['url']);
         } else {
-            
+
             $payEntity->setType(self::TYPE_REDIRECT);
             $payEntity->setUrl($result['url']);
-            
+
         }
         return $payEntity;
     }

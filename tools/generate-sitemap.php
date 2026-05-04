@@ -64,7 +64,7 @@ $xml .= build_url_node($baseUrl . '/user/index/query',   $today, 'monthly', '0.4
 
 $itemCount = 0;
 try {
-    
+
     $stmt = $pdo->query(
         "SELECT id, create_time
          FROM `{$prefix}commodity`
@@ -74,7 +74,7 @@ try {
          ORDER BY sort ASC, id ASC"
     );
     while ($row = $stmt->fetch()) {
-        
+
         $loc     = $baseUrl . '/user/index/item?mid=' . (int)$row['id'];
         $lastmod = !empty($row['create_time'])
             ? date('Y-m-d', is_numeric($row['create_time']) ? (int)$row['create_time'] : strtotime((string)$row['create_time']))
@@ -97,7 +97,7 @@ try {
         $categoryCount++;
     }
 } catch (PDOException $e) {
-    
+
 }
 
 $xml .= '</urlset>' . "\n";

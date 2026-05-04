@@ -5,7 +5,7 @@ namespace Kernel\Util;
 
 class UserAgent
 {
-    
+
     private static array $devices = [
         'iPhone' => 'iPhone',
         'iPad' => 'iPad',

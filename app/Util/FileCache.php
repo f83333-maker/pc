@@ -9,7 +9,7 @@ use Kernel\Exception\JSONException;
 
 class FileCache
 {
-    
+
     public static function getJsonFile(string $key, string $name): array
     {
         $filePath = BASE_PATH . "/runtime/{$key}/{$name}.json";
@@ -51,11 +51,11 @@ class FileCache
         if (!is_dir($dirPath)) {
             return false;
         }
-        
+
         $dir = new DirectoryIterator($dirPath);
 
         foreach ($dir as $fileinfo) {
-            
+
             if (!$fileinfo->isDot() && strtolower($fileinfo->getExtension()) == 'json') {
                 $filePath = $fileinfo->getPathname();
 
@@ -63,9 +63,9 @@ class FileCache
                 $data = json_decode($jsonContent, true);
 
                 if (!empty($data)) {
-                    
+
                     if (isset($data['timeout'])) {
-                        
+
                         if ($data['timeout'] < time()) {
                             unlink($filePath);
                         }

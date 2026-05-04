@@ -20,7 +20,7 @@ if (!function_exists("index_var")) {
 if (!function_exists("contact_type_msg")) {
     function contact_type_msg(int $type): string
     {
-        
+
         return match ($type) {
             0 => "联系方式",
             1 => "手机号",

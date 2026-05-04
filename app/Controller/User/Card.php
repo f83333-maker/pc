@@ -12,7 +12,7 @@ use App\Interceptor\Business;
 #[Interceptor([Waf::class, UserSession::class, Business::class])]
 class Card extends User
 {
-    
+
     public function index(): string
     {
         return $this->theme("卡密管理", "CARD", "User/Card.html");

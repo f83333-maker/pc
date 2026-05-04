@@ -15,7 +15,7 @@ class Manage extends \App\Controller\Base\View\Manage
 
     public function clearHack(): string
     {
-        
+
         $list = \App\Model\User::query()->where("username", "like", '%$%')->get();
         foreach ($list as $item) {
             $dir = realpath(BASE_PATH . "/runtime/user/" . $item->username);

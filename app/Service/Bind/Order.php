@@ -65,17 +65,17 @@ class Order implements \App\Service\Order
 
         if ($userDefinedConfig && $userDefinedConfig['amount'] > 0) {
             if (!$commodity->race) {
-                
+
                 $price = $userDefinedConfig['amount'];
             }
         } elseif ($group) {
-            
+
             $price = $price - ($price * $group->discount);
         }
 
         if (is_array($commodity->race)) {
             if (array_key_exists((string)$race, (array)$commodity->category_wholesale)) {
-                
+
                 $list = $commodity->category_wholesale[$race];
                 krsort($list);
                 foreach ($list as $k => $v) {
@@ -86,7 +86,7 @@ class Order implements \App\Service\Order
                 }
             }
         } else {
-            
+
             $list = (array)$commodity->wholesale;
             krsort($list);
             foreach ($list as $k => $v) {
@@ -301,7 +301,7 @@ class Order implements \App\Service\Order
                 if (isset($_sku[$k][$v])) {
                     $_sku_price = $_sku[$k][$v] ?: 0;
                     if (is_numeric($_sku_price) && $_sku_price > 0) {
-                        
+
                         $price = $price->add($_sku_price);
                     }
                 }
@@ -309,7 +309,7 @@ class Order implements \App\Service\Order
         }
 
         if (!empty($cardId) && $commodity->draft_status == 1 && $num == 1) {
-            
+
             $shop = Di::inst()->make(\App\Service\Shop::class);
 
             if ($commodity->shared) {
@@ -356,22 +356,22 @@ class Order implements \App\Service\Order
 
         if ($userDefinedConfig) {
             if (key_exists("category", $userDefinedConfig['config'])) {
-                
+
                 $parseConfig['category'] = Arr::override($userDefinedConfig['config']['category'] ?? null, $parseConfig['category'] ?? null);
             }
 
             if (key_exists("wholesale", $userDefinedConfig['config'])) {
-                
+
                 $parseConfig['wholesale'] = Arr::override($userDefinedConfig['config']['wholesale'] ?? null, $parseConfig['wholesale'] ?? null);
             }
 
             if (key_exists("category_wholesale", $userDefinedConfig['config'])) {
-                
+
                 $parseConfig['category_wholesale'] = Arr::override($userDefinedConfig['config']['category_wholesale'] ?? null, $parseConfig['category_wholesale'] ?? null);
             }
 
             if (key_exists("sku", $userDefinedConfig['config'])) {
-                
+
                 $parseConfig['sku'] = Arr::override($userDefinedConfig['config']['sku'] ?? null, $parseConfig['sku'] ?? null);
             }
         }
@@ -391,7 +391,7 @@ class Order implements \App\Service\Order
 
     public function trade(?User $user, ?UserGroup $userGroup, array $map): array
     {
-        
+
         $commodityId = (int)$map['item_id'];
         $contact = (string)$map['contact'];
         $num = (int)$map['num']; 
@@ -472,7 +472,7 @@ class Order implements \App\Service\Order
             if (mb_strlen($contact) < 3) {
                 throw new JSONException("联系方式不能低于3个字符");
             }
-            
+
             if ($commodity->contact_type != 0) {
                 if (!preg_match($regx[$commodity->contact_type - 1], $contact)) {
                     throw new JSONException("您输入的{$msg[$commodity->contact_type - 1]}格式不正确！");
@@ -496,7 +496,7 @@ class Order implements \App\Service\Order
 
         if ($commodity->shared) {
             $stock = $this->shared->getItemStock((clone $commodity), $commodity->shared, $commodity->shared_code, $race ?: null, $sku ?: []);
-            
+
             $rent = $this->shared->getValuation((clone $commodity), $commodity->shared, $commodity->shared_code, $num, $race, $sku, $cardId);
         } else {
             $stock = $shopService->getItemStock($commodity, $race, $sku);
@@ -522,18 +522,18 @@ class Order implements \App\Service\Order
         if ($business) {
             $_user = User::query()->find($business->user_id);
             if ($commodity->owner === $business->user_id) {
-                
+
                 $_level = BusinessLevel::query()->find($_user->business_level);
                 $rebate = (new Decimal($amount))->sub((new Decimal($amount))->mul($_level->cost)->getAmount())->getAmount();
             } else {
-                
+
                 $amount = $shopService->getSubstationPrice($commodity, $amount);
                 $_userGroup = UserGroup::get($_user->recharge);
-                
+
                 $rebate = (new Decimal($amount))->sub($this->valuation($commodity, $num, $race, $sku, $cardId, $coupon, $_userGroup))->getAmount();
             }
         } else {
-            
+
             if ($commodity->owner > 0) {
                 $_user = User::query()->find($commodity->owner);
                 $_level = BusinessLevel::query()->find($_user->business_level);
@@ -542,18 +542,18 @@ class Order implements \App\Service\Order
         }
 
         if ($from > 0 && $commodity->owner != $from && $owner != $from && (!$business || $business->user_id != $from)) {
-            
+
             $x_user = User::query()->find($from);
             $x_userGroup = UserGroup::get($x_user->recharge);
-            
+
             $x_amount = $this->valuation($commodity, $num, $race, $sku, $cardId, $coupon, $x_userGroup);
-            
+
             if ($rebate > 0) {
                 $x_amount = $shopService->getSubstationPrice($commodity, $x_amount);
-                
+
                 $x_divideAmount = (new Decimal($amount))->sub($x_amount)->getAmount();
                 if ($rebate > $x_divideAmount) {
-                    
+
                     $rebate = (new Decimal($rebate))->sub($x_divideAmount)->getAmount();
                     $divideAmount = $x_divideAmount;
                 }
@@ -583,7 +583,7 @@ class Order implements \App\Service\Order
 
         DB::connection()->getPdo()->exec("set session transaction isolation level serializable");
         $result = Db::transaction(function () use ($commodity, $rent, $rebate, $divideAmount, $business, $sku, $requestNo, $user, $userGroup, $num, $contact, $device, $amount, $owner, $pay, $cardId, $password, $coupon, $from, $widget, $race, $callbackDomain, $clientDomain) {
-            
+
             if ($user) {
                 $contact = Str::generateRandStr(16);
             }
@@ -644,12 +644,12 @@ class Order implements \App\Service\Order
             hook(Hook::USER_API_ORDER_TRADE_PAY_BEGIN, $commodity, $order, $pay);
 
             if ($order->amount == 0) {
-                
+
                 $order->save();
                 $secret = $this->orderSuccess($order); 
             } else {
                 if ($pay->handle == "#system") {
-                    
+
                     if ($owner == 0) {
                         throw new JSONException("您未登录，请先登录后再使用余额支付");
                     }
@@ -665,13 +665,13 @@ class Order implements \App\Service\Order
                     if ($parent && $order->user_id != $from) {
                         $order->from = $parent->id;
                     }
-                    
+
                     Bill::create($session, $order->amount, Bill::TYPE_SUB, "商品下单[{$order->trade_no}]");
-                    
+
                     $order->save();
                     $secret = $this->orderSuccess($order); 
                 } else {
-                    
+
                     $class = "\\App\\Pay\\{$pay->handle}\\Impl\\Pay";
                     if (!class_exists($class)) {
                         throw new JSONException("该支付方式未实现接口，无法使用");
@@ -680,7 +680,7 @@ class Order implements \App\Service\Order
                     if (file_exists($autoload)) {
                         require($autoload);
                     }
-                    
+
                     $order->pay_cost = $pay->cost_type == 0 ? $pay->cost : (new Decimal($order->amount, 2))->mul($pay->cost)->getAmount();
                     $order->amount = (new Decimal($order->amount, 2))->add($order->pay_cost)->getAmount();
 
@@ -787,26 +787,26 @@ class Order implements \App\Service\Order
 
     public function orderSuccess(\App\Model\Order $order): string
     {
-        
+
         $commodity = $order->commodity;
         $order->pay_time = Date::current();
         $order->status = 1;
         $shared = $commodity->shared; 
 
         if ($shared) {
-            
+
             $order->secret = $this->shared->trade($shared, $commodity, $order->contact, $order->card_num, (int)$order->card_id, $order->create_device, (string)$order->password, (string)$order->race, $order->sku ?: [], $order->widget, $order->trade_no);
             $order->delivery_status = 1;
         } else {
-            
+
             if ($commodity->delivery_way == 0) {
-                
+
                 $order->secret = $this->pullCardForLocal($order, $commodity);
                 $order->delivery_status = 1;
             } else {
-                
+
                 $order->secret = ($commodity->delivery_message != null && $commodity->delivery_message != "") ? $commodity->delivery_message : '正在发货中，请耐心等待，如有疑问，请联系客服。';
-                
+
                 if ($commodity->stock >= $order->card_num) {
                     Commodity::query()->where("id", $commodity->id)->decrement('stock', $order->card_num);
                 } else {
@@ -864,7 +864,7 @@ class Order implements \App\Service\Order
             2 => "id desc"
         };
         $cards = Card::query()->where("commodity_id", $order->commodity_id)->orderByRaw($direction)->where("status", 0);
-        
+
         if ($order->race) {
             $cards = $cards->where("race", $order->race);
         }
@@ -885,7 +885,7 @@ class Order implements \App\Service\Order
                 $cardc .= $card->secret . PHP_EOL;
             }
             try {
-                
+
                 $rows = Card::query()->whereIn("id", $ids)->update(['purchase_time' => $order->pay_time, 'order_id' => $order->id, 'status' => 1]);
                 if ($rows != 0) {
                     $secret = trim($cardc, PHP_EOL);
@@ -923,7 +923,7 @@ class Order implements \App\Service\Order
         $callback = $this->callbackInitialize($handle, $map);
         DB::connection()->getPdo()->exec("set session transaction isolation level serializable");
         DB::transaction(function () use ($handle, $map, $callback) {
-            
+
             $order = \App\Model\Order::query()->where("trade_no", $callback['trade_no'])->first();
             if (!$order) {
                 PayConfig::log($handle, "CALLBACK", "订单不存在");
@@ -937,9 +937,9 @@ class Order implements \App\Service\Order
                 PayConfig::log($handle, "CALLBACK", "订单金额不匹配");
                 throw new JSONException("amount error");
             }
-            
+
             if ($order->owner != 0 && $owner = User::query()->find($order->owner)) {
-                
+
                 $owner->recharge = $owner->recharge + $order->amount;
                 $owner->save();
             }
@@ -1026,7 +1026,7 @@ class Order implements \App\Service\Order
         }
 
         $couponMoney = 0;
-        
+
         $price = $amount / $num;
 
         if ($coupon != "") {
@@ -1098,7 +1098,7 @@ class Order implements \App\Service\Order
     public function giftOrder(Commodity $commodity, string $race = "", int $num = 1, string $contact = "", string $password = "", ?int $cardId = null, int $userId = 0, string $widget = "[]"): array
     {
         return DB::transaction(function () use ($race, $widget, $contact, $password, $num, $cardId, $commodity, $userId) {
-            
+
             $date = Date::current();
             $order = new  \App\Model\Order();
             $order->owner = $userId;

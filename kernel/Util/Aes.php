@@ -7,7 +7,7 @@ use Kernel\Exception\RuntimeException;
 
 class Aes
 {
-    
+
     public static function encrypt(mixed $data, string $key, string $iv, bool $base64 = true): string
     {
         $contents = openssl_encrypt($data, 'aes-128-cbc', $key, OPENSSL_RAW_DATA, $iv);

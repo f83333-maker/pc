@@ -12,7 +12,7 @@ use Kernel\Plugin\Const\Theme;
 #[Interceptor(class: User::class)]
 class Bill extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->theme(Theme::USER_BILL, "User/Bill.html", "账单记录");

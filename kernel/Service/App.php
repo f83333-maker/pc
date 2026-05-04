@@ -18,7 +18,7 @@ class App
 
     public function startRestartWaitProcess(): void
     {
-        
+
         $this->restartWaitProcess = new Process(function (Process $worker) {
             $config = Config::get("cli-server");
             $worker->name($config['name'] . "." . $config['port'] . ".restart");

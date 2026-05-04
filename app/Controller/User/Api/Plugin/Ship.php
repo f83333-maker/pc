@@ -29,7 +29,7 @@ class Ship extends Base
 
     public function items(int $configId): Response
     {
-        
+
         $config = PluginConfig::where("user_id", $this->getUser()->id)->find($configId);
         if (!$config) {
             throw new JSONException("配置不存在");
@@ -96,7 +96,7 @@ class Ship extends Base
     public function syncRemoteItem(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        
+
         $repertoryItem = \App\Model\RepertoryItem::where("user_id", $this->getUser()->id)->find($id);
         if (!$repertoryItem) {
             throw new JSONException("商品不存在");

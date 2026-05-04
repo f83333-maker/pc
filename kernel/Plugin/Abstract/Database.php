@@ -8,7 +8,7 @@ use Kernel\Plugin\Entity\Plugin;
 
 abstract class Database implements \Kernel\Plugin\Handle\Database
 {
-    
+
     private string $usr;
 
     protected Plugin $plugin;

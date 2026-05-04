@@ -68,7 +68,7 @@
 
     const $payItem = $('.pay-container .online-pay');
     const $balanceClick = $('.wallet-balance-click');
-    
+
     const $btnCancel = $('.btn-cancel-order');
     const $btnPay = $('.btn-pay-now');
     const $renderPay = $('.render-pay');

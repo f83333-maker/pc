@@ -393,14 +393,14 @@ class Shared implements \App\Service\Shared
     public function AdjustmentPrice(string $config, string $price, string $userPrice, int $type, float $premium): array
     {
         $_config = Ini::toArray($config);
-        
+
         if (array_key_exists("category", $_config) && is_array($_config['category'])) {
             foreach ($_config['category'] as &$_price) {
                 $_tmp = new Decimal($_price, 2);
                 $_price = $type == 0 ? $_tmp->add($premium)->getAmount() : $_tmp->add((new Decimal($premium, 3))->mul($_price)->getAmount())->getAmount();
             }
         }
-        
+
         if (array_key_exists("sku", $_config) && is_array($_config['sku'])) {
             foreach ($_config['sku'] as &$sku) {
                 foreach ($sku as &$_price) {

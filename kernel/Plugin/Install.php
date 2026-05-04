@@ -54,7 +54,7 @@ class Install
                 case "css":
                 case "html":
                 case "js":
-                    
+
                     $raw = preg_replace_callback('#/app/Plugin/([^/]+)#', function ($matches) use ($ignorePlugin, $userId) {
                         if (in_array($matches[1], $ignorePlugin)) {
                             return $matches[0];

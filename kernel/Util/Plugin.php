@@ -10,7 +10,7 @@ use Kernel\Plugin\Entity\Stock;
 
 class Plugin
 {
-    
+
     public static array $container = [];
 
     public static ?string $currentPluginName = null;
@@ -70,9 +70,9 @@ class Plugin
 
     public static function runHookState(string $pluginName, int $state, mixed ...$args): void
     {
-        
+
         $path = BASE_PATH . "/app/Plugin/{$pluginName}/Hook/";
-        
+
         $hookScan = File::scan($path, true);
         foreach ($hookScan as $class) {
             $_class = explode(".", $class);

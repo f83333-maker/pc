@@ -5,7 +5,7 @@ namespace App\Entity;
 
 class PayEntity
 {
-    
+
     private int $type;
 
     private string $url;

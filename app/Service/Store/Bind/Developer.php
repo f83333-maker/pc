@@ -86,7 +86,7 @@ class Developer implements \App\Service\Store\Developer
 
     public function publishPlugin(string $name, Authentication $authentication): void
     {
-        
+
         $plugin = \Kernel\Plugin\Plugin::inst()->getPlugin($name, Usr::MAIN);
         if (!$plugin) {
             throw new ServiceException("插件不存在");

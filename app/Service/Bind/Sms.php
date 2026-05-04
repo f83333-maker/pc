@@ -57,7 +57,7 @@ class Sms implements \App\Service\Sms
     {
         $platform = (int)$smsConfig['platform'];
         if ($platform == 0) {
-            
+
             $config = [
                 'access_key' => $smsConfig['accessKeyId'],
                 'access_secret' => $smsConfig['accessKeySecret'],
@@ -67,7 +67,7 @@ class Sms implements \App\Service\Sms
             if ($response->Message != "OK") {
                 throw new JSONException($response->Message);
             }
-            
+
         } elseif ($platform == 1) {
             $this->tencentSms($smsConfig, $phone, $templateCode, $var);
         } elseif ($platform == 2) {

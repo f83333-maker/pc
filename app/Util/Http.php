@@ -10,7 +10,7 @@ use Kernel\Util\Str;
 
 class Http
 {
-    
+
     public static function make(array $opt = []): \GuzzleHttp\Client
     {
         return new \GuzzleHttp\Client(array_merge(["verify" => false], $opt));

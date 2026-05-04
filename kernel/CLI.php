@@ -10,9 +10,9 @@ Coroutine::set(['hook_flags' => SWOOLE_HOOK_ALL, 'enable_deadlock_check' => fals
 
 if (Console::instance()->isCommand($argv)) {
     App::$isCommand = true;
-    
+
     Console::instance()->execute($argv);
 } else {
-    
+
     CLI::instance()->start();
 }

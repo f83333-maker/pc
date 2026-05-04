@@ -89,7 +89,7 @@ class Order extends Base
     ], Method::GET)]
     public function downloadOrder(int $itemId, string $tradeNo): Response
     {
-        
+
         $order = OrderItem::query()
             ->leftJoin("order", "order_item.order_id", "=", "order.id")
             ->where("order.trade_no", $tradeNo)

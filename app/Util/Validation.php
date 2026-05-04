@@ -5,7 +5,7 @@ namespace App\Util;
 
 class Validation
 {
-    
+
     public static function username(string $username, int $length = 6): bool
     {
         if (mb_strlen($username) < $length) {

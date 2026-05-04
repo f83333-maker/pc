@@ -82,7 +82,7 @@ class Level implements \App\Service\User\Level
             $createOrder->setMerchant($level?->user);
             $createOrder->setOption(["level_id" => $level->id]);
             $createOrder->setProductInfo($level->icon, "升级会员等级({$level->name})");
-            
+
             $order = $orderService->create($createOrder);
 
             return new Trade(
@@ -95,7 +95,7 @@ class Level implements \App\Service\User\Level
 
     public function upgrade(int $userId, int $levelId): bool
     {
-        
+
         $user = User::query()->find($userId);
         if (!$user) {
             return false;

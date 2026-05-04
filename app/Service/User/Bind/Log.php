@@ -15,7 +15,7 @@ class Log implements \App\Service\User\Log
 
     public function create(int $userId, string $content): void
     {
-        
+
         $request = Context::get(Request::class);
 
         $user = Context::get(User::class);

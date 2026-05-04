@@ -21,11 +21,11 @@ class Manager
         if (!App::$cli) {
             session_name(Session::NAME);
             session_start();
-            
+
         }
 
         $response = Context::get(Response::class);
-        
+
         $request = Context::get(Request::class);
 
         if (($response instanceof Response)) {

@@ -8,7 +8,7 @@
 
 <div class="content">
     <h1 class="visually-hidden sr-only">{{ i18n("我的购物车")|raw }}</h1>
-    
+
     <div class="block block-rounded bg-gradient-blue">
         <div class="block-header block-header-default">
             <h2 class="block-title h4">{{ icon("icon-gouwuche1")|raw }} {{ i18n("购物车")|raw }}</h2>
@@ -95,14 +95,14 @@
     </div>
 
     {% if items|length > 0 %}
-        
+
         <div class="block-cart-btn">
             <button type="button"
                     class="btn-cart-clear">{{ icon("icon-shanchu1")|raw }} {{ i18n("清空购物车")|raw }}</button>
             <button type="button"
                     class="btn-cart-bill">{{ icon("icon-fukuan")|raw }} {{ i18n("现在结账")|raw }}</button>
         </div>
-        
+
     {% endif %}
 </div>
 

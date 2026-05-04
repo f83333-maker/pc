@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserGroup extends Model
 {
-    
+
     private static mixed $userGroups = null;
 
     protected $table = "user_group";

@@ -1,5 +1,4 @@
 
-
 {% set _item_name = item.name|striptags|trim %}
 {% set _item_intro_full = item.source.introduce|striptags|trim %}
 {% set _item_intro = _item_intro_full|length > 150 ? _item_intro_full|slice(0, 150) ~ '...' : _item_intro_full %}
@@ -50,13 +49,13 @@
 <div class="content">
     <div class="row">
         <div class="col-xl-12 order-xl-0">
-            
+
             <article class="block block-rounded">
                 <div class="block-content">
-                    
+
                     <div class="row items-push">
                         <div class="col-md-5">
-                            
+
                             <div class="row g-sm js-gallery img-fluid-100">
                                 <div class="col-12 mb-1 item-image-main animate-height-change">
                                     <a class="img-link img-link-zoom-in img-lightbox">
@@ -80,10 +79,10 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="col-md-7 product-info-area">
-                            
+
                             <header class="d-flex justify-content-between align-items-center item-title-content">
                                 <div>
                                     <h1 class="fs-4 fw-semibold m-0">{{ i18n(item.name)|raw }}</h1>
@@ -147,7 +146,7 @@
                                 </div>
 
                             </form>
-                            
+
                         </div>
                     </div>
 
@@ -162,7 +161,7 @@
                             </li>
                         </ul>
                         <div class="block-content tab-content">
-                            
+
                             <div class="tab-pane pull-x active" id="ecom-product-info" role="tabpanel"
                                  aria-labelledby="ecom-product-info-tab" tabindex="0">
                                 {% if item.attr|length > 0 %}
@@ -182,13 +181,13 @@
                                     {{ i18n(item.source.introduce)|raw }}
                                 </div>
                             </div>
-                            
+
                         </div>
                     </section>
-                    
+
                 </div>
             </article>
-            
+
         </div>
     </div>
 </div>

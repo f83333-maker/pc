@@ -11,7 +11,7 @@ use Kernel\Util\View;
 
 abstract class Manage extends \App\Controller\Base\Manage
 {
-    
+
     protected function render(string $title, string $template, array $data = []): string
     {
         try {

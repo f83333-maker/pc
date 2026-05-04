@@ -1,5 +1,4 @@
 
-
 @font-face {
     font-family: "layui-icon-fly";
     src: url('iconfont.eot?t=1512007250695'); 
@@ -508,9 +507,9 @@ pre {
 
 .text-kami {
     background-image: -webkit-gradient(linear, left 0, right 0, from(#ed85d1), to(rgb(251, 223, 11)));
-    
+
     -webkit-background-clip: text;
-    
+
     -webkit-text-fill-color: transparent;
 }
 
@@ -2525,7 +2524,7 @@ body .fly-user-main {
 }
 
 .table-bordered td, .table-bordered th {
-    
+
 }
 
 .table-bordered thead td, .table-bordered thead th {
@@ -2788,11 +2787,11 @@ body .fly-user-main {
     }
 
     .table td, .table th {
-        
+
     }
 
     .table-bordered td, .table-bordered th {
-        
+
     }
 
     .table-dark {

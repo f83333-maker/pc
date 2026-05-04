@@ -11,7 +11,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor([Waf::class, UserSession::class])]
 class Bill extends User
 {
-    
+
     public function index(): string
     {
         return $this->theme("我的账单", "BILL", "User/Bill.html");

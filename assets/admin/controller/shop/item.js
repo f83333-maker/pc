@@ -488,7 +488,7 @@
                                 }
                             ]);
                             skuGroupTable.render();
-                            
+
                         }
                     }
                 ]
@@ -537,7 +537,7 @@
                                 {title: "备注", name: "search-note", type: "input", width: 125}
                             ]);
                             skuUserTable.render();
-                            
+
                         }
                     }
                 ]
@@ -607,7 +607,7 @@
                                                 title: '配置',
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    
+
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -653,7 +653,7 @@
                                                                                 }
                                                                             ]);
                                                                             levelTable.render();
-                                                                            
+
                                                                         }
                                                                     }
                                                                 ]
@@ -662,7 +662,7 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    
+
                                                 }
                                             }
                                         ]
@@ -674,7 +674,7 @@
                                                 title: "配置",
                                                 class: 'acg-badge-h-setting',
                                                 click: (event, value, row, index) => {
-                                                    
+
                                                     component.popup({
                                                         tab: [
                                                             {
@@ -741,7 +741,7 @@
                                                                                 }
                                                                             ]);
                                                                             userTable.render();
-                                                                            
+
                                                                         }
                                                                     }
                                                                 ]
@@ -750,14 +750,14 @@
                                                         autoPosition: true,
                                                         width: "580px"
                                                     });
-                                                    
+
                                                 }
                                             }
                                         ]
                                     },
                                 ]);
                                 skuWholesaleTable.render();
-                                
+
                             }
                         }
                     ]
@@ -773,7 +773,7 @@
     table.setUpdate("/admin/shop/item/save");
     table.setColumns([
         {checkbox: true},
-        
+
         {field: 'user', title: '商家', class: "nowrap", formatter: format.user},
         {field: 'category.name', title: '分类'},
         {field: 'name', title: '商品名称'},

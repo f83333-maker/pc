@@ -18,7 +18,7 @@ use Kernel\Waf\Filter;
 #[Interceptor(class: [PostDecrypt::class, Admin::class], type: Interceptor::API)]
 class Plugin extends Base
 {
-    
+
     public function get(): Response
     {
         $state = $this->request->post("state");

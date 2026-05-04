@@ -5,7 +5,7 @@ namespace Kernel\Util;
 
 class System
 {
-    
+
     public static function getBitSize(): ?int
     {
         if (PHP_INT_SIZE === 4) {

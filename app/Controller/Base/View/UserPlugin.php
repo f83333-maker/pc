@@ -13,7 +13,7 @@ use Kernel\Util\View;
 
 abstract class UserPlugin extends \App\Controller\Base\User
 {
-    
+
     protected function render(?string $title, string $template, array $data = [], bool $controller = false): string
     {
         try {

@@ -8,7 +8,7 @@ use Kernel\Database\Model;
 
 class RepertoryOrderCommission extends Model
 {
-    
+
     protected ?string $table = "repertory_order_commission";
 
     public bool $timestamps = false;

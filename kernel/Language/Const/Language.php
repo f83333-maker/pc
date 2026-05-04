@@ -5,7 +5,7 @@ namespace Kernel\Language\Const;
 
 interface Language
 {
-    
+
     public const ZH_CN = "zh-CN";
 
     public const EN_US = "en-US";

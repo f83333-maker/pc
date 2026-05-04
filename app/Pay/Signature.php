@@ -5,6 +5,6 @@ namespace App\Pay;
 
 interface Signature
 {
-    
+
     public function verification(array $data, array $config): bool;
 }

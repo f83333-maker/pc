@@ -56,7 +56,7 @@ class Route
     public function list(?string $usr = null): array
     {
         if ($usr == null) {
-            
+
             $var = Context::get(Request::class);
             $rt = explode("/", trim($var->uri(), "/"));
             if (strtolower($rt[0]) != "plugin" || !isset($rt[1])) {
@@ -64,10 +64,10 @@ class Route
             }
 
             if (!preg_match("/^\d+$/", $rt[1])) {
-                
+
                 $usr = "*";
             } else {
-                
+
                 if (!isset($rt[2])) {
                     return [];
                 }

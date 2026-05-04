@@ -7,7 +7,7 @@ use Kernel\Exception\JSONException;
 
 class Signature implements \App\Pay\Signature
 {
-    
+
     public static function safetyEquals(mixed $str, string $local): bool
     {
         if (!is_string($str) || $str === '') {
@@ -67,7 +67,7 @@ class Signature implements \App\Pay\Signature
         if (!$publicKey) {
             return false;
         }
-        
+
         return openssl_verify($signStr, base64_decode($sign), $publicKey, OPENSSL_ALGO_SHA256) === 1;
     }
 

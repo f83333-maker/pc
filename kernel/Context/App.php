@@ -34,7 +34,7 @@ use Twig\Error\SyntaxError;
 
 class App
 {
-    
+
     public static bool $cli = false;
 
     public static array $database = [];
@@ -73,7 +73,7 @@ class App
     public static function error(Throwable $e, Response &$response): string
     {
         if ($e instanceof QueryException) {
-            
+
             Connection::instance()->release();
         }
 
@@ -111,7 +111,7 @@ class App
         if (!App::$cli) {
             return;
         }
-        
+
         Config::get("command");
     }
 

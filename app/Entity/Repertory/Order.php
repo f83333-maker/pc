@@ -8,7 +8,7 @@ use Kernel\Util\Str;
 
 class Order
 {
-    
+
     public User $customer;
 
     public string $tradeNo;

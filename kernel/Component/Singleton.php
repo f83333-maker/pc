@@ -5,7 +5,7 @@ namespace Kernel\Component;
 
 trait Singleton
 {
-    
+
     private static mixed $instance;
 
     public static function instance(...$args): static

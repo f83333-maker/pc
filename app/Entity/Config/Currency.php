@@ -12,7 +12,7 @@ class Currency
     public string $code;
     public string $symbol;
     public string $name;
-    
+
     public ?string $rate = null;
 
     public function __construct(string $code, string $symbol, string $name)

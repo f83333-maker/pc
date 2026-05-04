@@ -16,7 +16,7 @@ use Kernel\Waf\Filter;
 #[Interceptor([ManageSession::class], Interceptor::TYPE_API)]
 class Plugin extends Manage
 {
-    
+
     public function getPlugins(): array
     {
         $plugins = \Kernel\Util\Plugin::getPlugins(false);
@@ -44,7 +44,7 @@ class Plugin extends Manage
             }
 
             if ($status !== "" && $status !== null) {
-                
+
                 if ((int)$plugin[\App\Consts\Plugin::PLUGIN_CONFIG]['STATUS'] != $status) {
                     unset($plugins[$key]);
                 }

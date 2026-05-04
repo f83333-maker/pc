@@ -70,7 +70,7 @@ class Cash extends Manage
                 $cash->save();
                 $user = $cash->user;
                 if ($user instanceof \App\Model\User) {
-                    
+
                     \App\Model\Bill::create($user, $cash->amount + (float)$cash->cost, \App\Model\Bill::TYPE_ADD, "兑现被拒绝", 1);
                     ManageLog::log($this->getManage(), "驳回了用户($user->username)的提现");
                 }

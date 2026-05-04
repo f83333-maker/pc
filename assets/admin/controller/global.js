@@ -147,7 +147,7 @@
                 } else {
                     $('.latest-version').css("color", "red").html(`[ 更新 v${res.data.version} ]`);
                     let cache = localStorage.getItem(res.data.version);
-                    
+
                     if (!cache) {
                         _HandleUpdate(true);
                         localStorage.setItem(res.data.version, true);

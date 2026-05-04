@@ -84,7 +84,7 @@
     ]);
     table.setUpdate("/admin/repertory/category/save");
     table.setDeleteSelector(".del-repertory-category", "/admin/repertory/category/del");
-   
+
     table.render();
 
     $('.add-repertory-category').click(() => {

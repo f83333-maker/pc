@@ -253,7 +253,7 @@ class App extends Manage
 
     public function uninstall(): array
     {
-        
+
         $pluginKey = (string)$_POST['plugin_key'];
         $type = (int)$_POST['type'];
 
@@ -303,7 +303,7 @@ class App extends Manage
         if (!file_exists(BASE_PATH . $file)) {
             throw new JSONException("请重新上传插件包");
         }
-        
+
         $upload = $this->app->upload([
             [
                 'name' => 'file',
@@ -311,9 +311,9 @@ class App extends Manage
                 'filename' => 'file.zip'
             ]
         ]);
-        
+
         unlink(BASE_PATH . $file);
-        
+
         $_POST['resource'] = $upload['path'];
         return $this->json(200, "提交成功", $this->app->developerCreateKit($_POST));
     }
@@ -329,7 +329,7 @@ class App extends Manage
         if (!file_exists(BASE_PATH . $file)) {
             throw new JSONException("请重新上传插件包");
         }
-        
+
         $upload = $this->app->upload([
             [
                 'name' => 'file',
@@ -337,9 +337,9 @@ class App extends Manage
                 'filename' => 'file.zip'
             ]
         ]);
-        
+
         unlink(BASE_PATH . $file);
-        
+
         $_POST['audit_resource'] = $upload['path'];
         return $this->json(200, "提交成功", $this->app->developerUpdatePlugin($_POST));
     }

@@ -78,7 +78,7 @@ class Sync
                     $wait[2] != 2 && Plugin::inst()->setState($wait[0], (int)$wait[2], $wait[1]);
                 }
                 Sync::inst()->clear();
-                
+
                 !$init && Di::inst()->make(Service::class)->restart();
             }
             Coroutine::sleep(1);

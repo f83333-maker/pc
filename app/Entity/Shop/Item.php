@@ -20,7 +20,7 @@ class Item
     public array $widget = [];
     public array $attr = [];
     public array $source = [];
-    
+
     public array $sku = [];
 
     public bool $haveWholesale = false;

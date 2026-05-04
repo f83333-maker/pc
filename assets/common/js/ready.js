@@ -62,7 +62,7 @@ function route(uri) {
 
         return `/plugin/${rt[1]}/${uri}`;
     } else {
-        
+
         if (rt[2] === undefined) {
             return "";
         }

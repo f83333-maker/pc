@@ -10,7 +10,7 @@ class Directory
 
     public static function delete(string $path): void
     {
-        
+
         if (!is_dir($path)) {
             return;
         }

@@ -10,7 +10,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(ManageSession::class)]
 class Category extends Manage
 {
-    
+
     public function index(): string
     {
         return $this->render("分类管理", "Trade/Category.html");

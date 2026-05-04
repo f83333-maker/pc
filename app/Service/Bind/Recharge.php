@@ -80,7 +80,7 @@ class Recharge implements \App\Service\Recharge
             if (file_exists($autoload)) {
                 require($autoload);
             }
-            
+
             $order->amount = $order->amount + ($pay->cost_type == 0 ? $pay->cost : $order->amount * $pay->cost);
             $order->amount = (float)sprintf("%.2f", (int)(string)($order->amount * 100) / 100);
 
@@ -152,7 +152,7 @@ class Recharge implements \App\Service\Recharge
         $callback = $this->order->callbackInitialize($handle, $map);
 
         DB::transaction(function () use ($handle, $map, $callback) {
-            
+
             $order = UserRecharge::query()->where("trade_no", $callback['trade_no'])->first();
 
             if (!$order) {

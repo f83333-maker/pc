@@ -11,7 +11,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Permission extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->render("Manage/Permission.html", "权限管理");

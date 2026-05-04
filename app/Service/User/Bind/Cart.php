@@ -113,7 +113,7 @@ class Cart implements \App\Service\User\Cart
 
         if ($cartItem) {
             $this->inspectQuantityRestriction($quantity + $cartItem->quantity, $skuId, $repertoryItemSku, $sku?->user_id, $clientId, $customer);
-            
+
             if (json_encode($option) == json_encode(is_array($cartItem->option) ? $cartItem->option : [])) {
                 $cartItem->quantity = $cartItem->quantity + $quantity;
                 $cartItem->save();
@@ -139,7 +139,7 @@ class Cart implements \App\Service\User\Cart
 
     public function inspectQuantityRestriction(int $quantity, int $skuId, RepertoryItemSku $repertoryItemSku, ?int $merchantId, string $clientId, ?User $customer = null): void
     {
-        
+
         $itemService = Di::inst()->make(\App\Service\User\Item::class);
 
         $quantityRestriction = $itemService->getQuantityRestriction($merchantId, $repertoryItemSku);
@@ -221,7 +221,7 @@ class Cart implements \App\Service\User\Cart
 
     public function bindUser(User $customer, string $clientId): void
     {
-        
+
         $cart = \App\Model\Cart::query()->where("customer_id", $customer->id)->orderBy("id", "asc")->first();
         if ($cart) {
             $carts = \App\Model\Cart::query()->where("client_id", $clientId)->whereNull("customer_id")->get();
@@ -232,7 +232,7 @@ class Cart implements \App\Service\User\Cart
         } else {
             \App\Model\Cart::query()->where("client_id", $clientId)->whereNull("customer_id")->update(["customer_id" => $customer->id]);
         }
-        
+
         \App\Model\Order::query()->where("client_id", $clientId)->whereNull("customer_id")->update(['customer_id' => $customer->id]);
     }
 

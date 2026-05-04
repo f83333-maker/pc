@@ -76,7 +76,7 @@ class ItemMarkupTemplate extends Base
             $saved = $this->query->save($save);
 
             if ($origin && $this->repertoryItem->checkForceSyncRemoteItemPrice($origin->toArray(), $saved->toArray())) {
-                
+
                 Call::create(function () use ($saved) {
                     $repertoryItems = \App\Model\RepertoryItem::query()
                         ->where("markup_mode", "!=", 0)

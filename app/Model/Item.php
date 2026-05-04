@@ -10,7 +10,7 @@ use Kernel\Util\Date;
 
 class Item extends Model
 {
-    
+
     protected ?string $table = "item";
 
     public bool $timestamps = false;

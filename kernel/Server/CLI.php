@@ -92,7 +92,7 @@ class CLI
 
     private function startMysql(): void
     {
-        
+
         Coroutine\run(function () {
             Di::instance()->set(ConnectionPool::class, new ConnectionPool(MysqlConnection::class, AppContext::$database['pool']));
             Log::inst()->stdout("[MYSQL]:連接池啓動，峰值：" . (AppContext::$database['pool'] * $this->config["options"][Constant::OPTION_WORKER_NUM]), Color::YELLOW, true);
@@ -101,9 +101,9 @@ class CLI
 
     private function startProcess(): void
     {
-        
+
         \Kernel\Service\App::inst()->startRestartWaitProcess();
-        
+
         \Kernel\Plugin\Process::inst()->started();
     }
 
@@ -137,16 +137,16 @@ class CLI
     {
         try {
             if (trim((string)$request->server['request_uri'], "/") != "wait/state") {
-                
+
                 Cache::inst()->set(Swoole\Constant::CLI_LAST_REQUEST_TIME, time());
             }
             $req = new \Kernel\Context\CLI\Request($request);
             $resp = new \Kernel\Context\CLI\Response($response);
-            
+
             Context::set(Request::class, $req);
             Context::set(Response::class, $resp);
             Manager::instance()->create();
-            
+
             $resp = Http::instance()->call($req);
             if ($resp instanceof Response) {
                 $resp->draw();
@@ -211,7 +211,7 @@ class CLI
     public function httpStart(Server $server): void
     {
         Manager::instance()->gc();  
-        
+
         Plugin::instance()->hook(App::env(), Point::CLI_INIT_AFTER);
         $startTime = (Date::timestamp() - App::$startTime) / 1000;
 

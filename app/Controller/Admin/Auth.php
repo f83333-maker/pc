@@ -9,7 +9,7 @@ use Kernel\Util\File;
 
 class Auth extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->login();

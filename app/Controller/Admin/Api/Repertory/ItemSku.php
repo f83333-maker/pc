@@ -61,7 +61,7 @@ class ItemSku extends Base
         unset($map['sku_temp_id']);
 
         if (!isset($map['id'])) {
-            
+
             $itemId = (int)$map['repertory_item_id'] ?? 0;
 
             if ($itemId > 0) {
@@ -89,9 +89,9 @@ class ItemSku extends Base
             }
 
             RepertoryItemSku::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("repertory_item_id")->delete();
-            
+
             RepertoryItemSkuGroup::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("sku_id")->delete();
-            
+
             RepertoryItemSkuUser::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("sku_id")->delete();
         } catch (\Exception $exception) {
             throw new JSONException("保存失败，错误：" . $exception->getMessage());

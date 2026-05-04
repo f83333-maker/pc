@@ -6,7 +6,7 @@ namespace Kernel\Annotation;
 #[\Attribute(\Attribute::TARGET_METHOD)]
 class Regex
 {
-    
+
     public string $regex;
     public string $message;
 

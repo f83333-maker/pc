@@ -98,7 +98,7 @@ class Install extends User
         }
 
         SQL::import($sqlFile . ".tmp", $host, $map['database'], $map['username'], $map['password'], $map['prefix']);
-        
+
         setConfig([
             'driver' => 'mysql',
             'host' => $host,

@@ -12,7 +12,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Personal extends Base
 {
-    
+
     public function logout(): Response
     {
         \App\Model\Manage::query()->where("id", $this->getManage()->id)->update(["login_status" => 0]);

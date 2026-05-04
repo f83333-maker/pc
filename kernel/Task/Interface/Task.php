@@ -5,6 +5,6 @@ namespace Kernel\Task\Interface;
 
 interface Task
 {
-    
+
     public function handle(): mixed;
 }

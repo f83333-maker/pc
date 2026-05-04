@@ -15,7 +15,7 @@ use Kernel\Plugin\Usr;
 #[Interceptor(class: [User::class, Group::class])]
 class Plugin extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->theme(Theme::USER_PLUGIN, "Plugin/Plugin.html", "插件管理");

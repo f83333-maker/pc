@@ -12,11 +12,11 @@ use Kernel\Util\Decimal;
 #[Interceptor(\App\Interceptor\ManageSession::class, Interceptor::TYPE_API)]
 class Dashboard extends \App\Controller\Base\API\Manage
 {
-    
+
     public function data(int $type): array
     {
         $data = [];
-        
+
         if ($type == 0) {
             $time = [Date::calcDay(), Date::calcDay(1)];
         } elseif ($type == 1) {
@@ -33,11 +33,11 @@ class Dashboard extends \App\Controller\Base\API\Manage
             $cash = \App\Model\Cash::query();
             $user = \App\Model\User::query();
             $recharge = UserRecharge::query();
-            
+
             $data['user_register_num'] = (clone $user)->count();
 
         } else {
-            
+
             $order = \App\Model\Order::query()->whereBetween('create_time', $time)->where("status", 1);
             $business = Business::query()->whereBetween("create_time", $time);
             $cash = \App\Model\Cash::query()->whereBetween("create_time", $time);
@@ -49,25 +49,25 @@ class Dashboard extends \App\Controller\Base\API\Manage
         }
 
         $data['turnover'] = sprintf("%.2f", (clone $order)->sum("amount"));
-        
+
         $data['order_num'] = (clone $order)->count();
-        
+
         $data['online_amout'] = sprintf("%.2f", (clone $order)->where("pay_id", "!=", 1)->sum("amount"));
-        
+
         $data['divide_amount'] = sprintf("%.2f", (clone $order)->sum("divide_amount"));
-        
+
         $data['rebate'] = sprintf("%.2f", (clone $order)->sum("rebate"));
-        
+
         $data['cost'] = sprintf("%.2f", (clone $order)->sum("cost"));
-        
+
         $data['profit'] = (new Decimal($data['turnover']))->sub((clone $order)->sum("rent"))->sub($data['divide_amount'])->sub($data['rebate'])->add($data['cost'])->getAmount();
 
         $data['business'] = $business->count();
-        
+
         $data['cash_status_0'] = (clone $cash)->where("status", 0)->count();
-        
+
         $data['cash_money_status_1'] = (clone $cash)->where("status", 1)->sum("amount");
-        
+
         $data['recharge_amount'] = (clone $recharge)->where("status", 1)->sum("amount");
 
         return $this->json(200, 'success', $data);
@@ -99,10 +99,10 @@ class Dashboard extends \App\Controller\Base\API\Manage
 
         for ($i = 1; $i <= $w; $i++) {
             $weeks[] = $week[$i];
-            
+
             $amount = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("amount");
             $series["trade"][] = sprintf("%.2f", $amount);
-            
+
             $divideAmount = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("divide_amount");;
             $rebate = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("rebate");;
             $cost = \App\Model\Order::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("cost");
@@ -112,7 +112,7 @@ class Dashboard extends \App\Controller\Base\API\Manage
 
             $cash = \App\Model\Cash::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("amount");
             $series["cash"][] = sprintf("%.2f", $cash);
-            
+
             $recharge = \App\Model\UserRecharge::query()->whereBetween("create_time", [Date::weekDay($i, Date::TYPE_START), Date::weekDay($i, Date::TYPE_END)])->where("status", 1)->sum("amount");;
             $series["recharge"][] = sprintf("%.2f", $recharge);
         }

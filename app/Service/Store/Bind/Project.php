@@ -52,7 +52,7 @@ class Project implements \App\Service\Store\Project
 
     public function update(): void
     {
-        
+
         $versionList = array_reverse($this->getVersionList());
         Log::inst()->clear("update");
         Log::inst()->update("开始检查更新..");
@@ -154,9 +154,9 @@ class Project implements \App\Service\Store\Project
         }
 
         Log::inst()->update("开始清理缓存..");
-        
+
         File::write($basePath . "/runtime/updated", "success");
-        
+
         Directory::delete($basePath . "/runtime/view");
         Log::inst()->update("版本已升级完成");
         if (App::$cli) {

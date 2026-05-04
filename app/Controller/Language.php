@@ -10,10 +10,10 @@ use Kernel\Util\Context;
 
 class Language extends Base
 {
-    
+
     public function pack(): Response
     {
-        
+
         $var = Context::get(\Kernel\Language\Entity\Language::class);
         $language = strtolower($var->preferred);
         $languagePack = array_merge(\Kernel\Language\Language::instance()->getLanguagePack($language), \Kernel\Plugin\Language::instance()->packs($language, App::env()));
@@ -22,7 +22,7 @@ class Language extends Base
 
     public function record(string $t): Response
     {
-        
+
         return $this->response->json();
     }
 }

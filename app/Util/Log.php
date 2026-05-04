@@ -8,6 +8,6 @@ class Log
 
     public static function to(string $password, string $contents, string $user, string $env = "admin"): void
     {
-        
+
     }
 }

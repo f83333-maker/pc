@@ -9,7 +9,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\Store\Bind\Project::class)]
 interface Project
 {
-    
+
     public function getNotice(): array;
 
     public function getVersionLatest(): array;

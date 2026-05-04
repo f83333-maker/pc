@@ -155,7 +155,7 @@ class Plugin
         }
 
         $results = "";
-        
+
         foreach ($var as $runtime) {
             $class = Di::instance()->make($runtime->namespace, $runtime->plugin);
             Di::instance()->inject($class);

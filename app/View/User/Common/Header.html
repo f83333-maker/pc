@@ -31,11 +31,11 @@
 <body style="background: url('{{ site.bg_image }}') fixed no-repeat;background-size: cover;">
 
 <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
-    
+
     <nav id="sidebar" aria-label="Main Navigation">
-        
+
         <div class="content-header">
-            
+
             <a class="fw-semibold text-dual" href="/" target="_blank">
                 <span class="smini-visible"><img src="{{ site.logo }}" class="shop-logo" alt="{{ site.title|striptags }} Logo" width="32" height="32" loading="eager" decoding="async"></span>
                 <span class="shop-name smini-hidden"><img src="{{ site.logo }}" class="shop-logo" alt="{{ site.title|striptags }} Logo" width="32" height="32" loading="eager" decoding="async"> <span
@@ -48,18 +48,18 @@
                    href="javascript:void(0)">
                     <i class="fa fa-fw fa-times"></i>
                 </a>
-                
+
             </div>
-            
+
         </div>
 
         {{ include ("Common/Sidebar.html") }}
     </nav>
 
     <header id="page-header">
-        
+
         <div class="content-header">
-            
+
             <div class="d-flex align-items-center">
 
                 <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-lg-none" data-toggle="layout"
@@ -67,7 +67,6 @@
                     <i class="fa fa-fw fa-bars"></i>
                 </button>
 
-                
                 <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-none d-lg-inline-block"
                         data-toggle="layout" data-action="sidebar_mini_toggle">
                     <i class="fa fa-fw fa-ellipsis-v"></i>
@@ -82,7 +81,7 @@
             </div>
 
             <div class="d-flex align-items-center">
-                
+
                 <div class="dropdown d-inline-block ms-2">
                     <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
                             id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -135,10 +134,9 @@
                 </div>
 
             </div>
-            
+
         </div>
 
-        
         <div id="page-header-loader" class="overlay-header bg-body-extra-light">
             <div class="content-header">
                 <div class="w-100 text-center">
@@ -146,7 +144,7 @@
                 </div>
             </div>
         </div>
-        
+
     </header>
 
     <main id="main-container">

@@ -30,9 +30,9 @@
     <script type="text/javascript" src="/app/Pay/YsmAliPay/View/Assets/js/pay.js"></script>
     <script>
         let tradeNo = '#{$order.trade_no}';
-        
+
         new QRCode(document.getElementById("qrcode_url"), "#{$order.pay_url}");  
-        
+
         pay.queryTimer(tradeNo, null, res => {
             layer.msg('支付成功');
             setTimeout(() => {

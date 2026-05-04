@@ -7,7 +7,7 @@ use Kernel\Container\Di;
 
 trait Inject
 {
-    
+
     public function __construct(mixed ...$args)
     {
         Di::inst()->inject($this);

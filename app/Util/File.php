@@ -7,7 +7,7 @@ use Kernel\Exception\JSONException;
 
 class File
 {
-    
+
     private static array $cache = [];
 
     public static function copyDirectory(string $src, string $dst): void

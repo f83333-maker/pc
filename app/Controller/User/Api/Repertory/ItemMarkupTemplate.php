@@ -64,13 +64,13 @@ class ItemMarkupTemplate extends Base
         $save->setMap($map);
         $save->addForceMap("user_id", $this->getUser()->id);
         try {
-            
+
             $origin = isset($map['id']) ? Model::query()->where("user_id", $this->getUser()->id)->find($map['id']) : null;
 
             $saved = $this->query->save($save);
 
             if ($origin && $this->repertoryItem->checkForceSyncRemoteItemPrice($origin->toArray(), $saved->toArray())) {
-                
+
                 Call::create(function () use ($saved) {
                     $repertoryItems = \App\Model\RepertoryItem::query()
                         ->where("markup_mode", "!=", 0)

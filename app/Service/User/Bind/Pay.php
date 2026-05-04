@@ -13,7 +13,7 @@ use Kernel\Exception\ServiceException;
 
 class Pay implements \App\Service\User\Pay
 {
-    
+
     public function getList(int $equipment, string $business, ?User $user = null, string $amount = "0", array $options = []): array
     {
         if (!in_array($business, \App\Service\User\Pay::BUSINESS)) {
@@ -149,7 +149,7 @@ class Pay implements \App\Service\User\Pay
 
     public function getMasterPay(int $id, User $user, ?UserGroup $group): ?MasterPay
     {
-        
+
         $pay = \App\Model\Pay::query()->find($id);
         if (!$pay) {
             return null;
@@ -166,7 +166,7 @@ class Pay implements \App\Service\User\Pay
         }
 
         if ($group) {
-            
+
             $payGroup = PayGroup::query()->where("group_id", $group->id)->where("pay_id", $id)->first();
             if ($payGroup && $payGroup->status == 1) {
                 return new MasterPay($pay->id, $pay->name, $pay->icon, $payGroup->fee, $scope);

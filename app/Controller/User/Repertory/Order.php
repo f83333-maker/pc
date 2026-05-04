@@ -13,7 +13,7 @@ use Kernel\Plugin\Const\Theme;
 #[Interceptor(class: [User::class, Supplier::class])]
 class Order extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->theme(Theme::USER_REPERTORY_ORDER, "Repertory/Order.html", "进货订单");

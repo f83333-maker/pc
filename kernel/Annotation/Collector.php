@@ -9,7 +9,7 @@ use Kernel\Util\Context;
 
 class Collector
 {
-    
+
     private array $collectors = [];
 
     use Singleton;
@@ -34,7 +34,7 @@ class Collector
 
     public function propertiesParse(mixed $object, callable $callable): void
     {
-        
+
         $ref = $this->getReflectionClass($object);
         $reflectionProperties = $ref->getProperties();
         foreach ($reflectionProperties as $property) {
@@ -62,7 +62,7 @@ class Collector
         foreach ($methodRef->getParameters() as $param) {
             $type = $param->getType()->getName();
             $name = $param->getName();
-            
+
             $value = $this->dat($type, $data[$name] ?? null);
             $parameters[$name] = $value;
         }

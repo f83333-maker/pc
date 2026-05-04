@@ -37,7 +37,7 @@ class Security extends Base
     #[Regex("/^\d{6}$/", "当前邮箱验证码错误")]
     public function currentEmailCode(mixed $value): bool|string
     {
-        
+
         if (!$this->getUser()->email) {
             return true;
         }

@@ -78,7 +78,7 @@ class PayOrder extends Base
                 }
                 return $this->response->render(template: "User/Pay/Render/Submit.html", data: ["url" => $payOrder->pay_url, "option" => $payOrder->option->option]);
             case  \Kernel\Plugin\Const\Pay::RENDER_LOCAL_PLUGIN_VIEW:
-                
+
                 return $this->response->render(
                     template: "{$pay->code}.html",
                     title: $pay->name,

@@ -69,7 +69,7 @@ class Commodity extends Shared
 
                 unset($list[$key]['children'][$index]['leave_message'], $list[$key]['children'][$index]['delivery_message']);
             }
-            
+
             $list[$key]['children'] = array_values($list[$key]['children']);
         }
 
@@ -110,7 +110,7 @@ class Commodity extends Shared
         }
 
         $shared = $commodity->shared;
-        
+
         if ($shared) {
             if (!$this->shared->inventoryState($shared, $commodity, $cardId, $num, $race)) {
                 throw new JSONException("库存不足");
@@ -128,7 +128,7 @@ class Commodity extends Shared
                 throw new JSONException("该卡密不属于这个商品，无法预选");
             }
         } else {
-            
+
             if ($commodity->delivery_way == 0) {
                 $count = Card::query()->where("commodity_id", $commodity->id)->where("status", 0);
 
@@ -204,13 +204,13 @@ class Commodity extends Shared
         }
 
         if (array_key_exists("category", $configs)) {
-            
+
             $categorys = $configs['category'];
             $factorys = [];
-            
+
             foreach ($categorys as $ck => $cv) {
                 $isCategory = true;
-                
+
                 try {
                     $factorys[$ck] = $this->order->calcAmount(owner: $userId, num: 1, disableSubstation: true, group: $userGroup, commodity: $commodity, race: $ck);
                 } catch (\Error|\Exception $e) {
@@ -219,11 +219,11 @@ class Commodity extends Shared
                 }
             }
             if (count($factorys) != 0) {
-                
+
                 $configs['category_factory'] = $factorys;
             }
         } else {
-            
+
             $factoryPrice = $this->order->calcAmount(owner: $userId, num: 1, disableSubstation: true, group: $userGroup, commodity: $commodity);
         }
 
@@ -258,7 +258,7 @@ class Commodity extends Shared
     public function draftCard(): array
     {
         $map = $this->request->post();
-        
+
         $commodity = \App\Model\Commodity::query()->where("code", $map['code'])->first();
         $limit = $map['limit'] ?? 10;
 
@@ -304,7 +304,7 @@ class Commodity extends Shared
 
     public function query(string $tradeNo): array
     {
-        
+
         $order = \App\Model\Order::query()->where("trade_no", $tradeNo)->where("owner", $this->getUser()->id)->first();
 
         if (!$order) {

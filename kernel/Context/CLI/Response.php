@@ -11,7 +11,7 @@ use Twig\Error\SyntaxError;
 
 class Response implements \Kernel\Context\Interface\Response
 {
-    
+
     public \Swoole\Http\Response $serverResponse;
 
     private array $options = [];

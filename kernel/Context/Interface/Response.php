@@ -5,7 +5,7 @@ namespace Kernel\Context\Interface;
 
 interface Response
 {
-    
+
     const TYPE_REDIRECT = 0x1;
 
     const TYPE_JSON = 0x2;

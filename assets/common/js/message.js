@@ -1,11 +1,11 @@
 const message = new class Message {
     log(text, type = 'success') {
         toastr.options = {
-           
+
             "debug": false,
             "newestOnTop": true,
             "progressBar": true,
-            
+
             "preventDuplicates": false,
             "onclick": null,
             "showDuration": "300",

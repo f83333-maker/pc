@@ -6,7 +6,7 @@
     });
 
     $.ajaxSettings.async = false;
-    
+
     $.post('/admin/api/pay/getPlugins', res => {
         layer.close(layIndex);
         res?.data?.list?.forEach(item => {

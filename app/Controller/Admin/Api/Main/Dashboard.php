@@ -28,19 +28,19 @@ class Dashboard extends Base
         $time = [Date::calcDay(), Date::calcDay(1)];
 
         switch ($date) {
-            
+
             case 1:
                 $time = [Date::calcDay(-1), Date::calcDay()];
                 break;
-            
+
             case 2:
                 $time = [Date::getDateByWeekday(1) . " 00:00:00", Date::getDateByWeekday(7) . " 23:59:59"];
                 break;
-            
+
             case 3:
                 $time = [Date::getFirstDayOfMonth() . " 00:00:00", Date::getLastDayOfMonth() . " 23:59:59"];
                 break;
-            
+
             case 4:
                 $time = [Date::getFirstDayOfLastMonth() . " 00:00:00", Date::getLastDayOfLastMonth() . " 23:59:59"];
                 break;
@@ -67,27 +67,27 @@ class Dashboard extends Base
         }
 
         $data['shipment_amount'] = (clone $repertoryOrder)->sum("amount");
-        
+
         $data['shipment_count'] = (clone $repertoryOrder)->count();
-        
+
         $data['shipment_profit'] = (clone $repertoryOrder)->sum("office_profit");
-        
+
         $data['recharge_amount'] = (clone $orderRecharge)->sum("amount");
-        
+
         $data['recharge_count'] = (clone $orderRecharge)->count();
-        
+
         $data['pay_trade_amount'] = (clone $payOrder)->sum("trade_amount");
-        
+
         $data['pay_balance_amount'] = (clone $payOrder)->sum("balance_amount");
-        
+
         $data['pay_count'] = (clone $payOrder)->count();
-        
+
         $data['user_register_count'] = (clone $registerUser)->count();
-        
+
         $data['user_new_merchant_count'] = (clone $registerUser)->whereNotNull("group_id")->count();
-        
+
         $data['user_active_count'] = (clone $activeUser)->count();
-        
+
         $data['withdraw_amount'] = (clone $userWithdraw)->sum("amount");
 
         return $this->json(data: $data);

@@ -12,7 +12,7 @@ use Kernel\Exception\JSONException;
 #[Interceptor([Waf::class, UserSession::class])]
 class Personal extends User
 {
-    
+
     public function purchaseRecord(): string
     {
         $tradeNo = (string)$_GET['tradeNo'];

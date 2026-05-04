@@ -69,7 +69,7 @@
     }
 
     function _CreateOrderItem(order) {
-        
+
         let skuHtml = '';
         if (order.race) {
             skuHtml += `<span class="ov-tag ov-tag-success">${order.race}</span>`;

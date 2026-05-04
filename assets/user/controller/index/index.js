@@ -28,7 +28,7 @@
             const isSoldOut = item.stock === 0;
             let stockStatus = 'high';
             let stockText = '库存充足';
-            
+
             if (item.stock === 0) {
                 stockStatus = 'low';
                 stockText = '已售罄';
@@ -84,7 +84,7 @@ function _RenderSubCategories(parentId, activeId = null) {
                 </a>
             `);
         });
-        
+
         $subCategoryContainer.css('display', 'flex');
     }
 }
@@ -93,7 +93,7 @@ function _RenderSubCategories(parentId, activeId = null) {
         currentCategoryId = id;
 
         $(`.switch-category`).removeClass("is-primary");
-        
+
         $(`a[data-id=${id}]`).addClass("is-primary");
 
         const clickedCategoryData = CATEGORY_TREE.find(c => c.id === id);
@@ -105,7 +105,7 @@ function _RenderSubCategories(parentId, activeId = null) {
                 $(`a[data-id=${parentCategoryData.id}]`).addClass("is-primary"); 
             }
         } else if (clickedCategoryData.children && clickedCategoryData.children.length > 0) {
-            
+
             parentCategoryData = clickedCategoryData;
         }
 
@@ -117,16 +117,15 @@ function _RenderSubCategories(parentId, activeId = null) {
             const clickedPrimaryChip = $(`a[data-id=${parentCategoryData.id}].switch-category.chip`);
 
             if (currentOpenSubCategoryParentId === parentCategoryData.id && isUserClick && parentCategoryData.id === id) {
-                
+
                 currentOpenSubCategoryParentId = null;
                 clickedPrimaryChip.removeClass('is-expanded is-primary-expanded');
             } else {
-                
+
                 _RenderSubCategories(parentCategoryData.id, id); 
                 clickedPrimaryChip.addClass('is-expanded is-primary-expanded'); 
                 currentOpenSubCategoryParentId = parentCategoryData.id;
 
-                
                 const $allTopChips = $topCategoryList.children('.switch-category.chip');
                 const clickedTop = clickedPrimaryChip.position().top;
                 let $lastChipInRow = clickedPrimaryChip;
@@ -138,7 +137,7 @@ function _RenderSubCategories(parentId, activeId = null) {
                 $subCategoryContainer.insertAfter($lastChipInRow);
             }
         } else {
-            
+
             currentOpenSubCategoryParentId = null;
         }
 
@@ -157,7 +156,7 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
             _PushCommodityList(filtered);
         } else {
-            
+
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
@@ -198,7 +197,7 @@ function _RenderSubCategories(parentId, activeId = null) {
         loader: false,
         done: data => {
             ALL_COMMODITIES = data;
-            
+
             if ($ItemList.children().length === 0 || $ItemList.find('.item-footer').length > 0) {
                 let initialCategoryId = categoryId > 0 ? categoryId : $('.top-category-list > .switch-category').first().data("id");
                 _SwitchCategory(initialCategoryId, false); 
@@ -224,7 +223,7 @@ function _RenderSubCategories(parentId, activeId = null) {
             _Search($(this).val());
         }
     }).on('input', function() {
-        
+
         $('.item-search-input').val($(this).val());
     });
 
@@ -240,11 +239,11 @@ function _RenderSubCategories(parentId, activeId = null) {
     });
 
     $(document).on('click', function(e) {
-        
+
         const $target = $(e.target);
         if (!$target.closest('.top-category-list > .switch-category.chip').length &&
             !$target.closest('.sub-category-container').length) {
-            
+
             $('.top-category-list > .switch-category.chip').removeClass('is-expanded is-primary-expanded');
             $subCategoryContainer.css('display', 'none').html('');
             currentOpenSubCategoryParentId = null;

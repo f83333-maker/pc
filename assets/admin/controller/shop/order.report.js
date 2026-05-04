@@ -100,7 +100,7 @@
                 }
             ],
             done: () => {
-                
+
                 loadMessage(unique, item);
             },
             autoPosition: true,

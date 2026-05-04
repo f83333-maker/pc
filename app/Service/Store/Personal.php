@@ -9,6 +9,6 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\Store\Bind\Personal::class)]
 interface Personal
 {
-    
+
     public function getInfo(Authentication $authentication): array;
 }

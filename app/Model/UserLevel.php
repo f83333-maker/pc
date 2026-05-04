@@ -9,7 +9,7 @@ use Kernel\Database\Model;
 
 class UserLevel extends Model
 {
-    
+
     protected ?string $table = "user_level";
 
     public bool $timestamps = false;

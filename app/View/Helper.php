@@ -150,13 +150,13 @@ class Helper extends AbstractExtension
     private function getValue(mixed $value): string|bool|null
     {
         if (is_numeric($value) || is_bool($value)) {
-            
+
             $value = var_export($value, true);
         } elseif (is_array($value)) {
-            
+
             $value = json_encode($value);
         } else {
-            
+
             $value = addslashes($value);
             $value = "\"$value\"";
         }
@@ -179,13 +179,13 @@ class Helper extends AbstractExtension
 
     public function compressCss(string $css): string
     {
-        
+
         $css = preg_replace('!/\*.*?\*/!s', '', $css);
-        
+
         $css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
-        
+
         $css = preg_replace('/\s\s+(.*)/', '$1', $css);
-        
+
         $css = str_replace(';}', '}', $css);
         return trim($css);
     }

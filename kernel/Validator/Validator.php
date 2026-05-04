@@ -88,7 +88,7 @@ class Validator
     ];
 
     protected array $filter = [
-        
+
         'ip' => [FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6],
         'integer' => FILTER_VALIDATE_INT,
         'url' => FILTER_VALIDATE_URL,
@@ -166,7 +166,7 @@ class Validator
 
     public function scene($name)
     {
-        
+
         $this->currentScene = $name;
 
         return $this;
@@ -234,7 +234,7 @@ class Validator
         $this->error = [];
 
         if (empty($rules)) {
-            
+
             $rules = $this->rule;
         }
 
@@ -247,9 +247,9 @@ class Validator
         }
 
         foreach ($rules as $key => $rule) {
-            
+
             if (strpos($key, '|')) {
-                
+
                 list($key, $title) = explode('|', $key);
             } else {
                 $title = isset($this->field[$key]) ? $this->field[$key] : $key;
@@ -262,10 +262,10 @@ class Validator
             $value = $this->getDataValue($data, $key);
 
             if ($rule instanceof \Closure) {
-                
+
                 $result = call_user_func_array($rule, [$value, $data]);
             } elseif ($rule instanceof Rule) {
-                
+
                 $result = $this->checkItem($key, $value, $rule->getRule(), $data, $rule->getTitle() ?: $title, $rule->getMsg());
             } elseif (is_array($rule) && count($rule) === 2) {
                 $result = call_user_func([Di::instance()->make($rule[0]), $rule[1]], $value, $data);
@@ -274,9 +274,9 @@ class Validator
             }
 
             if (true !== $result) {
-                
+
                 if (!empty($this->batch)) {
-                    
+
                     if (is_array($result)) {
                         $this->error = array_merge($this->error, $result);
                     } else {
@@ -306,7 +306,7 @@ class Validator
             if ($rule instanceof \Closure) {
                 $result = call_user_func_array($rule, [$value]);
             } else {
-                
+
                 list($type, $rule) = $this->getValidateType($key, $rule);
 
                 $callback = isset(self::$type[$type]) ? self::$type[$type] : [$this, $type];
@@ -324,7 +324,7 @@ class Validator
 
     protected function getValidateType($key, $rule)
     {
-        
+
         if (!is_numeric($key)) {
             return [$key, $rule, $key];
         }
@@ -332,7 +332,7 @@ class Validator
         if (strpos($rule, ':')) {
             list($type, $rule) = explode(':', $rule, 2);
             if (isset($this->alias[$type])) {
-                
+
                 $type = $this->alias[$type];
             }
             $info = $type;
@@ -351,7 +351,7 @@ class Validator
     protected function checkItem($field, $value, $rules, $data, $title = '', $msg = [])
     {
         if (isset($this->remove[$field]) && true === $this->remove[$field] && empty($this->append[$field])) {
-            
+
             return true;
         }
 
@@ -360,7 +360,7 @@ class Validator
         }
 
         if (isset($this->append[$field])) {
-            
+
             $rules = array_merge($rules, $this->append[$field]);
         }
 
@@ -370,21 +370,21 @@ class Validator
                 $result = call_user_func_array($rule, [$value, $data]);
                 $info = is_numeric($key) ? '' : $key;
             } else {
-                
+
                 list($type, $rule, $info) = $this->getValidateType($key, $rule);
 
                 if (isset($this->append[$field]) && in_array($info, $this->append[$field])) {
 
                 } elseif (isset($this->remove[$field]) && in_array($info, $this->remove[$field])) {
-                    
+
                     $i++;
                     continue;
                 }
 
                 if ('must' == $info || 0 === strpos($info, 'require') || (!is_null($value) && '' !== $value)) {
-                    
+
                     $callback = isset(self::$type[$type]) ? self::$type[$type] : [$this, $type];
-                    
+
                     $result = call_user_func_array($callback, [$value, $rule, $data, $field, $title]);
                 } else {
                     $result = true;
@@ -392,7 +392,7 @@ class Validator
             }
 
             if (false === $result) {
-                
+
                 if (!empty($msg[$i])) {
                     $message = $msg[$i];
                 } else {
@@ -401,7 +401,7 @@ class Validator
 
                 return $message;
             } elseif (true !== $result) {
-                
+
                 if (is_string($result) && false !== strpos($result, ':')) {
                     $result = str_replace(
                         [':attribute', ':rule'],
@@ -473,31 +473,31 @@ class Validator
 
         switch (lcfirst($rule)) {
             case 'require':
-                
+
                 $result = !empty($value) || '0' == $value;
                 break;
             case 'accepted':
-                
+
                 $result = in_array($value, ['1', 'on', 'yes']);
                 break;
             case 'date':
-                
+
                 $result = false !== strtotime($value);
                 break;
             case 'activeUrl':
-                
+
                 $result = checkdnsrr($value);
                 break;
             case 'boolean':
             case 'bool':
-                
+
                 $result = in_array($value, [true, false, 0, 1, '0', '1'], true);
                 break;
             case 'number':
                 $result = is_numeric($value);
                 break;
             case 'array':
-                
+
                 $result = is_array($value);
                 break;
             case 'file':
@@ -517,13 +517,13 @@ class Validator
                 break;
             default:
                 if (isset(self::$type[$rule])) {
-                    
+
                     $result = call_user_func_array(self::$type[$rule], [$value]);
                 } elseif (isset($this->filter[$rule])) {
-                    
+
                     $result = $this->filter($value, $this->filter[$rule]);
                 } else {
-                    
+
                     $result = $this->regex($value, $rule);
                 }
         }
@@ -754,11 +754,11 @@ class Validator
         }
 
         if (strpos($rule, ',')) {
-            
+
             list($min, $max) = explode(',', $rule);
             return $length >= $min && $length <= $max;
         } else {
-            
+
             return $length == $rule;
         }
     }
@@ -835,7 +835,7 @@ class Validator
         }
 
         if (0 !== strpos($rule, '/') && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
-            
+
             $rule = '/^' . $rule . '$/';
         }
 
@@ -852,7 +852,7 @@ class Validator
         if (is_numeric($key)) {
             $value = $key;
         } elseif (strpos($key, '.')) {
-            
+
             list($name1, $name2) = explode('.', $key);
             $value = isset($data[$name1][$name2]) ? $data[$name1][$name2] : null;
         } else {
@@ -879,7 +879,7 @@ class Validator
         }
 
         if (is_string($msg) && is_scalar($rule) && false !== strpos($msg, ':')) {
-            
+
             if (is_string($rule) && strpos($rule, ',')) {
                 $array = array_pad(explode(',', $rule), 3, '');
             } else {
@@ -897,7 +897,7 @@ class Validator
     protected function getScene($scene = '')
     {
         if (empty($scene)) {
-            
+
             $scene = $this->currentScene;
         }
 
@@ -910,7 +910,7 @@ class Validator
         if (method_exists($this, 'scene' . $scene)) {
             call_user_func([$this, 'scene' . $scene]);
         } elseif (isset($this->scene[$scene])) {
-            
+
             $scene = $this->scene[$scene];
 
             if (is_string($scene)) {

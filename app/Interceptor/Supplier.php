@@ -13,7 +13,7 @@ use Kernel\Util\Context;
 
 class Supplier implements Interceptor
 {
-    
+
     public function handle(Request $request, Response $response, int $type): Response
     {
 
@@ -21,7 +21,7 @@ class Supplier implements Interceptor
         if (!$user) {
             return $this->notPermission($request, $response, $type);
         }
-        
+
         $group = $user->group;
 
         if (!$group) {

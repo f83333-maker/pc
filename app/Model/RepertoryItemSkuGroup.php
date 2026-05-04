@@ -7,7 +7,7 @@ use Kernel\Database\Model;
 
 class RepertoryItemSkuGroup extends Model
 {
-    
+
     protected ?string $table = "repertory_item_sku_group";
 
     public bool $timestamps = false;

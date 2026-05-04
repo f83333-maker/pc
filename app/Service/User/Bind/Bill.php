@@ -17,7 +17,7 @@ class Bill implements \App\Service\User\Bill
     public function unfreeze(string $tradeNo): void
     {
         $bill = UserBill::query()->where("status", 1)->where("trade_no", $tradeNo)->get();
-        
+
         foreach ($bill as $item) {
             try {
                 $this->balance->unfreeze($item->id);

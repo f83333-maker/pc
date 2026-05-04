@@ -140,7 +140,7 @@ class Order extends Base
     public function close(): Response
     {
         $id = $this->request->post("id", Filter::INTEGER);
-        
+
         $payOrder = PayOrder::query()->find($id);
         if (!$payOrder) {
             throw new JSONException("订单不存在");

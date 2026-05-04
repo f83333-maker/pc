@@ -11,7 +11,7 @@ use Kernel\Util\Date;
 
 class UserLog extends Model
 {
-    
+
     protected ?string $table = "user_log";
 
     public bool $timestamps = false;

@@ -10,7 +10,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\User\Bind\Site::class)]
 interface Site
 {
-    
+
     public function bind(int $themePage, string $template, array &$data): array;
 
     public function setTemplateData(array &$data): void;

@@ -30,7 +30,7 @@ class Container implements ContainerInterface
     {
         $object = Di::instance()->get($name);
         if (!$object) {
-            
+
             if (interface_exists($name)) {
                 if (isset($this->dependencies[$name]) && class_exists($this->dependencies[$name])) {
                     $name = $this->dependencies[$name];

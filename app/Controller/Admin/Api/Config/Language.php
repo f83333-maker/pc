@@ -14,7 +14,7 @@ use Kernel\Exception\RuntimeException;
 #[Interceptor(class: [PostDecrypt::class, Admin::class], type: Interceptor::API)]
 class Language extends Base
 {
-    
+
     public function get(): Response
     {
         $sources = \Kernel\Language\Language::inst()->getSources($this->request->post("keywords"), (int)$this->request->post("limit"), (int)$this->request->post("page"));

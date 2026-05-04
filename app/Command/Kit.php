@@ -19,13 +19,13 @@ class Kit extends Command
     public function update(): void
     {
         $this->project->update();
-        
+
         Di::inst()->make(Service::class)->restart();
     }
 
     public function reset(string $password): void
     {
-        
+
         $manage = Manage::query()->find(1);
         if (!$manage) {
             $this->error("超级管理员不存在");

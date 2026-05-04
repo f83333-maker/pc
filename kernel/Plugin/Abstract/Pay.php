@@ -24,21 +24,21 @@ abstract class Pay implements \Kernel\Plugin\Handle\Pay
     protected \App\Service\User\Order $orderService;
 
     protected Order $order;
-    
+
     protected PayOrder $payOrder;
-    
+
     protected Plugin $plugin;
-    
+
     protected array $config;
-    
+
     protected string $code;
-    
+
     protected string $clientIp;
-    
+
     protected ?string $amount;
-    
+
     protected ?string $asyncUrl;
-    
+
     protected ?string $syncUrl;
 
     public function __construct(Plugin $plugin, Order $order, PayOrder $payOrder, array $config, string $code, string $clientIp, ?string $amount = null, ?string $asyncUrl = null, ?string $syncUrl = null)

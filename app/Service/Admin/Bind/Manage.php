@@ -36,7 +36,7 @@ class Manage implements \App\Service\Admin\Manage
 
     public function login(Request $request, Response $response): Response
     {
-        
+
         $manage = ManageModel::query()->where("email", $request->post("email"))->first();
 
         if (!$manage) {
@@ -78,7 +78,7 @@ class Manage implements \App\Service\Admin\Manage
 
         $this->loginLog->create($manage->id, $request->clientIp(), $request->header("UserAgent"));
         Context::set(ManageModel::class, $manage);
-        
+
         return $response->json(200, "success", ["token" => $jwt]);
     }
 

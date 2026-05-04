@@ -159,7 +159,7 @@ class Store extends Manage
 
                 if (count($list) > 0) {
                     foreach ($list as $e) {
-                        
+
                         if ($imageDownload) {
                             $download = $this->image->downloadRemoteImage($shared->domain . $e);
                             $commodity->description = str_replace($e, $download[0], $commodity->description);

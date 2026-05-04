@@ -45,7 +45,7 @@ class Query implements \App\Service\Common\Query
 
     public function get(Get $get, ?callable $append = null, int $resultType = self::RESULT_TYPE_ARRAY): mixed
     {
-        
+
         $query = $get->model::query();
         $tableName = $this->getTable($get->model);
 
@@ -116,7 +116,7 @@ class Query implements \App\Service\Common\Query
 
     public function save(Save $save): mixed
     {
-        
+
         $query = $save->model::query();
 
         $model = $save->id ? $query->find($save->id) : null;
@@ -172,12 +172,12 @@ class Query implements \App\Service\Common\Query
             $middle = $m['middle'];
             $data = $m['data'];
             if (!empty($data)) {
-                
+
                 $middle['middle']::query()->where($middle['localKey'], $id)->delete();
             }
             $localKey = $middle['localKey'];
             $foreignKey = $middle['foreignKey'];
-            
+
             foreach ($data as $datum) {
                 $middleObject = new $middle['middle'];
                 $middleObject->$localKey = $id;
@@ -197,7 +197,7 @@ class Query implements \App\Service\Common\Query
 
         $count = 0;
         foreach ($delete->list as $id) {
-            
+
             $query = $delete->model::query();
             foreach ($delete->where as $where) {
                 $query = $query->where(...$where);

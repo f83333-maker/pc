@@ -16,7 +16,7 @@ class OrderReport
     #[Regex("/^[1-9]\d*$/", "维权ID错误")]
     public function reportId(mixed $value): bool
     {
-        
+
         $orderReport = \App\Model\OrderReport::query()->find($value);
         if (!$orderReport) {
             throw new JSONException("维权记录不存在");

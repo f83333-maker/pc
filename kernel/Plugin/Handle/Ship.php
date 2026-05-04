@@ -5,7 +5,7 @@ namespace Kernel\Plugin\Handle;
 
 interface Ship
 {
-    
+
     public function delivery(): string;
 
     public function stock(): int|string;

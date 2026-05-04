@@ -126,7 +126,7 @@ class Image implements \App\Service\Image
 
     public function getImageExtensionFromURL(string $url): string
     {
-        
+
         $path = parse_url($url, PHP_URL_PATH);
         return strtolower((string)pathinfo($path, PATHINFO_EXTENSION));
     }

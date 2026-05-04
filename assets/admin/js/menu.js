@@ -7,7 +7,7 @@ var KTUtil = function() {
 
     var _windowResizeHandler = function() {
         var _runResizeHandlers = function() {
-            
+
             for (var i = 0; i < resizeHandlers.length; i++) {
                 var each = resizeHandlers[i];
                 each.call();
@@ -47,7 +47,7 @@ var KTUtil = function() {
 
         resize: function() {
             if (typeof(Event) === 'function') {
-                
+
                 window.dispatchEvent(new Event('resize'));
             } else {
 
@@ -75,7 +75,7 @@ var KTUtil = function() {
             var test = (this.getViewPort().width < this.getBreakpoint('lg') ? true : false);
 
             if (test === false) {
-                
+
                 test = navigator.userAgent.match(/iPad/i) != null;
             }
 
@@ -170,7 +170,6 @@ var KTUtil = function() {
 
                 if (position === "absolute" || position === "relative" || position === "fixed") {
 
-                    
                     value = parseInt(KTUtil.css(el, 'z-index'));
 
                     if (!isNaN(value) && value !== 0) {
@@ -338,23 +337,22 @@ var KTUtil = function() {
         },
 
         triggerEvent: function(node, eventName) {
-            
+
             var doc;
 
             if (node.ownerDocument) {
                 doc = node.ownerDocument;
             } else if (node.nodeType == 9) {
-                
+
                 doc = node;
             } else {
                 throw new Error("Invalid node passed to fireEvent: " + node.id);
             }
 
             if (node.dispatchEvent) {
-                
+
                 var eventClass = "";
 
-                
                 switch (eventName) {
                     case "click": 
                     case "mouseenter":
@@ -381,10 +379,10 @@ var KTUtil = function() {
                 event.initEvent(eventName, bubbles, true); 
 
                 event.synthetic = true; 
-                
+
                 node.dispatchEvent(event, true);
             } else if (node.fireEvent) {
-                
+
                 var event = doc.createEventObject();
                 event.synthetic = true; 
                 node.fireEvent("on" + eventName, event);
@@ -438,7 +436,7 @@ var KTUtil = function() {
         },
 
         parents: function(elem, selector) {
-            
+
             var parents = [];
 
             for ( ; elem && elem !== document; elem = elem.parentNode ) {
@@ -703,7 +701,7 @@ var KTUtil = function() {
 
                 return parseFloat(value);
             } else {
-                
+
                 return parseFloat(el.getAttribute('kt-hidden-' + prop));
             }
         },
@@ -717,7 +715,7 @@ var KTUtil = function() {
         },
 
         getScroll: function(element, method) {
-            
+
             method = 'scroll' + method;
             return (element == window || element == document) ? (
                 self[(method == 'scrollTop') ? 'pageYOffset' : 'pageXOffset'] ||
@@ -746,7 +744,7 @@ var KTUtil = function() {
 
                     return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
                 } else if (el.currentStyle) { 
-                    
+
                     styleProp = styleProp.replace(/\-(\w)/g, function(str, letter) {
                         return letter.toUpperCase();
                     });
@@ -928,7 +926,7 @@ var KTUtil = function() {
 
         one: function onetime(el, type, callback) {
             el.addEventListener(type, function callee(e) {
-                
+
                 if (e.target && e.target.removeEventListener) {
                     e.target.removeEventListener(e.type, callee);
                 }
@@ -1093,7 +1091,7 @@ var KTUtil = function() {
         },
 
         filterBoolean: function(val) {
-            
+
             if (val === true || val === 'true') {
                 return true;
             }
@@ -1156,7 +1154,7 @@ var KTUtil = function() {
         },
 
         throttle:  function (timer, func, delay) {
-            
+
             if (timer) {
                 return;
             }
@@ -1169,7 +1167,7 @@ var KTUtil = function() {
         },
 
         debounce: function (timer, func, delay) {
-            
+
             clearTimeout(timer)
 
             timer  =  setTimeout(func, delay);
@@ -1236,7 +1234,7 @@ var KTUtil = function() {
             value = KTUtil.parseJson(value);
 
             if ( typeof value === 'object' ) {
-                
+
                 if ( value['match'] !== undefined ) {
                     var selector = Object.keys(value['match'])[0];
                     value = Object.values(value['match'])[0];
@@ -1309,7 +1307,6 @@ var KTEventHandler = function() {
 
     var _handlers = {};
 
-    
     var _triggerEvent = function(element, name, target, e) {
         if ( KTUtil.data(element).has(name) === true ) {
             var handlerId = KTUtil.data(element).get(name);
@@ -1359,7 +1356,6 @@ var KTEventHandler = function() {
         }
     }
 
-    
     return {
         trigger: function(element, name, target, e) {
             return _triggerEvent(element, name, target, e);
@@ -1747,7 +1743,7 @@ var KTMenu = function (element, options) {
         }
 
         if (selector !== null) {
-            
+
             element = selector.querySelector('.menu-item[data-kt-menu-trigger]');
 
             if (element) {
@@ -1780,7 +1776,7 @@ var KTMenu = function (element, options) {
     }
 
     var _showDropdown = function (item) {
-        
+
         if (KTEventHandler.trigger(the.element, 'kt.menu.dropdown.show', item) === false) {
             return;
         }
@@ -1834,7 +1830,7 @@ var KTMenu = function (element, options) {
     }
 
     var _hideDropdown = function (item) {
-        
+
         if (KTEventHandler.trigger(the.element, 'kt.menu.dropdown.hide', item) === false) {
             return;
         }
@@ -1867,7 +1863,7 @@ var KTMenu = function (element, options) {
     }
 
     var _initDropdownPopper = function (item, sub) {
-        
+
         var reference;
         var attach = _getItemOption(item, 'attach');
 
@@ -1893,7 +1889,7 @@ var KTMenu = function (element, options) {
     }
 
     var _getDropdownPopperConfig = function (item) {
-        
+
         var placement = _getItemOption(item, 'placement');
         if (!placement) {
             placement = 'right';
@@ -2017,7 +2013,6 @@ var KTMenu = function (element, options) {
 
     _construct();
 
-    
     the.click = function (element, e) {
         return _click(element, e);
     }
@@ -2180,7 +2175,7 @@ KTMenu.updateDropdowns = function () {
 }
 
 KTMenu.initGlobalHandlers = function () {
-    
+
     document.addEventListener("click", function (e) {
         var items = document.querySelectorAll('.show.menu-dropdown[data-kt-menu-trigger]');
         var menu;
@@ -2256,7 +2251,7 @@ KTMenu.initGlobalHandlers = function () {
         var timer;
 
         KTUtil.throttle(timer, function () {
-            
+
             var elements = document.querySelectorAll('[data-kt-menu="true"]');
 
             if (elements && elements.length > 0) {
@@ -2272,7 +2267,7 @@ KTMenu.initGlobalHandlers = function () {
 }
 
 KTMenu.createInstances = function (selector = '[data-kt-menu="true"]') {
-    
+
     var elements = document.querySelectorAll(selector);
     if (elements && elements.length > 0) {
         for (var i = 0, len = elements.length; i < len; i++) {
@@ -2282,7 +2277,7 @@ KTMenu.createInstances = function (selector = '[data-kt-menu="true"]') {
 }
 
 KTMenu.init = function () {
-    
+
     KTMenu.initGlobalHandlers();
 
     KTMenu.createInstances();
@@ -2316,7 +2311,7 @@ var KTToggle = function(element, options) {
     }
 
     var _init = function() {
-        
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
         the.uid = KTUtil.getUniqueId('toggle');
 
@@ -2340,7 +2335,7 @@ var KTToggle = function(element, options) {
     }
 
     var _toggle = function() {
-        
+
         KTEventHandler.trigger(the.element, 'kt.toggle.change', the);
 
         if ( _isEnabled() ) {
@@ -2408,7 +2403,6 @@ var KTToggle = function(element, options) {
 
     _construct();
 
-    
     the.toggle = function() {
         return _toggle();
     }
@@ -2465,7 +2459,7 @@ KTToggle.createInstances = function(selector = '[data-kt-toggle]') {
 
     if ( elements && elements.length > 0 ) {
         for (var i = 0, len = elements.length; i < len; i++) {
-            
+
             new KTToggle(elements[i]);
         }
     }
@@ -2482,7 +2476,7 @@ if (document.readyState === 'loading') {
 }
 
 var KTLayoutAside = function () {
-    
+
     var toggle;
     var aside;
 
@@ -2500,7 +2494,7 @@ var KTLayoutAside = function () {
 
     return {
         init: function () {
-            
+
             aside = document.querySelector('#kt_aside');
             toggle = document.querySelector('#kt_aside_toggle');
 
@@ -2539,7 +2533,7 @@ var KTScroll = function(element, options) {
     }
 
     var _init = function() {
-        
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
 
         the.element = element;
@@ -2596,7 +2590,7 @@ var KTScroll = function(element, options) {
     }
 
     var _update = function() {
-        
+
         if ( _getOption('activate') === true || the.element.hasAttribute('data-kt-scroll-activate') === false ) {
             _setupHeight();
             _setupScrollHandler();
@@ -2780,7 +2774,7 @@ window.addEventListener('resize', function() {
     var body = document.getElementsByTagName("BODY")[0];
 
     KTUtil.throttle(timer, function() {
-        
+
         var elements = body.querySelectorAll('[data-kt-scroll="true"]');
 
         if ( elements && elements.length > 0 ) {
@@ -2827,7 +2821,7 @@ var KTScrolltop = function(element, options) {
     }
 
     var _init = function() {
-        
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
         the.uid = KTUtil.getUniqueId('scrolltop');
         the.element = element;
@@ -2906,7 +2900,6 @@ var KTScrolltop = function(element, options) {
 
     _construct();
 
-    
     the.go = function() {
         return _go();
     }
@@ -2976,7 +2969,7 @@ var KTDrawer = function (element, options) {
     }
 
     var _init = function () {
-        
+
         the.options = KTUtil.deepExtend({}, defaultOptions, options);
         the.uid = KTUtil.getUniqueId('drawer');
         the.element = element;
@@ -3161,7 +3154,6 @@ var KTDrawer = function (element, options) {
 
     _construct();
 
-    
     the.toggle = function () {
         return _toggle();
     }
@@ -3268,7 +3260,7 @@ KTDrawer.createInstances = function (selector = '[data-kt-drawer="true"]') {
 }
 
 KTDrawer.handleShow = function () {
-    
+
     KTUtil.on(document.body, '[data-kt-drawer-show="true"][data-kt-drawer-target]', 'click', function (e) {
         var element = document.querySelector(this.getAttribute('data-kt-drawer-target'));
 
@@ -3279,7 +3271,7 @@ KTDrawer.handleShow = function () {
 }
 
 KTDrawer.handleDismiss = function () {
-    
+
     KTUtil.on(document.body, '[data-kt-drawer-dismiss="true"]', 'click', function (e) {
         var element = this.closest('[data-kt-drawer="true"]');
 
@@ -3297,7 +3289,7 @@ window.addEventListener('resize', function () {
     var body = document.getElementsByTagName("BODY")[0];
 
     KTUtil.throttle(timer, function () {
-        
+
         var elements = body.querySelectorAll('[data-kt-drawer="true"]');
 
         if (elements && elements.length > 0) {

@@ -253,7 +253,7 @@
     border: none;
     background: rgba(255, 255, 255, 0.2) !important;
     border-radius: 10px !important;
-    
+
 }
 
 .border-none {
@@ -261,7 +261,7 @@
 }
 
 .component-popup .layui-form-pane .layui-form-label {
-    
+
     width: 140px;
     padding: 8px 0;
     height: 38px;
@@ -1129,7 +1129,7 @@ space {
 }
 
 .b-title {
-    
+
     color: #a7a7a7;
     background-color: #f2f2f2; 
     border-radius: 3px; 
@@ -1262,7 +1262,7 @@ space {
     }
 
     .mcy-timeline-modern .timeline-event-icon {
-        
+
         left: 105px;
         z-index: 2 !important
     }
@@ -1460,7 +1460,7 @@ space {
 
 .common-item .item-name {
     font-size: 14px;
-    
+
     text-shadow: #a6ff98 0.1em 0.1em 0.2em;
     white-space: nowrap;
 }
@@ -2212,7 +2212,7 @@ textarea, input {
 }
 
 .bootstrap-table.bootstrap5 .fixed-table-body input[type="checkbox"] {
-    
+
     -webkit-appearance: none;
     appearance: none;
 

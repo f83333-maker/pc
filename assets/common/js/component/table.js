@@ -28,7 +28,7 @@ class Table {
     }
 
     constructor(urlOrData, container) {
-        
+
         this.options = {container: container};
 
         this.columns = [];
@@ -77,7 +77,7 @@ class Table {
         this.updateUrl = null; 
         this.response = null; 
         this.handleData = {}; 
-        
+
         if (typeof this.queryUrl == "object") {
             this.queryUrl.forEach(item => {
                 this.handleData[item.id] = item;
@@ -415,7 +415,7 @@ class Table {
         if (column.hasOwnProperty("sort") && column.sort === true) {
             column["title"] = column.title + ` <span style='cursor: pointer;' data-field='${column.field}' class='btn-sort'><i class="fa-duotone fa-regular fa-arrow-up-arrow-down"></i></span>`;
         }
-        
+
         typeof column.formatter == "function" && (column.fn = {formatter: column.formatter});
         column.hasOwnProperty("class") && (column.cellStyle = {classes: column.class});
         switch (type) {
@@ -606,7 +606,6 @@ class Table {
             pageNumber: 1,
             singleSelect: this.singleSelect,
 
-            
             sidePagination: 'server',
             contentType: "application/x-www-form-urlencoded",
             dataType: "json",
@@ -616,8 +615,6 @@ class Table {
             detailView: this.isShowDetail,
             columns: this.columns,
 
-            
-            
             queryParams: (params) => {
                 params.page = (params.offset / params.limit) + 1;
                 if (this.queryParams) {
@@ -914,7 +911,7 @@ class Table {
 
     render() {
         const $this = this;
-        
+
         this.#createOptions();
         this.#createRequest();
         this.$table.bootstrapTable(this.options);

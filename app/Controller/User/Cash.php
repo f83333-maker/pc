@@ -11,7 +11,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor([Waf::class, UserSession::class])]
 class Cash extends User
 {
-    
+
     public function index(): string
     {
         $count = \App\Model\Cash::query()->where("status", 0)->where("user_id", $this->getUser()->id)->count();

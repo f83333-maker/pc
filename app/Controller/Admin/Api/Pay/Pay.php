@@ -124,7 +124,7 @@ class Pay extends Base
             }
 
             PayGroup::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("pay_id")->delete();
-            
+
             PayUser::query()->where("create_time", "<=", Date::calcDay(-1))->whereNull("pay_id")->delete();
         } catch (\Exception $exception) {
             throw new JSONException(Resolver::make($exception)->getMessage());

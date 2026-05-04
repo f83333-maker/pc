@@ -7,7 +7,7 @@ use Kernel\Exception\JSONException;
 
 class Plugin
 {
-    
+
     public static function setCache(string $pluginName, string $db, string $key, mixed $value, int $expire = 0, bool $cli = false): void
     {
         $path = BASE_PATH . '/app/Plugin/' . $pluginName . '/Db/';

@@ -1,43 +1,43 @@
 #{include file="../Header.html"}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        
+
         <div id="kt_content_container" class="container-xxl">
-            
+
             <div class="card mb-5 mb-xl-10">
-                
+
                 <div class="card-header border-0 cursor-pointer">
-                    
+
                     <div class="card-title m-0">
                         <h3 class="fw-bolder m-0">SMTP配置</h3>
                     </div>
-                    
+
                 </div>
 
                 <div id="kt_account_profile_details" class="collapse show">
-                    
+
                     <form id="data-form" class="form">
-                        
+
                         <div class="card-body p-9">
-                            
+
                             <div class="alert alert-dismissible bg-light-primary d-flex flex-column flex-sm-row p-5 mb-10">
-                                
+
                                 <span class="me-4 mb-5 mb-sm-0"><i class="fa-duotone fa-regular fa-bell"></i></span>
 
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    
+
                                     <span>本系统默认内置SMTP发信功能，如果你想使用其他邮件服务，请通过安装插件来使用。</span>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">SMTP服务器</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -45,27 +45,27 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入smtp服务器地址" value="#{$email.smtp}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">通信加密协议</label>
 
                                 <div class="col-lg-8 fv-row">
-                                    
+
                                     <select name="secure" class="form-select form-select-solid form-select-lg"
                                             data-control="select2" data-hide-search="true">
                                         <option value="0" #{if $email.secure == 0} selected #{/if}>SSL</option>
                                         <option value="1" #{if $email.secure == 1} selected #{/if}>TLS</option>  
                                     </select>
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">端口</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -73,11 +73,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入端口" value="#{$email.port}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">用户名</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -85,11 +85,11 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入用户名" value="#{$email.username}"/>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-6">
-                                
+
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">授权码</label>
 
                                 <div class="col-lg-8 fv-row">
@@ -97,7 +97,7 @@
                                            class="form-control form-control-lg form-control-solid"
                                            placeholder="请输入授权码" value="#{$email.password}"/>
                                 </div>
-                                
+
                             </div>
 
                         </div>
@@ -108,17 +108,17 @@
                             </button>
                             <button type="button" class="btn btn-primary save-data m-1">保存设置 (Save Config)</button>
                         </div>
-                        
+
                     </form>
-                    
+
                 </div>
-                
+
             </div>
-            
+
         </div>
-        
+
     </div>
-    
+
 </div>
 
 #{ready("/assets/admin/controller/config/mail.js")}

@@ -55,9 +55,9 @@
         </form>
 
         #{if getHookNum(\App\Consts\Hook::USER_VIEW_AUTH_LOGIN_BUTTON) > 0}
-            
+
             <div class="divider small my-3">OR</div>
-            
+
         #{/if}
 
         #{hook(\App\Consts\Hook::USER_VIEW_AUTH_LOGIN_BUTTON)}

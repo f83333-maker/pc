@@ -13,7 +13,7 @@ use Kernel\Plugin\Handle\Ship;
 #[Bind(class: \App\Service\Common\Bind\RepertoryOrder::class)]
 interface RepertoryOrder
 {
-    
+
     public function trade(Trade $trade, string $tradeIp, bool $direct = false): Deliver;
 
     public function getAmount(?User $customer, RepertoryItemSku $repertoryItemSku, int $quantity = 1): string;

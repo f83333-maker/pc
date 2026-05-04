@@ -62,19 +62,19 @@ class Commodity extends Manage
                 'card as card_success_count' => function (Builder $builder) {
                     $builder->where("status", 1);
                 },
-                
+
                 'order as order_all_amount' => function (Builder $relation) {
                     $relation->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_all_amount"));
                 },
-                
+
                 'order as order_week_amount' => function (Builder $relation) {
                     $relation->whereBetween('create_time', [Date::weekDay(1, Date::TYPE_START), Date::weekDay(7, Date::TYPE_END)])->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_week_amount"));
                 },
-                
+
                 'order as order_yesterday_amount' => function (Builder $relation) {
                     $relation->whereBetween('create_time', [Date::calcDay(-1), Date::calcDay()])->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_yesterday_amount"));
                 },
-                
+
                 'order as order_today_amount' => function (Builder $relation) {
                     $relation->whereBetween('create_time', [Date::calcDay(), Date::calcDay(1)])->where("status", 1)->select(\App\Model\Order::query()->raw("COALESCE(sum(amount),0) as order_today_amount"));
                 }

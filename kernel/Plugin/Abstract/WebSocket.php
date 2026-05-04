@@ -9,7 +9,7 @@ use Swoole\WebSocket\Server;
 
 abstract class WebSocket implements \Kernel\Plugin\Handle\WebSocket
 {
-    
+
     protected PluginEntity $plugin;
 
     protected Server $server;

@@ -9,7 +9,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\Store\Bind\Http::class)]
 interface Http
 {
-    
+
     public function getBaseUrl(): string;
 
     public function ping(): array;

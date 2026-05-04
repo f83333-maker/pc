@@ -15,7 +15,7 @@ class Dict implements \App\Service\Dict
         $dictLength = count($dict);
 
         if ($dictLength >= 3) {
-            
+
             $prefix = config('database')['prefix'];
             $table = explode('->', $dict[0]);
 

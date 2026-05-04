@@ -5,7 +5,7 @@ namespace App\Consts;
 
 interface Render
 {
-    
+
     const  ENGINE_SMARTY = 0x0;
 
     const ENGINE_PHP = 0x1;

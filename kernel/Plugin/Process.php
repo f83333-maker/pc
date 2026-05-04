@@ -78,7 +78,7 @@ class Process
     {
         File::writeForLock(self::CACHE_FILE, function (string $contents) use ($env, $name) {
             $items = Plugin::inst()->decrypt($contents);
-            
+
             foreach ($items as $index => $item) {
                 if ($item->plugin->name == $name && $item->env == $env) {
                     unset($items[$index]);
@@ -106,7 +106,7 @@ class Process
             \Kernel\Util\Process::setName($processName . ".plugin.main");
             $pm = new Manager();
             if (count($processItems) > 0) {
-                
+
                 foreach ($processItems as $processInfo) {
                     for ($i = 0; $i < $processInfo->num; $i++) {
                         $pm->add(function (Pool $pool, int $workerId) use ($processName, $i, $processInfo, $config) {

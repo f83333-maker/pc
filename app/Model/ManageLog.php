@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ManageLog extends Model
 {
-    
+
     protected $table = "manage_log";
 
     public $timestamps = false;

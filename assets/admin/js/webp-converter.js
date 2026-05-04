@@ -1,5 +1,4 @@
 
-
 (function () {
     'use strict';
 
@@ -125,7 +124,7 @@
                             });
                             resolve(webpFile);
                         } catch (e) {
-                            
+
                             blob.name = newName;
                             blob.lastModifiedDate = new Date();
                             resolve(blob);
@@ -225,7 +224,7 @@
                 });
                 return;
             } catch (e) {
-                
+
                 return origSend.call(self, body);
             }
         }

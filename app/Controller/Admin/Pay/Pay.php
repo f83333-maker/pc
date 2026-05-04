@@ -11,7 +11,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Pay extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->render("Pay/Pay.html", "支付接口");

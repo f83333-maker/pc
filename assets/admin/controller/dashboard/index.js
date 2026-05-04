@@ -29,7 +29,7 @@
     }
 
     function loadWeekStatistics() {
-        
+
         $.get("/admin/api/dashboard/weekStatistics", res => {
             if (res.code != 200) {
                 layer.msg(res.msg);

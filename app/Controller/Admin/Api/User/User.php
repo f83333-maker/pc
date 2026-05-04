@@ -116,11 +116,11 @@ class User extends Base
         $save = new Save(Model::class);
         $save->setMap($post, ['username', 'email', 'avatar', 'status', 'note', 'group_id', 'level_id', 'withdraw_amount']);
         try {
-            
+
             if (isset($post['password']) && $post['password'] != "") {
 
                 if (isset($post['id'])) {
-                    
+
                     $user = Model::query()->find($post['id']);
                     $save->addForceMap("password", Str::generatePassword($post['password'], $user?->salt));
                 } else {
@@ -135,7 +135,7 @@ class User extends Base
             $model = $this->query->save($save);
 
             if (!isset($post['id'])) {
-                
+
                 $this->lifetime->create($model->id, "127.0.0.1", 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36');
             }
         } catch (\Exception $exception) {

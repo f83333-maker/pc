@@ -73,7 +73,7 @@ class Query
 
     private function isTypeMatch(Plugin $plugin): bool
     {
-        
+
         if (!$this->type || $this->type == 16) {
             return true;
         }

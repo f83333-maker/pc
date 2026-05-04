@@ -11,7 +11,7 @@ use Twig\Error\SyntaxError;
 
 class Response implements \Kernel\Context\Interface\Response
 {
-    
+
     private array $options = [];
 
     public function withCookie(string $key, string $value, int $expire): static

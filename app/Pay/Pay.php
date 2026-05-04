@@ -7,7 +7,7 @@ use App\Entity\PayEntity;
 
 interface Pay
 {
-    
+
     const TYPE_REDIRECT = 2;
 
     const TYPE_LOCAL_RENDER = 3;

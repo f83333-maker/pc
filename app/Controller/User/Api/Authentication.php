@@ -35,7 +35,7 @@ class Authentication extends User
 
     public function register(): array
     {
-        
+
         hook(Hook::USER_API_AUTH_REGISTER_BEGIN);
         $registeredState = (int)Config::get("registered_state");
         $registeredType = (int)Config::get("registered_type");
@@ -55,7 +55,7 @@ class Authentication extends User
         if (!isset($_POST['username']) || !Validation::username((string)$_POST['username'], $usernameLen)) {
             throw new JSONException("用户名最少{$usernameLen}位");
         }
-        
+
         $user = new \App\Model\User();
 
         if (\App\Model\User::query()->where("username", $_POST['username'])->first()) {
@@ -65,7 +65,7 @@ class Authentication extends User
         $user->username = $_POST['username'];
 
         if ($registeredType == 2) {
-            
+
             if (!isset($_POST['email']) || !Validation::email((string)$_POST['email'])) {
                 throw new JSONException("邮箱地址不正确");
             }
@@ -79,7 +79,7 @@ class Authentication extends User
             }
             $user->email = $_POST['email'];
         } elseif ($registeredType == 1) {
-            
+
             if (!isset($_POST['phone']) || !Validation::phone((string)$_POST['phone'])) {
                 throw new JSONException("手机号码不正确");
             }
@@ -112,7 +112,7 @@ class Authentication extends User
         }
 
         try {
-            
+
             Captcha::destroy("register");
                 $user->phone != null ?? $this->sms->destroyCaptcha($user->phone, Sms::CAPTCHA_REGISTER);
                 $user->email != null ?? $this->email->destroyCaptcha($user->email, Email::CAPTCHA_REGISTER);

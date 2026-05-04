@@ -12,7 +12,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor([Waf::class, UserSession::class, Business::class])]
 class Commodity extends User
 {
-    
+
     public function index(): string
     {
         return $this->theme("我的商品", "COMMODITY", "User/Commodity.html");

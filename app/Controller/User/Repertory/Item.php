@@ -14,7 +14,7 @@ use Kernel\Plugin\Const\Theme;
 class Item extends Base
 
 {
-    
+
     public function index(): Response
     {
         return $this->theme(Theme::USER_REPERTORY_ITEM, "Repertory/Item.html", "货源管理");

@@ -6,7 +6,7 @@
         .clearfix { display: block; }
         .xh-title{height:75px;line-height:75px;text-align:center;font-size:30px;font-weight:300;border-bottom:2px solid #eee;background: #fff;}
         .qrbox{max-width: 900px;margin: 0 auto;padding:85px 20px 20px 50px;}
-    
+
         .qrbox .left{width: 40%;float: left;display: block;margin: 0px auto;}
         .qrbox .left .qrcon{
             border-radius: 10px;

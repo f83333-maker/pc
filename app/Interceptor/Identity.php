@@ -16,14 +16,14 @@ class Identity implements Interceptor
 
     public function handle(Request $request, Response $response, int $type): Response
     {
-        
+
         $user = Context::get(User::class);
         $identity = UserIdentity::query()->where("user_id", $user->id)->first();
 
         if (!$identity || $identity->status != 1) {
             return $this->notIdentity($request, $response, $type);
         }
-        
+
         return $response;
     }
 

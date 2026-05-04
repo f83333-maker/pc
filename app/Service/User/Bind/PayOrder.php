@@ -37,7 +37,7 @@ class PayOrder implements \App\Service\User\PayOrder
 
     public function getPay(int $payId): \App\Model\Pay
     {
-        
+
         $payApi = \App\Model\Pay::with(["config"])->find($payId);
 
         if (!$payApi) {
@@ -62,7 +62,7 @@ class PayOrder implements \App\Service\User\PayOrder
     public function pay(string $tradeNo, int $method, bool $balance, string $tradeIp, string $httpUrl, ?User $customer = null): Pay
     {
         return Db::transaction(function () use ($httpUrl, $balance, $tradeIp, $tradeNo, $method, $customer) {
-            
+
             $order = Order::query()->where("trade_no", $tradeNo)->first();
 
             if (!$order) {
@@ -102,7 +102,7 @@ class PayOrder implements \App\Service\User\PayOrder
             $pay->setStatus($payOrder->status);
 
             if ($customer && $order->type != \App\Const\Order::ORDER_TYPE_RECHARGE) {
-                
+
                 $customer = User::query()->find($customer->id);
 
                 if ($method == 0 && $balance && $customer->balance < $payOrder->order_amount) {
@@ -110,25 +110,25 @@ class PayOrder implements \App\Service\User\PayOrder
                 }
 
                 if ($balance) {
-                    
+
                     if ($customer->balance >= $payOrder->order_amount) {
                         $payOrder->trade_amount = 0;
                         $payOrder->balance_amount = $payOrder->order_amount;
                         $payOrder->pay_id = 0;
-                        
+
                         $this->balance->deduct($customer->id, (string)$payOrder->order_amount, \App\Const\Balance::TYPE_SHOPPING, $order->trade_no);
                         Plugin::instance()->unsafeHook(Usr::inst()->userToEnv($payOrder->user_id), Point::SERVICE_PAY_ORDER_BALANCE_PAY, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $customer, $payOrder, $order);
                         $payOrder->status = 2;
                         $payOrder->pay_time = Date::current();
                         $payOrder->save();
-                        
+
                         $this->order->deliver($order, $tradeIp);
                         $pay->setBalanceAmount((string)$payOrder->balance_amount);
                         $pay->setStatus($payOrder->status);
                         $pay->setPayUrl("/pay/sync.{$tradeNo}");
                         return $pay;
                     } elseif ($customer->balance < $payOrder->order_amount && $customer->balance > 0) {
-                        
+
                         $payOrder->balance_amount = $customer->balance;
                         $payOrder->trade_amount = (new Decimal((string)$order->total_amount))->sub((string)$customer->balance)->getAmount(); 
                         $pay->setBalanceAmount((string)$payOrder->balance_amount);
@@ -145,7 +145,7 @@ class PayOrder implements \App\Service\User\PayOrder
                 if ($order->type != \App\Const\Order::ORDER_TYPE_PRODUCT && $order->type != \App\Const\Order::ORDER_TYPE_UPGRADE_LEVEL) {
                     throw new JSONException("此业务不支持自定义支付接口");
                 }
-                
+
                 $user = User::query()->find($payApi->user_id);
                 if (!$user) {
                     throw new JSONException("支付接口异常");
@@ -155,7 +155,7 @@ class PayOrder implements \App\Service\User\PayOrder
                     throw new JSONException("商家余额不足，无法使用自定义支付接口");
                 }
             } else if ($user = $order->user) {
-                
+
                 $masterPay = $this->pay->getMasterPay($payApi->id, $user, $user?->group);
                 if (!$masterPay) {
                     throw new JSONException("此接口无法正常使用");
@@ -246,7 +246,7 @@ class PayOrder implements \App\Service\User\PayOrder
     public function async(string $tradeNo, string $clientIp): Response
     {
         return Db::transaction(function () use ($clientIp, $tradeNo) {
-            
+
             $order = Order::query()->where("trade_no", $tradeNo)->first();
 
             if (!$order) {
@@ -283,7 +283,7 @@ class PayOrder implements \App\Service\User\PayOrder
             $payAmount = (new Decimal($payOrder->trade_amount, 2))->add($payOrder->fee)->add($payOrder->api_fee);
 
             Plugin::instance()->unsafeHook(Usr::inst()->userToEnv($payOrder->user_id), Point::SERVICE_PAY_ORDER_ASYNC, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $payAmount, $payOrder, $order);
-            
+
             $payHandle = \Kernel\Plugin\Pay::instance()->handle(
                 name: $config->plugin,
                 env: Usr::inst()->userToEnv($config->user_id),
@@ -300,7 +300,7 @@ class PayOrder implements \App\Service\User\PayOrder
 
     public function getSyncUrl(string $tradeNo): string
     {
-        
+
         $order = Order::query()->where("trade_no", $tradeNo)->first();
 
         if (!$order) {
@@ -316,14 +316,14 @@ class PayOrder implements \App\Service\User\PayOrder
         } elseif ($order->type === \App\Const\Order::ORDER_TYPE_UPGRADE_LEVEL) {
             return "/user/personal";
         } else {
-            
+
             return "/";
         }
     }
 
     public function findPayOrder(int $orderId): \App\Model\PayOrder
     {
-        
+
         $payOrder = \App\Model\PayOrder::query()->where("order_id", $orderId)->first();
 
         if (!$payOrder) {

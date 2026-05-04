@@ -17,7 +17,7 @@ class Compress extends Command
 
     public function mergeJs(): void
     {
-        
+
         $commons = [
             "/assets/common/js/jquery.min.js",
             "/assets/common/js/toastr.min.js",
@@ -88,7 +88,7 @@ class Compress extends Command
     {
         $startTime = Date::timestamp();
         $this->info("[CSS]开始压缩..");
-        
+
         $admins = [
             "/assets/admin/css/codebase.min.css",
             "/assets/admin/css/admin.css",

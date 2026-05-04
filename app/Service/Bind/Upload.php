@@ -48,22 +48,22 @@ class Upload implements \App\Service\Upload
         if (count($upload) == count($upload, 1)) {
             $load = self::error($upload, $type, $size);
             if (is_array($load)) {
-                
+
                 return self::move($load, $dir, $fileName);
             } else {
                 return $load;
             }
         } else {
-            
+
             $list = array();
-            
+
             for ($i = 0; $i < count($upload); $i++) {
 
                 $load = self::error($upload[$i], $type, $size);
                 if (is_array($load)) {
-                    
+
                     $move = self::move($load, $dir, $fileName);
-                    
+
                     if (is_array($move)) {
                         $list[] = $move;
                     }
@@ -76,7 +76,7 @@ class Upload implements \App\Service\Upload
 
     private static function error($upload, $type, $size)
     {
-        
+
         if ($upload['error'] > 0) {
             switch ($upload['error']) {
                 case 1:
@@ -103,7 +103,7 @@ class Upload implements \App\Service\Upload
             }
             return $err_info;
         }
-        
+
         $exp = explode(".", (string)$upload['name']);
 
         if (count($exp) < 2) return "文件无后缀无法识别";
@@ -119,7 +119,7 @@ class Upload implements \App\Service\Upload
 
     private static function move($array, $dir, $file_name)
     {
-        
+
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
@@ -127,7 +127,7 @@ class Upload implements \App\Service\Upload
         if ($file_name != '') {
             $uniqueName = $dir . '/' . $file_name;
         } else {
-            
+
             $uniqueName = $dir . '/' . $names;
         }
         if (move_uploaded_file($array['tmp'], $uniqueName)) {

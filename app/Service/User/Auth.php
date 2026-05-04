@@ -9,7 +9,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\User\Bind\Auth::class)]
 interface Auth
 {
-    
+
     public function sendEmail(string $type, array $map): void;
 
     public function register(array $map, string $clientId, string $ip, string $ua, ?User $merchant = null, ?User $inviter = null): User;

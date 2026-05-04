@@ -8,7 +8,7 @@ use Kernel\Database\Model;
 
 class RepertoryCategory extends Model
 {
-    
+
     protected ?string $table = "repertory_category";
 
     public bool $timestamps = false;

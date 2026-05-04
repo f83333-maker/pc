@@ -34,7 +34,7 @@ class Console
             $list = $this->list();
             if (count($list) > 0) {
                 echo "\033[1;32m已注册的命令列表：\033[0m\n";
-                
+
                 foreach ($list as $item) {
                     $desc = $item->getDesc();
                     echo "\033[1;32m[{$item->getCommand()}]\033[0m - \033[1;33m{$item->getName()}\033[0m" . ($desc ? "\033[0;36m「{$item->getDesc()}」\033[0m \n" : "\n");
@@ -173,10 +173,10 @@ class Console
 
         $pattern = '/complete -W .* mcy/';
         if (preg_match($pattern, $bashrcContents)) {
-            
+
             $newBashrcContents = preg_replace($pattern, $completionCommand, $bashrcContents);
         } else {
-            
+
             $newBashrcContents = $bashrcContents . "\n" . $completionCommand;
         }
 

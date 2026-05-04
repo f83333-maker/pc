@@ -89,7 +89,7 @@ class User extends Manage
             if (!$level) {
                 throw new JSONException("该商户等级不存在");
             }
-            
+
             if (!Business::query()->where("user_id", $user->id)->first()) {
                 $business = new Business();
                 $business->user_id = $user->id;
@@ -164,15 +164,15 @@ class User extends Manage
         $userId = $_GET['id'];
         $order = \App\Model\Order::query()->where("user_id", $userId)->where("status", 1);
         $data = [];
-        
+
         $data['today_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [Date::calcDay(), Date::calcDay(1)])->sum("amount"));
-        
+
         $data['yesterday_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [Date::calcDay(-1), Date::calcDay()])->sum("amount"));
-        
+
         $data['week_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [Date::weekDay(1, Date::TYPE_START), Date::weekDay(7, Date::TYPE_END)])->sum("amount"));
-        
+
         $data['month_order_amount'] = sprintf("%.2f", (clone $order)->whereBetween('create_time', [date("Y-m-01 00:00:00"), Date::calcDay()])->sum("amount"));
-        
+
         $data['total_order_amount'] = sprintf("%.2f", (clone $order)->sum("amount"));
 
         return $this->json(200, "success", $data);

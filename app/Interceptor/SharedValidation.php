@@ -28,7 +28,7 @@ class SharedValidation implements InterceptorInterface
         if ($this->request->unsafePost("sign") != $signature) {
             throw new JSONException("密钥错误");
         }
-        
+
         Context::set(Shared::SESSION, $user);
     }
 }

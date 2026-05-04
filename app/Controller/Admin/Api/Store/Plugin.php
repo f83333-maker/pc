@@ -26,7 +26,7 @@ class Plugin extends Base
     public function save(): Response
     {
         $data = $this->request->post();
-        
+
         $http = $this->http->upload("image", BASE_PATH . $data['icon'], $this->getStoreAuth());
         $data['icon'] = $http->data['url'];
         $this->plugin->createOrUpdate($data, $this->getStoreAuth());

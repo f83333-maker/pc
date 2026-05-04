@@ -1,5 +1,4 @@
 
-
 {% set items = items() %}
 
 {% set _cid = request.get('cid')|default('') %}
@@ -75,7 +74,7 @@
         </header>
     {% else %}
         <h1 class="visually-hidden sr-only">{{ i18n(site.title)|raw }} - {{ i18n('商品列表')|raw }}</h1>
-        
+
         <section class="block block-rounded block-notice" aria-label="{{ i18n('公告')|raw }}">
             <div style="background: url('{{ site.notice_banner }}') center/cover !important;"
                  class="notice-background" role="presentation"></div>

@@ -7,7 +7,7 @@ use Kernel\Database\Model;
 
 class RolePermission extends Model
 {
-    
+
     protected ?string $table = "role_permission";
 
     public bool $timestamps = false;

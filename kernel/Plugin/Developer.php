@@ -40,7 +40,7 @@ class Developer
 
     public function createPlugin(array $data): void
     {
-        
+
         $key = ucfirst($data['key']);
         $path = $this->path . $key;
 

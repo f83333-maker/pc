@@ -7,7 +7,7 @@ use Kernel\Database\Model;
 
 class ItemSkuWholesaleUser extends Model
 {
-    
+
     protected ?string $table = "item_sku_wholesale_user";
 
     public bool $timestamps = false;

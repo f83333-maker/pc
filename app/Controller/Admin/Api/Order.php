@@ -51,11 +51,11 @@ class Order extends Manage
                 'pay' => function (Relation $relation) {
                     $relation->select(["id", "name", "icon"]);
                 },
-                
+
                 'promote' => function (Relation $relation) {
                     $relation->select(["id", "username", "avatar", "recharge"]);
                 },
-                
+
                 'substationUser' => function (Relation $relation) {
                     $relation->select(["id", "username", "avatar", "recharge"]);
                 },

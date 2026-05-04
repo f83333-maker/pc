@@ -89,7 +89,7 @@ class Di
     public function inject(&$object): void
     {
         Collector::instance()->propertiesParse($object, function (\ReflectionAttribute $attribute, \ReflectionProperty $property) use ($object) {
-            
+
             if ($attribute->getName() == Inject::class) {
                 $class = $property->getType()->getName();
                 if (Context::has($class)) {

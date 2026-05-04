@@ -39,7 +39,7 @@ class Shop implements \App\Service\Shop
         $bus = Business::get();
         $cache = null;
         $cacheKey = '';
-        
+
         if (!$bus) {
             $cacheKey = 'shop_category_master_v1_' . md5(
                 (string)($group?->id ?? 0) . "\0"
@@ -67,13 +67,13 @@ class Shop implements \App\Service\Shop
 
         if ($bus) {
             $master = false;
-            
+
             if ($bus->master_display == 0) {
                 $category = $category->where("owner", $bus->user_id);
             } else {
-                
+
                 $userCategory = UserCategory::query()->where("user_id", $bus->user_id)->get();
-                
+
                 $hideCategory = [];
 
                 foreach ($userCategory as $userCate) {
@@ -87,9 +87,9 @@ class Shop implements \App\Service\Shop
                 $category = $category->whereNotIn("id", $hideCategory)->whereRaw("(`owner`=0 or `owner`={$bus->user_id})");
             }
         } else {
-            
+
             if (Config::get("substation_display") == 1) {
-                
+
                 $list = (array)json_decode(Config::get("substation_display_list"), true);
                 $let = "(`owner`=0 or ";
                 foreach ($list as $userId) {
@@ -101,7 +101,7 @@ class Shop implements \App\Service\Shop
                 $category = $category->where("owner", 0);
             }
         }
-        
+
         $category = $category->get();
 
         foreach ($category as $index => $item) {
@@ -183,9 +183,9 @@ class Shop implements \App\Service\Shop
         $shared = \App\Model\Shared::query()->find($commodity->shared_id);
 
         if ($shared) {
-            
+
             if ($commodity->shared_sync == 1) {
-                
+
                 $new = Commodity::query()->find($commodity->id);
 
                 $remoteItem = $this->shared->item($shared, $new->shared_code);
@@ -308,7 +308,7 @@ class Shop implements \App\Service\Shop
         if ($commodity->shared) {
             return $this->getSharedStock($commodity, $race, $sku);
         } else if ($commodity->delivery_way == 0) {
-            
+
             $card = Card::query()->where("commodity_id", $commodity->id)->where("status", 0);
             if ($race) $card = $card->where("race", $race);
             if (!empty($sku)) {

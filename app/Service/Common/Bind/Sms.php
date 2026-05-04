@@ -21,7 +21,7 @@ class Sms implements \App\Service\Common\Sms
         if (Verify::isInternationalMobile($phone)) {
             $phone = ltrim($phone, "+");
         }
-        
+
         $cfg = [
             'access_key' => $config['ali_access_key_id'],
             'access_secret' => $config['ali_access_key_secret'],

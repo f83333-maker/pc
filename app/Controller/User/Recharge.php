@@ -17,7 +17,7 @@ use Kernel\Util\View;
 #[Interceptor(Waf::class, Interceptor::TYPE_VIEW)]
 class Recharge extends User
 {
-    
+
     #[Interceptor(UserSession::class)]
     public function index(): string
     {

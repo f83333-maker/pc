@@ -7,7 +7,7 @@ use App\Consts\Render;
 
 interface Config
 {
-    
+
     const INFO = [
         "NAME" => "默认模板",
         "AUTHOR" => "荔枝",

@@ -100,7 +100,7 @@ class Order extends Base
     public function heartbeat(): Response
     {
         $reportId = $this->request->post("report_id", Filter::INTEGER);
-        
+
         $orderReport = Model::query()->find($reportId, ["id", "customer_id", "status", "handle_type"]);
         if ($orderReport?->customer_id != $this->getUser()->id) {
             throw new JSONException("订单不存在");

@@ -87,7 +87,7 @@ class Order extends User
         if (!$order) {
             $order = UserRecharge::query()->where("trade_no", $tradeNo)->first(['id', 'trade_no', 'amount', 'status']);
         }
-        
+
         return $this->json(200, 'success', $order->toArray());
     }
 }

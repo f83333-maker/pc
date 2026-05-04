@@ -7,7 +7,7 @@ use App\Consts\Render;
 
 interface Config
 {
-    
+
     const INFO = [
         "NAME" => "富士山",
         "AUTHOR" => "荔枝",

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shared extends Model
 {
-    
+
     protected $table = 'shared';
 
     public $timestamps = false;

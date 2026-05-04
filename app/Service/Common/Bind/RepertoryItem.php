@@ -59,9 +59,8 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             throw new ServiceException("插件未启动");
         }
 
-        
         if ($checkRepeat && isset($item['unique_id']) && \App\Model\RepertoryItem::query()->where("unique_id", $item['unique_id'])->exists()) {
-            
+
             throw new ServiceException("[{$item['name']}]->重复检测：已经存在此货源：{$item['unique_id']}");
         }
 
@@ -72,7 +71,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         }
 
         $skus = [];
-        
+
         foreach ($item['skus'] as $sku) {
             $skuPictureUrl = $sku['picture_url'];
             $skuPictureThumbUrl = $skuPictureUrl;
@@ -111,7 +110,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                 if (!preg_match('/^(http:\/\/|https:\/\/)/i', $originalSrc)) {
                     return $matches[0];
                 }
-                
+
                 $downloadRemoteImage = $this->image->downloadRemoteImage($originalSrc, false, $userId);
                 return str_replace($originalSrc, $downloadRemoteImage[0], $matches[0]);
             }, $introduce);
@@ -240,7 +239,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
     {
 
         if (is_int($item)) {
-            
+
             $item = \App\Model\RepertoryItem::query()->find($item);
         }
 
@@ -248,7 +247,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $markupEntity = new Markup();
 
         if ($item->markup_mode == 2) {
-            
+
             $template = RepertoryItemMarkupTemplate::query()->find($item->markup_template_id);
             if ($template) {
                 $markupEntity->setSyncAmount((bool)$template->sync_amount);
@@ -327,7 +326,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         $config = PluginConfig::find($repertoryItem->ship_config_id);
 
         $markup = $this->getMarkup($repertoryItem);
-        
+
         $foreignShip = \Kernel\Plugin\Ship::inst()->getForeignShipHandle($repertoryItem->plugin, Usr::inst()->userToEnv($repertoryItem->user_id), is_array($config?->config) ? $config->config : []);
 
         if (!$foreignShip) {
@@ -379,7 +378,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             $introduce = (string)$item->introduce;
 
             if ($markup->syncRemoteDownload) {
-                
+
                 $introduce = preg_replace_callback('/<img[^>]+src=["\']?([^"\'>]+)["\']?[^>]*>/i', function ($matches) use ($repertoryItem) {
                     $originalSrc = $matches[1];
                     if (!preg_match('/^(http:\/\/|https:\/\/)/i', $originalSrc)) {
@@ -411,7 +410,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
             }
 
             foreach ($item->skus as $sku) {
-                
+
                 $repertoryItemSku = RepertoryItemSku::query()->where("unique_id", $sku->uniqueId)->where("repertory_item_id", $repertoryItem->id)->first();
 
                 if (!$repertoryItemSku) {
@@ -420,7 +419,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                     if ($markup->syncRemoteDownload) {
                         list($skuPictureUrl, $skuPictureThumbUrl) = $this->image->downloadRemoteImage($skuPictureUrl, true, $repertoryItem->user_id);
                     }
-                    
+
                     $createSku = new CreateSku($sku->versions, $sku->name, $skuPictureUrl, $skuPictureThumbUrl, $sku->price);
                     $sku->marketControlOnlyNum > 0 && $createSku->setMarketControlOnlyNum($sku->marketControlOnlyNum);
                     $sku->marketControlMaxNum > 0 && $createSku->setMarketControlMaxNum($sku->marketControlMaxNum);
@@ -430,7 +429,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
                     $sku->cost && $createSku->setCost($sku->cost);
                     $this->createSku($repertoryItem->user_id, $repertoryItem->id, $createSku, $markup);
                 } else {
-                    
+
                     $keepDecimals = (int)$markup->keepDecimals;
 
                     if ($markup->syncSkuName && $sku->versions['name'] != $repertoryItemSku->version['name']) {
@@ -531,7 +530,7 @@ class RepertoryItem implements \App\Service\Common\RepertoryItem
         }
 
         $list = RepertoryItemSku::query()->where("repertory_item_id", $repertoryItem->id)->get();
-        
+
         foreach ($list as $sku) {
             if (is_array($sku->version) && isset($sku->version['price'])) {
                 $version = $sku->version;

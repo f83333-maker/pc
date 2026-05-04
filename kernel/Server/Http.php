@@ -26,7 +26,7 @@ class Http
 
     public function call(Request $request): mixed
     {
-        
+
         Context::set(Language::class, \Kernel\Language\Language::instance()->getPreferredLanguage($request));
         if (($hook = Plugin::instance()->hook(Usr::MAIN, Point::HTTP_REQUEST_ENTER, PGC::HOOK_TYPE_HTTP, $request, Context::get(Response::class))) instanceof Response) return $hook;
         $_env = App::env();
@@ -76,7 +76,7 @@ class Http
         }
 
         Di::instance()->inject($controller);
-        
+
         $parameters = Collector::instance()->getMethodParameters($controller, $action, $request->get());
 
         if (($hook = Plugin::instance()->hook($_env, Point::HTTP_REQUEST_CONTROLLER, PGC::HOOK_TYPE_HTTP, $router, $request, Context::get(Response::class))) instanceof Response) return $hook;

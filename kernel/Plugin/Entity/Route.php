@@ -5,7 +5,7 @@ namespace Kernel\Plugin\Entity;
 
 class Route
 {
-    
+
     public string $usr;
 
     public string $name;

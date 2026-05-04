@@ -251,11 +251,11 @@
                       您所购买的插件或个人版等产品，将统一归属于您的应用商店账户名下。无论您更换服务器或重新安装程序，只需登录购买时所使用的应用商店账户，即可迅速将产品绑定至新的网站上。
                     </p>
                   </div>          
-            
+
                     <div class="mb-3 store-introduce">
                       ${i18n(item.introduce)}
                     </div>
-                    
+
                     <div class="subscription-container">
                         <div class="layout-box">
                                 <div class="title">订阅类型</div>
@@ -912,18 +912,18 @@
                                 complete: (form, dom) => {
                                     dom.html(`<div class="">               
                   <div class="alert alert-warning d-flex align-items-center" role="alert">
-                   
+
                     <p class="mb-0">
                       ${i18n('访问我们的应用商店需要先登录应用商店账号。应用商店内提供大量插件、模板和主题等资源供您安装。')}
                     </p>
                   </div>
-          
+
                 <form class="form-store-login">
                   <div class="form-floating mb-4">
                              <input type="text" class="form-control" id="login-username" name="username" placeholder="${i18n('手机号/用户名')}">
                             <label class="form-label" for="login-username">${i18n('账号/手机号')}</label>
                   </div>
-                  
+
                   <div class="form-floating mb-4">
                     <input type="password" class="form-control" id="login-password" name="password" placeholder="${i18n('请输入密码')}">
                     <label class="form-label" for="login-password">${i18n('密码')}</label>
@@ -939,7 +939,7 @@
                            <img src="/admin/store/auth/captcha?type=login" style="cursor:pointer;" class="img-captcha-login" onclick="this.src='/admin/store/auth/captcha?type=login&rand=' + util.generateRandStr(12);" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-lg btn-alt-success py-2 text-success btn-login">
                         ${i18n('登入')}
@@ -993,7 +993,7 @@
                     <input type="text" class="form-control" id="register-username"  placeholder="${i18n('用户名')}">
                     <label class="form-label" for="register-username">${i18n('用户名')}</label>
                   </div>
-           
+
                    <div class="row mb-4">
                     <div class="col-sm-4 col-4">
                       <div class="form-floating">
@@ -1034,7 +1034,7 @@
                            <img src="/admin/store/auth/captcha?type=register" style="cursor:pointer;" class="img-captcha-register" onclick="this.src='/admin/store/auth/captcha?type=register&rand=' + util.generateRandStr(12);" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-lg btn-alt-success py-2 text-success btn-register">
                         ${i18n('确认注册')}
@@ -1145,7 +1145,7 @@
                            <img src="/admin/store/auth/captcha?type=reset" style="cursor:pointer;" class="img-captcha-reset" onclick="this.src='/admin/store/auth/captcha?type=reset&rand=' + util.generateRandStr(12);" alt="${i18n('更换验证码')}">
                     </div>
                   </div>
-                  
+
                   <div class="row g-sm mb-4">
                       <button type="button" class="btn btn-lg btn-alt-success py-2 text-success btn-reset">
                         ${i18n('确认重置')}

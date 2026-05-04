@@ -5,6 +5,6 @@ namespace App\Consts;
 
 interface Shared
 {
-    
+
     const SESSION = "SHARED_USER";
 }

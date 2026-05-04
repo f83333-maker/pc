@@ -8,7 +8,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\Bind\Image::class)]
 interface Image
 {
-    
+
     public function createThumbnail(string $imagePath, int $newHeight, string $basePath = BASE_PATH): bool|string;
 
     public function downloadRemoteImage(string $url, bool $isCreateThumbnail = true, ?int $userId = null): array;

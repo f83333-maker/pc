@@ -5,7 +5,7 @@ namespace Kernel\Plugin\Const;
 
 interface Pay
 {
-    
+
     const RENDER_JUMP = 0;
 
     const RENDER_FORM_POST_SUBMIT = 1;

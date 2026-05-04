@@ -1,44 +1,44 @@
 #{include file="../Header.html"}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        
+
         <div id="kt_content_container" class="container-fluid">
-            
+
             <div class="row g-5 g-xl-10">
                 <div class="col-xl-3">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">订单数量</span>
                             <div class="fw-bolder fs-1 text-primary my-6 order_count">...</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-3">
-                    
+
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
                          style="background-position: right top; background-size: 30% auto; background-image: url(/assets/admin/images/svg/shapes/abstract-4.svg)">
-                        
+
                         <div class="card-body">
                             <span class="card-title fw-bolder text-muted text-hover-primary fs-4">订单金额</span>
                             <div class="fw-bolder fs-1 text-success my-6 order_amount">...</div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
 
             <div class="card mb-5 mb-xl-8">
-                
+
                 <div class="card-header">
                     <div class="card-toolbar">
                         <button class="btn btn-sm btn-light-primary clear me-3">
@@ -49,16 +49,16 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="card-body py-3">
                     <table id="recharge-order-table" ></table>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </div>
-    
+
 </div>
 
 #{ready("/assets/admin/controller/user/recharge.order.js")}

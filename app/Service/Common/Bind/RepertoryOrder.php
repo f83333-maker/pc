@@ -104,52 +104,52 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
             $balanceFreeze = (int)$repertoryItem->auto_receipt_time * 60;
 
             if ($customer && $repertoryItem->user_id != $trade->customerId) {
-                
+
                 Log::inst()->debug(sprintf("订单类型：商家 -> %s", $repertoryItem->user_id > 0 ? "供货商({$repertoryItem->user_id})" : "平台直供"));
-                
+
                 $this->balance->deduct(userId: $trade->customerId, amount: $totalAmount, type: Bce::TYPE_RESTOCK, tradeNo: $trade->tradeNo);
 
                 $this->calculateCommission($customer, $repertoryItemSku, $trade->quantity, $totalAmount, $trade->tradeNo, $balanceStatus, $balanceFreeze);
                 $commission = RepertoryOrderCommission::query()->where("trade_no", $trade->tradeNo)->sum("amount");
-                
+
                 $officeProfit = $officeProfit->sub((string)$commission);
 
                 if ($repertoryItem->user_id > 0) {
                     $supplyPrice = (new Decimal($repertoryItemSku->supply_price, 6))->mul($trade->quantity)->getAmount();
-                    
+
                     $this->balance->add(userId: $repertoryItem->user_id, amount: $supplyPrice, type: Bce::TYPE_SUPPLY_SETTLEMENT, isWithdraw: true, status: $balanceStatus, freeze: $balanceFreeze, tradeNo: $trade->tradeNo);
                     $repertoryOrder->supply_profit = $supplyPrice;
-                    
+
                     $officeProfit = $officeProfit->sub($supplyPrice);
                     Log::inst()->debug(sprintf("已经为供货商(%s)增加余额：%s，资金是否被冻结：%s，资金解冻时间：%s", $repertoryItem->user_id, $supplyPrice, $balanceStatus, $balanceFreeze));
                 } else {
-                    
+
                     $officeProfit = $officeProfit->sub((new Decimal($repertoryItemSku->cost))->mul($trade->quantity)->getAmount());
                 }
 
             } else if (!$customer && $repertoryItem->user_id > 0) {
-                
+
                 Log::inst()->debug(sprintf("订单类型：平台 -> %s", "供货商({$repertoryItem->user_id})"));
                 $supplyPrice = (new Decimal((string)$repertoryItemSku->supply_price, 6))->mul((string)$trade->quantity)->getAmount();
-                
+
                 $this->balance->add(userId: $repertoryItem->user_id, amount: $supplyPrice, type: Bce::TYPE_SUPPLY_SETTLEMENT, isWithdraw: true, status: $balanceStatus, freeze: $balanceFreeze, tradeNo: $trade->tradeNo);
-                
+
                 $repertoryOrder->supply_profit = $supplyPrice;
-                
+
                 $orderItem = OrderItem::query()->where("trade_no", $trade->tradeNo)->first();
                 if ($orderItem) {
                     $officeProfit = (new Decimal($orderItem->amount))->sub($supplyPrice);
                 }
                 Log::inst()->debug(sprintf("已经为供货商(%s)增加余额：%s，资金是否被冻结：%s，资金解冻时间：%s", $repertoryItem->user_id, $supplyPrice, $balanceStatus, $balanceFreeze));
             } elseif ($customer && $repertoryItem->user_id == $trade->customerId) {
-                
+
                 Log::inst()->debug("订单类型：商家 -> 商家自己");
-                
+
                 if ($totalAmount > 0) {
                     $this->balance->deduct(userId: $trade->customerId, amount: $totalAmount, type: Bce::TYPE_RESTOCK, tradeNo: $trade->tradeNo);
                 }
             } elseif (!$customer && !$repertoryItem->user_id) {
-                
+
                 Log::inst()->debug("订单类型：平台 -> 平台");
                 $orderItem = OrderItem::query()->where("trade_no", $trade->tradeNo)->first();
                 if ($orderItem) {
@@ -171,22 +171,22 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
             $repertoryOrder->status = 0;
             $repertoryOrder->widget = $widgetJson;
             $repertoryOrder->item_cost = (new Decimal((string)$repertoryItemSku->cost, 6))->mul((string)$trade->quantity)->getAmount(); 
-            
+
             $repertoryOrder->office_profit = $officeProfit->getAmount();
             Log::inst()->debug("官方获利：{$repertoryOrder->office_profit}");
 
             Plugin::instance()->unsafeHook(Usr::inst()->userToEnv($repertoryItem->user_id), Point::SERVICE_REPERTORY_ORDER_TRADE_BEFORE, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $repertoryOrder, $trade, $customer, $widgetJson, $repertoryItemSku, $repertoryItem, $totalAmount);
             $repertoryOrder->save();
-            
+
             RepertoryOrderCommission::query()->where("trade_no", $trade->tradeNo)->update(["order_id" => $repertoryOrder->id]);
 
             $env = Usr::instance()->userToEnv($repertoryItem->user_id);
-            
+
             $ship = \Kernel\Plugin\Ship::instance()->getShipHandle($repertoryItem->plugin, $env, $repertoryItem, $repertoryItemSku, $repertoryOrder);
 
             if ($ship) {
                 try {
-                    
+
                     if ($ship->hasEnoughStock()) {
                         $repertoryOrder->contents = $ship->delivery();
                     } else {
@@ -211,10 +211,10 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
 
     private function calculateCommission(User $customer, RepertoryItemSku $repertoryItemSku, int $quantity, string $amount, string $tradeNo, int $balanceStatus, int $balanceFreeze): void
     {
-        
+
         $parent = $customer->parent;
         if ($parent && $repertoryItemSku->user_id != $parent->id) { 
-            
+
             $parentAmount = (new Decimal($this->getAmount($parent, $repertoryItemSku, $quantity)))->mul((string)$quantity)->getAmount();
             $commission = (new Decimal($amount))->sub($parentAmount)->getAmount();
             Log::inst()->debug("层级返佣：检测到上级，返佣金额：{$commission}，上级拿货价：{$parentAmount}");
@@ -224,7 +224,7 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
                 } catch (\Throwable $e) {
                     return;
                 }
-                
+
                 $repertoryOrderCommission = new RepertoryOrderCommission(); 
                 $repertoryOrderCommission->trade_no = $tradeNo;
                 $repertoryOrderCommission->user_id = $customer->id;
@@ -243,7 +243,7 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
     {
 
         $prices[] = $repertoryItemSku->stock_price;
-        
+
         $group = $customer->group ?? null;
 
         if (!$customer) {
@@ -260,7 +260,7 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
             $prices[] = $repertoryItemSkuWholesale->stock_price;
 
             if ($group) {
-                
+
                 $repertoryItemSkuWholesaleGroup = RepertoryItemSkuWholesaleGroup::query()->where("wholesale_id", $repertoryItemSkuWholesale->id)->where("group_id", $group->id)->where("status", 1)->first();
                 if ($repertoryItemSkuWholesaleGroup) {
                     $prices[] = $repertoryItemSkuWholesaleGroup->stock_price;
@@ -274,7 +274,7 @@ class RepertoryOrder implements \App\Service\Common\RepertoryOrder
         }
 
         if ($group) {
-            
+
             $repertoryItemSkuGroup = RepertoryItemSkuGroup::query()->where("group_id", $group->id)->where("sku_id", $repertoryItemSku->id)->where("status", 1)->first();
             if ($repertoryItemSkuGroup) {
                 $prices[] = $repertoryItemSkuGroup->stock_price;

@@ -8,6 +8,6 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\User\Bind\Group::class)]
 interface Group
 {
-    
+
     public function list(?int $currentGroupId): array;
 }

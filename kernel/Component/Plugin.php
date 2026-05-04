@@ -13,7 +13,7 @@ use Kernel\Util\Str;
 
 trait Plugin
 {
-    
+
     public function getPlugin(): PGI
     {
         $var = Context::get(Route::class);
@@ -28,11 +28,11 @@ trait Plugin
         }
 
         if (!preg_match("/^\d+$/", $rt[1])) {
-            
+
             $name = Str::snakeToPascal($rt[1]);
             $env = Usr::MAIN;
         } else {
-            
+
             if (!isset($rt[2])) {
                 throw new JSONException("没有检测到插件");
             }

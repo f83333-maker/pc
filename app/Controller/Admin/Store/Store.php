@@ -11,7 +11,7 @@ use Kernel\Context\Interface\Response;
 #[Interceptor(class: Admin::class)]
 class Store extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->render("Store/Store.html", "应用商店");

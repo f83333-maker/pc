@@ -104,7 +104,7 @@ class PayManager extends Base
         $save->addForceMap("user_id", $this->getUser()->id);
 
         if (isset($post['pid'])) {
-            
+
             $pay = Model::query()->find($post['pid']);
             if (!$pay || $pay->user_id !== null) {
                 throw new JSONException("上级支付接口不存在");

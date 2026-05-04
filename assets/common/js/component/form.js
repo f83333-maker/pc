@@ -177,7 +177,7 @@ class Form {
     }
 
     htmlHtml(form) {
-        
+
         return this.getBlockHtml(form, `<div  style="width: 100%;height: ${form.height ? (Number.isInteger(form.height) ? form.height + "px" : form.height) : '400px'}" id="${this.unique}-${form.name}-editor"></div>`);
     }
 
@@ -704,7 +704,7 @@ class Form {
         let opt = this.opt;
         opt.tab.forEach((item, index) => {
             item.form.forEach((form, ix) => {
-                
+
                 (opt.hasOwnProperty('assign') && util.checkPropertyExistence(opt.assign, form.name)) && (form.default = util.parseStringObject(opt.assign, form.name));
                 let instance = null;
                 this.setData(form.name, form.default);
@@ -783,7 +783,7 @@ class Form {
     }
 
     inputRegister(form) {
-        
+
         let instance = $('.' + this.unique + ' input[name=' + form.name + ']');
         let _this = this;
 
@@ -1104,7 +1104,7 @@ class Form {
         });
 
         if (form.photoAlbumUrl) {
-            
+
             const $photoAlbum = $(`.${_this.unique} .block-${form.name} .photo-album`);
             $photoAlbum.click(function () {
                 let popupIndex = null;
@@ -1218,22 +1218,22 @@ class Form {
     treeSelectRegister(form) {
         let _this = this;
         layui.treeSelect.render({
-            
+
             elem: '.' + _this.unique + ' .component-' + form.name + ' .tree-select',
-            
+
             data: form.dict,
 
             placeholder: form.placeholder,
-            
+
             search: true,
-            
+
             parent: form?.parent ?? true,
-            
+
             click: function (d) {
                 $('.' + _this.unique + "  .component-" + form.name + " input[name=" + form.name + "]").val(d.current.id);
                 form.change && form.change(_this, d.current.id);
             },
-            
+
             success: function (d) {
                 if (form.default) {
                     layui.treeSelect.checkNode(_this.unique + form.name, parseInt(form.default));

@@ -55,7 +55,7 @@ class Site implements \App\Service\User\Site
 
     public function bind(int $themePage, string $template, array &$data): array
     {
-        
+
         $request = Context::get(Request::class);
         $data['request']['url'] = $request->url();
         $this->setTemplateData($data);
@@ -87,7 +87,7 @@ class Site implements \App\Service\User\Site
 
     public function setTemplateData(array &$data): void
     {
-        
+
         $request = Context::get(Request::class);
         $host = (string)$request->header("Host");
         $user = \App\Model\Site::getUser($host);
@@ -180,7 +180,7 @@ class Site implements \App\Service\User\Site
                     $site->ssl_expire_time = $certInfo['expire'];
                     $site->ssl_domain = $certInfo['domain'];
                     $site->ssl_issuer = $certInfo['issuer'];
-                    
+
                     if (!File::write($nginxInfo->pem, $pem) || !File::write($nginxInfo->key, $key)) {
                         throw new JSONException("证书写入失败，请联系客服");
                     }
@@ -202,14 +202,14 @@ class Site implements \App\Service\User\Site
         }
 
         if ($type == \App\Const\Site::TYPE_DOMAIN) {
-            
+
             Shell::inst()->exec("sudo nginx -s reload");
         }
     }
 
     public function del(string $domain): void
     {
-        
+
         $site = \App\Model\Site::where("host", $domain)->first();
         if (!$site) {
             throw new JSONException("该域名不存在");
@@ -283,10 +283,10 @@ class Site implements \App\Service\User\Site
 
     public function getConfig(string $key, ?string $userId = null): array
     {
-        
+
         $request = Context::get(Request::class);
         if ($request) {
-            
+
             $host = $request->header("Host");
             $user = \App\Model\Site::getUser((string)$host);
             $cacheKey = "config_find_sql_{$key}" . ($user ? "_{$user->id}" : "");
@@ -305,7 +305,7 @@ class Site implements \App\Service\User\Site
             Memory::inst()->set($cacheKey, $json);
             return $json;
         } else {
-            
+
             if (is_numeric($userId)) {
                 $config = Config::where("key", $key)->where("user_id", $userId)->first();
             } else {
@@ -341,7 +341,7 @@ class Site implements \App\Service\User\Site
         $nginxConf = str_replace('${server_name}', $nginxInfo->host, $nginxConf); 
         $nginxConf = str_replace('${ssl_certificate}', $nginxInfo->pem, $nginxConf); 
         $nginxConf = str_replace('${ssl_certificate_key}', $nginxInfo->key, $nginxConf); 
-        
+
         return str_replace('${proxy_pass}', $proxyPass, $nginxConf);
     }
 }

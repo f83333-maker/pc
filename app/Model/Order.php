@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
-    
+
     protected $table = "order";
 
     public $timestamps = false;

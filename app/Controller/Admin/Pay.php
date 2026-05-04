@@ -10,7 +10,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(ManageSession::class)]
 class Pay extends Manage
 {
-    
+
     public function index(): string
     {
         return $this->render("支付设置", "Config/Pay.html");

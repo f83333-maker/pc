@@ -9,7 +9,7 @@ use Kernel\Database\Model;
 
 class Role extends Model
 {
-    
+
     protected ?string $table = "role";
 
     public bool $timestamps = false;

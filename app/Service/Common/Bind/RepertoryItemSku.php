@@ -34,7 +34,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         $user = $userId > 0 ? User::query()->find($userId) : null;
 
         if (is_int($skuModel)) {
-            
+
             $skuModel = \App\Model\RepertoryItemSku::query()->find($skuModel);
             if (!$skuModel) {
                 return null;
@@ -60,15 +60,15 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
             if ($groupModel && $groupModel->status == 1) {
                 $sku = $groupModel;
                 if ($groupModel->market_control_status == 0) {
-                    
+
                     foreach ($syncList as $key) {
                         $sku->$key = $skuModel->$key;
                     }
                 } elseif ($groupModel->market_control_status == 1) {
-                    
+
                     $sku->market_control_status = 1;
                 } elseif ($groupModel->market_control_status == 2) {
-                    
+
                     $sku->market_control_status = 0;
                 }
             }
@@ -77,15 +77,15 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
                 $sku = $userModel;
 
                 if ($userModel->market_control_status == 0) {
-                    
+
                     foreach ($syncList as $key) {
                         $sku->$key = $skuModel->$key;
                     }
                 } elseif ($userModel->market_control_status == 1) {
-                    
+
                     $sku->market_control_status = 1;
                 } elseif ($userModel->market_control_status == 2) {
-                    
+
                     $sku->market_control_status = 0;
                 }
             }
@@ -97,7 +97,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
     public function isDisplay(int|\App\Model\RepertoryItemSku $skuModel, int|User $userModel): bool
     {
         if (is_int($userModel)) {
-            
+
             $userModel = User::query()->find($userModel);
             if (!$userModel) {
                 return false;
@@ -105,7 +105,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
         }
 
         if (is_int($skuModel)) {
-            
+
             $skuModel = \App\Model\RepertoryItemSku::query()->find($skuModel);
             if (!$skuModel) {
                 return false;
@@ -175,19 +175,19 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
     {
         $list = RepertoryItemSkuWholesale::query()->where("sku_id", $skuId)->orderBy("quantity", "asc")->get();
         $data = [];
-        
+
         foreach ($list as $li) {
             $wholesale = new Wholesale($li->id, $li->quantity, $li->stock_price);
             if ($user) {
-                
+
                 $group = $user?->group;
-                
+
                 if ($group) {
-                    
+
                     $levelRule = RepertoryItemSkuWholesaleGroup::where("group_id", $group->id)->where("wholesale_id", $wholesale->id)->first();
                     ($levelRule && $levelRule->status == 1 && $levelRule->stock_price < $wholesale->price) && $wholesale->setPrice($levelRule->stock_price);
                 }
-                
+
                 $userRule = RepertoryItemSkuWholesaleUser::where("customer_id", $user->id)->where("wholesale_id", $wholesale->id)->first();
                 ($userRule && $userRule->status == 1 && $userRule->stock_price < $wholesale->price) && $wholesale->setPrice($userRule->stock_price);
             }
@@ -199,7 +199,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
 
     public function getCache(int $repertoryItemSkuId, int $type): ?string
     {
-        
+
         $cache = RepertoryItemSkuCache::query()->where("sku_id", $repertoryItemSkuId)->where("type", $type)->first();
         return $cache?->value;
     }
@@ -223,7 +223,7 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
     public function syncCache(int $repertoryItemSkuId): void
     {
         try {
-            
+
             $this->ship->stock($repertoryItemSkuId, \App\Const\RepertoryItemSkuCache::ACTION_READ_SOURCE);
             $this->ship->hasEnoughStock($repertoryItemSkuId, 1, \App\Const\RepertoryItemSkuCache::ACTION_READ_SOURCE);
         } catch (\Throwable $e) {
@@ -251,6 +251,6 @@ class RepertoryItemSku implements \App\Service\Common\RepertoryItemSku
 
     public function delCacheForItem(int $repertoryItemId): void
     {
-        
+
     }
 }

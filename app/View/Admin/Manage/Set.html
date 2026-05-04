@@ -1,30 +1,30 @@
 #{include file="../Header.html"}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-  
+
   #{include file="../Toolbar.html"}
 
   <div class="post d-flex flex-column-fluid" id="kt_post">
-    
+
     <div id="kt_content_container" class="container-xxl">
-      
+
       <div class="card mb-5 mb-xl-10">
-        
+
         <div id="kt_account_profile_details" class="collapse show">
-          
+
           <form id="data-form" class="form">
-            
+
             <div class="card-body border-top p-9">
-              
+
               <div class="row mb-6">
-                
+
                 <label class="col-lg-4 col-form-label fw-bold fs-6">头像</label>
 
                 <div class="col-lg-8">
-                  
+
                   <div class="image-input image-input-outline" data-kt-image-input="true"
                        style="background-image: url(/assets/admin/images/setting/blank.png)">
-                    
+
                     <div class="image-input-wrapper w-125px h-125px"
                          style="background-image: url('#{if $user.avatar}#{$user.avatar}#{else}/favicon.ico#{/if}')"></div>
 
@@ -32,11 +32,11 @@
                            data-kt-image-input-action="change" data-bs-toggle="tooltip"
                            title="Change logo">
                       <i class="fa-duotone fa-regular fa-pen"></i>
-                      
+
                       <input type="file" class="upload-logo"
                              accept=".png, .jpg, .jpeg, .ico"/>
                       <input type="hidden" name="avatar" value="#{$user.avatar}"/>
-                      
+
                     </label>
 
                     <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -44,17 +44,17 @@
                           title="Cancel logo">
 																<i class="fa-duotone fa-regular fa-xmark"></i>
 															</span>
-                    
+
                   </div>
 
                   <div class="form-text">支持文件格式: png, jpg, jpeg, ico.</div>
-                  
+
                 </div>
-                
+
               </div>
 
               <div class="row mb-6">
-                
+
                 <label class="col-lg-4 col-form-label required fw-bold fs-6">呢称</label>
 
                 <div class="col-lg-8 fv-row">
@@ -62,11 +62,11 @@
                          class="form-control form-control-lg form-control-solid"
                          placeholder="呢称" value="#{$user.nickname}"/>
                 </div>
-                
+
               </div>
 
               <div class="row mb-6">
-                
+
                 <label class="col-lg-4 col-form-label  fw-bold fs-6">旧密码</label>
 
                 <div class="col-lg-8 fv-row">
@@ -74,11 +74,11 @@
                          class="form-control form-control-lg form-control-solid"
                          placeholder="不修改请留空" value=""/>
                 </div>
-                
+
               </div>
 
               <div class="row mb-6">
-                
+
                 <label class="col-lg-4 col-form-label  fw-bold fs-6">新密码</label>
 
                 <div class="col-lg-8 fv-row">
@@ -86,11 +86,11 @@
                          class="form-control form-control-lg form-control-solid"
                          placeholder="不修改请留空" value=""/>
                 </div>
-                
+
               </div>
 
               <div class="row mb-6">
-                
+
                 <label class="col-lg-4 col-form-label  fw-bold fs-6">确认新密码</label>
 
                 <div class="col-lg-8 fv-row">
@@ -98,7 +98,7 @@
                          class="form-control form-control-lg form-control-solid"
                          placeholder="不修改请留空" value=""/>
                 </div>
-                
+
               </div>
 
             </div>
@@ -107,17 +107,17 @@
               <button type="button" class="btn btn-light-primary save-data" style="margin-right: 20px;"><i class="fa-duotone fa-regular fa-floppy-disk"></i> 确认修改</button>
               <a href="/admin/authentication/logout" type="button" class="btn btn-light-danger logout"><i class="fa-duotone fa-regular fa-right-from-bracket"></i> 注销登录</a>
             </div>
-            
+
           </form>
-          
+
         </div>
-        
+
       </div>
-      
+
     </div>
-    
+
   </div>
-  
+
 </div>
 
 #{ready("/assets/admin/controller/manage/set.js")}

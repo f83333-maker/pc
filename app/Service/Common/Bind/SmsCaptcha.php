@@ -43,7 +43,7 @@ class SmsCaptcha implements \App\Service\Common\SmsCaptcha
         };
 
         $this->session->set($key, ["time" => time(), "code" => $captcha]);
-        
+
         $this->sms->send($smsConfig, $phone, $templateCode, $var);
     }
 

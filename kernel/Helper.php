@@ -11,7 +11,7 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper as SymfonyHtmlDumper;
 
 class HtmlDumper extends SymfonyHtmlDumper
 {
-    
+
     protected $styles = [
         'default' => 'background-color:#fff; color:#222; line-height:1.2em; font-weight:normal; font:12px Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:100000',
         'num' => 'color:#a71d5d',
@@ -31,7 +31,7 @@ class HtmlDumper extends SymfonyHtmlDumper
 
 class Dumper
 {
-    
+
     public function dump($value)
     {
         if (class_exists(CliDumper::class)) {
@@ -44,7 +44,7 @@ class Dumper
 }
 
 if (!function_exists('dd')) {
-    
+
     function dd(...$args)
     {
         foreach ($args as $x) {
@@ -55,7 +55,7 @@ if (!function_exists('dd')) {
 }
 
 if (!function_exists('dda')) {
-    
+
     function dda(...$args)
     {
         foreach ($args as $x) {
@@ -66,7 +66,7 @@ if (!function_exists('dda')) {
 }
 
 if (!function_exists("config")) {
-    
+
     function config(string $name): array
     {
         $data = \Kernel\Util\Context::get("config_" . $name);
@@ -83,7 +83,7 @@ if (!function_exists("config")) {
     }
 }
 if (!function_exists("setConfig")) {
-    
+
     function setConfig(array $data, string $file, bool $reset = false): void
     {
         $config = [];
@@ -115,7 +115,7 @@ PHP;
 }
 
 if (!function_exists("di")) {
-    
+
     function di(&$object)
     {
         $dependencies = config("dependencies");
@@ -133,7 +133,7 @@ if (!function_exists("di")) {
                 continue;
             }
             $reflectionProperty = new \ReflectionProperty($object, $property->getName());
-            
+
             $type = $reflectionProperty->getType()->getName();
             $reflectionPropertiesAttributes = $reflectionProperty->getAttributes();
             foreach ($reflectionPropertiesAttributes as $propertiesAttribute) {
@@ -263,7 +263,7 @@ if (!function_exists("css")) {
 }
 
 if (!function_exists("css_async")) {
-    
+
     function css_async(array $resource, bool $cdn = true): string
     {
         $res = '';
@@ -279,7 +279,7 @@ if (!function_exists("css_async")) {
 }
 
 if (!function_exists("js")) {
-    
+
     function js(array|string $resource, array|string|null $backup = null, bool $cdn = true, bool $defer = false): string
     {
         if (DEBUG && $backup !== null) {
@@ -305,13 +305,13 @@ if (!function_exists('ready_get_value')) {
     function _ready_get_value(mixed $value): string|bool|null
     {
         if (is_numeric($value) || is_bool($value)) {
-            
+
             $value = var_export($value, true);
         } elseif (is_array($value)) {
-            
+
             $value = json_encode($value);
         } else {
-            
+
             $value = addslashes((string)$value);
             $value = "\"$value\"";
         }

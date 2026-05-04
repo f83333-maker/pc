@@ -1,15 +1,15 @@
 #{include file="../Header.html"}
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    
+
     #{include file="../Toolbar.html"}
 
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        
+
         <div id="kt_content_container" class="container-fluid">
-            
+
             <div class="card mb-5 mb-xl-8">
-                
+
                 <div class="card-header">
                     <div class="card-toolbar">
                         <button class="btn btn-sm btn-light-primary settlement me-3"><i class="fa-duotone fa-regular fa-money-bill-transfer"></i>
@@ -17,16 +17,16 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="card-body py-3">
                     <table id="cash-table"></table>
                 </div>
             </div>
 
         </div>
-        
+
     </div>
-    
+
 </div>
 
 <script>
@@ -43,7 +43,7 @@
             table.bootstrapTable({
                 url: '/admin/api/cash/data',
                 method: "post",
-                
+
                 pageSize: 15,
                 pageList: [15, 25, 50, 100],
                 showRefresh: false,
@@ -68,7 +68,7 @@
                     }
                     return queryParams;
                 },
-                
+
                 responseHandler: function (res) {
                     return {
                         "total": res.count,
@@ -201,7 +201,7 @@
                     }
                 ]
             });
-            
+
             cao.query('.search-query', table, [
                 {title: "会员ID", name: "equal-user_id", type: "input"},
                 {

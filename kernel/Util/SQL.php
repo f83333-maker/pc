@@ -9,10 +9,10 @@ use Rah\Danpu\Import;
 
 class SQL
 {
-    
+
     public static function import(string $sql, string $host, string $db, string $username, string $password, string $prefix)
     {
-        
+
         $sqlSrc = str_replace('__PREFIX__', $prefix, (string)file_get_contents($sql));
         if ($sqlSrc == "") {
             return;

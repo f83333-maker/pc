@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Cash extends Model
 {
-    
+
     protected $table = "cash";
 
     public $timestamps = false;

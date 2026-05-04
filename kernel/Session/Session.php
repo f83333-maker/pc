@@ -5,7 +5,7 @@ namespace Kernel\Session;
 
 interface Session
 {
-    
+
     const NAME = "acg_session";
 
     public function get(?string $key = null): mixed;

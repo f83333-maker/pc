@@ -10,7 +10,7 @@ use Kernel\Annotation\Interceptor;
 #[Interceptor(ManageSession::class)]
 class Order extends Manage
 {
-    
+
     public function index(): string
     {
         return $this->render("商品订单", "Trade/Order.html");

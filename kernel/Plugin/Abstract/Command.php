@@ -8,7 +8,7 @@ use Kernel\Plugin\Entity\Plugin;
 
 abstract class Command extends \Kernel\Console\Command
 {
-    
+
     private ?Plugin $plugin = null;
 
     protected function getPlugin(): ?Plugin

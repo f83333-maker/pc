@@ -1,5 +1,4 @@
 
-
 @font-face {
   font-family: 'Oak Sans';
   src: url('/assets/common/fonts/custom_font/fonts/webfonts/OakSans-Regular.woff2') format('woff2');
@@ -114,7 +113,7 @@ body {
   flex-direction: column;
   font-size: var(--fs-base);
   line-height: 1.5;
-  
+
   overflow-x: clip;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
@@ -151,7 +150,7 @@ body {
   z-index: 1000;
   overflow-x: clip;
   overflow-y: visible;
-  
+
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -1082,7 +1081,7 @@ body {
   transition: background 0.3s ease;
   height: clamp(56px, 7vw, 64px);
   gap: clamp(8px, 1.4vw, 16px);
-  
+
   transform: translateZ(0);
 }
 .table-row:hover { background: rgba(255, 255, 255, 0.5); }

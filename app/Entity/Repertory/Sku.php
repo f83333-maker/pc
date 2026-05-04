@@ -25,7 +25,7 @@ class Sku
     public string $marketControlLevelMinPrice;
 
     public string $marketControlLevelMaxPrice;
-    
+
     public string $marketControlUserMinPrice;
 
     public string $marketControlUserMaxPrice;

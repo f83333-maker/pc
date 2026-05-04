@@ -91,7 +91,7 @@ class Cash extends User
 
             if ($cash->status == 1) {
                 $cash->arrive_time = Date::current();
-                
+
                 \App\Model\Bill::create($u, $cash->amount, 1, "硬币兑现到钱包", 0, true);
             }
 

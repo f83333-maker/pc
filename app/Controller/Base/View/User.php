@@ -14,7 +14,7 @@ use Kernel\Util\View;
 
 abstract class User extends \App\Controller\Base\User
 {
-    
+
     protected array $indexTemplateList = [
         'INDEX', 'ITEM', 'QUERY', 'CLOSED'
     ];
@@ -22,7 +22,7 @@ abstract class User extends \App\Controller\Base\User
     protected function render(string $title, string $template, array $data = []): string
     {
         try {
-            
+
             require(BASE_PATH . "/app/View/User/Helper.php");
 
             $data['title'] = $title;
@@ -41,7 +41,7 @@ abstract class User extends \App\Controller\Base\User
     protected function theme(string $title, string $template, string $default, array $data = []): string
     {
         try {
-            
+
             require(BASE_PATH . "/app/View/User/Helper.php");
 
             $data['title'] = $title;

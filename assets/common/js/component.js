@@ -156,14 +156,14 @@ const component = new class Component {
         };
 
         if (tab.length === 1) {
-            
+
             openOption.type = 1;
             openOption.content = tab[0].content;
             openOption.title = tab[0].title;
             openOption.skin = 'component-popup ' + form.getUnique();
             layer.open(openOption);
         } else {
-            
+
             openOption.tab = tab;
             openOption.skin = 'layui-layer-tab component-popup ' + form.getUnique();
             layer.tab(openOption);

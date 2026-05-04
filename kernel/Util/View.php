@@ -7,7 +7,7 @@ use Kernel\Exception\JSONException;
 
 class View
 {
-    
+
     public static function render(string $template, array $data = [], string $dir = BASE_PATH . '/app/View', bool $controller = true): string
     {
         if (!self::isSafeDir($dir)) {

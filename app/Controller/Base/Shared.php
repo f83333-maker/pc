@@ -8,7 +8,7 @@ use App\Util\Context;
 
 abstract class Shared
 {
-    
+
     protected function getUser(): ?\App\Model\User
     {
         return Context::get(\App\Consts\Shared::SESSION);

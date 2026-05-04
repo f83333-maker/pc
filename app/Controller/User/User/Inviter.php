@@ -12,7 +12,7 @@ use Kernel\Plugin\Const\Theme;
 #[Interceptor(class: User::class)]
 class Inviter extends Base
 {
-    
+
     public function index(): Response
     {
         return $this->theme(Theme::USER_INVITER, "User/Inviter.html", "推广返利", ['inviteUrl' => $this->request->url() . "?invite=" . $this->getUser()->id]);

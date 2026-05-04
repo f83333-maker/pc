@@ -5,7 +5,7 @@ namespace App\Entity\Query;
 
 class Get
 {
-    
+
     public string $model;
 
     public ?array $paginate = null;

@@ -98,7 +98,7 @@ class Order implements \App\Service\User\Order
 
     public function trade(array $items, string $clientId, string $createIp, string $createUa, ?User $customer = null, ?User $user = null, ?User $invite = null): Trade
     {
-        
+
         $itemService = Di::inst()->make(\App\Service\User\Item::class);
 
         if (count($items) == 0) {
@@ -116,12 +116,12 @@ class Order implements \App\Service\User\Order
             $createOrder->setCustomer($customer);
             $createOrder->setInvite($invite);
             $order = $this->create($createOrder, function (\App\Model\Order $order) use ($invite, $user, $customer, $items, $itemService, $clientId) {
-                
+
                 foreach ($items as $cart) {
 
                     $skuId = (int)$cart['sku_id']; 
                     $quantity = (int)$cart['quantity'];  
-                    
+
                     $widget = [];
 
                     if ($skuId <= 0) {
@@ -183,7 +183,7 @@ class Order implements \App\Service\User\Order
                     }
 
                     $this->repertoryItemSku->delCache((int)$itemSku->repertoryItemSku->id, true);
-                    
+
                     if (!$this->ship->hasEnoughStock((int)$itemSku->repertoryItemSku->id, $quantity)) {
                         throw new JSONException(sprintf("[%s(%s)]商品库存不足", $repertoryItem->name, $itemSku->name));
                     }
@@ -210,7 +210,7 @@ class Order implements \App\Service\User\Order
                     }
 
                     $amount = $this->getAmount($customer, $itemSku, $quantity);
-                    
+
                     $dividendAmount = $this->getDividendAmount($invite, $itemSku, $quantity);
 
                     $totalAmount = (new Decimal($amount, 6))->mul((string)$quantity)->getAmount(2);
@@ -223,7 +223,7 @@ class Order implements \App\Service\User\Order
                     $orderItem->amount = $totalAmount;
                     $invite && ($orderItem->dividend_amount = $dividendAmount);
                     $orderItem->status = 0;
-                    
+
                     $orderItem->widget = $widget;
                     $orderItem->create_time = $order->create_time;
                     $orderItem->trade_no = Str::generateTradeNo();
@@ -232,7 +232,7 @@ class Order implements \App\Service\User\Order
                     Plugin::instance()->unsafeMultiHook([$user?->id, $repertoryItem?->user_id], Point::SERVICE_ORDER_TRADE_CREATE_ITEM_READY, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $cart, $order, $orderItem, $customer, $user, $invite);
                     $orderItem->save();
                     Plugin::instance()->unsafeMultiHook([$user?->id, $repertoryItem?->user_id], Point::SERVICE_ORDER_TRADE_CREATE_ITEM_FINISH, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $cart, $order, $orderItem, $customer, $user, $invite);
-                    
+
                     $order->total_amount = (new Decimal((string)$order->total_amount, 2))->add($orderItem->amount)->getAmount();
                 }
                 $order->save();
@@ -293,7 +293,7 @@ class Order implements \App\Service\User\Order
         if ($order->status != 0) {
             return false;
         }
-        
+
         $order->delete();
         return true;
     }
@@ -301,7 +301,7 @@ class Order implements \App\Service\User\Order
     public
     function getAmount(?User $customer, ItemSku $itemSku, int $quantity = 1): string
     {
-        
+
         $prices[] = $itemSku->price;
 
         $level = $customer?->level ?? null;
@@ -311,7 +311,7 @@ class Order implements \App\Service\User\Order
             $prices[] = $itemSkuWholesale->price;
             if ($customer) {
                 if ($level) {
-                    
+
                     $itemSkuWholesaleLevel = ItemSkuWholesaleLevel::query()->where("wholesale_id", $itemSkuWholesale->id)->where("level_id", $level->id)->where("status", 1)->first();
                     if ($itemSkuWholesaleLevel) {
                         $prices[] = $itemSkuWholesaleLevel->price;
@@ -326,7 +326,7 @@ class Order implements \App\Service\User\Order
         }
 
         if ($customer) {
-            
+
             if ($level) {
                 $itemSkuLevel = ItemSkuLevel::query()->where("level_id", $level->id)->where("sku_id", $itemSku->id)->where("status", 1)->first();
                 if ($itemSkuLevel) {
@@ -346,7 +346,7 @@ class Order implements \App\Service\User\Order
 
     public function getDividendAmount(?User $invite, ItemSku $itemSku, int $quantity = 1): string
     {
-        
+
         $prices[] = $itemSku->dividend_amount ?? "0";
 
         $level = $invite->level ?? null;
@@ -360,7 +360,7 @@ class Order implements \App\Service\User\Order
             $prices[] = $itemSkuWholesale->dividend_amount;
 
             if ($level) {
-                
+
                 $itemSkuWholesaleLevel = ItemSkuWholesaleLevel::query()->where("wholesale_id", $itemSkuWholesale->id)->where("level_id", $level->id)->where("status", 1)->first();
                 if ($itemSkuWholesaleLevel) {
                     $prices[] = $itemSkuWholesaleLevel->dividend_amount;
@@ -391,7 +391,7 @@ class Order implements \App\Service\User\Order
 
     private function orderPaid(?User $customer, ?User $merchant, \App\Model\PayOrder $payOrder, \App\Model\Order $order, array $option): void
     {
-        
+
         if (in_array($order->type,
             [
                 \App\Const\Order::ORDER_TYPE_PRODUCT,
@@ -428,7 +428,7 @@ class Order implements \App\Service\User\Order
             try {
                 $this->balance->deduct($payOrder->customer_id, (string)$payOrder->balance_amount, \App\Const\Balance::TYPE_SHOPPING, $order->trade_no);
             } catch (\Throwable $e) {
-                
+
                 $this->balance->add(
                     userId: $payOrder->customer_id,
                     amount: (string)$payOrder->trade_amount,
@@ -462,19 +462,19 @@ class Order implements \App\Service\User\Order
                 }
 
                 foreach ($items as $item) {
-                    
+
                     $sku = $item->sku;
                     try {
-                        
+
                         $repertoryItem = $item->item->repertoryItem;
                         $balanceStatus = $repertoryItem->refund_mode == \App\Const\RepertoryItem::REFUND_MODE_UNCONDITIONALLY ? ($repertoryItem->auto_receipt_time == 0 ? \App\Const\Balance::STATUS_DIRECT : \App\Const\Balance::STATUS_DELAYED) : \App\Const\Balance::STATUS_DIRECT;
                         $balanceFreeze = (int)$repertoryItem->auto_receipt_time * 60;
-                        
+
                         $stockAmount = $this->repertoryOrder->getAmount($order->user, $sku->repertoryItemSku, $item->quantity);
                         $itemAmount = $item->amount;
 
                         if ($order->user_id > 0) {
-                            
+
                             if ($balanceStatus === \App\Const\Balance::STATUS_DELAYED) {
                                 $this->balance->add(
                                     userId: $order->user_id,
@@ -488,7 +488,7 @@ class Order implements \App\Service\User\Order
 
                             $settlementAmount = (new Decimal($itemAmount))->sub((string)$item->dividend_amount)->getAmount();
                             if ($settlementAmount > 0) {
-                                
+
                                 $this->balance->add(
                                     userId: $order->user_id,
                                     amount: $settlementAmount,
@@ -524,7 +524,7 @@ class Order implements \App\Service\User\Order
                             $item->treasure = "上游发货失败，请自行补单";
                             $item->status = 6;
                         }
-                        
+
                         $this->dividend($order, $item, $balanceStatus, $balanceFreeze);
 
                         Plugin::instance()->unsafeHook(Usr::inst()->userToEnv($order->user_id), Point::SERVICE_ORDER_DELIVER_PRODUCT_SUCCESS, \Kernel\Plugin\Const\Plugin::HOOK_TYPE_PAGE, $item, $order);
@@ -539,12 +539,12 @@ class Order implements \App\Service\User\Order
                 }
                 break;
             case \App\Const\Order::ORDER_TYPE_RECHARGE:
-                
+
                 $orderRecharge = OrderRecharge::query()->where("order_id", $order->id)->first();
                 $orderRecharge->status = 1;
                 $orderRecharge->recharge_time = $now;
                 $orderRecharge->save();
-                
+
                 $this->balance->add(
                     userId: $order->customer_id,
                     amount: (string)$orderRecharge->amount,
@@ -561,14 +561,14 @@ class Order implements \App\Service\User\Order
                     $levelId = (int)$option['level_id'];
                     $level = UserLevel::find($levelId);
                     if ($level) {
-                        
+
                         $merchant = $level?->user;
-                        
+
                         $group = $merchant?->group;
 
                         if ($merchant && $group) {
                             $taxRatio = $group->tax_ratio > 0 ? (new Decimal($order->total_amount))->mul($group->tax_ratio)->getAmount() : 0; 
-                            
+
                             if ($payOwner === \App\Service\User\Pay::OWNER_MERCHANT) {
                                 $taxRatio > 0 && $this->balance->deduct($merchant->id, $taxRatio, \App\Const\Balance::TYPE_ORDER_DIVIDEND, $order->trade_no);
                             } else if ($payOwner === \App\Service\User\Pay::OWNER_OFFICIAL || ($payOwner === \App\Service\User\Pay::OWNER_MERCHANT && $payOrder->trade_amount <= 0)) {
@@ -589,7 +589,7 @@ class Order implements \App\Service\User\Order
                 }
                 break;
             case \App\Const\Order::ORDER_TYPE_PLUGIN:
-                
+
                 break;
             default:
                 throw new JSONException("订单类型错误");
@@ -604,7 +604,7 @@ class Order implements \App\Service\User\Order
 
     public function syncDeliver(string $tradeNo, ?string $treasure, int $status): void
     {
-        
+
         $orderItem = OrderItem::query()->where("trade_no", $tradeNo)->first();
         if (!$orderItem) {
             return;
@@ -617,9 +617,9 @@ class Order implements \App\Service\User\Order
     public function itemRestock(int $orderItemId): void
     {
         Db::transaction(function () use ($orderItemId) {
-            
+
             $orderItem = OrderItem::with(['order'])->find($orderItemId);
-            
+
             $order = $orderItem->order;
 
             $sku = $orderItem->sku;
@@ -662,7 +662,7 @@ class Order implements \App\Service\User\Order
     public
     function getCheckoutOrder(string $tradeNo): \App\Entity\Shop\Order
     {
-        
+
         $order = \App\Model\Order::query()->where("trade_no", $tradeNo)->first();
         if (!$order) {
             throw new JSONException("订单不存在");
@@ -680,7 +680,7 @@ class Order implements \App\Service\User\Order
                     $relation->with('repertoryItem');
                 },
             ])->where("order_id", $order->id)->get();
-            
+
             foreach ($orderItems as $orderItem) {
                 $orderItemEntity = new \App\Entity\Shop\OrderItem($orderItem);
                 $orderItemEntity->setItem(new \App\Entity\Shop\Item($orderItem->item));
@@ -801,10 +801,10 @@ class Order implements \App\Service\User\Order
 
     private function autoReceiptItem(Collection $list): void
     {
-        
+
         foreach ($list as $orderItem) {
             OrderItem::where("id", $orderItem->id)->update(['status' => 3, 'update_time' => Date::current()]);
-            
+
             try {
                 Db::transaction(function () use ($orderItem) {
                     $this->bill->unfreeze($orderItem->trade_no);
@@ -843,14 +843,14 @@ class Order implements \App\Service\User\Order
         $user = $userId > 0 ? User::query()->with("group")->find($userId) : null;
 
         if ($user) {
-            
+
             $this->autoReceiptItem($customer());
             if ($user->group) {
-                
+
                 if ($user->group->is_merchant) {
                     $this->autoReceiptItem($merchant());
                 }
-                
+
                 if ($user->group->is_supplier) {
                     $this->autoReceiptItem($supplier());
                 }
@@ -863,7 +863,7 @@ class Order implements \App\Service\User\Order
     public function receipt(int $orderItemId): void
     {
         Db::transaction(function () use ($orderItemId) {
-            
+
             $orderItem = OrderItem::query()->find($orderItemId);
             if (!$orderItem) {
                 throw new ServiceException("订单不存在");
@@ -877,7 +877,7 @@ class Order implements \App\Service\User\Order
             $orderItem->update_time = Date::current();
             $orderItem->save();
             $this->bill->unfreeze($orderItem->trade_no);
-            
+
             \App\Model\OrderReport::query()->where("order_item_id", $orderItemId)->update(['status' => 3, "handle_type" => 4]);
         }, \Kernel\Database\Const\Db::ISOLATION_SERIALIZABLE);
     }
@@ -895,7 +895,7 @@ class Order implements \App\Service\User\Order
         }
 
         $repertoryItemSku = $item->sku?->repertoryItemSku;
-        
+
         $repertoryOrder = \App\Model\RepertoryOrder::query()->where("item_trade_no", $item->trade_no)->first();
 
         if (!$repertoryItemSku || !$repertoryOrder) {
@@ -988,7 +988,7 @@ class Order implements \App\Service\User\Order
             $this->lifetime->update($order->invite_id, "share_item_id", $orderItem->item_id); 
             $this->lifetime->increment($order->invite_id, "share_item_count"); 
         } catch (\Throwable $e) {
-            
+
         }
     }
 

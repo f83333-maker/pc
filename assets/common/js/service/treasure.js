@@ -23,9 +23,9 @@ const treasure = new class Treasure {
                                     dom.get(0).style.setProperty("overflow", "hidden", "important");
                                     dom.get(0).style.setProperty("resize", "none", "important");
                                     dom.parent().get(0).style.setProperty("padding", "0", "important");
-                                    
+
                                     dom.get(0).style.setProperty("width", "100%", "important");
-                                    
+
                                     dom.parent().parent().fadeIn("slow");
                                     dom.parent().parent().parent().parent().parent().css('overflow', 'hidden');
                                     dom.parent().parent().get(0).style.setProperty("margin", "0", "important");

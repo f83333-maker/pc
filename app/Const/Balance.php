@@ -5,7 +5,7 @@ namespace App\Const;
 
 interface Balance
 {
-    
+
     public const TYPE_RESTOCK = 0;
 
     public const TYPE_SUPPLY_SETTLEMENT = 1;
@@ -25,7 +25,7 @@ interface Balance
     public const TYPE_TRANSFER = 8;
 
     public const TYPE_RECHARGE = 9;
-    
+
     public const TYPE_INVITE_DIVIDEND = 10;
 
     public const TYPE_WITHDRAW = 11;

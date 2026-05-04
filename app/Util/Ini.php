@@ -25,16 +25,16 @@ class Ini
             $src = $value;
             return;
         }
-        
+
         $shift = array_shift($link);
-        
+
         if (str_contains($shift, '[]')) {
-            
+
             $key = str_replace("[]", "", $shift);
             $src[$key][] = [];
             $index = count($src[$key]) - 1;
             self::parseObj($src[$key][$index], $link, $value);
-            
+
         } else {
             $src[$shift] = [];
             self::parseObj($src[$shift], $link, $value);
@@ -83,7 +83,7 @@ class Ini
             if (is_array($val)) {
                 $cfg .= self::parseContent($val, $prefix ? $prefix . "." . $key : $key);
             } else {
-                
+
                 $cfg .= ($prefix ? $prefix . "." : "") . $key . "=" . $val . PHP_EOL;
             }
         }

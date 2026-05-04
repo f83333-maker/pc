@@ -935,7 +935,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                
+
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
@@ -981,7 +981,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                
+
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });
@@ -1027,7 +1027,7 @@
                     return;
                 }
                 layer.close(startLoadIndex);
-                
+
                 util.waitSyncLoader(() => table.refresh());
                 resolve(false);
             });

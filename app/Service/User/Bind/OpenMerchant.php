@@ -48,7 +48,7 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
             $createOrder->setCustomer($user);
             $createOrder->setOption(["group_id" => $group->id]);
             $createOrder->setProductInfo("/assets/common/images/open.merchant.png", "升级商家用户组");
-            
+
             $order = $orderService->create($createOrder);
 
             return new Trade(
@@ -62,7 +62,7 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
 
     public function become(int $userId, int $groupId, bool $isDividend = false, ?string $tradeNo = null): bool
     {
-        
+
         $user = User::query()->find($userId);
         if (!$user) {
             return false;
@@ -95,7 +95,7 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
 
     public function firstInitialization(int $userId, UserGroup $group): void
     {
-        
+
         $userLevel = new  UserLevel();
         $userLevel->user_id = $userId;
         $userLevel->icon = "/assets/user/images/lv1.png";
@@ -109,7 +109,7 @@ class OpenMerchant implements \App\Service\User\OpenMerchant
         $userLevel->save();
 
         if ($group->is_merchant == 1) {
-            
+
             $itemMarkupTemplate = new ItemMarkupTemplate();
             $itemMarkupTemplate->user_id = $userId;
             $itemMarkupTemplate->name = "默认同步模版(固定金额10+1)";

@@ -9,7 +9,7 @@ use Kernel\Component\Singleton;
 
 abstract class Model extends Base
 {
-    
+
     public function dispatcher(string $event, ...$args): void
     {
         if (method_exists($this, $event)) {

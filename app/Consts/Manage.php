@@ -5,6 +5,6 @@ namespace App\Consts;
 
 interface Manage
 {
-    
+
     const SESSION = "MANAGE_USER";
 }

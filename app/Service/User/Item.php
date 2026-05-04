@@ -15,7 +15,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\User\Bind\Item::class)]
 interface Item
 {
-    
+
     public function list(?User $customer, ?int $categoryId, ?User $merchant, ?string $keywords = null, ?int $page = null, ?int $size = null): array;
 
     public function getItem(?User $customer, int $itemId, ?User $user): \App\Entity\Shop\Item;

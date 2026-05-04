@@ -8,7 +8,7 @@ use Kernel\Annotation\Bind;
 #[Bind(class: \App\Service\User\Bind\Ownership::class)]
 interface Ownership
 {
-    
+
     public function itemSku(int $userId, int $skuId): bool;
 
     public function level(int $userId, int $levelId): bool;
