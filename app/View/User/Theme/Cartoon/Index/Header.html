@@ -15,9 +15,9 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#3d49a1">
 
-    #{* canonical 使用短链 /item?mid= *}
+    #{* canonical 使用长链（短链 /item 在 nginx 层未配置 fallback）*}
     #{if isset($item) && $item}
-        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}"/>
+        <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}"/>
     #{else}
         <link rel="canonical" href="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/"/>
     #{/if}
@@ -29,7 +29,7 @@
         <meta property="og:title" content="#{$item.name|strip_tags|escape:'html'} - #{$config.shop_name}">
         <meta property="og:description" content="#{if !empty($item.description)}#{$item.description|strip_tags|truncate:150:'...'|escape:'html'}#{else}#{$item.name|strip_tags|escape:'html'}#{/if}">
         <meta property="og:image" content="#{if !empty($item.picture_url)}#{$item.picture_url}#{else}/favicon.png#{/if}">
-        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}">
+        <meta property="og:url" content="https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}">
         <meta property="product:price:amount" content="#{$item.price|default:''}">
         <meta property="product:price:currency" content="CNY">
     #{else}
@@ -57,7 +57,7 @@
       "brand": { "@type": "Brand", "name": "#{$config.shop_name|escape:'javascript'}" },
       "offers": {
         "@type": "Offer",
-        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/item?mid=#{$item.id}",
+        "url": "https://#{$smarty.server.HTTP_HOST|default:'pcccc.cc'}/user/index/item?mid=#{$item.id}",
         "priceCurrency": "CNY",
         "price": "#{$item.price|default:'0'}",
         "availability": "#{if $item.is_stock|default:false}https://schema.org/InStock#{else}https://schema.org/OutOfStock#{/if}"

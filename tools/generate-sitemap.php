@@ -76,8 +76,8 @@ try {
     );
     while ($row = $stmt->fetch()) {
 
-        // 使用短链 /item?mid=
-        $loc     = $baseUrl . '/item?mid=' . (int)$row['id'];
+        // 使用长链（短链 /item 在 nginx 层未配置 fallback，会返回 404）
+        $loc     = $baseUrl . '/user/index/item?mid=' . (int)$row['id'];
         $lastmod = !empty($row['create_time'])
             ? date('Y-m-d', is_numeric($row['create_time']) ? (int)$row['create_time'] : strtotime((string)$row['create_time']))
             : $today;
