@@ -1668,9 +1668,9 @@ i.fa-headset {
   mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3'/%3E%3C/svg%3E");
 }
 
-@font-face { font-family: "Font Awesome 6 Pro"; src: local("___nope___"); font-display: block; }
-@font-face { font-family: "Font Awesome 6 Duotone"; src: local("___nope___"); font-display: block; }
-@font-face { font-family: "Font Awesome 6 Brands"; src: local("___nope___"); font-display: block; }
+@font-face { font-family: "Font Awesome 6 Pro"; src: local("___nope___"); font-display: swap; }
+@font-face { font-family: "Font Awesome 6 Duotone"; src: local("___nope___"); font-display: swap; }
+@font-face { font-family: "Font Awesome 6 Brands"; src: local("___nope___"); font-display: swap; }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .panel,
