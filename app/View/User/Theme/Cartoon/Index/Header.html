@@ -77,11 +77,28 @@
     #{/if}
 
     <link rel="preload" as="image" href="/favicon.png" fetchpriority="high">
+    #{* 关键字体预加载：消除 LCP 阶段的字体闪烁，Oak Sans Regular/Bold 是首屏标题、按钮的主字体 *}
+    <link rel="preload" as="font" type="font/woff2"
+          href="/assets/common/fonts/custom_font/fonts/webfonts/OakSans-Regular.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2"
+          href="/assets/common/fonts/custom_font/fonts/webfonts/OakSans-Bold.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/assets/common/fonts/font.woff2" crossorigin>
     #{if !$smarty.const.DEBUG}
     <link rel="preload" as="script" href="/assets/common/js/_vendor_lite.min.js?v=#{$smarty.const.APP_VERSION}">
     <link rel="preload" as="script" href="/assets/common/js/_layui_lite.min.js?v=#{$smarty.const.APP_VERSION}">
     <link rel="preload" as="style"  href="/assets/common/css/_.css?v=#{$smarty.const.APP_VERSION}">
     #{/if}
+
+    #{* 首屏内联关键 CSS：在主样式表加载前消除白屏与 FOUC，提早绘制背景与字体框架 *}
+    <style>
+        html { background-color: #f5f7fa; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { margin: 0; padding: 0; min-height: 100vh; overflow-x: clip;
+               font-family: 'Oak Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                            "PingFang SC", "Microsoft YaHei", sans-serif;
+               line-height: 1.5; color: #1d1d1f; -webkit-font-smoothing: antialiased; }
+        .navbar-acg { background: #fff; min-height: 80px; }
+    </style>
+
     <title>#{$title} - #{$config.shop_name}</title>
 
     #{css(
@@ -103,14 +120,15 @@
             "/assets/common/css/toastr.min.css"
         ]
     )}
-    #{js("/assets/common/js/ready.js")}
+    #{* defer 加载 ready.js，避免阻塞 HTML 解析（关键路径让位） *}
+    #{js("/assets/common/js/ready.js", null, true, true)}
     #{index_var()}
 
     #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_HEADER)}
     #{hook(\App\Consts\Hook::USER_VIEW_INDEX_HEADER)}
 
 </head>
-<body style="margin: 0; padding: 0;">
+<body>
 <nav class="navbar navbar-expand-lg navbar-acg">
     <div class="container">
         <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
