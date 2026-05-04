@@ -46,10 +46,11 @@ export async function loginUser(page: Page): Promise<void> {
   await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => {});
 
   const cookies = await page.context().cookies();
-  const userToken = cookies.find((c) => c.name === "user_token" && c.value);
+  // 真实 cookie 名见 app/Consts/User.php :: SESSION = "USER_SESSION"
+  const userSession = cookies.find((c) => c.name === "USER_SESSION" && c.value);
   expect(
-    userToken,
-    "登录成功后必须下发 user_token cookie（如失败请确认账号 222222/222222 仍可用）",
+    userSession,
+    "登录成功后必须下发 USER_SESSION cookie（如失败请确认账号 222222/222222 仍可用）",
   ).toBeTruthy();
 }
 
