@@ -2154,3 +2154,19 @@ i.fa-headset {
         min-height: 28px;
     }
 }
+
+/* 品牌永久地址：仅移动端显示，与网站名字字体一致 */
+.navbar-acg .navbar-brand .brand-permalink {
+    display: none;
+    margin-left: 6px;
+    font: inherit;
+    font-weight: inherit;
+    color: inherit;
+    line-height: inherit;
+    white-space: nowrap;
+}
+html[data-scale-layout="mobile"] .navbar-acg .navbar-brand .brand-permalink {
+    display: inline;
+    font-size: .85rem !important;
+    line-height: 1 !important;
+}
