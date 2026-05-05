@@ -21,19 +21,33 @@ class File
         if (!file_exists($path)) {
             $directory = dirname($path);
             if (!is_dir($directory) && !mkdir($directory, 0777, true)) {
-                throw new RuntimeException('could not create the directory:' . $directory);
+                throw new RuntimeException('could not create the directory:' . $directory . ' (check permissions of ' . dirname($directory) . ')');
             }
-            $file = fopen($path, 'w');
+            $file = @fopen($path, 'w');
             if ($file === false) {
-                throw new RuntimeException('could not create the file:' . $path);
+                throw new RuntimeException('could not create the file:' . $path . ' (the web user has no write permission on directory ' . $directory . ')');
             }
             fclose($file);
-            chmod($path, 0777);
+            @chmod($path, 0666);
         }
 
-        $resource = fopen($path, $mode);
+        $resource = @fopen($path, $mode);
         if ($resource === false) {
-            throw new RuntimeException('could not open the file:' . $path);
+            // Likely a permission issue on an existing file. Try to relax permissions and retry once.
+            @chmod($path, 0666);
+            $resource = @fopen($path, $mode);
+        }
+        if ($resource === false) {
+            $owner = function_exists('posix_getpwuid') && function_exists('fileowner')
+                ? (posix_getpwuid((int)@fileowner($path))['name'] ?? 'unknown')
+                : 'unknown';
+            $runner = function_exists('posix_geteuid') && function_exists('posix_getpwuid')
+                ? (posix_getpwuid(posix_geteuid())['name'] ?? 'unknown')
+                : 'unknown';
+            throw new RuntimeException(
+                'could not open the file:' . $path .
+                ' (file owner=' . $owner . ', web user=' . $runner . '; please run: chown -R ' . $runner . ':' . $runner . ' ' . dirname($path) . ' && chmod -R 755 ' . dirname($path) . ')'
+            );
         }
         $this->resource = $resource;
         $this->path = $path;
