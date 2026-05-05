@@ -1172,8 +1172,9 @@ body {
 }
 
 /* ==========================================================================
-   Site Footer (高级版)
-   设计语言：玻璃质感 + 紫蓝→紫渐变 accent + 极淡角落光斑 + 精致 hover 动效
+   Site Footer · Premium Dark
+   设计语言：深色夜空底 + 紫蓝→紫渐变辉光 + 双层标题（EN tracking + 中文）
+   + 玻璃图标容器 + 左侧 hover indicator bar
    配色统一：var(--acg-primary) #7a8cff、var(--acg-secondary) #b88cff
    ========================================================================== */
 
@@ -1181,19 +1182,29 @@ body {
   position: relative;
   flex-shrink: 0;
   margin-top: var(--space-xl);
-  padding: clamp(40px, 5vw, 64px) 0 clamp(20px, 2vw, 28px);
+  padding: clamp(56px, 6vw, 88px) 0 clamp(24px, 2.4vw, 32px);
   background:
-    radial-gradient(900px 360px at 92% 110%, rgba(184, 140, 255, 0.10), transparent 60%),
-    radial-gradient(720px 320px at 8% -10%, rgba(122, 140, 255, 0.08), transparent 60%),
-    rgba(255, 255, 255, 0.72) !important;
-  -webkit-backdrop-filter: saturate(180%) blur(24px);
-  backdrop-filter: saturate(180%) blur(24px);
+    radial-gradient(900px 420px at 88% 0%, rgba(184, 140, 255, 0.22), transparent 60%),
+    radial-gradient(820px 380px at 12% 100%, rgba(122, 140, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, #14172e 0%, #0b0e22 60%, #07091b 100%) !important;
+  color: rgba(255, 255, 255, 0.65);
   overflow: hidden;
   contain: layout style;
   isolation: isolate;
 }
 
-/* 顶部发光分隔线（极细渐变 hairline + 弱化两端） */
+/* 颗粒感叠层（极淡，提升质感不产生视觉负担） */
+.site-footer > .container::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 3px 3px;
+  opacity: 0;
+}
+
+/* 顶部发光 hairline（紫蓝→紫渐变，两端淡出） */
 .site-footer::before {
   content: "";
   position: absolute;
@@ -1204,33 +1215,34 @@ body {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(122, 140, 255, 0) 5%,
-    rgba(122, 140, 255, 0.55) 30%,
-    rgba(184, 140, 255, 0.55) 70%,
-    rgba(184, 140, 255, 0) 95%,
+    rgba(122, 140, 255, 0.7) 25%,
+    rgba(184, 140, 255, 0.85) 50%,
+    rgba(122, 140, 255, 0.7) 75%,
     transparent 100%
   );
-  z-index: 1;
+  z-index: 2;
+  filter: drop-shadow(0 0 6px rgba(122, 140, 255, 0.4));
 }
 
-/* 顶部辉光（在分隔线下淡淡铺一层光晕） */
+/* 顶部辉光晕（在 hairline 下方淡淡铺一层光） */
 .site-footer::after {
   content: "";
   position: absolute;
-  top: -1px;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(640px, 70%);
-  height: 80px;
+  width: min(800px, 85%);
+  height: 120px;
   background: radial-gradient(ellipse at 50% 0%,
-    rgba(122, 140, 255, 0.14),
-    rgba(184, 140, 255, 0.08) 40%,
+    rgba(184, 140, 255, 0.32) 0%,
+    rgba(122, 140, 255, 0.18) 35%,
     transparent 70%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  filter: blur(8px);
 }
 
-.site-footer .container { position: relative; z-index: 2; }
+.site-footer .container { position: relative; z-index: 3; }
 
 .site-footer .footer-top .row {
   display: flex;
@@ -1238,7 +1250,7 @@ body {
   align-items: flex-start;
   margin: 0;
   padding: 0;
-  gap: clamp(28px, 3vw, 48px) 0;
+  gap: clamp(32px, 3.6vw, 56px) 0;
 }
 
 .site-footer .col-lg-5,
@@ -1250,94 +1262,142 @@ body {
   box-sizing: border-box;
 }
 
-/* 中间列两侧加 hairline 视觉分隔（仅大屏） */
+/* 大屏：栏目间用细渐变线分隔 */
 @media (min-width: 992px) {
   .site-footer .col-lg-3 {
-    border-left: 1px solid rgba(0, 0, 0, 0.06);
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
-    padding-left: clamp(24px, 2.5vw, 40px) !important;
-    padding-right: clamp(24px, 2.5vw, 40px) !important;
+    position: relative;
+    padding-left: clamp(28px, 3vw, 48px) !important;
+    padding-right: clamp(28px, 3vw, 48px) !important;
   }
-  .site-footer .col-lg-4 { padding-left: clamp(24px, 2.5vw, 40px) !important; }
+  .site-footer .col-lg-3::before,
+  .site-footer .col-lg-4::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 0;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.12) 30%,
+      rgba(255, 255, 255, 0.12) 70%,
+      transparent 100%
+    );
+  }
+  .site-footer .col-lg-4 {
+    position: relative;
+    padding-left: clamp(28px, 3vw, 48px) !important;
+  }
 }
 
 /* ----- 品牌区 ----- */
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: clamp(14px, 1.6vw, 18px);
+  gap: 14px;
+  margin-bottom: clamp(18px, 2vw, 24px);
   flex-wrap: nowrap;
   white-space: nowrap;
   position: relative;
 }
 .footer-logo img {
-  width: clamp(32px, 3vw, 38px);
-  height: clamp(32px, 3vw, 38px);
-  border-radius: 10px;
+  width: clamp(40px, 3.4vw, 48px);
+  height: clamp(40px, 3.4vw, 48px);
+  border-radius: 12px;
   flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(122, 140, 255, 0.22), 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(122, 140, 255, 0.35),
+    0 0 32px rgba(184, 140, 255, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.12) inset;
 }
 .footer-logo span {
-  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
   font-weight: 800;
-  letter-spacing: 0.2px;
-  background: linear-gradient(135deg, var(--acg-text-strong, #111319) 0%, #2a2f47 100%);
+  letter-spacing: 0.4px;
+  background: linear-gradient(135deg, #ffffff 0%, #c7d0ff 50%, #d8c7ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: var(--acg-text-strong, #111319);
+  color: #ffffff;
+  text-shadow: 0 0 32px rgba(184, 140, 255, 0.3);
 }
 
-/* 品牌区下方迷你渐变 accent bar（与 hero 风格呼应） */
+/* 品牌描述文案：作为主视觉宣言，左侧渐变 accent bar */
 .footer-brand .footer-desc {
   position: relative;
-  font-size: clamp(0.82rem, 1.4vw, 0.95rem);
-  color: var(--acg-text-muted, #6b7280);
-  line-height: 1.7;
+  font-size: clamp(0.88rem, 1.4vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.75;
   max-width: 92%;
   margin: 0;
-  padding-top: 14px;
+  padding-left: 16px;
   word-break: break-word;
   overflow-wrap: break-word;
+  letter-spacing: 0.2px;
 }
 .footer-brand .footer-desc::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: 4px;
+  bottom: 4px;
   left: 0;
-  width: 36px;
-  height: 3px;
+  width: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
-  box-shadow: 0 0 12px rgba(122, 140, 255, 0.35);
+  background: linear-gradient(180deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  box-shadow: 0 0 12px rgba(184, 140, 255, 0.5);
 }
 
-/* ----- 栏目标题：前置渐变圆点 ----- */
+/* ----- 栏目标题（双层：上方紫色英文 tracking 标签 + 下方中文标题） ----- */
 .footer-title,
 .site-footer .footer-links h6,
 .site-footer .footer-contact h6 {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: clamp(0.92rem, 1.4vw, 1rem);
+  display: block;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
   font-weight: 700;
-  color: var(--acg-text-strong, #111319);
+  color: #ffffff;
   letter-spacing: 0.3px;
-  margin: 0 0 clamp(18px, 2vw, 24px) 0;
+  margin: 0 0 clamp(20px, 2.2vw, 28px) 0;
+  padding-top: 18px;
   white-space: nowrap;
+}
+/* 顶部 EN 小标签（用 attr 语义不通，所以用伪元素硬编码） */
+.site-footer .footer-links h6::before {
+  content: "QUICK LINKS";
+}
+.site-footer .footer-contact h6::before {
+  content: "CONNECT";
 }
 .footer-title::before,
 .site-footer .footer-links h6::before,
 .site-footer .footer-contact h6::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+/* 中文标题下方一根 24px 渐变短线 */
+.footer-title::after,
+.site-footer .footer-links h6::after,
+.site-footer .footer-contact h6::after {
   content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
-  box-shadow: 0 0 10px rgba(122, 140, 255, 0.6);
-  flex-shrink: 0;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  box-shadow: 0 0 10px rgba(184, 140, 255, 0.5);
 }
 
 /* ----- 链接列表 ----- */
@@ -1352,74 +1412,110 @@ body {
 .footer-links li,
 .contact-list li,
 .site-footer .footer-contact ul li {
-  margin-bottom: clamp(10px, 1.2vw, 14px);
-  font-size: clamp(0.82rem, 1.3vw, 0.92rem);
+  margin-bottom: clamp(12px, 1.4vw, 16px);
+  font-size: clamp(0.86rem, 1.3vw, 0.94rem);
 }
 
 .footer-links a,
 .contact-list a,
 .site-footer .footer-contact a {
   position: relative;
-  color: var(--acg-text-muted, #6b7280);
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 4px 2px;
+  gap: 12px;
+  padding: 4px 0 4px 14px;
   max-width: 100%;
   white-space: nowrap;
-  min-height: 24px;
-  transition: color 0.22s ease, transform 0.22s ease, padding-left 0.22s ease;
+  min-height: 28px;
+  transition: color 0.25s ease, padding-left 0.25s ease;
   -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.1px;
 }
 
-/* 链接 hover 时出现的底部渐变 underline */
-.footer-links a::after,
-.contact-list a::after,
-.site-footer .footer-contact a::after {
+/* 链接左侧 hover indicator bar（一根从无到 8px 的渐变小竖线） */
+.footer-links a::before,
+.contact-list a::before,
+.site-footer .footer-contact a::before {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -2px;
+  top: 50%;
   width: 0;
-  height: 1.5px;
-  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
-  border-radius: 2px;
-  transition: width 0.28s ease;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  box-shadow: 0 0 12px rgba(184, 140, 255, 0.6);
+  transform: translateY(-50%);
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.footer-links a i,
-.contact-list a i {
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  opacity: 0.85;
+/* Quick Links 图标：装进玻璃容器 */
+.footer-links a i {
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
   flex-shrink: 0;
-  width: clamp(20px, 2vw, 24px);
-  text-align: center;
-  transition: transform 0.22s ease;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
-.contact-list a .fa-telegram { color: #24a1de !important; }
-.contact-list a .fa-qq       { color: #1296db !important; }
-.contact-list a .fa-envelope { color: #f2a30d !important; }
+
+/* Connect 联系图标：玻璃圆角容器 + 品牌彩色 */
+.contact-list a i {
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.contact-list a .fa-telegram { color: #4ec1ff !important; }
+.contact-list a .fa-qq       { color: #5fc4ff !important; }
+.contact-list a .fa-envelope { color: #ffc168 !important; }
 
 @media (hover: hover) and (pointer: fine) {
   .footer-links a:hover,
   .contact-list a:hover,
   .site-footer .footer-contact a:hover {
-    color: var(--acg-text-strong, #111319);
-    padding-left: 8px;
+    color: #ffffff;
+    padding-left: 22px;
   }
-  .footer-links a:hover::after,
-  .contact-list a:hover::after,
-  .site-footer .footer-contact a:hover::after { width: 28px; }
-  .footer-links a:hover i,
-  .contact-list a:hover i { transform: scale(1.08); }
+  .footer-links a:hover::before,
+  .contact-list a:hover::before,
+  .site-footer .footer-contact a:hover::before { width: 4px; }
+
+  .footer-links a:hover i {
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(122, 140, 255, 0.3), rgba(184, 140, 255, 0.3));
+    border-color: rgba(184, 140, 255, 0.5);
+    box-shadow: 0 0 16px rgba(122, 140, 255, 0.35);
+  }
+
+  .contact-list a:hover i {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(184, 140, 255, 0.4);
+    box-shadow: 0 0 18px rgba(184, 140, 255, 0.35);
+    transform: translateY(-1px);
+  }
 }
 
 /* ----- 底部 bar ----- */
 .footer-bottom {
   position: relative;
-  margin-top: clamp(32px, 4vw, 56px);
-  padding-top: clamp(20px, 2.4vw, 28px);
+  margin-top: clamp(40px, 4.8vw, 64px);
+  padding-top: clamp(22px, 2.4vw, 30px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -1435,33 +1531,32 @@ body {
   height: 1px;
   background: linear-gradient(90deg,
     transparent,
-    rgba(0, 0, 0, 0.08) 20%,
-    rgba(0, 0, 0, 0.08) 80%,
+    rgba(255, 255, 255, 0.10) 20%,
+    rgba(255, 255, 255, 0.10) 80%,
     transparent);
 }
 
 .footer-copyright,
 .footer-legal {
-  font-size: clamp(0.74rem, 1.2vw, 0.82rem);
-  color: var(--acg-text-muted, #6b7280);
-  opacity: 0.9;
+  font-size: clamp(0.76rem, 1.2vw, 0.82rem);
+  color: rgba(255, 255, 255, 0.45);
   white-space: nowrap;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.4px;
 }
 
-.footer-legal { display: inline-flex; align-items: center; gap: clamp(14px, 1.4vw, 22px); }
+.footer-legal { display: inline-flex; align-items: center; gap: clamp(16px, 1.4vw, 24px); }
 .footer-legal a {
   position: relative;
-  color: var(--acg-text-muted, #6b7280);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
-  transition: color 0.22s ease;
+  transition: color 0.25s ease;
   white-space: nowrap;
 }
 .footer-legal a::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -3px;
+  bottom: -4px;
   width: 0;
   height: 1.5px;
   background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
@@ -1469,95 +1564,99 @@ body {
   transition: width 0.28s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .footer-legal a:hover { color: var(--acg-text-strong, #111319); }
+  .footer-legal a:hover { color: #ffffff; }
   .footer-legal a:hover::after { width: 100%; }
 }
 
-/* ----- 平板：3 → 1+2 列 ----- */
+/* ----- 平板：3 → 1+2 列，去除栏目分隔线 ----- */
 @media (max-width: 991.98px) {
-  .site-footer { padding: clamp(32px, 4vw, 44px) 0 clamp(16px, 2vw, 22px) !important; }
+  .site-footer { padding: clamp(40px, 4.5vw, 56px) 0 clamp(20px, 2vw, 26px) !important; }
   .site-footer .footer-top .row {
     flex-wrap: wrap !important;
     flex-direction: row !important;
     align-items: flex-start !important;
-    gap: 28px 0 !important;
+    gap: 32px 0 !important;
   }
   .site-footer .col-lg-5 {
     flex: 0 0 100% !important;
     max-width: 100% !important;
-    padding-bottom: 4px;
+    padding-bottom: 8px;
   }
   .site-footer .col-lg-3,
   .site-footer .col-lg-4 {
     flex: 0 0 50% !important;
     max-width: 50% !important;
     padding: 0 clamp(10px, 1.5vw, 18px) !important;
-    border: none !important;
   }
+  .site-footer .col-lg-3::before,
+  .site-footer .col-lg-4::before { display: none !important; }
   .site-footer .footer-title,
   .site-footer .footer-links h6,
   .site-footer .footer-contact h6 {
-    font-size: 0.95rem !important;
-    margin-bottom: 14px !important;
+    font-size: 0.96rem !important;
+    margin-bottom: 18px !important;
+    padding-top: 16px !important;
   }
   .site-footer .footer-links li,
   .site-footer .contact-list li,
   .site-footer .footer-contact ul li {
-    margin-bottom: 10px !important;
-    font-size: 0.85rem !important;
+    margin-bottom: 12px !important;
+    font-size: 0.86rem !important;
   }
   .site-footer .footer-desc {
-    font-size: 0.86rem !important;
-    line-height: 1.65 !important;
+    font-size: 0.88rem !important;
+    line-height: 1.7 !important;
     max-width: 100% !important;
   }
-  .footer-logo { margin-bottom: 12px !important; }
+  .footer-logo { margin-bottom: 14px !important; }
   .site-footer .footer-bottom {
-    margin-top: 28px !important;
-    padding-top: 18px !important;
+    margin-top: 32px !important;
+    padding-top: 20px !important;
   }
 }
 
 /* ----- 手机 ----- */
 @media (max-width: 767.98px) {
-  .site-footer { padding: 28px 0 16px !important; }
-  .site-footer .footer-top .row { gap: 22px 0 !important; }
+  .site-footer { padding: 36px 0 20px !important; }
+  .site-footer .footer-top .row { gap: 26px 0 !important; }
   .site-footer .col-lg-3,
-  .site-footer .col-lg-4 { padding: 0 10px !important; }
+  .site-footer .col-lg-4 { padding: 0 12px !important; }
   .site-footer .footer-title,
   .site-footer .footer-links h6,
   .site-footer .footer-contact h6 {
-    font-size: 0.9rem !important;
-    margin-bottom: 12px !important;
+    font-size: 0.92rem !important;
+    margin-bottom: 16px !important;
+    padding-top: 14px !important;
   }
   .site-footer .footer-links li,
   .site-footer .contact-list li,
   .site-footer .footer-contact ul li {
-    margin-bottom: 8px !important;
-    font-size: 0.82rem !important;
+    margin-bottom: 10px !important;
+    font-size: 0.84rem !important;
   }
   .site-footer .footer-links a,
   .site-footer .contact-list a {
-    gap: 8px !important;
-    min-height: 22px;
+    gap: 10px !important;
+    min-height: 28px;
+    padding-left: 12px !important;
   }
   .footer-bottom {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     text-align: center;
-    margin-top: 18px !important;
-    padding-top: 14px !important;
+    margin-top: 24px !important;
+    padding-top: 18px !important;
   }
   .footer-copyright,
-  .footer-legal { font-size: 0.74rem !important; }
-  .footer-legal { justify-content: center; gap: 16px !important; }
+  .footer-legal { font-size: 0.76rem !important; }
+  .footer-legal { justify-content: center; gap: 18px !important; }
 }
 
 @media (max-width: 360px) {
   .site-footer .col-lg-3,
-  .site-footer .col-lg-4 { padding: 0 8px !important; }
+  .site-footer .col-lg-4 { padding: 0 10px !important; }
   .site-footer .footer-links li,
-  .site-footer .contact-list li { font-size: 0.78rem !important; }
+  .site-footer .contact-list li { font-size: 0.8rem !important; }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
