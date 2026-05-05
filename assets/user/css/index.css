@@ -20,12 +20,14 @@
 
 :root {
   --apple-bg:
-    radial-gradient(at 0% 0%, #c8d0ec 0%, transparent 60%),
-    radial-gradient(at 100% 0%, #b6c1ea 0%, transparent 60%),
-    radial-gradient(at 50% 50%, #e2e5f4 0%, transparent 75%),
-    radial-gradient(at 0% 100%, #8a99d4 0%, transparent 65%),
-    radial-gradient(at 100% 100%, #b3b6e1 0%, transparent 65%),
-    #eef0fa;
+    radial-gradient(ellipse 58% 48% at 12% 8%, rgba(76, 88, 179, 0.42), transparent 60%),
+    radial-gradient(ellipse 50% 44% at 92% 6%, rgba(86, 168, 255, 0.34), transparent 64%),
+    radial-gradient(ellipse 32% 28% at 78% 42%, rgba(143, 116, 211, 0.22), transparent 70%),
+    radial-gradient(ellipse 72% 58% at 4% 102%, rgba(45, 56, 134, 0.42), transparent 62%),
+    radial-gradient(ellipse 50% 42% at 96% 96%, rgba(94, 200, 220, 0.28), transparent 65%),
+    radial-gradient(ellipse 50% 38% at 56% 50%, rgba(248, 250, 255, 0.58), transparent 72%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, transparent 22%),
+    #e7ebf7;
   --apple-text: #1d1d1f;
   --apple-text-muted: #424245;
   --apple-blue: #3d49a1;
@@ -90,7 +92,7 @@ html {
   background-attachment: scroll;
   background-size: 100% 100vh;
   background-repeat: no-repeat;
-  background-color: #e8ebf6;
+  background-color: #e7ebf7;
   overscroll-behavior: none;
   min-height: 100%;
   min-height: 100lvh;
