@@ -1293,12 +1293,21 @@ body {
 }
 
 @media (max-width: 991.98px) {
-  .site-footer { padding: 8px 0; font-size: 0.78rem; }
+  .site-footer {
+    padding: 10px 0;
+    font-size: 0.78rem;
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+  }
+  .site-footer > .container { width: 100%; }
   .site-footer .footer-bar {
-    gap: 8px 0;
+    gap: 6px 0;
     justify-content: center;
+    align-content: center;
     text-align: center;
     flex-wrap: wrap;
+    width: 100%;
   }
   .site-footer .footer-brand-mini { display: none; }
   .site-footer .footer-nav {
@@ -1328,8 +1337,8 @@ body {
 }
 
 @media (max-width: 480px) {
-  .site-footer { padding: 6px 0; }
-  .site-footer .footer-bar { gap: 6px 0; min-height: 0; }
+  .site-footer { padding: 10px 0; min-height: 86px; }
+  .site-footer .footer-bar { gap: 6px 0; }
   .site-footer .footer-nav { gap: 0; padding: 0 2px; }
   .site-footer .footer-nav a {
     font-size: 0;
