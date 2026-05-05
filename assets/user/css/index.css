@@ -341,122 +341,33 @@ body {
 @media (min-width: 768px) { .navbar-acg .navbar-nav { gap: 1.6rem !important; } }
 @media (min-width: 1024px) { .navbar-acg .navbar-nav { gap: 2.5rem !important; } }
 
-@media (min-width: 800px) {
-  .navbar-acg .navbar-toggler { display: none !important; }
-  .navbar-acg .navbar-collapse {
-    display: flex !important;
-    flex-grow: 1 !important;
-    flex-basis: auto !important;
-    height: 100% !important;
-    position: static !important;
-  }
-  .navbar-acg .navbar-collapse .navbar-nav {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    position: static !important;
-    background: transparent !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    animation: none !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: 100% !important;
-  }
+/* 800px 断点已移除：导航永远使用桌面横排形态，与 scale-layout 缩放方案配合
+   原 @media (min-width: 800px) 内容已提到无条件应用；
+   原 @media (max-width: 799.98px) 折叠菜单样式已整体删除。 */
+.navbar-acg .navbar-toggler { display: none !important; }
+.navbar-acg .navbar-collapse {
+  display: flex !important;
+  flex-grow: 1 !important;
+  flex-basis: auto !important;
+  height: 100% !important;
+  position: static !important;
 }
-
-@media (max-width: 799.98px) {
-  .navbar-acg .navbar-toggler {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    order: 4;
-  }
-  .navbar-acg .navbar-collapse {
-    flex: 0 0 auto !important;
-    flex-grow: 0 !important;
-    margin-left: auto;
-    order: 3;
-    height: auto !important;
-    overflow: visible !important;
-    position: static;
-  }
-  .navbar-acg .navbar-collapse:not(.show) .navbar-nav { display: none !important; }
-  .navbar-acg .navbar-collapse.show .navbar-nav,
-  .navbar-acg .navbar-collapse.collapsing .navbar-nav {
-    display: flex !important;
-    flex-direction: column !important;
-    flex-wrap: nowrap !important;
-    align-items: stretch !important;
-    gap: 4px !important;
-    position: absolute !important;
-    top: calc(100% + 6px);
-    right: 12px;
-    background: var(--apple-glass-bg);
-    -webkit-backdrop-filter: var(--acg-glass);
-    backdrop-filter: var(--acg-glass);
-    border: 1px solid var(--apple-glass-border);
-    border-radius: 14px;
-    padding: 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-    min-width: 168px;
-    max-width: calc(100vw - 24px);
-    height: auto !important;
-    z-index: 1100;
-    animation: navDropdownIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  @keyframes navDropdownIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .navbar-acg .navbar-collapse.show .nav-item {
-    width: 100%;
-    height: auto !important;
-  }
-  .navbar-acg .navbar-collapse.show .nav-link {
-    height: 40px !important;
-    padding: 0 14px !important;
-    border-radius: 10px;
-    justify-content: flex-start !important;
-    font-size: 0.9rem !important;
-    font-weight: 600 !important;
-    color: rgba(0, 0, 0, 0.85) !important;
-    transition: background 0.15s ease;
-    white-space: nowrap;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .navbar-acg .navbar-collapse.show .nav-link:hover { background: rgba(0, 0, 0, 0.05); }
-  }
-  .navbar-acg .navbar-collapse.show .nav-link.active {
-    background: rgba(76, 88, 179, 0.1);
-    color: var(--apple-blue) !important;
-  }
-  .navbar-acg .navbar-collapse.show .nav-icon {
-    font-size: 1rem !important;
-    margin-right: 10px !important;
-  }
-  .navbar-acg .btn-acg-primary-wrapper {
-    order: 3;
-    margin-left: auto !important;
-    margin-right: 8px !important;
-    height: auto !important;
-  }
-  .navbar-acg .btn-acg-primary {
-    padding: 0 14px !important;
-    height: 32px !important;
-    min-height: 32px;
-    font-size: 0.78rem !important;
-    line-height: 1 !important;
-  }
-  .navbar-acg .btn-acg-primary i {
-    margin-right: 4px !important;
-    font-size: 0.85rem !important;
-  }
-  .navbar-acg .container { position: relative; }
+.navbar-acg .navbar-collapse .navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  position: static !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  animation: none !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 100% !important;
 }
 
 .btn-primary {
