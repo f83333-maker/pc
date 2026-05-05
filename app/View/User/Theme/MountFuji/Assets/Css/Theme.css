@@ -25,8 +25,9 @@
     --mf-warning: #f7c66b;
     --mf-danger: #ff7a90;
     --mf-overlay: rgba(0, 0, 0, 0.72);
-    --mf-backdrop-a: rgba(94, 106, 210, 0.28);
-    --mf-backdrop-b: rgba(113, 112, 255, 0.18);
+    --mf-backdrop-a: rgba(76, 88, 179, 0.32);
+    --mf-backdrop-b: rgba(108, 122, 200, 0.22);
+    --mf-backdrop-c: rgba(76, 88, 179, 0.18);
 }
 
 .mf-page-shell-record .bootstrap-table .card-views,
@@ -397,8 +398,10 @@ html[data-theme-mode="light"] {
     --mf-text-muted: #667085;
     --mf-text-subtle: #8a90a2;
     --mf-overlay: rgba(18, 24, 40, 0.2);
-    --mf-backdrop-a: rgba(94, 106, 210, 0.16);
-    --mf-backdrop-b: rgba(113, 112, 255, 0.12);
+    --mf-bg: #eef0f8;
+    --mf-backdrop-a: rgba(76, 88, 179, 0.22);
+    --mf-backdrop-b: rgba(108, 122, 200, 0.16);
+    --mf-backdrop-c: rgba(76, 88, 179, 0.12);
     --mf-shadow-ring: 0 0 0 1px rgba(18, 24, 40, 0.06);
 }
 
@@ -419,10 +422,12 @@ textarea {
 body {
     margin: 0;
     color: var(--mf-text);
-    background: radial-gradient(circle at top left, var(--mf-backdrop-a), transparent 32%),
-    radial-gradient(circle at top right, var(--mf-backdrop-b), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%),
+    background: radial-gradient(ellipse 70% 55% at 12% 8%, var(--mf-backdrop-a), transparent 60%),
+    radial-gradient(ellipse 65% 55% at 88% 14%, var(--mf-backdrop-b), transparent 62%),
+    radial-gradient(ellipse 90% 65% at 50% 110%, var(--mf-backdrop-c), transparent 65%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 28%),
     var(--mf-bg);
+    background-attachment: fixed;
     line-height: 1.5;
     letter-spacing: normal;
     transition: background-color 0.24s ease, color 0.24s ease;
