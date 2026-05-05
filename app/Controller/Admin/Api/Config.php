@@ -40,11 +40,14 @@ class Config extends Manage
     public function setting(Request $request): array
     {
         $post = $request->post(flags: Filter::NORMAL);
-        $keys = ["logo", "closed_message", "background_mobile_url", "closed", "username_len", "user_theme", "user_mobile_theme", "user_center_theme", "background_url", "shop_name", "title", "description", "keywords", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "notice", "trade_verification", "session_expire", "request_log"]; 
+        $keys = ["closed_message", "background_mobile_url", "closed", "username_len", "user_theme", "user_mobile_theme", "user_center_theme", "background_url", "shop_name", "title", "description", "keywords", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "notice", "trade_verification", "session_expire", "request_log"]; 
         $inits = ["closed", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "trade_verification", "session_expire", "request_log"]; 
 
-        // logo处理：如果提交了新的logo，保存它（可以是上传的新文件或保存的路径）
-        // 不在这里进行复制操作，只保证正确保存提交的值到数据库
+        $file = $post['logo'];
+        if ($file != '/favicon.ico') {
+            @copy(BASE_PATH . $file, BASE_PATH . '/favicon.ico');
+            @unlink(BASE_PATH . $file);
+        }
         try {
             if (isset($post['ip_get_mode'])) {
                 Client::setClientMode((int)$post['ip_get_mode']);
