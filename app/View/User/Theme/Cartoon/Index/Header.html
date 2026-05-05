@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    #{* 移动端等比缩放适配（仅移动端生效，桌面端无侵入）。必须紧跟 viewport meta 同步加载 *}
+    #{js("/assets/common/js/scale-layout.js")}
 
     #{if isset($item) && $item}
         <meta name="keywords" content="#{$item.name|strip_tags|escape:'html'}, #{$config.keywords}"/>
