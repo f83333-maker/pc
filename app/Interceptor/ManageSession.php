@@ -14,6 +14,7 @@ use JetBrains\PhpStorm\NoReturn;
 use Kernel\Annotation\Interceptor;
 use Kernel\Annotation\InterceptorInterface;
 use Kernel\Consts\Base;
+use Kernel\Context\FPM\Request;
 use Kernel\Exception\JSONException;
 use Kernel\Util\View;
 
@@ -57,10 +58,14 @@ class ManageSession implements InterceptorInterface
             $this->kick($type);
         }
 
+        // 使用与 Admin.php 拦截器相同的IP获取方式，确保一致性
+        $request = new Request();
+        $clientIp = $request->clientIp();
+        
         if (
             $jwt->expire <= time() ||
             $manage->login_time != $jwt->loginTime ||
-            $manage->login_ip != Client::getAddress() ||
+            $manage->login_ip != $clientIp ||
             $manage->status != 1
         ) {
             $this->kick($type);
