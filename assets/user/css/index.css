@@ -2032,7 +2032,7 @@ i.fa-headset {
    - .cv-card       : 商品/分类卡片专用，预估 360px 高度避免滚动条跳动。
    - .cv-section    : 大区块（楼层、页脚区）专用，预估 600px 高度。
    仅在支持 content-visibility 的浏览器���Chromium 85+/Safari 18+）生效，
-   不支持的浏览器会自动忽略这些规则，不影响功能。
+   不支持的浏览器会自动忽略这些规则，��影响功能。
    ============================================================ */
 @supports (content-visibility: auto) {
     .cv-auto {
@@ -2060,5 +2060,91 @@ i.fa-headset {
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* === Sticky Footer：内容不足时也保持 footer 贴底（PC + 移动同步） === */
+.bg-content {
+    display: flex !important;
+    flex-direction: column !important;
+}
+.bg-content > .fly-header {
+    flex-shrink: 0;
+}
+.bg-content > #pjax-container {
+    flex: 1 0 auto;
+    min-height: 0;
+}
+.bg-content > .site-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* === 统一风格的 6 个 Footer 图标（Lucide 线性 + 主题靛蓝 chip） === */
+.site-footer .footer-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(28px, 2.4vw, 34px);
+    height: clamp(28px, 2.4vw, 34px);
+    border-radius: 9px;
+    background: rgba(76, 88, 179, 0.08);
+    color: var(--apple-blue, #4c58b3);
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.site-footer .footer-icon svg {
+    width: clamp(15px, 1.4vw, 18px);
+    height: clamp(15px, 1.4vw, 18px);
+    display: block;
+}
+.site-footer .footer-links a,
+.site-footer .contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 32px;
+}
+.site-footer .footer-link-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+    .site-footer .footer-links a:hover,
+    .site-footer .contact-list a:hover {
+        transform: none;
+    }
+    .site-footer .footer-links a:hover .footer-icon,
+    .site-footer .contact-list a:hover .footer-icon {
+        background: var(--apple-blue, #4c58b3);
+        color: #ffffff;
+    }
+}
+@media (max-width: 991.98px) {
+    .site-footer .footer-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+    }
+    .site-footer .footer-icon svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+@media (max-width: 767.98px) {
+    .site-footer .footer-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+    }
+    .site-footer .footer-icon svg {
+        width: 13px;
+        height: 13px;
+    }
+    .site-footer .footer-links a,
+    .site-footer .contact-list a {
+        gap: 8px;
+        min-height: 28px;
     }
 }
