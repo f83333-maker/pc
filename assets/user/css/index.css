@@ -1156,7 +1156,7 @@ body {
   .table-header .col-action,
   .table-row .col-action    { flex: 1.2 0 0; min-width: 0; text-align: center; }
   .table-row .col-name {
-    font-size: 0.78rem !important;
+    font-size: 0.66rem !important;
     font-weight: 600 !important;
     white-space: nowrap;
     overflow: hidden;
@@ -1179,8 +1179,8 @@ body {
     color: var(--apple-blue);
     white-space: nowrap;
   }
-  .table-row .col-stock { font-size: 0.72rem; white-space: nowrap; }
-  .stock-text { font-size: 0.72rem !important; }
+  .table-row .col-stock { font-size: 0.62rem; white-space: nowrap; }
+  .stock-text { font-size: 0.62rem !important; }
   .table-row .item-icon {
     width: 22px !important;
     height: 22px !important;
@@ -1205,10 +1205,10 @@ body {
     height: 46px !important;
     gap: 4px;
   }
-  .table-row .col-name { font-size: 0.72rem !important; }
+  .table-row .col-name { font-size: 0.6rem !important; }
   .table-row .col-price { font-size: 0.72rem !important; }
-  .table-row .col-way,
-  .table-row .col-stock { font-size: 0.66rem; }
+  .table-row .col-way { font-size: 0.66rem; }
+  .table-row .col-stock { font-size: 0.56rem; }
   .badge-delivery { font-size: 0.6rem !important; padding: 2px 5px !important; }
   .btn-buy-now {
     padding: 4px 8px !important;
