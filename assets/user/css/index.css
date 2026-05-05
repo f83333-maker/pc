@@ -19,17 +19,24 @@
 }
 
 :root {
+  /* 高新科技 AI 风格渐变：以品牌色 #4c58b3 为核心，辐射出多层深邃靛蓝光晕，
+     右上角注入电气蓝高光（#6e7be0），中部叠加透明度更柔和的紫蓝（#818cf8），
+     底部用更深的 #3a4391 收口，整体形成「数据空间」般的氛围感 */
+  --acg-primary: #4c58b3;
+  --acg-secondary: #6e7be0;
+  --acg-accent: #818cf8;
+  --acg-deep: #3a4391;
   --apple-bg:
-    radial-gradient(at 0% 0%, #94d1c4 0%, transparent 70%),
-    radial-gradient(at 100% 0%, #a6d9f0 0%, transparent 70%),
-    radial-gradient(at 50% 50%, #f2bfc5 0%, transparent 80%),
-    radial-gradient(at 0% 100%, #79b3a9 0%, transparent 70%),
-    radial-gradient(at 100% 100%, #bcc5f0 0%, transparent 70%),
-    #f5f7fa;
+    radial-gradient(at 8% 0%, rgba(76, 88, 179, 0.55) 0%, transparent 55%),
+    radial-gradient(at 95% 5%, rgba(110, 123, 224, 0.50) 0%, transparent 55%),
+    radial-gradient(at 50% 38%, rgba(129, 140, 248, 0.30) 0%, transparent 65%),
+    radial-gradient(at 5% 100%, rgba(58, 67, 145, 0.45) 0%, transparent 55%),
+    radial-gradient(at 100% 95%, rgba(91, 103, 216, 0.45) 0%, transparent 55%),
+    #e6e9f7;
   --apple-text: #1d1d1f;
   --apple-text-muted: #424245;
-  --apple-blue: #3d49a1;
-  --apple-blue-hover: #2e398a;
+  --apple-blue: #4c58b3;
+  --apple-blue-hover: #3a4391;
   --apple-glass-bg: rgba(255, 255, 255, 0.48);
   --apple-glass-border: rgba(255, 255, 255, 0.35);
   --apple-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
@@ -90,7 +97,7 @@ html {
   background-attachment: scroll;
   background-size: 100% 100vh;
   background-repeat: no-repeat;
-  background-color: #d9e8e6;
+  background-color: #e6e9f7;
   overscroll-behavior: none;
   min-height: 100%;
   min-height: 100lvh;
