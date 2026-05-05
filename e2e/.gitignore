@@ -3,3 +3,4 @@ playwright-report/
 test-results/
 .last-run.json
 *.local
+runtime/
