@@ -2083,7 +2083,7 @@ i.fa-headset {
 }
 .bg-content > .site-footer {
     flex-shrink: 0;
-    margin-top: auto;
+    margin-top: clamp(48px, 6vw, 80px);
 }
 
 /* === 统一风格的 6 个 Footer 图标（Lucide 线性 + 主题靛蓝 chip） === */
