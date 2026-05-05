@@ -39,33 +39,49 @@ class Config extends Manage
 
     public function setting(Request $request): array
     {
-        $post = $request->post(flags: Filter::NORMAL);
-        $keys = ["closed_message", "background_mobile_url", "closed", "username_len", "user_theme", "user_mobile_theme", "user_center_theme", "background_url", "shop_name", "title", "description", "keywords", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "notice", "trade_verification", "session_expire", "request_log"]; 
-        $inits = ["closed", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "trade_verification", "session_expire", "request_log"]; 
+        $post = (array)$request->post(flags: Filter::NORMAL);
+        $keys = ["closed_message", "background_mobile_url", "closed", "username_len", "user_theme", "user_mobile_theme", "user_center_theme", "background_url", "shop_name", "title", "description", "keywords", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "notice", "trade_verification", "session_expire", "request_log"];
+        $inits = ["closed", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "trade_verification", "session_expire", "request_log"];
 
-        $file = $post['logo'];
-        if ($file != '/favicon.ico') {
-            @copy(BASE_PATH . $file, BASE_PATH . '/favicon.ico');
-            @unlink(BASE_PATH . $file);
+        $file = $post['logo'] ?? '/favicon.ico';
+        if (is_string($file) && $file !== '' && $file !== '/favicon.ico' && str_starts_with($file, '/')) {
+            $src = BASE_PATH . $file;
+            if (is_file($src)) {
+                @copy($src, BASE_PATH . '/favicon.ico');
+                @unlink($src);
+            }
         }
+
         try {
-            if (isset($post['ip_get_mode'])) {
+            if (isset($post['ip_get_mode']) && $post['ip_get_mode'] !== '') {
                 Client::setClientMode((int)$post['ip_get_mode']);
             }
 
-            foreach ($keys as $index => $key) {
-                if (in_array($key, $inits)) {
+            foreach ($keys as $key) {
+                if (in_array($key, $inits, true)) {
                     if (!isset($post[$key])) {
                         $post[$key] = 0;
                     }
                 }
-                CFG::put($key, $post[$key]);
+                $value = $post[$key] ?? '';
+                if (is_array($value)) {
+                    $value = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                } elseif (!is_string($value) && !is_int($value)) {
+                    $value = (string)$value;
+                }
+                CFG::put($key, $value);
             }
-        } catch (\Exception $e) {
-            throw new JSONException("保存失败，请检查原因");
+        } catch (\Throwable $e) {
+            throw new JSONException("保存失败：" . $e->getMessage());
         }
 
-        _plugin_start($post['user_theme'], true);
+        if (!empty($post['user_theme']) && is_string($post['user_theme'])) {
+            try {
+                _plugin_start($post['user_theme']);
+            } catch (\Throwable $e) {
+            }
+        }
+
         ManageLog::log($this->getManage(), "修改了网站设置");
         return $this->json(200, '保存成功');
     }
