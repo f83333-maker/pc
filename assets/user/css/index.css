@@ -1422,6 +1422,53 @@ body {
   .hero-apple .hero-subtitle { margin-bottom: var(--space-md); }
   .hero-features { margin-bottom: var(--space-md); }
 }
+
+/* === 移动端首页模块间距精调（高级感紧凑型） === */
+@media (max-width: 991.98px) {
+  /* Hero 内部呼吸节奏 */
+  .hero-apple {
+    padding: 18px 0 22px !important;
+  }
+  .hero-badge {
+    margin-bottom: 14px !important;
+  }
+  .hero-apple .hero-title {
+    margin-bottom: 8px !important;
+  }
+  .hero-apple .hero-subtitle {
+    margin-bottom: 16px !important;
+  }
+  .hero-features {
+    margin-bottom: 18px !important;
+  }
+  .hero-apple .hero-search {
+    margin-bottom: 0 !important;
+  }
+  .hero-hot-tags {
+    margin-top: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* 模块之间的衔接间距 */
+  .panel {
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
+  }
+  main .mb-4 {
+    margin-bottom: 22px !important;
+  }
+  .chip-list.top-category-list {
+    margin: 0 !important;
+  }
+  .chip-list.sub-category-list {
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
+  }
+  .item-list,
+  .item-table-container {
+    margin-bottom: 0 !important;
+  }
+}
 @media (min-width: 1920px) { body { font-size: 1.05rem; } }
 @media (min-width: 2560px) { body { font-size: 1.15rem; } }
 
@@ -2035,7 +2082,7 @@ i.fa-headset {
    性能优化：content-visibility / contain-intrinsic-size
    --------------------------------------------------
    - .cv-auto       : 视口外的区块跳过渲染/布局，长列表大幅省 CPU。
-   - .cv-card       : 商品/分类卡片专用，预估 360px 高度避免滚动条跳动。
+   - .cv-card       : 商品/分类卡片专用，预估 360px 高度避免滚动条��动。
    - .cv-section    : 大区块（楼层、页脚区）专用，预估 600px 高度。
    仅在支持 content-visibility 的浏览器���Chromium 85+/Safari 18+）生效，
    不支持的浏览器会自动忽略这些规则，���影响功能。
