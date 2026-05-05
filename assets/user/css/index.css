@@ -1171,25 +1171,74 @@ body {
   .hero-badge:hover { transform: none !important; }
 }
 
+/* ==========================================================================
+   Site Footer (高级版)
+   设计语言：玻璃质感 + 紫蓝→紫渐变 accent + 极淡角落光斑 + 精致 hover 动效
+   配色统一：var(--acg-primary) #7a8cff、var(--acg-secondary) #b88cff
+   ========================================================================== */
+
 .site-footer {
+  position: relative;
   flex-shrink: 0;
   margin-top: var(--space-xl);
-  padding: var(--space-xl) 0 var(--space-md);
-  background: var(--apple-glass-bg) !important;
-  -webkit-backdrop-filter: var(--acg-glass);
-  backdrop-filter: var(--acg-glass);
-  border-top: 1px solid var(--apple-glass-border);
-  overflow-x: hidden;
+  padding: clamp(40px, 5vw, 64px) 0 clamp(20px, 2vw, 28px);
+  background:
+    radial-gradient(900px 360px at 92% 110%, rgba(184, 140, 255, 0.10), transparent 60%),
+    radial-gradient(720px 320px at 8% -10%, rgba(122, 140, 255, 0.08), transparent 60%),
+    rgba(255, 255, 255, 0.72) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+  overflow: hidden;
   contain: layout style;
+  isolation: isolate;
 }
+
+/* 顶部发光分隔线（极细渐变 hairline + 弱化两端） */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(122, 140, 255, 0) 5%,
+    rgba(122, 140, 255, 0.55) 30%,
+    rgba(184, 140, 255, 0.55) 70%,
+    rgba(184, 140, 255, 0) 95%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* 顶部辉光（在分隔线下淡淡铺一层光晕） */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(640px, 70%);
+  height: 80px;
+  background: radial-gradient(ellipse at 50% 0%,
+    rgba(122, 140, 255, 0.14),
+    rgba(184, 140, 255, 0.08) 40%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.site-footer .container { position: relative; z-index: 2; }
 
 .site-footer .footer-top .row {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   margin: 0;
-  padding: var(--space-sm) 0;
-  gap: var(--space-md) 0;
+  padding: 0;
+  gap: clamp(28px, 3vw, 48px) 0;
 }
 
 .site-footer .col-lg-5,
@@ -1197,49 +1246,101 @@ body {
 .site-footer .col-lg-4 {
   flex: 1 1 0;
   min-width: 0;
-  padding: 0 clamp(8px, 1.2vw, 16px);
+  padding: 0 clamp(8px, 1.4vw, 20px);
   box-sizing: border-box;
 }
 
+/* 中间列两侧加 hairline 视觉分隔（仅大屏） */
+@media (min-width: 992px) {
+  .site-footer .col-lg-3 {
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    padding-left: clamp(24px, 2.5vw, 40px) !important;
+    padding-right: clamp(24px, 2.5vw, 40px) !important;
+  }
+  .site-footer .col-lg-4 { padding-left: clamp(24px, 2.5vw, 40px) !important; }
+}
+
+/* ----- 品牌区 ----- */
 .footer-logo {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: var(--space-md);
+  margin-bottom: clamp(14px, 1.6vw, 18px);
   flex-wrap: nowrap;
   white-space: nowrap;
+  position: relative;
 }
 .footer-logo img {
-  width: clamp(28px, 3vw, 36px);
-  height: clamp(28px, 3vw, 36px);
-  border-radius: 8px;
+  width: clamp(32px, 3vw, 38px);
+  height: clamp(32px, 3vw, 38px);
+  border-radius: 10px;
   flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(122, 140, 255, 0.22), 0 1px 0 rgba(255, 255, 255, 0.6) inset;
 }
 .footer-logo span {
-  font-size: var(--fs-md);
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
   font-weight: 800;
-  color: var(--apple-text);
+  letter-spacing: 0.2px;
+  background: linear-gradient(135deg, var(--acg-text-strong, #111319) 0%, #2a2f47 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--acg-text-strong, #111319);
 }
 
-.footer-desc {
-  font-size: clamp(0.78rem, 1.4vw, 0.95rem);
-  color: var(--apple-text-muted);
-  line-height: 1.6;
-  max-width: 100%;
+/* 品牌区下方迷你渐变 accent bar（与 hero 风格呼应） */
+.footer-brand .footer-desc {
+  position: relative;
+  font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+  color: var(--acg-text-muted, #6b7280);
+  line-height: 1.7;
+  max-width: 92%;
+  margin: 0;
+  padding-top: 14px;
   word-break: break-word;
   overflow-wrap: break-word;
 }
+.footer-brand .footer-desc::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  box-shadow: 0 0 12px rgba(122, 140, 255, 0.35);
+}
 
+/* ----- 栏目标题：前置渐变圆点 ----- */
 .footer-title,
 .site-footer .footer-links h6,
 .site-footer .footer-contact h6 {
-  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(0.92rem, 1.4vw, 1rem);
   font-weight: 700;
-  color: var(--apple-text);
-  margin-bottom: clamp(16px, 2vw, 25px);
+  color: var(--acg-text-strong, #111319);
+  letter-spacing: 0.3px;
+  margin: 0 0 clamp(18px, 2vw, 24px) 0;
   white-space: nowrap;
 }
+.footer-title::before,
+.site-footer .footer-links h6::before,
+.site-footer .footer-contact h6::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  box-shadow: 0 0 10px rgba(122, 140, 255, 0.6);
+  flex-shrink: 0;
+}
 
+/* ----- 链接列表 ----- */
 .footer-links ul,
 .contact-list,
 .site-footer .footer-contact ul {
@@ -1251,39 +1352,50 @@ body {
 .footer-links li,
 .contact-list li,
 .site-footer .footer-contact ul li {
-  margin-bottom: clamp(10px, 1.4vw, 15px);
-  font-size: clamp(0.78rem, 1.4vw, 0.95rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin-bottom: clamp(10px, 1.2vw, 14px);
+  font-size: clamp(0.82rem, 1.3vw, 0.92rem);
 }
 
 .footer-links a,
 .contact-list a,
 .site-footer .footer-contact a {
-  color: var(--apple-text-muted);
+  position: relative;
+  color: var(--acg-text-muted, #6b7280);
   text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: clamp(6px, 1vw, 12px);
+  gap: 10px;
+  padding: 4px 2px;
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
   min-height: 24px;
+  transition: color 0.22s ease, transform 0.22s ease, padding-left 0.22s ease;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* 链接 hover 时出现的底部渐变 underline */
+.footer-links a::after,
+.contact-list a::after,
+.site-footer .footer-contact a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  border-radius: 2px;
+  transition: width 0.28s ease;
 }
 
 .footer-links a i,
 .contact-list a i {
-  font-size: clamp(0.95rem, 1.5vw, 1.3rem);
-  opacity: 0.7;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  opacity: 0.85;
   flex-shrink: 0;
-}
-.contact-list a i {
-  width: clamp(18px, 2vw, 24px);
+  width: clamp(20px, 2vw, 24px);
   text-align: center;
+  transition: transform 0.22s ease;
 }
 .contact-list a .fa-telegram { color: #24a1de !important; }
 .contact-list a .fa-qq       { color: #1296db !important; }
@@ -1291,121 +1403,161 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
   .footer-links a:hover,
-  .contact-list a:hover {
-    color: var(--apple-blue);
-    transform: translateX(5px);
+  .contact-list a:hover,
+  .site-footer .footer-contact a:hover {
+    color: var(--acg-text-strong, #111319);
+    padding-left: 8px;
   }
+  .footer-links a:hover::after,
+  .contact-list a:hover::after,
+  .site-footer .footer-contact a:hover::after { width: 28px; }
+  .footer-links a:hover i,
+  .contact-list a:hover i { transform: scale(1.08); }
 }
 
+/* ----- 底部 bar ----- */
 .footer-bottom {
-  margin-top: clamp(24px, 3vw, 50px);
-  padding-top: clamp(16px, 2vw, 30px);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  margin-top: clamp(32px, 4vw, 56px);
+  padding-top: clamp(20px, 2.4vw, 28px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 8px var(--space-md);
+  gap: 10px var(--space-md);
+}
+.footer-bottom::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0, 0, 0, 0.08) 20%,
+    rgba(0, 0, 0, 0.08) 80%,
+    transparent);
 }
 
 .footer-copyright,
 .footer-legal {
-  font-size: clamp(0.7rem, 1.3vw, 0.85rem);
-  color: var(--apple-text-muted);
-  opacity: 0.85;
+  font-size: clamp(0.74rem, 1.2vw, 0.82rem);
+  color: var(--acg-text-muted, #6b7280);
+  opacity: 0.9;
   white-space: nowrap;
+  letter-spacing: 0.2px;
 }
 
+.footer-legal { display: inline-flex; align-items: center; gap: clamp(14px, 1.4vw, 22px); }
 .footer-legal a {
-  color: var(--apple-text-muted);
+  position: relative;
+  color: var(--acg-text-muted, #6b7280);
   text-decoration: none;
-  margin-left: clamp(8px, 1.6vw, 20px);
-  transition: color 0.2s;
+  transition: color 0.22s ease;
   white-space: nowrap;
 }
-.footer-legal a:hover { color: var(--apple-blue); }
+.footer-legal a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--acg-primary, #7a8cff), var(--acg-secondary, #b88cff));
+  border-radius: 2px;
+  transition: width 0.28s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer-legal a:hover { color: var(--acg-text-strong, #111319); }
+  .footer-legal a:hover::after { width: 100%; }
+}
 
+/* ----- 平板：3 → 1+2 列 ----- */
 @media (max-width: 991.98px) {
-  .site-footer { padding: clamp(20px, 3vw, 32px) 0 12px !important; }
+  .site-footer { padding: clamp(32px, 4vw, 44px) 0 clamp(16px, 2vw, 22px) !important; }
   .site-footer .footer-top .row {
     flex-wrap: wrap !important;
     flex-direction: row !important;
     align-items: flex-start !important;
-    gap: 16px 0 !important;
+    gap: 28px 0 !important;
   }
   .site-footer .col-lg-5 {
     flex: 0 0 100% !important;
     max-width: 100% !important;
-    margin-bottom: 4px;
+    padding-bottom: 4px;
   }
   .site-footer .col-lg-3,
   .site-footer .col-lg-4 {
     flex: 0 0 50% !important;
     max-width: 50% !important;
-    padding: 0 clamp(8px, 1.5vw, 16px) !important;
+    padding: 0 clamp(10px, 1.5vw, 18px) !important;
+    border: none !important;
   }
   .site-footer .footer-title,
   .site-footer .footer-links h6,
   .site-footer .footer-contact h6 {
-    font-size: 0.92rem !important;
-    margin-bottom: 10px !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 14px !important;
   }
   .site-footer .footer-links li,
   .site-footer .contact-list li,
   .site-footer .footer-contact ul li {
-    margin-bottom: 6px !important;
-    font-size: 0.8rem !important;
+    margin-bottom: 10px !important;
+    font-size: 0.85rem !important;
   }
   .site-footer .footer-desc {
-    font-size: 0.82rem !important;
-    line-height: 1.5 !important;
+    font-size: 0.86rem !important;
+    line-height: 1.65 !important;
+    max-width: 100% !important;
   }
-  .footer-logo { margin-bottom: 8px !important; }
+  .footer-logo { margin-bottom: 12px !important; }
   .site-footer .footer-bottom {
-    margin-top: 16px !important;
-    padding-top: 12px !important;
+    margin-top: 28px !important;
+    padding-top: 18px !important;
   }
 }
 
+/* ----- 手机 ----- */
 @media (max-width: 767.98px) {
-  .site-footer { padding: 18px 0 10px !important; }
-  .site-footer .footer-top .row { gap: 12px 0 !important; }
+  .site-footer { padding: 28px 0 16px !important; }
+  .site-footer .footer-top .row { gap: 22px 0 !important; }
   .site-footer .col-lg-3,
-  .site-footer .col-lg-4 { padding: 0 8px !important; }
+  .site-footer .col-lg-4 { padding: 0 10px !important; }
   .site-footer .footer-title,
   .site-footer .footer-links h6,
   .site-footer .footer-contact h6 {
-    font-size: 0.88rem !important;
-    margin-bottom: 8px !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 12px !important;
   }
   .site-footer .footer-links li,
   .site-footer .contact-list li,
   .site-footer .footer-contact ul li {
-    margin-bottom: 5px !important;
-    font-size: 0.78rem !important;
+    margin-bottom: 8px !important;
+    font-size: 0.82rem !important;
   }
   .site-footer .footer-links a,
   .site-footer .contact-list a {
-    gap: 6px !important;
+    gap: 8px !important;
     min-height: 22px;
   }
   .footer-bottom {
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
     text-align: center;
-    margin-top: 12px !important;
-    padding-top: 10px !important;
+    margin-top: 18px !important;
+    padding-top: 14px !important;
   }
   .footer-copyright,
-  .footer-legal { font-size: 0.7rem !important; }
-  .footer-legal a { margin: 0 6px; }
+  .footer-legal { font-size: 0.74rem !important; }
+  .footer-legal { justify-content: center; gap: 16px !important; }
 }
 
 @media (max-width: 360px) {
   .site-footer .col-lg-3,
-  .site-footer .col-lg-4 { padding: 0 6px !important; }
+  .site-footer .col-lg-4 { padding: 0 8px !important; }
   .site-footer .footer-links li,
-  .site-footer .contact-list li { font-size: 0.74rem !important; }
+  .site-footer .contact-list li { font-size: 0.78rem !important; }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
