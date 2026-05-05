@@ -420,10 +420,10 @@ body {
 }
 
 .panel {
-  background: var(--apple-glass-bg);
-  -webkit-backdrop-filter: var(--acg-glass);
-  backdrop-filter: var(--acg-glass);
-  border: 1px solid var(--apple-glass-border);
+  background: #ffffff;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--apple-radius);
   box-shadow: var(--apple-card-shadow);
   margin-bottom: var(--space-md);
@@ -955,10 +955,10 @@ body {
 }
 
 .item-table-container {
-  background: var(--apple-glass-bg);
-  -webkit-backdrop-filter: var(--acg-glass);
-  backdrop-filter: var(--acg-glass);
-  border: 1px solid var(--apple-glass-border);
+  background: #ffffff;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--apple-radius);
   box-shadow: var(--apple-card-shadow);
   overflow: hidden;
