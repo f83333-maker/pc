@@ -44,9 +44,11 @@ class Config extends Manage
         $inits = ["closed", "registered_state", "registered_type", "registered_verification", "registered_phone_verification", "registered_email_verification", "login_verification", "forget_type", "trade_verification", "session_expire", "request_log"]; 
 
         $file = $post['logo'];
-        if ($file != '/favicon.ico') {
+        if ($file && $file != '/favicon.ico') {
             @copy(BASE_PATH . $file, BASE_PATH . '/favicon.ico');
             @unlink(BASE_PATH . $file);
+            // 文件已复制到 /favicon.ico，更新 post 中的路径以便正确保存到数据库
+            $post['logo'] = '/favicon.ico';
         }
         try {
             if (isset($post['ip_get_mode'])) {
