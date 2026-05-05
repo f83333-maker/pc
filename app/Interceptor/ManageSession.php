@@ -14,8 +14,8 @@ use JetBrains\PhpStorm\NoReturn;
 use Kernel\Annotation\Interceptor;
 use Kernel\Annotation\InterceptorInterface;
 use Kernel\Consts\Base;
-use Kernel\Context\FPM\Request;
 use Kernel\Exception\JSONException;
+use Kernel\Util\File;
 use Kernel\Util\View;
 
 class ManageSession implements InterceptorInterface
@@ -59,8 +59,8 @@ class ManageSession implements InterceptorInterface
         }
 
         // 使用与 Admin.php 拦截器相同的IP获取方式，确保一致性
-        $request = new Request();
-        $clientIp = $request->clientIp();
+        // 优先从 runtime/ip.mode 读取（新版配置），这与登录时保存IP的逻辑一致
+        $clientIp = $this->getClientIp();
         
         if (
             $jwt->expire <= time() ||
@@ -81,6 +81,44 @@ class ManageSession implements InterceptorInterface
         }
 
         Context::set(ManageConst::SESSION, $manage);
+    }
+
+    /**
+     * 获取客户端IP，使用与新版拦截器一致的逻辑
+     * 优先从 runtime/ip.mode 读取配置（与登录时保存IP的逻辑一致）
+     */
+    private function getClientIp(): string
+    {
+        $ipModeFile = BASE_PATH . "/runtime/ip.mode";
+        
+        // 新版IP获取协议头映射（与 Kernel\Util\Ip 保持一致）
+        $ipProtocolHeaders = [
+            'XForwardedFor' => 'HTTP_X_FORWARDED_FOR',
+            'XRealIp' => 'HTTP_X_REAL_IP',
+            'ClientIp' => 'HTTP_CLIENT_IP',
+            'XForwarded' => 'HTTP_X_FORWARDED',
+            'XClusterClientIp' => 'HTTP_X_CLUSTER_CLIENT_IP',
+            'ForwardedFor' => 'HTTP_FORWARDED_FOR',
+            'Forwarded' => 'HTTP_FORWARDED',
+            'CfConnectingIp' => 'HTTP_CF_CONNECTING_IP'
+        ];
+        
+        // 尝试从新版配置文件读取
+        if (file_exists($ipModeFile)) {
+            $mode = trim(File::read($ipModeFile) ?: "auto");
+            if ($mode !== "auto" && isset($ipProtocolHeaders[$mode])) {
+                $headerKey = $ipProtocolHeaders[$mode];
+                if (isset($_SERVER[$headerKey])) {
+                    $ips = explode(',', $_SERVER[$headerKey]);
+                    if (count($ips) > 0) {
+                        return trim($ips[0]);
+                    }
+                }
+            }
+        }
+        
+        // 如果新版配置不存在或为auto，回退到旧版逻辑
+        return Client::getAddress();
     }
 
     #[NoReturn] private function kick(int $type): void
