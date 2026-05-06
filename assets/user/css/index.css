@@ -1079,6 +1079,14 @@ body {
   overflow: hidden;
   flex: 1;
 }
+.table-row .col-name .item-name-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
 .table-row .col-name .item-name-text {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1086,6 +1094,22 @@ body {
   min-width: 0;
 }
 .table-row .col-name .item-tags-mobile { display: none; }
+
+/* 推荐标签：紧凑型，通用 */
+.badge-recommend {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1.3;
+  border-radius: 4px;
+  color: #ff4d4f;
+  background: rgba(255, 77, 79, 0.1);
+  border: 1px solid rgba(255, 77, 79, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
 
 .table-row .item-icon {
   width: clamp(28px, 3vw, 36px) !important;
@@ -1214,8 +1238,17 @@ body {
     max-width: 100%;
     overflow: hidden;
   }
+  .table-row .col-name .item-name-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
   .table-row .col-name .item-name-text {
-    font-size: 0.8rem !important;
+    font-size: 0.72rem !important;       /* 比上版小一号(0.8 → 0.72) */
     font-weight: 600;
     color: var(--apple-text);
     overflow: hidden;
@@ -1223,26 +1256,38 @@ body {
     white-space: nowrap;
     min-width: 0;
     max-width: 100%;
-    line-height: 1.2;
+    line-height: 1.25;
   }
   .table-row .col-name .item-tags-mobile {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 4px;                      /* 标签之间紧凑 */
+    gap: 4px;
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
   }
-  .table-row .col-name .item-tags-mobile .badge-delivery,
-  .table-row .col-name .item-tags-mobile .stock-text {
-    font-size: 0.58rem !important;
-    line-height: 1.2;
+  /* 移动端两个标签:统一底色+白字、紧凑、字号一致 */
+  .table-row .col-name .item-tags-mobile .tag-pill {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 0.56rem;
+    font-weight: 500;
+    line-height: 1.3;
+    border-radius: 4px;
+    color: #fff;
+    border: none;
     white-space: nowrap;
   }
-  .table-row .col-name .item-tags-mobile .badge-delivery {
-    padding: 1px 5px !important;
-    border-radius: 4px;
+  .table-row .col-name .item-tags-mobile .tag-delivery,
+  .table-row .col-name .item-tags-mobile .tag-stock.high {
+    background: #25a750;                  /* 充足 / 发货方式:绿 */
+  }
+  .table-row .col-name .item-tags-mobile .tag-stock.medium {
+    background: #faad14;                  /* 一般:黄 */
+  }
+  .table-row .col-name .item-tags-mobile .tag-stock.low {
+    background: #ca3f64;                  /* 紧张 / 售罄:红 */
   }
 
   /* 缩小左侧产品 logo（缩小一倍：36 → 18），不遮挡名字 */
@@ -1294,10 +1339,12 @@ body {
   }
   .table-header .col-price, .table-row .col-price { min-width: 46px; }
   .table-header .col-action, .table-row .col-action { min-width: 50px; }
-  .table-row .col-name .item-name-text { font-size: 0.74rem !important; }
-  .table-row .col-name .item-tags-mobile .badge-delivery,
-  .table-row .col-name .item-tags-mobile .stock-text { font-size: 0.54rem !important; }
-  .table-row .col-name .item-tags-mobile .badge-delivery { padding: 1px 4px !important; }
+  .table-row .col-name .item-name-text { font-size: 0.66rem !important; }
+  .table-row .col-name .item-tags-mobile .tag-pill {
+    font-size: 0.52rem;
+    padding: 1px 5px;
+  }
+  .badge-recommend { font-size: 0.55rem; padding: 1px 4px; }
   .table-row .col-price { font-size: 0.78rem !important; }
   .btn-buy-now {
     padding: 4px 10px !important;
