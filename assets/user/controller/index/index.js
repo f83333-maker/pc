@@ -1,8 +1,8 @@
 !function () {
     const $ItemList = $(`.item-list`),
           $topCategoryList = $('.chip-list.top-category-list'), 
-          $subCategoryContainer = $topCategoryList.find('.sub-category-container').not('.sub-sub-category-container'), 
-          $subSubCategoryContainer = $topCategoryList.find('.sub-sub-category-container'), 
+          $subCategoryContainer = $topCategoryList.find('.sub-category-container[data-level="2"]'), 
+          $subSubCategoryContainer = $topCategoryList.find('.sub-category-container[data-level="3"]'), 
           categoryId = getVar("CAT_ID");
 
     let ALL_COMMODITIES = []; 
