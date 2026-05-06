@@ -25,7 +25,19 @@ class Upload implements \App\Service\Upload
 
     public function get(string $hash): ?string
     {
-        return (\App\Model\Upload::query()->where("hash", $hash)->first())?->path;
+        $record = \App\Model\Upload::query()->where("hash", $hash)->first();
+        if (!$record) {
+            return null;
+        }
+
+        // 关键：去重命中前先校验旧文件是否真实存在于磁盘。
+        // 若旧文件已被清理（404 死循环根因），把这条脏记录删除，让上传流程使用刚上传的新文件。
+        if (!is_file(BASE_PATH . $record->path)) {
+            \App\Model\Upload::query()->where("hash", $hash)->delete();
+            return null;
+        }
+
+        return $record->path;
     }
 
     public function remove(string $path): void
