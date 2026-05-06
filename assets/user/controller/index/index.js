@@ -193,15 +193,47 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 关键：用户主动点击时，在调用 _PushCommodityList 触发 fadeIn 之前就立刻把视图滚到顶部。
-        // 直接赋值 scrollTop = 0 是浏览器最底层的同步操作，绕开 CSS scroll-behavior:smooth 和动画队列，
-        // 一帧瞬时完成。这时 sub-container 的 insertAfter 已执行完，分类区高度已稳定。
-        // 之后 fadeIn 商品列表只是从底部展开高度，视图位置(scrollTop=0)不会再被推动，
-        // 一/二/三级胶囊条始终留在屏幕顶部可见区域。
-        if (isUserClick) {
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-        }
+        // 切换后滚到分类条 helper：精确计算 top-category-list 的绝对位置，
+        // 减去 sticky header 高度后瞬时滚到位（绕开 scroll-behavior:smooth）。
+        // 必须在 fadeIn 完成后调用，否则 reflow 会让位置计算错。
+        const scrollAfterRender = () => {
+            if (!isUserClick) return;
+
+            const target = $topCategoryList[0];
+            if (!target) {
+                console.log('[v0-scroll] no target');
+                return;
+            }
+
+            const headerEl = document.querySelector('.navbar-acg');
+            const headerH = headerEl ? headerEl.getBoundingClientRect().height : 0;
+            const rect = target.getBoundingClientRect();
+            const absoluteTop = window.scrollY + rect.top;
+            const finalTop = Math.max(0, absoluteTop - headerH - 16);
+
+            console.log('[v0-scroll] before', {
+                scrollY: window.scrollY,
+                rectTop: Math.round(rect.top),
+                absoluteTop: Math.round(absoluteTop),
+                headerH: Math.round(headerH),
+                finalTop: Math.round(finalTop),
+                docHeight: document.documentElement.scrollHeight
+            });
+
+            // 临时把 html 的 scroll-behavior 改 auto，确保 scrollTo 是瞬时的
+            const htmlEl = document.documentElement;
+            const oldBehavior = htmlEl.style.scrollBehavior;
+            htmlEl.style.scrollBehavior = 'auto';
+
+            window.scrollTo(0, finalTop);
+
+            console.log('[v0-scroll] after', { scrollY: window.scrollY });
+
+            requestAnimationFrame(() => {
+                htmlEl.style.scrollBehavior = oldBehavior;
+                console.log('[v0-scroll] next-frame', { scrollY: window.scrollY });
+            });
+        };
 
         // 商品过滤：递归收集所有后代分类 id
         if (ALL_COMMODITIES.length > 0) {
@@ -217,14 +249,14 @@ function _RenderSubCategories(parentId, activeId = null) {
                     filtered = ALL_COMMODITIES.filter(item => item.category_id === id);
                 }
             }
-            _PushCommodityList(filtered);
+            _PushCommodityList(filtered, scrollAfterRender);
         } else {
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
                 done: data => {
                     ALL_COMMODITIES = data;
-                    _PushCommodityList(data);
+                    _PushCommodityList(data, scrollAfterRender);
                 }
             });
         }
