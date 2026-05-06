@@ -193,17 +193,13 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 切换后滚回分类顶部 helper：作为 _PushCommodityList 的 fadeIn 完成回调，
-        // 等所有 DOM/动画稳定后再触发，杜绝 reflow 抖动；
-        // sticky header 被遮挡问题由 CSS scroll-margin-top 原生处理。
+        // 切换后滚到页面绝对顶部 helper：作为 _PushCommodityList 的 fadeIn 完成回调。
+        // 用 window.scrollTo(0, 0) 瞬时滚动，不依赖任何元素位置，
+        // 不受 sub-container insertAfter / fadeIn / sticky header 的 reflow 影响，
+        // 一级 / 二级 / 三级 chip 切换行为完全一致。
         const scrollAfterRender = () => {
             if (!isUserClick) return;
-            requestAnimationFrame(() => {
-                const target = ($topCategoryList[0] || $ItemList[0]);
-                if (target && typeof target.scrollIntoView === 'function') {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+            window.scrollTo(0, 0);
         };
 
         // 商品过滤：递归收集所有后代分类 id
