@@ -7,6 +7,8 @@
 
     let ALL_COMMODITIES = []; 
     let currentOpenSubCategoryParentId = null;
+    // 切换分类时的滚动 token：深层级联调用的去抖，只让最后一次生效
+    let _scrollToken = 0;
 
     // === 三级分类支持：递归 helper ===
     function _FindCategoryPath(id) {
@@ -52,9 +54,10 @@
     }
 
 
-    function _PushCommodityList(data) {
+    function _PushCommodityList(data, onComplete) {
         if (data.length === 0) {
             $ItemList.html(`<div class="item-footer">没有找到相关商品</div>`);
+            if (typeof onComplete === 'function') onComplete();
             return;
         }
 
@@ -121,7 +124,9 @@
             </div>
         </div>`;
 
-        $ItemList.hide().html(html).fadeIn(200);
+        $ItemList.hide().html(html).fadeIn(200, function () {
+            if (typeof onComplete === 'function') onComplete();
+        });
     }
 
 function _RenderSubCategories(parentId, activeId = null) {
@@ -190,23 +195,41 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 用户主动点击时，sub-container 已 insertAfter 完成，分类区高度已稳定。
-        // 此时同步计算 top-category-list 绝对位置，对齐到 sticky header 下方，瞬时滚动一次。
-        // 之后 _PushCommodityList 的 fadeIn 只影响下方商品列表区域高度，
-        // 配合 body { overflow-anchor: none } 不会推动 scrollTop，无需后续校正，因此无抖动。
-        if (isUserClick) {
-            const target = $topCategoryList[0];
-            if (target) {
+        // 切换后滚到分类条 helper：把 top-category-list 对齐到 sticky header 下方。
+        // 用 token 去抖（深层级联只让最后一次生效），再在 600ms 内多次校正，
+        // 应对 fadeIn / 异步 AJAX 引发的 reflow 把 scrollTop 推走的问题。
+        // 调试期间保留 [v0-scroll] 日志，等用户确认完美再清理。
+        const scrollAfterRender = (tag) => {
+            if (!isUserClick) return;
+            const myToken = ++_scrollToken;
+
+            const performScroll = (label) => {
+                if (myToken !== _scrollToken) {
+                    console.log('[v0-scroll]', tag, label, 'aborted (token superseded)');
+                    return;
+                }
+                const target = $topCategoryList[0];
+                if (!target) return;
                 const headerEl = document.querySelector('.navbar-acg');
                 const headerH = headerEl ? headerEl.getBoundingClientRect().height : 0;
                 const rect = target.getBoundingClientRect();
                 const absoluteTop = window.scrollY + rect.top;
                 const finalTop = Math.max(0, absoluteTop - headerH - 16);
-                if (Math.abs(window.scrollY - finalTop) > 2) {
+                const before = window.scrollY;
+                let didScroll = false;
+                if (Math.abs(before - finalTop) > 2) {
                     window.scrollTo(0, finalTop);
+                    didScroll = true;
                 }
-            }
-        }
+                console.log('[v0-scroll]', tag, label, {
+                    before, finalTop, after: window.scrollY,
+                    rectTop: Math.round(rect.top), headerH: Math.round(headerH), didScroll
+                });
+            };
+
+            performScroll('immediate');
+            [50, 120, 220, 350, 550].forEach(d => setTimeout(() => performScroll('+' + d + 'ms'), d));
+        };
 
         // 商品过滤：递归收集所有后代分类 id
         if (ALL_COMMODITIES.length > 0) {
@@ -222,14 +245,14 @@ function _RenderSubCategories(parentId, activeId = null) {
                     filtered = ALL_COMMODITIES.filter(item => item.category_id === id);
                 }
             }
-            _PushCommodityList(filtered);
+            _PushCommodityList(filtered, () => scrollAfterRender('sync'));
         } else {
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
                 done: data => {
                     ALL_COMMODITIES = data;
-                    _PushCommodityList(data);
+                    _PushCommodityList(data, () => scrollAfterRender('async'));
                 }
             });
         }
