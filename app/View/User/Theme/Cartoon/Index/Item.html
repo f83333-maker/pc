@@ -149,9 +149,8 @@
                         #{if $item.seckill_status == 1}
                             <span class="badge-soft snap-up" style="display: none;"></span>
                         #{/if}
-                        <span class="badge-soft badge-soft-success">#{if $item.delivery_way == 0}自动发货#{else}在线发货#{/if}</span>
-                        <span class="badge-soft badge-soft-primary">已售 #{$item.order_sold}</span>
-                        <span class="badge-soft badge-soft-success item-stock">库存 #{$item.stock}</span>
+                        <span class="tag-pill tag-delivery">#{if $item.delivery_way == 0}自动发货#{else}在线发货#{/if}</span>
+                        <span class="tag-pill tag-stock #{if $item.stock == 0}low#{elseif $item.stock <= 5}low#{elseif $item.stock <= 20}medium#{else}high#{/if} item-stock">#{if $item.stock == 0}已售罄#{else}库存 #{$item.stock}#{/if}</span>
                     </div>
 
                     <div class="d-flex align-items-baseline gap-2 mb-4 abacus">

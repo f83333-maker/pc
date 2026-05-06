@@ -163,13 +163,20 @@
             url: "/user/api/index/stock",
             data: _getPostData(),
             done: res => {
+                // 兼容旧 class 名
+                $itemStock.removeClass("badge-soft-success badge-soft-danger high medium low");
+
                 if (res.data.stock_state <= 0) {
                     $cashPay.fadeOut(150);
-                    $itemStock.removeClass("badge-soft-success").addClass("badge-soft-danger").html(`已售罄`);
+                    $itemStock.addClass("low").html(`已售罄`);
                     return;
                 }
 
-                $itemStock.removeClass("badge-soft-danger").addClass('badge-soft-success').html(`库存 ${res.data.stock}`);
+                let level = "high";
+                if (res.data.stock <= 5) level = "low";
+                else if (res.data.stock <= 20) level = "medium";
+
+                $itemStock.addClass(level).html(`库存 ${res.data.stock}`);
                 $cashPay.fadeIn(150);
             },
             loader: false

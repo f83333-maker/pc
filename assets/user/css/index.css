@@ -1111,6 +1111,24 @@ body {
   margin-top: 1px;
 }
 
+/* 通用 tag-pill：底色+白字胶囊（详情页等大空间使用，
+   首页商品表 .item-tags-mobile 内会被更高优先级覆盖为更小尺寸） */
+.tag-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+  border-radius: 6px;
+  color: #fff;
+  border: none;
+  white-space: nowrap;
+}
+.tag-pill.tag-delivery,
+.tag-pill.tag-stock.high   { background: #25a750; }
+.tag-pill.tag-stock.medium { background: #faad14; }
+.tag-pill.tag-stock.low    { background: #ca3f64; }
+
 .table-row .item-icon {
   width: clamp(28px, 3vw, 36px) !important;
   height: clamp(28px, 3vw, 36px) !important;
