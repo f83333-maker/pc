@@ -193,14 +193,15 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 切换后滚到页面绝对顶部 helper：作为 _PushCommodityList 的 fadeIn 完成回调。
-        // 用 window.scrollTo(0, 0) 瞬时滚动，不依赖任何元素位置，
-        // 不受 sub-container insertAfter / fadeIn / sticky header 的 reflow 影响，
-        // 一级 / 二级 / 三级 chip 切换行为完全一致。
-        const scrollAfterRender = () => {
-            if (!isUserClick) return;
-            window.scrollTo(0, 0);
-        };
+        // 关键：用户主动点击时，在调用 _PushCommodityList 触发 fadeIn 之前就立刻把视图滚到顶部。
+        // 直接赋值 scrollTop = 0 是浏览器最底层的同步操作，绕开 CSS scroll-behavior:smooth 和动画队列，
+        // 一帧瞬时完成。这时 sub-container 的 insertAfter 已执行完，分类区高度已稳定。
+        // 之后 fadeIn 商品列表只是从底部展开高度，视图位置(scrollTop=0)不会再被推动，
+        // 一/二/三级胶囊条始终留在屏幕顶部可见区域。
+        if (isUserClick) {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
 
         // 商品过滤：递归收集所有后代分类 id
         if (ALL_COMMODITIES.length > 0) {
@@ -216,14 +217,14 @@ function _RenderSubCategories(parentId, activeId = null) {
                     filtered = ALL_COMMODITIES.filter(item => item.category_id === id);
                 }
             }
-            _PushCommodityList(filtered, scrollAfterRender);
+            _PushCommodityList(filtered);
         } else {
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
                 done: data => {
                     ALL_COMMODITIES = data;
-                    _PushCommodityList(data, scrollAfterRender);
+                    _PushCommodityList(data);
                 }
             });
         }
