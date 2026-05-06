@@ -10,35 +10,6 @@
     // 切换分类时的滚动 token：深层级联调用的去抖，只让最后一次生效
     let _scrollToken = 0;
 
-    // === 调试：记录 scrollY 异常变化的元凶 ===
-    // 1) 全局 scroll 事件：打印每次 scrollY 变化（被动监听，不影响业务）
-    let _lastScrollY = window.scrollY;
-    window.addEventListener('scroll', () => {
-        const now = window.scrollY;
-        if (Math.abs(now - _lastScrollY) > 1) {
-            console.log('[v0-scroll-evt]', { from: _lastScrollY, to: now });
-            _lastScrollY = now;
-        }
-    }, { passive: true });
-
-    // 2) 劫持 window.scrollTo / scrollBy 和 element.scrollIntoView：打印调用栈
-    const _origScrollTo = window.scrollTo.bind(window);
-    window.scrollTo = function (...args) {
-        console.log('[v0-scrollTo-call]', args, 'stack:', new Error().stack.split('\n').slice(1, 5).join(' | '));
-        return _origScrollTo.apply(window, args);
-    };
-    const _origScrollBy = window.scrollBy.bind(window);
-    window.scrollBy = function (...args) {
-        console.log('[v0-scrollBy-call]', args);
-        return _origScrollBy.apply(window, args);
-    };
-    const _origScrollIntoView = Element.prototype.scrollIntoView;
-    Element.prototype.scrollIntoView = function (...args) {
-        console.log('[v0-scrollIntoView-call]', this.tagName, this.className, args,
-            'stack:', new Error().stack.split('\n').slice(1, 5).join(' | '));
-        return _origScrollIntoView.apply(this, args);
-    };
-
     // === 三级分类支持：递归 helper ===
     function _FindCategoryPath(id) {
         function dfs(nodes, ancestors) {
@@ -325,15 +296,29 @@ function _RenderSubCategories(parentId, activeId = null) {
         }
     });
 
+    // mousedown 抢在浏览器原生 focus 之前调用 preventDefault，
+    // 这样点击 <a> chip 时不会触发浏览器内置的 "focus-into-view" 平滑滚动动画，
+    // 否则该动画会在 200~600ms 内反复覆盖我们 scrollAfterRender 的 window.scrollTo。
+    $(document).on('mousedown touchstart', '.top-category-list > .switch-category.chip, .sub-category-container .chip', function (e) {
+        e.preventDefault();
+    });
+
     $(document).on('click', '.top-category-list > .switch-category.chip', function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
+        // 主动 blur 当前焦点，防止上一次 focus 的元素继续触发滚动
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
         const clickedId = $(this).data("id");
         _SwitchCategory(clickedId, true); 
     });
 
     $(document).on('click', '.sub-category-container .chip', function(e) {
         e.preventDefault();
-        e.stopPropagation(); 
+        e.stopPropagation();
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
         const clickedId = $(this).data("id");
         _SwitchCategory(clickedId, true); 
     });
