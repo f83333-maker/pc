@@ -190,6 +190,22 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
+        // 把"切换后滚回分类顶部"封装为 helper，
+        // 同步分支(ALL_COMMODITIES 已缓存)与异步分支(getCommodityList done 回调)
+        // 都在 _PushCommodityList 之后调用它，保证两种路径行为完全一致。
+        const scrollAfterRender = () => {
+            if (!isUserClick) return;
+            // 嵌套两层 RAF：等当前帧 + 等 fadeIn 引发的 reflow 应用完成
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    const target = ($topCategoryList[0] || $ItemList[0]);
+                    if (target && typeof target.scrollIntoView === 'function') {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        };
+
         // 商品过滤：递归收集所有后代分类 id
         if (ALL_COMMODITIES.length > 0) {
             let filtered = [];
@@ -205,31 +221,18 @@ function _RenderSubCategories(parentId, activeId = null) {
                 }
             }
             _PushCommodityList(filtered);
+            scrollAfterRender();
         } else {
-
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
                 done: data => {
-                    ALL_COMMODITIES = data; 
+                    ALL_COMMODITIES = data;
                     _PushCommodityList(data);
+                    // 异步路径：在 done 回调里、_PushCommodityList 触发 fadeIn 之后立即滚动，
+                    // 避免 scrollIntoView 先于异步渲染发生而被随后的 reflow 推走。
+                    scrollAfterRender();
                 }
-            });
-        }
-
-        // 用户主动点击 chip 时，把一级胶囊条对齐视口顶部，确保 1/2/3 级分类全部可见。
-        // 用浏览器原生 scrollIntoView，并嵌套两层 requestAnimationFrame：
-        //   第 1 帧：等当前点击事件处理完
-        //   第 2 帧：等 _PushCommodityList 的 hide()/html()/fadeIn 引发的 reflow 应用
-        // 比 jQuery animate 更稳定，不会被 scroll anchoring 拦截。
-        if (isUserClick) {
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    const target = ($topCategoryList[0] || $ItemList[0]);
-                    if (target && typeof target.scrollIntoView === 'function') {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
             });
         }
     }
