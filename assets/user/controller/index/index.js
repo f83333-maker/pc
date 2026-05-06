@@ -1,9 +1,11 @@
 !function () {
+    console.log("[v0] index.js v3.6.5 loaded - 三级分类版本");
     const $ItemList = $(`.item-list`),
           $topCategoryList = $('.chip-list.top-category-list'), 
           $subCategoryContainer = $topCategoryList.find('.sub-category-container[data-level="2"]'), 
           $subSubCategoryContainer = $topCategoryList.find('.sub-category-container[data-level="3"]'), 
           categoryId = getVar("CAT_ID");
+    console.log("[v0] containers found - L2:", $subCategoryContainer.length, "L3:", $subSubCategoryContainer.length);
 
     let ALL_COMMODITIES = []; 
     let currentOpenSubCategoryParentId = null; 
