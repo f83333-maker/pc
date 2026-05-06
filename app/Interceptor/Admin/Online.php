@@ -46,10 +46,10 @@ class Online implements Interceptor
             return $this->login($request, $response, $type);
         }
 
+        // 不再校验客户端 IP：管理员 IP 漂移（移动办公、动态 IP、CDN 出口）不应踢出会话
         if (
             $jwt->expire <= time() ||
             $manage->login_time != $jwt->loginTime ||
-            $manage->login_ip != $request->clientIp() ||
             $manage->login_status != 1 ||
             $manage->status != 1
         ) {
