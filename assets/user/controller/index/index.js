@@ -296,15 +296,29 @@ function _RenderSubCategories(parentId, activeId = null) {
         }
     });
 
+    // mousedown 抢在浏览器原生 focus 之前调用 preventDefault，
+    // 这样点击 <a> chip 时不会触发浏览器内置的 "focus-into-view" 平滑滚动动画，
+    // 否则该动画会在 200~600ms 内反复覆盖我们 scrollAfterRender 的 window.scrollTo。
+    $(document).on('mousedown touchstart', '.top-category-list > .switch-category.chip, .sub-category-container .chip', function (e) {
+        e.preventDefault();
+    });
+
     $(document).on('click', '.top-category-list > .switch-category.chip', function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
+        // 主动 blur 当前焦点，防止上一次 focus 的元素继续触发滚动
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
         const clickedId = $(this).data("id");
         _SwitchCategory(clickedId, true); 
     });
 
     $(document).on('click', '.sub-category-container .chip', function(e) {
         e.preventDefault();
-        e.stopPropagation(); 
+        e.stopPropagation();
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
         const clickedId = $(this).data("id");
         _SwitchCategory(clickedId, true); 
     });
