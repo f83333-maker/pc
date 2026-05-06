@@ -216,6 +216,16 @@ function _RenderSubCategories(parentId, activeId = null) {
                 }
             });
         }
+
+        // 用户主动点击 chip 时，平滑滚回分类区顶部，
+        // 确保切换后一级/二级/三级胶囊条始终在视野中（移动端 + PC 端通用）。
+        if (isUserClick) {
+            const $anchor = $topCategoryList.length ? $topCategoryList : $ItemList;
+            if ($anchor.length && $anchor.offset()) {
+                const targetTop = Math.max(0, $anchor.offset().top - 20);
+                $('html, body').stop(true, false).animate({ scrollTop: targetTop }, 300);
+            }
+        }
     }
 
     function _Search(keywords) {
