@@ -54,10 +54,16 @@
     }
 
 
-    function _PushCommodityList(data, onComplete) {
+    function _PushCommodityList(data) {
         if (data.length === 0) {
-            $ItemList.html(`<div class="item-footer">没有找到相关商品</div>`);
-            if (typeof onComplete === 'function') onComplete();
+            // 不用 hide()/fadeIn()：display:none 会让文档高度临时缩小，
+            // 期间的 scrollTo 会被浏览器 clamp 到很小的值，造成视觉抖动。
+            // 改用 CSS opacity 渐显：html 立即填充，元素始终占据布局高度。
+            $ItemList.css({ transition: '', opacity: 0 })
+                .html(`<div class="item-footer">没有找到相关商品</div>`);
+            requestAnimationFrame(() => {
+                $ItemList.css({ transition: 'opacity 200ms ease', opacity: 1 });
+            });
             return;
         }
 
@@ -124,11 +130,13 @@
             </div>
         </div>`;
 
-        // 用 promise().done() 替代 fadeIn(duration, callback)：
-        // jQuery 的 callback 形式会按 $ItemList 集合元素数量分别调用 callback（可能多次），
-        // promise().done() 等所有动画都完成只调一次，确保 scrollAfterRender 不被多次触发。
-        $ItemList.hide().html(html).fadeIn(200).promise().done(function () {
-            if (typeof onComplete === 'function') onComplete();
+        // 用 CSS opacity 渐显替代 jQuery hide()/fadeIn()：
+        // hide() 会让 ItemList display:none，文档总高度临时缩小，
+        // 此时的滚动操作会被浏览器 clamp 到极小值（如 final:3 的诡异日志）；
+        // CSS opacity 渐显时元素始终占布局，文档高度稳定，滚动目标可达。
+        $ItemList.css({ transition: '', opacity: 0 }).html(html);
+        requestAnimationFrame(() => {
+            $ItemList.css({ transition: 'opacity 200ms ease', opacity: 1 });
         });
     }
 
@@ -198,59 +206,7 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 切换后丝滑滚动到分类条 helper。
-        // 用自实现 RAF + cubic ease-out 滚动，每帧严格检查 token：
-        // - 若新动画启动（token 自增），旧动画当前帧立即停止，让新动画从"当前位置"接力
-        // - 浏览器原生 scrollTo({behavior:'smooth'}) 重复调用时会重启整个动画，造成卡顿；
-        //   自实现版每帧 scrollTo(0, y) 是瞬时操作，连续帧自然平滑
-        // 调试期间保留 [v0-scroll] 日志，等用户确认完美再清理。
-        const scrollAfterRender = (tag) => {
-            if (!isUserClick) return;
-            const myToken = ++_scrollToken;
-
-            requestAnimationFrame(() => {
-                if (myToken !== _scrollToken) {
-                    console.log('[v0-scroll]', tag, 'aborted (token superseded)');
-                    return;
-                }
-                const target = $topCategoryList[0];
-                if (!target) return;
-                const rect = target.getBoundingClientRect();
-                const absoluteTop = window.scrollY + rect.top;
-                // 用固定 96px header 缓冲（navbar 设计高度 80 + 16 间距），
-                // getBoundingClientRect() 在 sticky 状态切换瞬间会读到异常值
-                const HEADER_BUFFER = 96;
-                const finalTop = Math.max(0, absoluteTop - HEADER_BUFFER);
-                const startY = window.scrollY;
-                const distance = finalTop - startY;
-                if (Math.abs(distance) <= 2) {
-                    console.log('[v0-scroll]', tag, 'skip (already at target)', { before: startY, finalTop });
-                    return;
-                }
-                console.log('[v0-scroll]', tag, 'scroll-start', { before: startY, finalTop, distance });
-
-                const duration = 320;
-                const startTime = performance.now();
-                const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-
-                const step = (now) => {
-                    // 新动画启动了，立即让位
-                    if (myToken !== _scrollToken) return;
-                    const elapsed = now - startTime;
-                    const t = Math.min(1, elapsed / duration);
-                    const y = startY + distance * easeOutCubic(t);
-                    window.scrollTo(0, y);
-                    if (t < 1) {
-                        requestAnimationFrame(step);
-                    } else {
-                        console.log('[v0-scroll]', tag, 'scroll-end', { final: window.scrollY });
-                    }
-                };
-                requestAnimationFrame(step);
-            });
-        };
-
-        // 商品过滤：递归收集所有后代分类 id
+        // 商品过滤：递归收集所有后代分类 id（同步分支立即填充内容，让文档高度稳定）
         if (ALL_COMMODITIES.length > 0) {
             let filtered = [];
             if (id === 'recommend') {
@@ -264,15 +220,51 @@ function _RenderSubCategories(parentId, activeId = null) {
                     filtered = ALL_COMMODITIES.filter(item => item.category_id === id);
                 }
             }
-            _PushCommodityList(filtered, () => scrollAfterRender('sync'));
+            _PushCommodityList(filtered);
         } else {
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
                 done: data => {
                     ALL_COMMODITIES = data;
-                    _PushCommodityList(data, () => scrollAfterRender('async'));
+                    _PushCommodityList(data);
                 }
+            });
+        }
+
+        // 丝滑滚动到分类条：
+        // 1. _PushCommodityList 已用 CSS opacity 渐显（无 display:none），文档高度立即稳定，
+        //    finalTop 可达，浏览器不会 clamp 滚动目标
+        // 2. 用 jQuery $('html,body').stop(true).animate(...) 丝滑滚动：
+        //    stop(true) 立即终止旧动画（包括队列中其他 animate），新动画从当前 scrollY 接力，
+        //    连点 chip 时天然丝滑无抖
+        // 3. 包一层 RAF 等 _PushCommodityList 的 html() inject 触发的 layout 完成
+        // 调试期间保留 [v0-scroll] 日志，等用户确认完美再清理。
+        if (isUserClick) {
+            const myToken = ++_scrollToken;
+            requestAnimationFrame(() => {
+                if (myToken !== _scrollToken) {
+                    console.log('[v0-scroll] aborted (token superseded)');
+                    return;
+                }
+                const target = $topCategoryList[0];
+                if (!target) return;
+                const rect = target.getBoundingClientRect();
+                const absoluteTop = window.scrollY + rect.top;
+                const HEADER_BUFFER = 96; // navbar 80 + 16 间距，固定值避免 sticky 测量异常
+                const finalTop = Math.max(0, absoluteTop - HEADER_BUFFER);
+                const startY = window.scrollY;
+                if (Math.abs(finalTop - startY) <= 2) {
+                    console.log('[v0-scroll] skip (already at target)', { before: startY, finalTop });
+                    return;
+                }
+                console.log('[v0-scroll] scroll-start', { before: startY, finalTop, distance: finalTop - startY });
+                $('html, body').stop(true, false).animate(
+                    { scrollTop: finalTop },
+                    320,
+                    'swing',
+                    () => console.log('[v0-scroll] scroll-end', { final: window.scrollY })
+                );
             });
         }
     }
