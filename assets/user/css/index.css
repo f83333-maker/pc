@@ -87,7 +87,8 @@ i, [class^="fa-"], [class*=" fa-"],
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-behavior: smooth;
+  /* 不使用全局 smooth：它会接管所有 scrollTo / scrollIntoView，
+     与点击分类后立即重置 scrollTop 的逻辑互相干扰，导致分类条被推出视野 */
   background: var(--apple-bg);
   background-attachment: scroll;
   background-size: 100% 100vh;

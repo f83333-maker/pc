@@ -6,7 +6,9 @@
           categoryId = getVar("CAT_ID");
 
     let ALL_COMMODITIES = []; 
-    let currentOpenSubCategoryParentId = null; 
+    let currentOpenSubCategoryParentId = null;
+    // 切换分类时的滚动 token：用于深层级联调用的去抖，只让最后一次生效
+    let _scrollToken = 0;
 
     // === 三级分类支持：递归 helper ===
     function _FindCategoryPath(id) {
@@ -193,46 +195,31 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 切换后滚到分类条 helper：精确计算 top-category-list 的绝对位置，
-        // 减去 sticky header 高度后瞬时滚到位（绕开 scroll-behavior:smooth）。
-        // 必须在 fadeIn 完成后调用，否则 reflow 会让位置计算错。
+        // 切换后滚到分类条 helper：把 top-category-list 对齐到 sticky header 下方。
+        // 多次触发用 SCROLL_TOKEN 去抖（深层级联只让最后一次生效）；
+        // 滚动后在 600ms 内多次校正一次，应对 fadeIn / 异步渲染引发的 reflow 把 scrollTop 推走。
         const scrollAfterRender = () => {
             if (!isUserClick) return;
 
-            const target = $topCategoryList[0];
-            if (!target) {
-                console.log('[v0-scroll] no target');
-                return;
-            }
+            const myToken = ++_scrollToken;
 
-            const headerEl = document.querySelector('.navbar-acg');
-            const headerH = headerEl ? headerEl.getBoundingClientRect().height : 0;
-            const rect = target.getBoundingClientRect();
-            const absoluteTop = window.scrollY + rect.top;
-            const finalTop = Math.max(0, absoluteTop - headerH - 16);
+            const performScroll = () => {
+                if (myToken !== _scrollToken) return; // 被更晚的调用接管了
+                const target = $topCategoryList[0];
+                if (!target) return;
+                const headerEl = document.querySelector('.navbar-acg');
+                const headerH = headerEl ? headerEl.getBoundingClientRect().height : 0;
+                const rect = target.getBoundingClientRect();
+                const absoluteTop = window.scrollY + rect.top;
+                const finalTop = Math.max(0, absoluteTop - headerH - 16);
+                if (Math.abs(window.scrollY - finalTop) > 2) {
+                    window.scrollTo(0, finalTop);
+                }
+            };
 
-            console.log('[v0-scroll] before', {
-                scrollY: window.scrollY,
-                rectTop: Math.round(rect.top),
-                absoluteTop: Math.round(absoluteTop),
-                headerH: Math.round(headerH),
-                finalTop: Math.round(finalTop),
-                docHeight: document.documentElement.scrollHeight
-            });
-
-            // 临时把 html 的 scroll-behavior 改 auto，确保 scrollTo 是瞬时的
-            const htmlEl = document.documentElement;
-            const oldBehavior = htmlEl.style.scrollBehavior;
-            htmlEl.style.scrollBehavior = 'auto';
-
-            window.scrollTo(0, finalTop);
-
-            console.log('[v0-scroll] after', { scrollY: window.scrollY });
-
-            requestAnimationFrame(() => {
-                htmlEl.style.scrollBehavior = oldBehavior;
-                console.log('[v0-scroll] next-frame', { scrollY: window.scrollY });
-            });
+            // 立即一次 + 后续多次校正；每次都以最新 DOM 重新计算 finalTop
+            performScroll();
+            [50, 120, 220, 350, 550].forEach(delay => setTimeout(performScroll, delay));
         };
 
         // 商品过滤：递归收集所有后代分类 id
