@@ -59,8 +59,11 @@ class Manage implements \App\Service\Admin\Manage
         $manage->login_status = 1;
         $manage->save();
 
+        // 管理员登录 cookie 统一 1 小时有效（忽略后台 session_expire 配置）
+        $sessionExpire = 3600;
+
         $payload = array(
-            "expire" => time() + $config['session_expire'],
+            "expire" => time() + $sessionExpire,
             "loginTime" => $manage->login_time
         );
 
@@ -71,7 +74,7 @@ class Manage implements \App\Service\Admin\Manage
             head: ["mid" => $manage->id]
         ));
 
-        $response->withCookie(Cookie::MANAGE_TOKEN, $jwt, (int)$config['session_expire']);
+        $response->withCookie(Cookie::MANAGE_TOKEN, $jwt, $sessionExpire);
 
         $hook = Plugin::instance()->hook(App::$mEnv, Point::ADMIN_API_AUTH_LOGIN_AFTER, PGI::HOOK_TYPE_HTTP, $request, $response, $manage);
         if ($hook instanceof Response) return $hook;

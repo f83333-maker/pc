@@ -45,11 +45,8 @@ class ManageSSO implements \App\Service\ManageSSO
 
         ManageLog::log($manage, "登录了后台");
 
-        $expire = 86400;
-
-        if ($remember) {
-            $expire *= 365;
-        }
+        // 管理员登录 cookie 统一 1 小时有效（remember 选项不再延长会话，改为运维硬性要求）
+        $expire = 3600;
 
         $payload = array(
             "expire" => time() + $expire,

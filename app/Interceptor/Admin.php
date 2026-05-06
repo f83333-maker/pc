@@ -49,21 +49,12 @@ class Admin implements Interceptor
             return $this->login($request, $response, $type);
         }
 
-        // IP 段宽松比对：仅当客户端 IP 跨 /16 段才视为会话失效，
-        // 允许同地区/同 ISP 内的 IP 漂移（移动办公、CDN 节点切换、动态 IP）。
-        $ipChanged = false;
-        if (!empty($manage->login_ip)) {
-            $oldSeg = self::ipPrefix((string)$manage->login_ip);
-            $newSeg = self::ipPrefix((string)$request->clientIp());
-            if ($oldSeg !== '' && $newSeg !== '' && $oldSeg !== $newSeg) {
-                $ipChanged = true;
-            }
-        }
-
+        // 不再校验客户端 IP：
+        // 现实场景中管理员 IP 频繁漂移（移动办公、动态 IP、CDN 出口、跨运营商切换）会被误踢，
+        // 会话有效性已由 JWT expire + 数据库 login_time + login_status + status 联合保证。
         if (
             $jwt->expire <= time() ||
             $manage->login_time != $jwt->loginTime ||
-            $ipChanged ||
             $manage->login_status != 1 ||
             $manage->status != 1
         ) {
@@ -108,29 +99,6 @@ class Admin implements Interceptor
                 data: ["url" => "/admin?goto=" . urlencode($request->uri() . ($a ? "?" . $a : "")), "time" => 1, "message" => Language::instance()->output("登录已过期")]
             );
         }
-    }
-
-    /**
-     * 取 IP 段前缀，用于宽松比对：
-     *  IPv4 → 前两段 (/16)，例如 82.26.72.141 → "82.26"
-     *  IPv6 → 前两组 (/32)，例如 2001:db8::1   → "2001:db8"
-     *  非法 IP → 空串（视为不匹配以保持安全）
-     */
-    private static function ipPrefix(string $ip): string
-    {
-        $ip = trim($ip);
-        if ($ip === '') {
-            return '';
-        }
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-            $p = explode('.', $ip);
-            return isset($p[0], $p[1]) ? $p[0] . '.' . $p[1] : '';
-        }
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-            $p = explode(':', $ip);
-            return isset($p[0], $p[1]) ? $p[0] . ':' . $p[1] : '';
-        }
-        return '';
     }
 
     private function notPermission(Request $request, Response $response, int $type): Response
