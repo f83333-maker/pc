@@ -217,13 +217,20 @@ function _RenderSubCategories(parentId, activeId = null) {
             });
         }
 
-        // 用户主动点击 chip 时，平滑滚回页面顶部，确保 1/2/3 级胶囊条全部可见。
-        // setTimeout 延迟到 _PushCommodityList 的 fadeIn(200ms) 完成之后再触发，
-        // 避免因 DOM 高度变化导致浏览器 scroll anchoring 把视图推走。
+        // 用户主动点击 chip 时，把一级胶囊条对齐视口顶部，确保 1/2/3 级分类全部可见。
+        // 用浏览器原生 scrollIntoView，并嵌套两层 requestAnimationFrame：
+        //   第 1 帧：等当前点击事件处理完
+        //   第 2 帧：等 _PushCommodityList 的 hide()/html()/fadeIn 引发的 reflow 应用
+        // 比 jQuery animate 更稳定，不会被 scroll anchoring 拦截。
         if (isUserClick) {
-            setTimeout(() => {
-                $('html, body').stop(true, false).animate({ scrollTop: 0 }, 320);
-            }, 220);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    const target = ($topCategoryList[0] || $ItemList[0]);
+                    if (target && typeof target.scrollIntoView === 'function') {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
         }
     }
 
