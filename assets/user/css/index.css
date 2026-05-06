@@ -840,6 +840,10 @@ body {
   position: relative;
   z-index: 10;
   grid-template-columns: none;
+
+  /* 关键：scrollIntoView 对齐时自动留出 sticky header(.navbar-acg, 48~80px) 高度，
+     避免一级胶囊条被 header 遮挡。+16px 是视觉缓冲，让分类条与 header 有间距 */
+  scroll-margin-top: calc(clamp(48px, 7vw, 80px) + 16px);
 }
 
 .top-category-list > .switch-category.chip {

@@ -52,9 +52,10 @@
     }
 
 
-    function _PushCommodityList(data) {
+    function _PushCommodityList(data, onComplete) {
         if (data.length === 0) {
             $ItemList.html(`<div class="item-footer">没有找到相关商品</div>`);
+            if (typeof onComplete === 'function') onComplete();
             return;
         }
 
@@ -121,7 +122,9 @@
             </div>
         </div>`;
 
-        $ItemList.hide().html(html).fadeIn(200);
+        $ItemList.hide().html(html).fadeIn(200, function () {
+            if (typeof onComplete === 'function') onComplete();
+        });
     }
 
 function _RenderSubCategories(parentId, activeId = null) {
@@ -190,19 +193,16 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 把"切换后滚回分类顶部"封装为 helper，
-        // 同步分支(ALL_COMMODITIES 已缓存)与异步分支(getCommodityList done 回调)
-        // 都在 _PushCommodityList 之后调用它，保证两种路径行为完全一致。
+        // 切换后滚回分类顶部 helper：作为 _PushCommodityList 的 fadeIn 完成回调，
+        // 等所有 DOM/动画稳定后再触发，杜绝 reflow 抖动；
+        // sticky header 被遮挡问题由 CSS scroll-margin-top 原生处理。
         const scrollAfterRender = () => {
             if (!isUserClick) return;
-            // 嵌套两层 RAF：等当前帧 + 等 fadeIn 引发的 reflow 应用完成
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    const target = ($topCategoryList[0] || $ItemList[0]);
-                    if (target && typeof target.scrollIntoView === 'function') {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
+                const target = ($topCategoryList[0] || $ItemList[0]);
+                if (target && typeof target.scrollIntoView === 'function') {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
         };
 
@@ -220,18 +220,14 @@ function _RenderSubCategories(parentId, activeId = null) {
                     filtered = ALL_COMMODITIES.filter(item => item.category_id === id);
                 }
             }
-            _PushCommodityList(filtered);
-            scrollAfterRender();
+            _PushCommodityList(filtered, scrollAfterRender);
         } else {
             trade.getCommodityList({
                 categoryId: id,
                 loader: false,
                 done: data => {
                     ALL_COMMODITIES = data;
-                    _PushCommodityList(data);
-                    // 异步路径：在 done 回调里、_PushCommodityList 触发 fadeIn 之后立即滚动，
-                    // 避免 scrollIntoView 先于异步渲染发生而被随后的 reflow 推走。
-                    scrollAfterRender();
+                    _PushCommodityList(data, scrollAfterRender);
                 }
             });
         }
