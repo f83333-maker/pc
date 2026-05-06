@@ -91,10 +91,13 @@
                     <div class="col-name">
                         <img src="${item.cover}" class="item-icon" onerror="this.src='/favicon.ico'">
                         <div class="item-name-block">
-                            <span class="item-name-text">${item.name}${item.recommend === 1 ? ` <span class="badge-delivery ms-2" style="color:#ff4d4f;border-color:rgba(255,77,79,0.2);background:rgba(255,77,79,0.1)">推荐</span>` : ``}</span>
+                            <div class="item-name-row">
+                                <span class="item-name-text">${item.name}</span>
+                                ${item.recommend === 1 ? `<span class="badge-recommend">推荐</span>` : ``}
+                            </div>
                             <div class="item-tags-mobile">
-                                <span class="badge-delivery">${deliveryText}</span>
-                                <span class="stock-text ${stockStatus}">${stockText}</span>
+                                <span class="tag-pill tag-delivery">${deliveryText}</span>
+                                <span class="tag-pill tag-stock ${stockStatus}">${stockText}</span>
                             </div>
                         </div>
                     </div>
