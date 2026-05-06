@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>iPad/iPhone 安装旧版本 APP 的干净方法 - 使用教程</title>
+<meta name="description" content="借助旧版 iTunes 与 Fiddler 在 iPhone/iPad 上安装旧版本 App 的完整流程。">
+<link rel="stylesheet" href="/help/assets/styles.css">
+</head>
+<body>
+
+<nav class="global-nav" aria-label="主导航">
+    <div class="inner">
+        <div class="brand"><span class="logo" aria-hidden="true"></span><span>帮助中心</span></div>
+        <div class="links"><a href="/">首页</a><a href="/help/">使用教程</a></div>
+    </div>
+</nav>
+
+<section class="sub-nav">
+    <div class="inner">
+        <div class="title">使用教程</div>
+        <div class="search" role="search"><input type="search" placeholder="搜索教程文章" aria-label="搜索"></div>
+    </div>
+</section>
+
+<main class="article-wrap">
+    <nav class="breadcrumb" aria-label="面包屑">
+        <a href="/">首页</a><span class="sep">›</span>
+        <a href="/help/">使用教程</a><span class="sep">›</span>
+        <span>安装旧版本 App</span>
+    </nav>
+
+    <header class="article-header">
+        <div class="eyebrow">旧版本</div>
+        <h1 class="text-balance">iPad/iPhone 安装旧版本 APP 的干净方法</h1>
+        <p class="lead text-pretty">这一方法需要配合电脑完成，核心思路是：用最后一个支持下载 App 的旧版 iTunes，配合 Fiddler 拦截并修改请求中的版本 ID，从而下载到目标版本的 .ipa 安装包，再通过工具安装到设备上。</p>
+        <div class="article-meta"><span>发布日期：2025-10-23</span><span>分类：旧版本</span></div>
+    </header>
+
+    <article class="article-body">
+        <h2>第一步：安装旧版 iTunes</h2>
+        <p>需要使用 12.6.5.3 这个最后支持 App 下载的 iTunes 版本，官方下载地址如下：</p>
+        <pre class="code-block">64 位：https://secure-appldnld.apple.com/itunes12/091-87819-20180912-69177170-B085-11E8-B6AB-C1D03409AD2A6/iTunes64Setup.exe
+32 位：https://secure-appldnld.apple.com/itunes12/091-87820-20180912-69177170-B085-11E8-B6AB-C1D03409AD2A5/iTunesSetup.exe</pre>
+        <p>安装完成后打开 iTunes，点击菜单栏「账户」选项登录 Apple ID。如登录失败，可挂上代理重试；新账号需先在手机或网页登录一次以确认服务条款，否则 iTunes 因不支持显示条款会导致登录失败。</p>
+
+        <h2>第二步：安装并配置 Fiddler</h2>
+        <p>Fiddler 用于拦截并改写 iTunes 网络请求。</p>
+        <pre class="code-block">Fiddler 官网下载：https://www.telerik.com/download/fiddler</pre>
+        <ol>
+            <li>打开 Fiddler，点击菜单栏 Tools &rarr; Options。</li>
+            <li>在 HTTPS 选项卡下勾选「Capture HTTPS CONNECTs」与「Decrypt HTTPs traffic」，按提示安装证书。</li>
+            <li>勾选「Ignore server certificate errors (unsafe)」。</li>
+        </ol>
+
+        <h2>第三步：获取目标版本 ID</h2>
+        <p>下载旧版本 .ipa 之前，先要拿到目标软件版本 ID。可在以下网站查询：</p>
+        <pre class="code-block">https://appstore.bilin.eu.org
+https://app.agzy.cn</pre>
+        <p>如果查询不到，可以在 iTunes 中先下载该应用，然后点击 iTunes 菜单栏「文件」&rarr;「资料库」&rarr;「打开 Genius」，切换到「应用」分类，右键你下载的项目，选择「在 Windows 资源管理器中显示」。把生成的 .ipa 文件解压，打开其中的 <code>iTunesMetadata.plist</code>，搜索关键字 <code>softwareVersionExternalIdentifiers</code> 定位到版本 ID 列表（由旧到新）。可借助七麦数据等平台对照版本号确认对应关系。</p>
+
+        <h2>第四步：拦截并替换版本 ID 完成下载</h2>
+        <ol>
+            <li>在 iTunes 商店内进入目标应用详情页。</li>
+            <li>打开 Fiddler，左侧栏底部黑色输入框输入 <code>bpu MZBuy.woa</code> 回车，设置拦截断点。</li>
+            <li>回到 iTunes 点击下载，Fiddler 左侧栏会出现拦截标记的请求。点击它，在右侧 TextView 选项页找到版本 ID，替换为目标版本 ID。</li>
+            <li>点击「Run to Completion」绿色按钮，然后退出 Fiddler，iTunes 会接着下载所选版本。</li>
+        </ol>
+
+        <h2>第五步：取出并安装 .ipa</h2>
+        <p>下载完成后，按「文件」&rarr;「资料库」&rarr;「打开 Genius」，切换到「应用」，右键下载的项目，选择「在 Windows 资源管理器中显示」即可定位到 .ipa 安装包。再借助 iMazing 之类的工具就能把它安装到 iPhone/iPad 上。</p>
+
+        <div class="callout">
+            <strong>更轻量的替代方式</strong>
+            如果觉得 iTunes + Fiddler 流程繁琐，社区里也有一些辅助工具可作参考：<br>
+            https://www.52pojie.cn/thread-1863801-1-1.html<br>
+            https://www.52pojie.cn/thread-1756628-1-1.html<br>
+            https://www.52pojie.cn/thread-1539913-1-1.html
+        </div>
+    </article>
+
+    <section class="helpful">
+        <h3>这篇教程对你有帮助吗？</h3>
+        <p>如果仍未解决，可以联系我们获取进一步协助。</p>
+        <div class="btn-row"><a class="btn" href="/help/">返回教程</a><a class="btn secondary" href="mailto:support@example.com">联系客服</a></div>
+    </section>
+
+    <section class="related">
+        <h3>相关教程</h3>
+        <ul>
+            <li><a href="/help/app-removed-from-appstore.html">开发人员已从 App Store 中移除此 App 的问题原因</a></li>
+            <li><a href="/help/apple-account-region-change.html">通过切换苹果账号地区下载跨区 APP</a></li>
+        </ul>
+    </section>
+</main>
+
+<footer class="footer"><div class="inner"><div>Copyright © 帮助中心。保留所有权利。</div><div><a href="/help/">返回教程</a></div></div></footer>
+</body>
+</html>
