@@ -1070,6 +1070,23 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* PC 默认：让新加的 .item-name-block 视觉等同于原 <span>，移动端标签隐藏 */
+.table-row .col-name .item-name-block {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  flex: 1;
+}
+.table-row .col-name .item-name-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.table-row .col-name .item-tags-mobile { display: none; }
+
 .table-row .item-icon {
   width: clamp(28px, 3vw, 36px) !important;
   height: clamp(28px, 3vw, 36px) !important;
@@ -1122,6 +1139,8 @@ body {
 
 @media (max-width: 767.98px) {
   .item-table-container { border-radius: 16px; overflow: hidden; }
+
+  /* 移动端表头：仅显示 商品名称 / 单价 / 操作 */
   .table-header {
     display: flex !important;
     height: 38px;
@@ -1129,13 +1148,19 @@ body {
     font-size: 0.66rem;
     letter-spacing: 0.02em;
   }
+  .table-header .col-way,
+  .table-header .col-stock,
+  .table-row .col-way,
+  .table-row .col-stock { display: none !important; }
+
+  /* 移动端商品行：高度自适应两行内容 */
   .table-row {
     display: flex !important;
     align-items: center;
-    height: 50px !important;
-    min-height: 0;
-    padding: 0 10px !important;
-    gap: 6px;
+    height: auto !important;
+    min-height: 60px;
+    padding: 8px 10px !important;
+    gap: 8px;
     margin: 0;
     border-radius: 0;
     background: transparent !important;
@@ -1145,80 +1170,123 @@ body {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: none;
   }
+
+  /* 列宽：商品名称 占绝大空间，单价 / 操作 各 1 份 */
   .table-header .col-name,
-  .table-row .col-name      { flex: 4 1 0; min-width: 0; }
-  .table-header .col-way,
-  .table-row .col-way       { flex: 1.6 0 0; min-width: 0; text-align: center; }
+  .table-row .col-name      { flex: 3 1 0; min-width: 0; }
   .table-header .col-price,
   .table-row .col-price     { flex: 1 0 0; min-width: 0; text-align: center; }
-  .table-header .col-stock,
-  .table-row .col-stock     { flex: 1.4 0 0; min-width: 0; text-align: center; }
   .table-header .col-action,
-  .table-row .col-action    { flex: 1.2 0 0; min-width: 0; text-align: center; }
+  .table-row .col-action    { flex: 1.1 0 0; min-width: 0; text-align: center; }
+
+  /* col-name 内：logo + 两行内容块 */
   .table-row .col-name {
-    font-size: 0.66rem !important;
     font-weight: 600 !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1;
+    line-height: 1.2;
     display: flex;
     align-items: center;
     text-align: left;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
-  .table-row .col-way { font-size: 0.72rem; }
+  .table-row .col-name .item-name-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .table-row .col-name .item-name-text {
+    font-size: 0.78rem !important;
+    font-weight: 600;
+    color: var(--apple-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    line-height: 1.25;
+  }
+  .table-row .col-name .item-tags-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .table-row .col-name .item-tags-mobile .badge-delivery,
+  .table-row .col-name .item-tags-mobile .stock-text {
+    font-size: 0.6rem !important;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .table-row .col-name .item-tags-mobile .badge-delivery {
+    padding: 2px 6px !important;
+    border-radius: 4px;
+  }
+
+  /* 缩小左侧产品 logo */
+  .table-row .item-icon {
+    width: 36px !important;
+    height: 36px !important;
+    margin-right: 8px;
+    border-radius: 6px !important;
+    flex-shrink: 0;
+  }
+
+  /* 单价 / 操作：纵向居中，行高自适应等于左侧两行总高度 */
+  .table-row .col-price {
+    font-size: 0.85rem !important;
+    font-weight: 700;
+    color: var(--apple-blue);
+    white-space: nowrap;
+    align-self: center;
+  }
+  .table-row .col-action {
+    align-self: center;
+  }
+  .btn-buy-now {
+    padding: 6px 12px !important;
+    font-size: 0.72rem !important;
+    min-height: 30px;
+    border-radius: 99px !important;
+    white-space: nowrap;
+  }
+
+  /* 全局 badge 兜底（PC 视觉不变，仅移动端适配） */
   .badge-delivery {
     padding: 3px 6px !important;
     font-size: 0.66rem !important;
     border-radius: 4px;
     white-space: nowrap;
   }
-  .table-row .col-price {
-    font-size: 0.78rem !important;
-    font-weight: 700;
-    color: var(--apple-blue);
-    white-space: nowrap;
-  }
-  .table-row .col-stock { font-size: 0.62rem; white-space: nowrap; }
-  .stock-text { font-size: 0.62rem !important; }
-  .table-row .item-icon {
-    width: 22px !important;
-    height: 22px !important;
-    margin-right: 6px;
-    border-radius: 5px !important;
-    flex-shrink: 0;
-  }
-  .btn-buy-now {
-    padding: 5px 10px !important;
-    font-size: 0.7rem !important;
-    min-height: 28px;
-    border-radius: 99px !important;
-    white-space: nowrap;
-  }
+
   .item-footer { font-size: 0.72rem; padding: 12px; }
 }
 
 @media (max-width: 360px) {
   .table-header { font-size: 0.6rem; padding: 0 6px; }
   .table-row {
-    padding: 0 6px !important;
-    height: 46px !important;
-    gap: 4px;
+    padding: 6px 8px !important;
+    min-height: 56px;
+    gap: 6px;
   }
-  .table-row .col-name { font-size: 0.6rem !important; }
-  .table-row .col-price { font-size: 0.72rem !important; }
-  .table-row .col-way { font-size: 0.66rem; }
-  .table-row .col-stock { font-size: 0.56rem; }
-  .badge-delivery { font-size: 0.6rem !important; padding: 2px 5px !important; }
+  .table-row .col-name .item-name-text { font-size: 0.72rem !important; }
+  .table-row .col-name .item-tags-mobile .badge-delivery,
+  .table-row .col-name .item-tags-mobile .stock-text { font-size: 0.56rem !important; }
+  .table-row .col-name .item-tags-mobile .badge-delivery { padding: 2px 5px !important; }
+  .table-row .col-price { font-size: 0.78rem !important; }
   .btn-buy-now {
-    padding: 4px 8px !important;
+    padding: 5px 10px !important;
     font-size: 0.66rem !important;
-    min-height: 26px;
+    min-height: 28px;
   }
   .table-row .item-icon {
-    width: 20px !important;
-    height: 20px !important;
-    margin-right: 4px;
+    width: 32px !important;
+    height: 32px !important;
+    margin-right: 6px;
   }
 }
 

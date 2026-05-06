@@ -1,11 +1,9 @@
 !function () {
-    console.log("[v0] index.js v3.6.5 loaded - 三级分类版本");
     const $ItemList = $(`.item-list`),
           $topCategoryList = $('.chip-list.top-category-list'), 
           $subCategoryContainer = $topCategoryList.find('.sub-category-container[data-level="2"]'), 
           $subSubCategoryContainer = $topCategoryList.find('.sub-category-container[data-level="3"]'), 
           categoryId = getVar("CAT_ID");
-    console.log("[v0] containers found - L2:", $subCategoryContainer.length, "L3:", $subSubCategoryContainer.length);
 
     let ALL_COMMODITIES = []; 
     let currentOpenSubCategoryParentId = null; 
@@ -87,15 +85,21 @@
                 stockText = '库存一般';
             }
 
+            const deliveryText = item.delivery_way === 0 ? '自动发货' : '在线发货';
             html += `
                 <a href="${!isSoldOut ? `/item/${item.id}` : `javascript:void(0);`}" class="table-row" data-id="${item.id}">
                     <div class="col-name">
                         <img src="${item.cover}" class="item-icon" onerror="this.src='/favicon.ico'">
-                        <span>${item.name}</span>
-                        ${item.recommend === 1 ? `<span class="badge-delivery ms-2" style="color:#ff4d4f;border-color:rgba(255,77,79,0.2);background:rgba(255,77,79,0.1)">推荐</span>` : ``}
+                        <div class="item-name-block">
+                            <span class="item-name-text">${item.name}${item.recommend === 1 ? ` <span class="badge-delivery ms-2" style="color:#ff4d4f;border-color:rgba(255,77,79,0.2);background:rgba(255,77,79,0.1)">推荐</span>` : ``}</span>
+                            <div class="item-tags-mobile">
+                                <span class="badge-delivery">${deliveryText}</span>
+                                <span class="stock-text ${stockStatus}">${stockText}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-way">
-                        <span class="badge-delivery">${item.delivery_way === 0 ? '自动发货' : '在线发货'}</span>
+                        <span class="badge-delivery">${deliveryText}</span>
                     </div>
                     <div class="col-price">¥${item.price}</div>
                     <div class="col-stock">
