@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电报API登录问题集锦</title>
+    <style>
+        /* 基本样式设置 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .back-home-btn {
+            background-color: #3498db; /* 蓝色 */
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 2px;
+            margin: 20px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .back-home-btn:hover {
+            background-color: #2980b9; /* 深蓝色 */
+        }
+
+        /* 容器宽度设置 */
+        .container {
+            width: 100%;
+            max-width: 100%;  /* 100% 宽度 */
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 2px; /* 圆角 */
+            overflow: hidden; /* 确保不出现滚动条 */
+        }
+
+        /* 手风琴样式 */
+        .accordion {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .accordion-item {
+            border-top: 2px solid #3498db; /* 蓝色描边框 */
+            border-radius: 5px; /* 椭圆形边框 */
+            margin-bottom: 5px; /* 降低每个项目的间隙 */
+        }
+
+        .accordion-item:first-child {
+            border-top: none;
+        }
+
+        .accordion-header {
+            background-color: #fff; /* 白色背景 */
+            color: #3498db; /* 蓝色字体 */
+            padding: 12px 16px; /* 减少内边距 */
+            cursor: pointer;
+            font-size: 18px;
+            text-align: left;
+            width: 100%;
+            outline: none;
+            border: 2px solid #3498db; /* 蓝色边框 */
+            border-radius: 5px; /* 椭圆形边框 */
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #ecf0f1; /* 浅灰色背景 */
+        }
+
+        .accordion-content {
+            background-color: #f9f9f9; /* 浅灰色背景 */
+            padding: 12px 16px; /* 减少内容内边距 */
+            display: none;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            border-radius: 5px; /* 椭圆形边框 */
+            margin-top: 5px; /* 减小内容区域与标题之间的间隙 */
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .accordion-header {
+                font-size: 16px;  /* 小屏幕调整字体大小 */
+            }
+
+            .accordion-content {
+                font-size: 13px;  /* 小屏幕调整内容字体大小 */
+            }
+
+            .container {
+                padding: 10px;  /* 小屏幕减少内边距 */
+            }
+
+            .back-home-btn {
+                font-size: 14px; /* 小屏幕时按钮字体变小 */
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+        <ul class="accordion">
+
+                  <li class="accordion-item">
+                <button class="accordion-header">1️⃣ ⚠必看✈️如何把购买来的账号完全属于自己？</button>
+                <div class="accordion-content">
+                    <p>登陆 =》改密码 =〉 改邮箱 》 踢设备（需24小时后）<p></p>
+<p></p>
+⚠️部分号可能没有邮箱，针对这个号如果二次登陆请先在新设备登陆，老设备的telegram对话框接验证码登陆后老设备再上退出！
+<p></p>
+⚠️如果进行了踢设备那么接码网址想再次接码就会提示接码设备已掉线！因为接码本来就依靠一台在登陆设备获取登陆验证码。
+<p></p>
+完成了以上操作号商拿回号码的几率基本为0，因为99%的号码都是通过虚拟卡注册。
+                    </p>
+                </div>
+            </li>
+
+            <li class="accordion-item">
+                <button class="accordion-header">2️⃣ 提示“绑定邮箱”或收“短信费”？无三十分钟内的登录消息？</button>
+                <div class="accordion-content">
+                    <b><p>⚠️根据2025年12月份TG更新后最新版本登陆会提示绑定邮箱后跳收费信息，或者其他版本登陆发出验证码后打开接码网址显示没有三十分的信息，这些问题的解决方法如下：
+                    <p></p>
+                    <b><p>1️⃣ 苹果手机：</p></b>
+                    <p>有美区ID建议你下载Nicegram<p></p>
+                    <a href="https://apps.apple.com/us/app/nicegram-ai-x-dual-telegram/id1608870673" target="_blank">点此下载nicegram</a>
+                    <p></p>
+                    <p></p>
+                    没有建议下载IME
+                    <p></p>
+<a href="https://apps.apple.com/us/app/ime-ai-messenger-for-telegram/id1450480822" target="_blank">点此下载ime</a>
+                    </p>
+                    <p></p>
+                    也可以直接在苹果应用商店（APP store）搜索
+                    <p></p>
+                    <b><p>2️⃣ 安卓手机：</p></b>
+                    <p>安卓手机建议使用tg-X版本
+                         <p></p>
+                        <a href="https://drive.google.com/file/d/1zLDfqg3sT7D_jOjYQjaQ5DqI59exZwm_/view?usp=sharing" target="_blank">点此下载telegram-X</a></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>任何号码在最新版本登陆都会出现绑定邮箱跳收费问题，以上是唯一的解决方法，或直接购买会员账号可避免绑定邮箱跳收费问题。
+                </div>
+            </li>
+
+            
+                    
+            <li class="accordion-item">
+                <button class="accordion-header">3️⃣ 账号“双向限制”无法发消息？</button>
+                <div class="accordion-content">
+                    <p>个人账号解除双向聊天限制</p>
+<p>
+👉点击 @spambot
+<p></p>
+👉点击 Start
+<p></p>
+👉点击 But I can't message non-contacts!
+<p></p>
+👉点击 No,I'll never do any of this!
+<p></p>
+👉回复 accident
+<p></p>
+</p>
+可能提示有所不同，总之你根据提示（如看不懂自行翻译）回复没发过任何垃圾信息要求解封然后最后回复accident即可，约25分钟左右就恢复正常了，有些解禁时间会较长，具体看官方跟你的提示。</p>
+                </div>
+            </li>
+
+
+            
+            
+
+                                    <li class="accordion-item">
+                <button class="accordion-header">6️⃣ 接码网址有效期多久？</button>
+                <div class="accordion-content">
+                    <p>接码网址有效期为一年！</p>
+                  <p>⚠️但建议在登录的第一时间就修改邮箱，下次登录的时候就可以邮箱接收验证码，接码网址是依靠一部已登录设备接收的验证码，如你踢了设备，接码网址也会随之失效。所以说登录后请第一时间修改邮箱！如果因不及时修改邮箱导致后期登录不上，需要自行承担损失！</p>
+                </div>
+            </li>
+    
+                                        <li class="accordion-item">
+                <button class="accordion-header">7️⃣ 输入号码后一直转圈圈？</button>
+                <div class="accordion-content">
+                    <p>先试试你能不能打开google.com跟youtube.com，如果不行那么就是你没开启代理，国内网络无法登录TG，如果不知道什么是代理，请自行科普！</p>
+                </div>
+            </li>
+            
+                                                    <li class="accordion-item">
+                <button class="accordion-header">8️⃣ 输入号码后提示：Please check your network connection and try again.</button>
+                <div class="accordion-content">
+                    <p>如你已确定开了代理，google.com跟youtube.com能正常打开，就是登录不上，请多试几次，这是app的问题，大多出现在苹果手机，如果多次尝试还不行，建议更换一个节点后关闭TG重新打开重试！或尝试卸载TG重新安装。</p>
+                </div>
+            </li>
+      
+
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener("click", function() {
+                    const content = header.nextElementSibling;
+                    const isVisible = content.style.display === "block";
+                    
+                    // 关闭所有内容
+                    document.querySelectorAll(".accordion-content").forEach(c => c.style.display = "none");
+
+                    // 如果当前点击的内容未展开，则展开
+                    if (!isVisible) {
+                        content.style.display = "block";
+                    }
+                });
+            });
+        });
+    </script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2b56cf4d34f248b7b437819d1d7b24af","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
