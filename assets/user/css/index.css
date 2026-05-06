@@ -1111,7 +1111,7 @@ body {
   margin-top: 1px;
 }
 
-/* 通用 tag-pill：底色+白字胶囊（详情页等大空间使用，
+/* 通用 tag-pill：底色+白字胶囊���详情页等大空间使用，
    首页商品表 .item-tags-mobile 内会被更高优先级覆盖为更小尺寸） */
 .tag-pill {
   display: inline-block;
@@ -1128,6 +1128,62 @@ body {
 .tag-pill.tag-stock.high   { background: #25a750; }
 .tag-pill.tag-stock.medium { background: #faad14; }
 .tag-pill.tag-stock.low    { background: #ca3f64; }
+
+/* ========== PC 端商品表：两行布局，发货/库存改为名字下方标签条（移动端不受影响） ========== */
+@media (min-width: 768px) {
+  /* 隐藏发货方式 / 库存两列（含表头） */
+  .item-table-container .table-header .col-way,
+  .item-table-container .table-header .col-stock,
+  .item-table-container .table-row .col-way,
+  .item-table-container .table-row .col-stock { display: none !important; }
+
+  /* 列宽：名字占大头，单价 / 操作各 1 份 */
+  .item-table-container .col-name   { flex: 5; }
+  .item-table-container .col-price  { flex: 1; text-align: center; }
+  .item-table-container .col-action { flex: 1; text-align: center; }
+
+  /* 行高自适应两行（名字 + 标签条） */
+  .item-table-container .table-row {
+    height: auto;
+    min-height: clamp(64px, 7.5vw, 76px);
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* col-name 内：纵向布局，名字与标签左对齐 */
+  .item-table-container .table-row .col-name {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+  .item-table-container .table-row .col-name .item-name-block {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6px;
+  }
+  .item-table-container .table-row .col-name .item-name-row {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  /* 显示标签条（PC 默认是隐藏的，这里覆写） */
+  .item-table-container .table-row .col-name .item-tags-mobile {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  /* PC 标签条字号紧凑统一 */
+  .item-table-container .table-row .col-name .item-tags-mobile .tag-pill {
+    padding: 2px 9px;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    border-radius: 5px;
+  }
+}
 
 .table-row .item-icon {
   width: clamp(28px, 3vw, 36px) !important;
