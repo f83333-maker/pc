@@ -124,7 +124,10 @@
             </div>
         </div>`;
 
-        $ItemList.hide().html(html).fadeIn(200, function () {
+        // 用 promise().done() 替代 fadeIn(duration, callback)：
+        // jQuery 的 callback 形式会按 $ItemList 集合元素数量分别调用 callback（可能多次），
+        // promise().done() 等所有动画都完成只调一次，确保 scrollAfterRender 不被多次触发。
+        $ItemList.hide().html(html).fadeIn(200).promise().done(function () {
             if (typeof onComplete === 'function') onComplete();
         });
     }
@@ -195,10 +198,11 @@ function _RenderSubCategories(parentId, activeId = null) {
             }
         }
 
-        // 切换后丝滑滚动到分类条：用浏览器原生 smooth 平滑滚动，单次调用不做循环校正，
-        // 避免多次 scrollTo 互相打架引发的卡顿/抖动。
-        // 用 token + RAF 去抖：连点 chip 时只有最新那次会真正调用 scrollTo，
-        // 之前还在排队的请求会被 token 不匹配丢弃，浏览器内部不会被反复重置 smooth 动画。
+        // 切换后丝滑滚动到分类条 helper。
+        // 用自实现 RAF + cubic ease-out 滚动，每帧严格检查 token：
+        // - 若新动画启动（token 自增），旧动画当前帧立即停止，让新动画从"当前位置"接力
+        // - 浏览器原生 scrollTo({behavior:'smooth'}) 重复调用时会重启整个动画，造成卡顿；
+        //   自实现版每帧 scrollTo(0, y) 是瞬时操作，连续帧自然平滑
         // 调试期间保留 [v0-scroll] 日志，等用户确认完美再清理。
         const scrollAfterRender = (tag) => {
             if (!isUserClick) return;
@@ -213,18 +217,36 @@ function _RenderSubCategories(parentId, activeId = null) {
                 if (!target) return;
                 const rect = target.getBoundingClientRect();
                 const absoluteTop = window.scrollY + rect.top;
-                // 用固定的 96px header 缓冲（navbar 设计高度 80 + 16 间距），
-                // 而不是 getBoundingClientRect()——后者在 sticky 状态切换时会读到异常值（如 8px）
-                // 导致 finalTop 计算偏差，造成跳到错误位置后又被纠正的二次抖动。
+                // 用固定 96px header 缓冲（navbar 设计高度 80 + 16 间距），
+                // getBoundingClientRect() 在 sticky 状态切换瞬间会读到异常值
                 const HEADER_BUFFER = 96;
                 const finalTop = Math.max(0, absoluteTop - HEADER_BUFFER);
-                const before = window.scrollY;
-                if (Math.abs(before - finalTop) <= 2) {
-                    console.log('[v0-scroll]', tag, 'skip (already at target)', { before, finalTop });
+                const startY = window.scrollY;
+                const distance = finalTop - startY;
+                if (Math.abs(distance) <= 2) {
+                    console.log('[v0-scroll]', tag, 'skip (already at target)', { before: startY, finalTop });
                     return;
                 }
-                console.log('[v0-scroll]', tag, 'scroll', { before, finalTop, rectTop: Math.round(rect.top) });
-                window.scrollTo({ top: finalTop, behavior: 'smooth' });
+                console.log('[v0-scroll]', tag, 'scroll-start', { before: startY, finalTop, distance });
+
+                const duration = 320;
+                const startTime = performance.now();
+                const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+                const step = (now) => {
+                    // 新动画启动了，立即让位
+                    if (myToken !== _scrollToken) return;
+                    const elapsed = now - startTime;
+                    const t = Math.min(1, elapsed / duration);
+                    const y = startY + distance * easeOutCubic(t);
+                    window.scrollTo(0, y);
+                    if (t < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        console.log('[v0-scroll]', tag, 'scroll-end', { final: window.scrollY });
+                    }
+                };
+                requestAnimationFrame(step);
             });
         };
 
