@@ -21,11 +21,18 @@ class Request extends \Kernel\Context\Abstract\Request
         $this->files = $_FILES;
         unset($this->get['_route']);
 
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        // 优先从 CDN 真实 IP 头读取，确保拿到的是真实客户端 IP 而非边缘节点 IP
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $this->clientIp = (string)$_SERVER['HTTP_CF_CONNECTING_IP'];
+        } elseif (!empty($_SERVER['HTTP_TRUE_CLIENT_IP'])) {
+            $this->clientIp = (string)$_SERVER['HTTP_TRUE_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+            $this->clientIp = (string)$_SERVER['HTTP_X_REAL_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            $this->clientIp = (string)$arr[0];
+            $this->clientIp = trim((string)$arr[0]);
         } else {
-            $this->clientIp = (string)$_SERVER['REMOTE_ADDR'];
+            $this->clientIp = (string)($_SERVER['REMOTE_ADDR'] ?? '');
         }
 
         if (str_contains((string)$this->header("ContentType"), "application/json")) {
