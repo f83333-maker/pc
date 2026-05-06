@@ -116,6 +116,10 @@ body {
   font-size: var(--fs-base);
   line-height: 1.5;
 
+  /* 禁用浏览器 scroll anchoring，避免 _PushCommodityList 的 fadeIn
+     瞬间改变页面高度时把视图自动推走，确保点击 chip 后滚回顶部能稳定生效 */
+  overflow-anchor: none;
+
   overflow-x: clip;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
@@ -1111,7 +1115,7 @@ body {
   margin-top: 1px;
 }
 
-/* 通用 tag-pill：底色+白字胶囊���详情页等大空间使用，
+/* 通用 tag-pill：底色+白字胶囊�����详情页等大空间使用，
    首页商品表 .item-tags-mobile 内会被更高优先级覆盖为更小尺寸） */
 .tag-pill {
   display: inline-block;

@@ -217,14 +217,13 @@ function _RenderSubCategories(parentId, activeId = null) {
             });
         }
 
-        // 用户主动点击 chip 时，平滑滚回分类区顶部，
-        // 确保切换后一级/二级/三级胶囊条始终在视野中（移动端 + PC 端通用）。
+        // 用户主动点击 chip 时，平滑滚回页面顶部，确保 1/2/3 级胶囊条全部可见。
+        // setTimeout 延迟到 _PushCommodityList 的 fadeIn(200ms) 完成之后再触发，
+        // 避免因 DOM 高度变化导致浏览器 scroll anchoring 把视图推走。
         if (isUserClick) {
-            const $anchor = $topCategoryList.length ? $topCategoryList : $ItemList;
-            if ($anchor.length && $anchor.offset()) {
-                const targetTop = Math.max(0, $anchor.offset().top - 20);
-                $('html, body').stop(true, false).animate({ scrollTop: targetTop }, 300);
-            }
+            setTimeout(() => {
+                $('html, body').stop(true, false).animate({ scrollTop: 0 }, 320);
+            }, 220);
         }
     }
 
