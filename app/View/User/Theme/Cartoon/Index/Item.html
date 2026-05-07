@@ -273,6 +273,103 @@
             transform: none;
         }
     }
+
+    /* ============================================================
+       购买选项概览栏（SEO + 可读性）
+       Scope: .item-detail .sku-overview
+       ============================================================ */
+    .sku-overview {
+        margin: 0 0 4px;
+    }
+
+    .sku-overview-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #2a2f45;
+        margin: 0 0 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(76, 88, 179, 0.12);
+        letter-spacing: 0.2px;
+    }
+
+    .sku-overview-subtitle {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #4c58b3;
+        margin: 16px 0 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sku-overview-subtitle::before {
+        content: "";
+        display: inline-block;
+        width: 3px;
+        height: 14px;
+        border-radius: 2px;
+        background: linear-gradient(180deg, #5a67c9, #4c58b3);
+    }
+
+    .sku-overview-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 8px;
+    }
+
+    .sku-overview-list li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 12px;
+        background: rgba(76, 88, 179, 0.05);
+        border: 1px solid rgba(76, 88, 179, 0.10);
+        border-radius: 10px;
+        font-size: 13px;
+        color: #2a2f45;
+        transition: background .18s ease, border-color .18s ease;
+    }
+
+    .sku-overview-list li:hover {
+        background: rgba(76, 88, 179, 0.10);
+        border-color: rgba(76, 88, 179, 0.22);
+    }
+
+    .sku-overview-list li strong {
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .sku-overview-list li span {
+        flex-shrink: 0;
+        color: #4c58b3;
+        font-weight: 700;
+        font-size: 12.5px;
+        white-space: nowrap;
+    }
+
+    .sku-overview-divider {
+        border: 0;
+        border-top: 1px dashed rgba(76, 88, 179, 0.18);
+        margin: 18px 0;
+    }
+
+    @media (max-width: 575.98px) {
+        .sku-overview-list {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        .sku-overview-title { font-size: 1rem; }
+        .sku-overview-subtitle { font-size: 0.9rem; }
+    }
 </style>
 
 <main class="container py-4">
@@ -286,6 +383,38 @@
                     <h2 class="panel-title h6" style="margin:0;">商品详情</h2>
                 </div>
                 <div class="panel-body">
+                    #{* SEO + 可读性：购买选项概览（H2/H3 锚点，让搜索引擎抓取每个 SKU 的长尾词；
+                        用户在富文本说明前先看到完整规格清单与价格，移动端下单决策更顺）*}
+                    #{if !empty($item.config.category) || !empty($item.config.sku)}
+                        <section class="sku-overview" aria-label="购买选项">
+                            <h2 class="sku-overview-title">#{$item.name|strip_tags|escape:'html'} 购买选项</h2>
+                            #{if !empty($item.config.category)}
+                                <h3 class="sku-overview-subtitle">规格选择</h3>
+                                <ul class="sku-overview-list">
+                                    #{foreach from=$item.config.category key=_ovK item=_ovP}
+                                        <li>
+                                            <strong>#{$_ovK|strip_tags|escape:'html'}</strong>
+                                            <span>￥#{$_ovP}</span>
+                                        </li>
+                                    #{/foreach}
+                                </ul>
+                            #{/if}
+                            #{if !empty($item.config.sku)}
+                                #{foreach from=$item.config.sku key=_ovGN item=_ovGv}
+                                    <h3 class="sku-overview-subtitle">#{$_ovGN|strip_tags|escape:'html'}</h3>
+                                    <ul class="sku-overview-list">
+                                        #{foreach from=$_ovGv key=_ovSK item=_ovSP}
+                                            <li>
+                                                <strong>#{$_ovSK|strip_tags|escape:'html'}</strong>
+                                                #{if $_ovSP > 0}<span>+￥#{$_ovSP}</span>#{else}<span>免费</span>#{/if}
+                                            </li>
+                                        #{/foreach}
+                                    </ul>
+                                #{/foreach}
+                            #{/if}
+                        </section>
+                        <hr class="sku-overview-divider">
+                    #{/if}
                     #{$item.description}
                 </div>
             </div>

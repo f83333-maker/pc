@@ -11,7 +11,7 @@ interface Config
     const INFO = [
         "NAME" => "默认模板",
         "AUTHOR" => "荔枝",
-        "VERSION" => "1.2.5",
+        "VERSION" => "1.2.6",
         "WEB_SITE" => "#",
         "DESCRIPTION" => "默认模板",
         "RENDER" => Render::ENGINE_SMARTY
