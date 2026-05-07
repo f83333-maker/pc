@@ -121,6 +121,158 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    /* ============================================================
+       Glassmorphism SKU capsules
+       Scope: .detail-form .sku-list (right purchase card only)
+       ============================================================ */
+    .detail-form .sku-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .detail-form .sku-list .sku {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 100%;
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.2;
+        color: #2a2f45;
+        text-decoration: none;
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        background-color: rgba(255, 255, 255, 0.62);
+        background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(244, 246, 252, 0.55) 100%);
+        border: 1px solid rgba(76, 88, 179, 0.16);
+        backdrop-filter: blur(14px) saturate(160%);
+        -webkit-backdrop-filter: blur(14px) saturate(160%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.95),
+            inset 0 -1px 0 rgba(76, 88, 179, 0.05),
+            0 1px 2px rgba(20, 24, 60, 0.04),
+            0 6px 16px -10px rgba(76, 88, 179, 0.22);
+        transition:
+            transform .22s cubic-bezier(.4, 0, .2, 1),
+            box-shadow .22s ease,
+            border-color .22s ease,
+            background .22s ease,
+            color .22s ease;
+    }
+
+    /* Top inner sheen, simulates glass refraction */
+    .detail-form .sku-list .sku::before {
+        content: "";
+        position: absolute;
+        inset: 1px 1px auto 1px;
+        height: 55%;
+        border-radius: 999px 999px 80px 80px / 999px 999px 60px 60px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+        pointer-events: none;
+        opacity: 0.9;
+    }
+
+    .detail-form .sku-list .sku:hover {
+        transform: translateY(-1px);
+        border-color: rgba(76, 88, 179, 0.34);
+        color: #1f2330;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 1),
+            0 8px 20px -10px rgba(76, 88, 179, 0.38),
+            0 2px 4px rgba(20, 24, 60, 0.06);
+    }
+
+    .detail-form .sku-list .sku:active {
+        transform: translateY(0);
+        box-shadow:
+            inset 0 1px 2px rgba(76, 88, 179, 0.18),
+            0 1px 2px rgba(20, 24, 60, 0.06);
+    }
+
+    /* Selected capsule — tinted glass with brand gradient */
+    .detail-form .sku-list .sku.is-primary {
+        color: #fff;
+        border-color: rgba(76, 88, 179, 0.55);
+        background-color: #4c58b3;
+        background-image:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 55%),
+            linear-gradient(135deg, #5a67c9 0%, #4c58b3 55%, #3e4aa0 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.42),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+            0 8px 20px -8px rgba(76, 88, 179, 0.55),
+            0 0 0 1px rgba(76, 88, 179, 0.28);
+        transform: translateY(-1px);
+    }
+
+    .detail-form .sku-list .sku.is-primary::before {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0));
+        opacity: 1;
+    }
+
+    .detail-form .sku-list .sku.is-primary:hover {
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.5),
+            0 10px 24px -8px rgba(76, 88, 179, 0.65),
+            0 0 0 1px rgba(76, 88, 179, 0.36);
+    }
+
+    /* Price badge inside the capsule */
+    .detail-form .sku-list .sku .badge-money {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 9px;
+        margin-left: 2px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.4;
+        border-radius: 999px;
+        color: #4c58b3;
+        background: rgba(76, 88, 179, 0.10);
+        border: 1px solid rgba(76, 88, 179, 0.18);
+        transition: color .22s ease, background .22s ease, border-color .22s ease;
+        white-space: nowrap;
+    }
+
+    .detail-form .sku-list .sku.is-primary .badge-money {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.22);
+        border-color: rgba(255, 255, 255, 0.38);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 575.98px) {
+        .detail-form .sku-list { gap: 7px; }
+        .detail-form .sku-list .sku {
+            padding: 8px 12px;
+            font-size: 12.5px;
+        }
+        .detail-form .sku-list .sku .badge-money {
+            padding: 2px 7px;
+            font-size: 11.5px;
+        }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        .detail-form .sku-list .sku,
+        .detail-form .sku-list .sku .badge-money {
+            transition: none;
+        }
+        .detail-form .sku-list .sku:hover,
+        .detail-form .sku-list .sku.is-primary {
+            transform: none;
+        }
+    }
 </style>
 
 <main class="container py-4">
