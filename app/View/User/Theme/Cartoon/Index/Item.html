@@ -275,6 +275,23 @@
     }
 
     /* ============================================================
+       SEO-only 隐藏类（视觉完全隐藏，但保留在 DOM 中供搜索引擎抓取）
+       与 Bootstrap .sr-only 等价，但作用域独立，避免被外部样式覆盖
+       ============================================================ */
+    .sku-overview-seo,
+    .sku-overview-seo * {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+    }
+
+    /* ============================================================
        购买选项概览栏（SEO + 可读性）
        Scope: .item-detail .sku-overview
        ============================================================ */
@@ -386,11 +403,11 @@
                     #{* SEO + 可读性：购买选项概览（H2/H3 锚点，让搜索引擎抓取每个 SKU 的长尾词；
                         用户在富文本说明前先看到完整规格清单与价格，移动端下单决策更顺）*}
                     #{if !empty($item.config.category) || !empty($item.config.sku)}
-                        <section class="sku-overview" aria-label="购买选项">
-                            <h2 class="sku-overview-title">#{$item.name|strip_tags|escape:'html'} 购买选项</h2>
+                        <section class="sku-overview-seo" aria-hidden="true">
+                            <h2>#{$item.name|strip_tags|escape:'html'} 购买选项</h2>
                             #{if !empty($item.config.category)}
-                                <h3 class="sku-overview-subtitle">规格选择</h3>
-                                <ul class="sku-overview-list">
+                                <h3>规格选择</h3>
+                                <ul>
                                     #{foreach from=$item.config.category key=_ovK item=_ovP}
                                         <li>
                                             <strong>#{$_ovK|strip_tags|escape:'html'}</strong>
@@ -401,8 +418,8 @@
                             #{/if}
                             #{if !empty($item.config.sku)}
                                 #{foreach from=$item.config.sku key=_ovGN item=_ovGv}
-                                    <h3 class="sku-overview-subtitle">#{$_ovGN|strip_tags|escape:'html'}</h3>
-                                    <ul class="sku-overview-list">
+                                    <h3>#{$_ovGN|strip_tags|escape:'html'}</h3>
+                                    <ul>
                                         #{foreach from=$_ovGv key=_ovSK item=_ovSP}
                                             <li>
                                                 <strong>#{$_ovSK|strip_tags|escape:'html'}</strong>
@@ -413,7 +430,6 @@
                                 #{/foreach}
                             #{/if}
                         </section>
-                        <hr class="sku-overview-divider">
                     #{/if}
                     #{$item.description}
                 </div>
