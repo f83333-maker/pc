@@ -170,8 +170,9 @@ class Order implements \App\Service\Order
 
                 $_sku_price = $_sku[$k][$v] ?: 0;
 
-                if (is_numeric($_sku_price) && $_sku_price > 0) {
-                    $price = $price->add($_sku_price); 
+                // 独立单 SKU 模式：sku 单价为后台配置的实际价格（替换底价），与 category 一致
+                if (is_numeric($_sku_price)) {
+                    $price = (new Decimal($_sku_price, 2));
                 }
             }
         }
