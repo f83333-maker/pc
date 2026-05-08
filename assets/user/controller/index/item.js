@@ -115,6 +115,14 @@
         });
     }
 
+    function _DefaultSelectFirst() {
+        // 进入页面默认预选第一个规格（按 DOM 顺序，category 渲染在前则优先选 race，否则选 sku）
+        const $first = $(".switch-race, .switch-sku").first();
+        if ($first.length > 0) {
+            $first.addClass("is-primary");
+        }
+    }
+
     function _ChangeNum() {
         const $input = $(`input[name=num]`);
 
@@ -324,6 +332,7 @@
 
     _SnapUp();
     _SwitchSku();
+    _DefaultSelectFirst();
     _ChangeNum();
     _SetWholesaleMsg();
     _Coupon();
