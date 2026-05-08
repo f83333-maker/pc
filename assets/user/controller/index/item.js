@@ -3,20 +3,30 @@
     let _price = 0, _available = false;
     const $vstack = $(`.vstack`), $cashPay = $(`.cash-pay`);
 
+    function _hasSkuOptions() {
+        return !util.isEmptyOrNotJson(_item?.config?.category)
+            || !util.isEmptyOrNotJson(_item?.config?.sku);
+    }
+
+    function _getSelectedSku() {
+        return $(`.switch-race.is-primary, .switch-sku.is-primary`).first();
+    }
+
+    function _isSkuSelected() {
+        return _getSelectedSku().length > 0;
+    }
+
     function _getPostData() {
         let post = util.arrayToObject($vstack.serializeArray());
         post["item_id"] = _item.id;
 
-        if (!util.isEmptyOrNotJson(_item?.config?.category)) {
-
-            post["race"] = $(`.switch-race.is-primary`).data("sku");
-        }
-
-        if (!util.isEmptyOrNotJson(_item?.config?.sku)) {
-            for (const name in _item?.config?.sku) {
-                const $sku = $(`.switch-sku[data-sku="${name}"].is-primary`);
-                post["sku"] = post["sku"] || {};
-                post["sku"][name] = $sku.data("value");
+        const $selected = _getSelectedSku();
+        if ($selected.length > 0) {
+            if ($selected.hasClass("switch-race")) {
+                post["race"] = $selected.data("sku");
+            } else {
+                post["sku"] = {};
+                post["sku"][$selected.data("sku")] = $selected.data("value");
             }
         }
 
@@ -91,28 +101,25 @@
         });
     }
 
-    function _SwitchRace() {
-        const $switchRace = $(`.switch-race`);
-
-        $switchRace.click(function () {
-            $switchRace.removeClass("is-primary");
-            $(this).addClass("is-primary");
+    function _SwitchSku() {
+        // 独立单选模式：所有 race / sku 选项全局互斥，最多只能选中一个
+        $(document).on("click", ".switch-race, .switch-sku", function () {
+            const $this = $(this);
+            const wasSelected = $this.hasClass("is-primary");
+            $(".switch-race, .switch-sku").removeClass("is-primary");
+            if (!wasSelected) {
+                $this.addClass("is-primary");
+            }
             _Abacus();
             _GetStock();
         });
     }
 
-    function _SwitchSku() {
-        if (!util.isEmptyOrNotJson(_item?.config?.sku)) {
-            for (const name in _item?.config?.sku) {
-                const $sku = $(`.switch-sku[data-sku="${name}"]`);
-                $sku.click(function () {
-                    $sku.removeClass("is-primary");
-                    $(this).addClass("is-primary");
-                    _Abacus();
-                    _GetStock();
-                });
-            }
+    function _DefaultSelectFirst() {
+        // 进入页面默认预选第一个规格（按 DOM 顺序，category 渲染在前则优先选 race，否则选 sku）
+        const $first = $(".switch-race, .switch-sku").first();
+        if ($first.length > 0) {
+            $first.addClass("is-primary");
         }
     }
 
@@ -135,10 +142,12 @@
         const $qtyGroup = $(`.qty-group`);
         $(`.wholesale-table`).remove();
         const html = `<table class="table wholesale-table mt-1 mb-0"><thead><tr><th scope="col">批发数量</th><th scope="col">单价</th></tr></thead><tbody>[body]</tbody></table>`;
-        if (!util.isEmptyOrNotJson(_item?.config?.category)) {
-            const sku = $(`.switch-race.is-primary`).data('sku');
 
-            if (_item?.config?.category_wholesale?.hasOwnProperty(sku)) {
+        // 当前选中的是 race 时优先按 race 显示批发表
+        const $selectedRace = $(`.switch-race.is-primary`);
+        if ($selectedRace.length > 0 && _item?.config?.category_wholesale) {
+            const sku = $selectedRace.data('sku');
+            if (_item.config.category_wholesale.hasOwnProperty(sku)) {
                 let body = ``;
                 for (const k in _item.config.category_wholesale[sku]) {
                     body += `<tr><td>${k}</td><td>¥${_item.config.category_wholesale[sku][k]}</td></tr>`;
@@ -148,6 +157,7 @@
             return;
         }
 
+        // 选中 sku 选项 或 未选中时回落到通用批发表
         if (!util.isEmptyOrNotJson(_item?.config?.wholesale)) {
             let body = ``;
             for (const k in _item.config.wholesale) {
@@ -177,7 +187,13 @@
                 else if (res.data.stock <= 20) level = "medium";
 
                 $itemStock.addClass(level).html(`库存 ${res.data.stock}`);
-                $cashPay.fadeIn(150);
+
+                // 商品有 SKU 选项但未选中时不显示支付方式
+                if (_hasSkuOptions() && !_isSkuSelected()) {
+                    $cashPay.fadeOut(150);
+                } else {
+                    $cashPay.fadeIn(150);
+                }
             },
             loader: false
         });
@@ -208,6 +224,10 @@
         });
 
         $(document).on("click", `.pay-list .pay`, function () {
+            if (_hasSkuOptions() && !_isSkuSelected()) {
+                message.error("请先选择规格后再付款");
+                return;
+            }
             let post = _getPostData();
             post["pay_id"] = $(this).data("id");
             util.post("/user/api/order/trade", post, res => {
@@ -311,8 +331,8 @@
     }
 
     _SnapUp();
-    _SwitchRace();
     _SwitchSku();
+    _DefaultSelectFirst();
     _ChangeNum();
     _SetWholesaleMsg();
     _Coupon();
