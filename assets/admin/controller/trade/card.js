@@ -1,5 +1,5 @@
 !function () {
-    let table, _createForms = [], _createSearchs = [];
+    let table;
     const uploadCard = () => {
         component.popup({
             submit: (data, index) => {
