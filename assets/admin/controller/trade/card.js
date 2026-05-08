@@ -1,6 +1,9 @@
+// SKU_MODE: single-select v3.9.9 (flat spec radio)
 !function () {
+    console.log("[v0] card.js loaded - SKU single-select mode v3.9.9");
     let table;
     const uploadCard = () => {
+        console.log("[v0] uploadCard popup opened (single-select)");
         component.popup({
             submit: (data, index) => {
                 // 独立单 SKU 模式：把统一的 spec 选项解析成 race 字段或 sku 对象
@@ -527,7 +530,7 @@ ACC_JP_6M_0KLD-22MM-PP31║地区:日区·时长:6个月
 
                 let url = "/admin/api/card/export?" + query + "&equal-" + state.field + "=" + state.value;
                 if (data.export_status == 2) {
-                    message.dangerPrompt("您正在执行高风险的卡密导出操作，需要注意此操作无法恢复数据。如果您只是希望卡密不再可见，我们建议您选择锁定导出的卡密。", "我确认导出并删除卡密", () => {
+                    message.dangerPrompt("您正在执行高风险的卡密导出操作，需要注意此操作无法恢复数据。如果您只是希望卡密不再可见，我们建议您选择锁定导出的卡密。", "我确认导出并删除��密", () => {
                         window.open(url);
                     });
                 } else {
