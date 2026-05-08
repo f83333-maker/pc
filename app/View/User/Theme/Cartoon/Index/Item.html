@@ -462,7 +462,7 @@
                                 <label class="form-label mb-2 fw-bold">宝贝类型</label>
                                 <div class="sku-list">
                                     #{foreach $item.config.category as $race => $price}
-                                        <a class="switch-race sku #{if $price@first}is-primary#{/if}"
+                                        <a class="switch-race sku"
                                            data-sku="#{$race}"
                                            data-price="#{$price}"
                                            href="javascript:void(0);">#{$race}<span
@@ -478,7 +478,7 @@
                                     <label class="form-label mb-2 fw-bold">#{$name}</label>
                                     <div class="sku-list">
                                         #{foreach $sku as $key => $price}
-                                            <a class="switch-sku sku #{if $price@first}is-primary#{/if}"
+                                            <a class="switch-sku sku"
                                                data-sku="#{$name}"
                                                data-value="#{$key}" data-price="#{$price}"
                                                href="javascript:void(0);">#{$key}#{if $price > 0}<span
