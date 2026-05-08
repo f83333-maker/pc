@@ -3,38 +3,56 @@
     const uploadCard = () => {
         component.popup({
             submit: (data, index) => {
-                // 独立单 SKU 模式：把统一的 spec 选项解析成 race 字段或 sku 对象
+                // 独立单 SKU 模式 + 多选批量上传：把 spec 选项解析为一组 {race, sku}，依次提交
+                const specs = [];
                 if (parseInt(data.race_get_mode) === 1) {
-                    // 手动模式：race 直接来自 race_input
-                    data.race = data.race_input || "";
-                    data.sku = "";
+                    specs.push({race: data.race_input || "", sku: ""});
                 } else if (data.spec) {
-                    const parts = String(data.spec).split("\u0001");
-                    if (parts[0] === "race") {
-                        data.race = parts[1] || "";
-                        data.sku = "";
-                    } else if (parts[0] === "sku") {
-                        data.race = "";
-                        const obj = {};
-                        obj[parts[1]] = parts.slice(2).join("\u0001");
-                        data.sku = obj;
-                    } else {
-                        data.race = "";
-                        data.sku = "";
-                    }
-                } else {
-                    data.race = "";
-                    data.sku = "";
+                    const rawSpecs = Array.isArray(data.spec) ? data.spec : String(data.spec).split(",");
+                    rawSpecs.forEach(s => {
+                        if (!s) return;
+                        const parts = String(s).split("\u0001");
+                        if (parts[0] === "race") {
+                            specs.push({race: parts[1] || "", sku: ""});
+                        } else if (parts[0] === "sku") {
+                            const obj = {};
+                            obj[parts[1]] = parts.slice(2).join("\u0001");
+                            specs.push({race: "", sku: obj});
+                        }
+                    });
                 }
+                if (specs.length === 0) {
+                    specs.push({race: "", sku: ""});
+                }
+
                 delete data.spec;
                 delete data.race_input;
                 delete data.race_get_mode;
 
-                util.post('/admin/api/card/save', data, res => {
-                    message.success(res.msg || "上传成功");
-                    layer.close(index);
-                    table.refresh();
-                });
+                const total = specs.length;
+                let success = 0;
+                const errors = [];
+                const sendOne = (i) => {
+                    if (i >= total) {
+                        if (errors.length === 0) {
+                            message.success(total > 1 ? `已批量上传至 ${success} 个规格` : "上传成功");
+                        } else {
+                            message.error(`完成：成功 ${success} 个，失败 ${errors.length} 个（${errors[0]}）`);
+                        }
+                        layer.close(index);
+                        table.refresh();
+                        return;
+                    }
+                    const payload = Object.assign({}, data, {race: specs[i].race, sku: specs[i].sku});
+                    util.post({
+                        url: '/admin/api/card/save',
+                        data: payload,
+                        done: () => { success++; sendOne(i + 1); },
+                        error: (res) => { errors.push(res?.msg || "未知错误"); sendOne(i + 1); },
+                        fail: () => { errors.push("网络错误"); sendOne(i + 1); }
+                    });
+                };
+                sendOne(0);
             },
             tab: [
                 {
@@ -60,14 +78,14 @@
                                         let hasOptions = false;
                                         if (!util.isEmptyOrNotJson(data?.category)) {
                                             for (const cKey in data.category) {
-                                                _.addRadio("spec", `race\u0001${cKey}`, `[类型] ${cKey}`, false);
+                                                _.addCheckbox("spec", `race\u0001${cKey}`, `[类型] ${cKey}`, false);
                                                 hasOptions = true;
                                             }
                                         }
                                         if (!util.isEmptyOrNotJson(data?.sku)) {
                                             for (const sKey in data.sku) {
                                                 for (const sk in data.sku[sKey]) {
-                                                    _.addRadio("spec", `sku\u0001${sKey}\u0001${sk}`, `[${sKey}] ${sk}`, false);
+                                                    _.addCheckbox("spec", `sku\u0001${sKey}\u0001${sk}`, `[${sKey}] ${sk}`, false);
                                                     hasOptions = true;
                                                 }
                                             }
@@ -106,8 +124,8 @@
                         {
                             title: "选择规格",
                             name: "spec",
-                            type: "radio",
-                            placeholder: "选择该卡密绑定的规格（独立单选模式：只能选一个）",
+                            type: "checkbox",
+                            placeholder: "可勾选多个规格，一份卡密文本将批量上传至所有勾选的规格",
                             hide: true
                         },
                         {
