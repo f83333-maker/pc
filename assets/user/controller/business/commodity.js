@@ -1,5 +1,5 @@
 !function () {
-    let table, _createForms = [];
+    let table;
     const modal = (title, assign = {}) => {
         component.popup({
             submit: '/user/api/commodity/save',
@@ -297,7 +297,38 @@
 
     const uploadCard = (commodityId) => {
         component.popup({
-            submit: '/user/api/card/save',
+            submit: (data, index) => {
+                if (parseInt(data.race_get_mode) === 1) {
+                    data.race = data.race_input || "";
+                    data.sku = "";
+                } else if (data.spec) {
+                    const parts = String(data.spec).split("\u0001");
+                    if (parts[0] === "race") {
+                        data.race = parts[1] || "";
+                        data.sku = "";
+                    } else if (parts[0] === "sku") {
+                        data.race = "";
+                        const obj = {};
+                        obj[parts[1]] = parts.slice(2).join("\u0001");
+                        data.sku = obj;
+                    } else {
+                        data.race = "";
+                        data.sku = "";
+                    }
+                } else {
+                    data.race = "";
+                    data.sku = "";
+                }
+                delete data.spec;
+                delete data.race_input;
+                delete data.race_get_mode;
+
+                util.post('/user/api/card/save', data, res => {
+                    message.success(res.msg || "上传成功");
+                    layer.close(index);
+                    table.refresh();
+                });
+            },
             tab: [
                 {
                     name: util.icon("fa-duotone fa-regular fa-folder-arrow-up") + " 上传卡密",
@@ -312,39 +343,32 @@
                                 _.setRadio("race_get_mode", 0, true);
                                 _.setInput("race_input", "");
 
-                                _.hide("race");
                                 _.hide("race_input");
-                                _.clearComponent("race");
+                                _.hide("spec");
+                                _.clearComponent("spec");
                                 _.hide("race_get_mode");
-                                _createForms.forEach(k => _.removeForm(k));
 
-                                util.get(`/admin/api/card/sku?commodityId=${commodityId}`, data => {
+                                util.get(`/user/api/card/sku?commodityId=${commodityId}`, data => {
+                                    let hasOptions = false;
                                     if (!util.isEmptyOrNotJson(data?.category)) {
-                                        let i = 0;
                                         for (const cKey in data.category) {
-                                            _.addRadio("race", cKey, cKey, i === 0);
-                                            i++;
+                                            _.addRadio("spec", `race\u0001${cKey}`, `[类型] ${cKey}`, false);
+                                            hasOptions = true;
                                         }
-                                        _.show("race");
-                                        _.show(`race_get_mode`);
                                     }
                                     if (!util.isEmptyOrNotJson(data?.sku)) {
                                         for (const sKey in data.sku) {
-                                            let dict = [];
                                             for (const sk in data.sku[sKey]) {
-                                                dict.push({id: sk, name: sk});
+                                                _.addRadio("spec", `sku\u0001${sKey}\u0001${sk}`, `[${sKey}] ${sk}`, false);
+                                                hasOptions = true;
                                             }
-                                            _.createForm({
-                                                title: sKey,
-                                                name: `sku.${sKey}`,
-                                                type: "radio",
-                                                dict: dict
-                                            }, "race", "after");
-                                            _createForms.push(`sku-${sKey}`);
                                         }
                                     }
+                                    if (hasOptions) {
+                                        _.show("spec");
+                                        _.show("race_get_mode");
+                                    }
                                 });
-
                             }
                         },
                         {
@@ -355,10 +379,10 @@
                             hide: true,
                             change: (_, __) => {
                                 if (__ == 1) {
-                                    _.hide("race");
+                                    _.hide("spec");
                                     _.show("race_input");
                                 } else {
-                                    _.show("race");
+                                    _.show("spec");
                                     _.hide("race_input");
                                 }
                             }
@@ -371,10 +395,10 @@
                             hide: true
                         },
                         {
-                            title: "商品种类",
-                            name: "race",
+                            title: "选择规格",
+                            name: "spec",
                             type: "radio",
-                            placeholder: "商品类别，一般你用不着，而且不懂不要乱填哦，想用请查看说明文档",
+                            placeholder: "选择该卡密绑定的规格（独立单选模式：只能选一个）",
                             hide: true
                         },
                         {
