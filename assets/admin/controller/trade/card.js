@@ -1,9 +1,6 @@
-// SKU_MODE: single-select v3.9.9 (flat spec radio)
 !function () {
-    console.log("[v0] card.js loaded - SKU single-select mode v3.9.9");
-    let table;
+    let table, _createSearchs = [];
     const uploadCard = () => {
-        console.log("[v0] uploadCard popup opened (single-select)");
         component.popup({
             submit: (data, index) => {
                 // 独立单 SKU 模式：把统一的 spec 选项解析成 race 字段或 sku 对象
